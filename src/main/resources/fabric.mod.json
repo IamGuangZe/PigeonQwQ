@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "pigeonqwq",
+  "version": "${version}",
+  "name": "PigeonQwQ",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "unlicense",
+  "icon": "assets/pigeonqwq/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "owo.pigeon.Pigeonqwq"
+    ]
+  },
+  "mixins": [
+    "pigeonqwq.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

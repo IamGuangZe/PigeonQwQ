@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "owo.pigeon.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  },
+  "client": [
+    "accessors.IAccessorKeyBinding",
+    "mixins.MixinKeyboard",
+    "mixins.MixinMinecraftClient"
+  ]
+}
