@@ -13,6 +13,7 @@
   },
   "client": [
     "accessors.IAccessorKeyBinding",
+    "mixins.MixinChatScreen",
     "mixins.MixinKeyboard",
     "mixins.MixinMinecraftClient"
   ]

@@ -4,6 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import owo.pigeon.Pigeonqwq;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.modules.impl.Movement.Sprint;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class ModuleManager {
     public void init() {
         Pigeonqwq.EVENT_BUS.subscribe(this);
 
+        modules.add(new PigeonQwQ());
         modules.add(new Sprint());
     }
 
