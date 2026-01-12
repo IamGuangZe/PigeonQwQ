@@ -19,6 +19,6 @@ public class KeyInputEvent extends Event {
     }
 
     public boolean isPressed() {
-        return action != GLFW.GLFW_RELEASE;
+        return action == GLFW.GLFW_PRESS;
     }
 }

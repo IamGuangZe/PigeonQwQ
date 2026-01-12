@@ -9,6 +9,8 @@ import owo.pigeon.modules.impl.Movement.Sprint;
 
 import java.util.ArrayList;
 
+import static owo.pigeon.Pigeonqwq.mc;
+
 public class ModuleManager {
 
     public static final ArrayList<Module> modules = new ArrayList<>();
@@ -22,6 +24,7 @@ public class ModuleManager {
 
     @Handler
     public void onKeyInput(KeyInputEvent event) {
+        if (mc.currentScreen != null) return;
         int keyCode = event.getKeyCode();
         if (event.isPressed()) {
             modules.stream()
