@@ -17,4 +17,8 @@ public class ColorUtil {
     public static String removeEmoji(String s) {
         return s.replaceAll("[🎂🎉🎁👹🏀⚽🍭🌠👾🐍🔮👽💣🍫🔫]", "");
     }
+
+    public static int colorClamp(int value) {
+        return Math.max(0, Math.min(255, value));
+    }
 }

@@ -1,6 +1,5 @@
 package owo.pigeon.modules.impl.Movement;
 
-import net.minecraft.client.util.InputUtil;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.KeybindUtil;
@@ -10,7 +9,7 @@ import static owo.pigeon.Pigeonqwq.mc;
 
 public class Sprint extends Module {
     public Sprint() {
-        super("Sprint", Category.MOVEMENT, InputUtil.GLFW_KEY_I);
+        super("Sprint", Category.MOVEMENT);
     }
 
     @Override

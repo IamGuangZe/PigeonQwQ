@@ -1,9 +1,10 @@
 package owo.pigeon.modules;
 
 import owo.pigeon.Pigeonqwq;
+import owo.pigeon.settings.SettingDesigner;
 import owo.pigeon.utils.Chat.ChatUtil;
 
-public class Module {
+public class Module extends SettingDesigner {
     public final String name;
     public final Category category;
     private int key;
