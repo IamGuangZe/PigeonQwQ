@@ -12,10 +12,28 @@ public class ModuleUtil {
         throw new RuntimeException();
     }
 
+    public static Module getModule(String moduleName) {
+        for (Module module : modules) {
+            if (module.name.equalsIgnoreCase(moduleName)) {
+                return module;
+            }
+        }
+        throw new RuntimeException();
+    }
+
     public static boolean isEnable(Class<? extends Module> clazz) {
         for (Module module : modules)
             if (module.getClass() == clazz)
                 return module.isEnable();
+        return false;
+    }
+
+    public static boolean isModuleExist(String moduleName) {
+        for (Module module : modules) {
+            if (module.name.equalsIgnoreCase(moduleName)) {
+                return true;
+            }
+        }
         return false;
     }
 }

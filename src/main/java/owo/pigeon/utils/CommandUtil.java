@@ -2,6 +2,7 @@ package owo.pigeon.utils;
 
 import net.minecraft.util.StringHelper;
 import org.apache.commons.lang3.StringUtils;
+import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.ChatUtil;
 
 public class CommandUtil {
@@ -73,5 +74,9 @@ public class CommandUtil {
 
     public static String normalize(String chatText) {
         return StringHelper.truncateChat(StringUtils.normalizeSpace(chatText.trim()));
+    }
+
+    public static char getCommandPrefix() {
+        return ((PigeonQwQ) ModuleUtil.getModule(PigeonQwQ.class)).commandPrefix.getValue();
     }
 }

@@ -3,11 +3,10 @@ package owo.pigeon.commands;
 import net.engio.mbassy.listener.Handler;
 import owo.pigeon.Pigeonqwq;
 import owo.pigeon.commands.impl.HelpCommand;
+import owo.pigeon.commands.impl.SettingCommand;
 import owo.pigeon.event.events.SendMessageEvent;
-import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
-import owo.pigeon.utils.ModuleUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +22,7 @@ public class CommandManager {
         Pigeonqwq.EVENT_BUS.subscribe(this);
 
         commands.add(new HelpCommand());
+        commands.add(new SettingCommand());
     }
 
     @Handler
@@ -34,7 +34,7 @@ public class CommandManager {
 
         if (!input.startsWith(
                 String.valueOf(
-                        ((PigeonQwQ) ModuleUtil.getModule(PigeonQwQ.class)).commandPrefix
+                        CommandUtil.getCommandPrefix()
                 )
         )) return;
 
