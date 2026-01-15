@@ -1,17 +1,23 @@
 package owo.pigeon.commands;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ModuleUtil;
 
 public abstract class Command {
-    private final String command;
+    public static final Gson GSON = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
 
-    abstract public void execute(String[] args);
+    private final String command;
 
     public Command(String command) {
         this.command = command;
     }
+
+    abstract public void execute(String[] args);
 
     public String getCommand() {
         return command;
