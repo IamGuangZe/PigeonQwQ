@@ -1,7 +1,6 @@
 package owo.pigeon.modules.impl.Client.Debug;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.InputUtil;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.Chat.ChatUtil;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class TextRenderTest extends Module {
     public TextRenderTest() {
-        super("TextRenderTest", Category.CLIENT, InputUtil.GLFW_KEY_Y);
+        super("TextRenderTest", Category.CLIENT);
     }
 
     @Override

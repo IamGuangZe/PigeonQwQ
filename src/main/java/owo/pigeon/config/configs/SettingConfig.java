@@ -162,7 +162,7 @@ public class SettingConfig extends Config {
         for (Module module : ModuleUtil.getAllModule()) {
             ModuleUtil.disableModule(module.getClass());
             module.setHide(true);
-            module.setKey(-1);
+            // module.setKey(-1);
             for (AbstractSetting<?> setting : module.getSettings()) {
                 setting.resetValue();
             }

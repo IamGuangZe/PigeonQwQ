@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class SettingTest extends owo.pigeon.modules.Module {
     public SettingTest() {
-        super("SettingTest", Category.CLIENT, -1);
+        super("SettingTest", Category.CLIENT);
     }
 
     public enum mode {
