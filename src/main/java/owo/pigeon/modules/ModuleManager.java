@@ -5,6 +5,7 @@ import owo.pigeon.Pigeonqwq;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.modules.impl.Client.ClickGui;
 import owo.pigeon.modules.impl.Client.Debug.SettingTest;
 import owo.pigeon.modules.impl.Client.Debug.TextRenderTest;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
@@ -24,7 +25,9 @@ public class ModuleManager {
         modules.add(new SettingTest());
         modules.add(new TextRenderTest());
 
+        modules.add(new ClickGui());
         modules.add(new PigeonQwQ());
+
         modules.add(new Sprint());
     }
 

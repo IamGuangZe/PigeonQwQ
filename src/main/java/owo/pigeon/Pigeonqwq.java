@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import owo.pigeon.commands.CommandManager;
 import owo.pigeon.config.ConfigManager;
 import owo.pigeon.event.Event;
+import owo.pigeon.gui.ClickGui.ClickGuiScreen;
 import owo.pigeon.modules.ModuleManager;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.SafeMessage;
@@ -16,26 +17,35 @@ public class Pigeonqwq implements ModInitializer {
     // public static final NyaEventBus EVENT_BUS = new NyaEventBus();
     public static final MBassador<Event> EVENT_BUS = new MBassador<>();
     public static MinecraftClient mc = MinecraftClient.getInstance();
-    public static ModuleManager moduleManager = new ModuleManager();
-    public static CommandManager commandManager = new CommandManager();
-    public static ConfigManager configManager = new ConfigManager();
+    public static ModuleManager moduleManager;
+    public static CommandManager commandManager;
+    public static ClickGuiScreen clickGuiScreen;
+    public static ConfigManager configManager;
 
     public static SafeMessage safeMessage = new SafeMessage();
 
     public static final String MOD_ID = "pigeonqwq";
     public static final String MOD_NAME = "PigeonQwQ";
     public static final String MOD_VERSION = "0.0.1";
+    public static final String WATERMARK = MOD_NAME + " v" + MOD_VERSION + " by GuangZe233";
 
     @Override
     public void onInitialize() {
         EVENT_BUS.subscribe(safeMessage);
 
+        moduleManager = new ModuleManager();
         moduleManager.init();
+
+        commandManager = new CommandManager();
         commandManager.init();
+
+        clickGuiScreen = new ClickGuiScreen();
+
+        configManager = new ConfigManager();
         configManager.init();
     }
 
     public static boolean isDebug() {
-        return ((PigeonQwQ)ModuleUtil.getModule(PigeonQwQ.class)).debug.getValue();
+        return ModuleUtil.getModule(PigeonQwQ.class).debug.getValue();
     }
 }

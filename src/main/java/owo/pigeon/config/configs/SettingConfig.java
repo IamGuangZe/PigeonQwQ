@@ -8,6 +8,7 @@ import owo.pigeon.Pigeonqwq;
 import owo.pigeon.config.Config;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
+import owo.pigeon.modules.impl.Client.ClickGui;
 import owo.pigeon.settings.*;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ModuleUtil;
@@ -67,7 +68,7 @@ public class SettingConfig extends Config {
                     /* enable */
                     Object enableObj = moduleMap.get("enable");
                     if (enableObj instanceof Boolean enable) {
-                        if (enable != module.isEnable()) {
+                        if (enable != module.isEnable() && !(module instanceof ClickGui)) {
                             if (enable) ModuleUtil.enableModule(module.getClass());
                             else ModuleUtil.disableModule(module.getClass());
                         }
