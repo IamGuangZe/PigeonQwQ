@@ -14,6 +14,7 @@
   "client": [
     "accessors.IAccessorKeyBinding",
     "mixins.MixinChatScreen",
+    "mixins.MixinInGameHud",
     "mixins.MixinKeyboard",
     "mixins.MixinMinecraftClient"
   ]
