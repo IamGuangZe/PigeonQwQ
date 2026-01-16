@@ -77,6 +77,6 @@ public class CommandUtil {
     }
 
     public static char getCommandPrefix() {
-        return ((PigeonQwQ) ModuleUtil.getModule(PigeonQwQ.class)).commandPrefix.getValue();
+        return ModuleUtil.getModule(PigeonQwQ.class).commandPrefix.getValue();
     }
 }

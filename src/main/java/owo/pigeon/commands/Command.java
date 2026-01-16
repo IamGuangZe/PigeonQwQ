@@ -2,9 +2,8 @@ package owo.pigeon.commands;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.ChatUtil;
-import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.CommandUtil;
 
 public abstract class Command {
     public static final Gson GSON = new GsonBuilder()
@@ -24,7 +23,7 @@ public abstract class Command {
     }
 
     public String getUsage() {
-        return ((PigeonQwQ) ModuleUtil.getModule(PigeonQwQ.class)).commandPrefix + command;
+        return CommandUtil.getCommandPrefix() + command;
     }
 
     public void sendCommandError(String message) {

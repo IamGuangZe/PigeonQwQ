@@ -9,11 +9,13 @@ import java.util.List;
 import static owo.pigeon.modules.ModuleManager.modules;
 
 public class ModuleUtil {
-    public static Module getModule(Class<? extends Module> clazz) {
-        for (Module module : modules)
-            if (module.getClass() == clazz)
-                return module;
-        throw new RuntimeException();
+    public static <T extends Module> T getModule(Class<T> clazz) {
+        for (Module module : modules) {
+            if (clazz.isInstance(module)) {
+                return clazz.cast(module);
+            }
+        }
+        throw new IllegalStateException("Module not found: " + clazz.getSimpleName());
     }
 
     public static Module getModule(String moduleName) {
