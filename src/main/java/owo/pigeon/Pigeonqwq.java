@@ -7,7 +7,9 @@ import owo.pigeon.commands.CommandManager;
 import owo.pigeon.config.ConfigManager;
 import owo.pigeon.event.Event;
 import owo.pigeon.modules.ModuleManager;
+import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.SafeMessage;
+import owo.pigeon.utils.ModuleUtil;
 
 public class Pigeonqwq implements ModInitializer {
 
@@ -23,7 +25,6 @@ public class Pigeonqwq implements ModInitializer {
     public static final String MOD_ID = "pigeonqwq";
     public static final String MOD_NAME = "PigeonQwQ";
     public static final String MOD_VERSION = "0.0.1";
-    public static boolean debug;
 
     @Override
     public void onInitialize() {
@@ -32,5 +33,9 @@ public class Pigeonqwq implements ModInitializer {
         moduleManager.init();
         commandManager.init();
         configManager.init();
+    }
+
+    public static boolean isDebug() {
+        return ((PigeonQwQ)ModuleUtil.getModule(PigeonQwQ.class)).debug.getValue();
     }
 }

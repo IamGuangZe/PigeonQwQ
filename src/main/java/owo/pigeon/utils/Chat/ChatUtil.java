@@ -44,14 +44,14 @@ public class ChatUtil {
     // 发送带客户端前缀且可上色的调试信息
     public static void sendDebugMessage(String message) {
         int tick = mc.player != null ? mc.player.age : -1;
-        if (Pigeonqwq.debug)
+        if (Pigeonqwq.isDebug())
             sendRawMessage(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] &8[&3" + Pigeonqwq.MOD_NAME + "&8]&r " + message));
     }
 
     // 发送自定义前缀且可上色的调试信息
     public static void sendDebugMessage(String prefix, String message) {
         int tick = mc.player != null ? mc.player.age : -1;
-        if (Pigeonqwq.debug)
+        if (Pigeonqwq.isDebug())
             sendRawMessage(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] &8[&3" + prefix + "&8]&r " + message));
     }
 
