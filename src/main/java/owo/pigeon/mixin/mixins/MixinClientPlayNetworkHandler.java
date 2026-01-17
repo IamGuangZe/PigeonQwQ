@@ -1,6 +1,6 @@
 package owo.pigeon.mixin.mixins;
 
-import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,27 +11,27 @@ import owo.pigeon.commands.CommandManager;
 import owo.pigeon.event.events.SendMessageEvent;
 import owo.pigeon.utils.Chat.ChatUtil;
 
-@Mixin(ChatScreen.class)
-public abstract class MixinChatScreen {
+@Mixin(ClientPlayNetworkHandler.class)
+public abstract class MixinClientPlayNetworkHandler {
 
     @Shadow
-    public abstract void sendMessage(String chatText, boolean addToHistory);
+    public abstract void sendChatMessage(String content);
 
-    @Inject(method = "sendMessage", at = @At("HEAD"), cancellable = true)
-    public void onSendMessagePre(String chatText, boolean addToHistory, CallbackInfo ci) {
+    @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
+    public void onSendMessagePre(String content, CallbackInfo ci) {
         if (CommandManager.isSay) {
-            ChatUtil.sendDebugMessage("MixinChatScreen", "return because say command");
+            ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "return because say command");
             CommandManager.isSay = false;
             return;
         }
 
-        SendMessageEvent event = new SendMessageEvent(chatText);
+        SendMessageEvent event = new SendMessageEvent(content);
         Pigeonqwq.EVENT_BUS.post(event).now();
-        ChatUtil.sendDebugMessage("MixinChatScreen", "EVENT_BUS post SendMessageEvent");
+        ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "EVENT_BUS post SendMessageEvent");
 
         if (event.isCancelled()) {
 
-            ChatUtil.sendDebugMessage("MixinChatScreen", "sendMessage cancel");
+            ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "sendMessage cancel");
 
             ci.cancel();
             return;
@@ -41,7 +41,7 @@ public abstract class MixinChatScreen {
             String modifiedMessage = event.getMessage();
             if (modifiedMessage != null && !modifiedMessage.isEmpty()) {
                 ci.cancel();
-                this.sendMessage(modifiedMessage, addToHistory);
+                this.sendChatMessage(modifiedMessage);
             }
         }
     }
