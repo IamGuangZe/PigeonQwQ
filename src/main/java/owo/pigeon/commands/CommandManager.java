@@ -2,8 +2,7 @@ package owo.pigeon.commands;
 
 import net.engio.mbassy.listener.Handler;
 import owo.pigeon.Pigeonqwq;
-import owo.pigeon.commands.impl.HelpCommand;
-import owo.pigeon.commands.impl.SettingCommand;
+import owo.pigeon.commands.impl.*;
 import owo.pigeon.event.events.SendMessageEvent;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
@@ -21,8 +20,16 @@ public class CommandManager {
     public void init() {
         Pigeonqwq.EVENT_BUS.subscribe(this);
 
+        commands.add(new BindCommand());
+        commands.add(new ConfigCommand());
+        commands.add(new CopyCommand());
+        commands.add(new FillCommand());
         commands.add(new HelpCommand());
+        commands.add(new PrefixCommand());
+        commands.add(new SayCommand());
+        commands.add(new SetBlockCommand());
         commands.add(new SettingCommand());
+        commands.add(new ToggleCommand());
     }
 
     @Handler

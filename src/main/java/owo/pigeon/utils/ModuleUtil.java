@@ -5,6 +5,7 @@ import owo.pigeon.modules.Module;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static owo.pigeon.modules.ModuleManager.modules;
 
@@ -15,7 +16,7 @@ public class ModuleUtil {
                 return clazz.cast(module);
             }
         }
-        throw new IllegalStateException("Module not found: " + clazz.getSimpleName());
+        return null;
     }
 
     public static Module getModule(String moduleName) {
@@ -24,31 +25,39 @@ public class ModuleUtil {
                 return module;
             }
         }
-        throw new RuntimeException();
+        return null;
     }
 
     public static boolean isEnable(Class<? extends Module> clazz) {
-        for (Module module : modules)
-            if (module.getClass() == clazz)
-                return module.isEnable();
-        return false;
+        return Objects.requireNonNull(getModule(clazz)).isEnable();
     }
 
     public static boolean isModuleExist(String moduleName) {
-        for (Module module : modules) {
-            if (module.name.equalsIgnoreCase(moduleName)) {
-                return true;
-            }
-        }
-        return false;
+        return getModule(moduleName) != null;
     }
 
     public static void enableModule(Class<? extends Module> clazz) {
-        getModule(clazz).enable();
+        Objects.requireNonNull(getModule(clazz)).enable();
+    }
+
+    public static void enableModule(String moduleName) {
+        Objects.requireNonNull(getModule(moduleName)).enable();
     }
 
     public static void disableModule(Class<? extends Module> clazz) {
-        getModule(clazz).disable();
+        Objects.requireNonNull(getModule(clazz)).disable();
+    }
+
+    public static void disableModule(String moduleName) {
+        Objects.requireNonNull(getModule(moduleName)).disable();
+    }
+
+    public static void toggleModule(Class<? extends Module> clazz) {
+        Objects.requireNonNull(getModule(clazz)).toggle();
+    }
+
+    public static void toggleModule(String moduleName) {
+        Objects.requireNonNull(getModule(moduleName)).toggle();
     }
 
     public static List<Module> getAllModule() {
