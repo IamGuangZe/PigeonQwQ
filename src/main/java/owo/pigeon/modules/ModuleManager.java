@@ -9,6 +9,8 @@ import owo.pigeon.modules.impl.Client.ClickGui;
 import owo.pigeon.modules.impl.Client.Debug.SettingTest;
 import owo.pigeon.modules.impl.Client.Debug.TextRenderTest;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
+import owo.pigeon.modules.impl.Combat.AutoClicker;
+import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
 
 import java.util.ArrayList;
@@ -27,6 +29,9 @@ public class ModuleManager {
 
         modules.add(new ClickGui());
         modules.add(new PigeonQwQ());
+
+        modules.add(new AutoClicker());
+        modules.add(new NoHitDelay());
 
         modules.add(new Sprint());
     }
