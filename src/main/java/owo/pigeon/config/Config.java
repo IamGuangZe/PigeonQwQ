@@ -12,7 +12,7 @@ public abstract class Config {
     }
 
     /** 子类可覆盖：决定放在哪个子目录 */
-    protected File getBaseDir() {
+    public File getBaseDir() {
         return new File("config/" + Pigeonqwq.MOD_ID);
     }
 

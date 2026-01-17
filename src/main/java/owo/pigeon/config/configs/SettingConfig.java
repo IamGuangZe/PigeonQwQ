@@ -37,7 +37,7 @@ public class SettingConfig extends Config {
     }
 
     @Override
-    protected File getBaseDir() {
+    public File getBaseDir() {
         return new File("config/" + Pigeonqwq.MOD_ID + "/settings");
     }
 
