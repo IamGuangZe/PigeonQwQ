@@ -1,5 +1,6 @@
 package owo.pigeon.config;
 
+import owo.pigeon.config.configs.ClickGuiConfig;
 import owo.pigeon.config.configs.SettingConfig;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ public class ConfigManager {
 
     public void init() {
 
+        configs.add(new ClickGuiConfig());
         configs.add(new SettingConfig());
 
         loadAll();
