@@ -12,6 +12,7 @@ import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
+import owo.pigeon.modules.impl.Player.AutoFish;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,8 @@ public class ModuleManager {
         modules.add(new NoHitDelay());
 
         modules.add(new Sprint());
+
+        modules.add(new AutoFish());
     }
 
     @Handler
