@@ -1,5 +1,6 @@
 package owo.pigeon.utils;
 
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.GameMode;
@@ -32,6 +33,10 @@ public class PlayerUtil {
             case DOITEMUSE -> ((IAccessorMinecraftClient) mc).invokeDoItemUse();
             case INTERACTITEM -> mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
         }
+    }
+
+    public static void clickSlot(int syncId, int slotId, int button, SlotActionType actionType) {
+        mc.interactionManager.clickSlot(syncId, slotId, button, actionType, mc.player);
     }
 
     public static boolean isBreakingBlock() {
