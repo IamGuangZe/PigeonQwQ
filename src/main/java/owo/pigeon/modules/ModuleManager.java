@@ -14,6 +14,7 @@ import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
 import owo.pigeon.modules.impl.Player.AutoFish;
+import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,8 @@ public class ModuleManager {
         modules.add(new Sprint());
 
         modules.add(new AutoFish());
+
+        modules.add(new AutoExperiments());
     }
 
     @Handler
