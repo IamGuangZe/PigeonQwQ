@@ -8,15 +8,23 @@ public class TickEvent extends Event {
     }
 
     public enum Phase {
-        PRE, POST;
+        PRE, POST
     }
 
-    public final Type type;
-    public final Phase phase;
+    private final Type type;
+    private final Phase phase;
 
     public TickEvent(Type type, Phase phase) {
         this.type = type;
         this.phase = phase;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Phase getPhase() {
+        return phase;
     }
 
     public static class ClientTickEvent extends TickEvent {

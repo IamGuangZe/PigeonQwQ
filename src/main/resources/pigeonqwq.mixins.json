@@ -4,6 +4,7 @@
   "package": "owo.pigeon.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "mixins.MixinClientConnection"
   ],
   "injectors": {
     "defaultRequire": 1

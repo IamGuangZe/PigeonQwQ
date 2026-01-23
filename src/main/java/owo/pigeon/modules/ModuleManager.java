@@ -57,7 +57,7 @@ public class ModuleManager {
 
     @Handler
     public void onTickPost(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.POST) {
+        if (event.getPhase() == TickEvent.Phase.POST) {
             modules.stream()
                     .filter(Module::isEnable)
                     .forEach(Module::onTickPost);

@@ -6,8 +6,8 @@ import owo.pigeon.event.Event;
 
 public class KeyInputEvent extends Event {
 
-    public int action;
-    public KeyInput keyInput;
+    private final int action;
+    private final KeyInput keyInput;
 
     public KeyInputEvent(int action, KeyInput keyInput) {
         this.action = action;
