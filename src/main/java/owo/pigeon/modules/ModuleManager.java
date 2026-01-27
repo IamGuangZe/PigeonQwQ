@@ -2,9 +2,7 @@ package owo.pigeon.modules;
 
 import net.engio.mbassy.listener.Handler;
 import owo.pigeon.Pigeonqwq;
-import owo.pigeon.event.events.KeyInputEvent;
-import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.*;
 import owo.pigeon.modules.impl.Client.ClickGui;
 import owo.pigeon.modules.impl.Client.Debug.ClickSlotTest;
 import owo.pigeon.modules.impl.Client.Debug.SettingTest;
@@ -14,8 +12,8 @@ import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
 import owo.pigeon.modules.impl.Player.AutoFish;
-import owo.pigeon.modules.impl.Skyblock.AgaricusMiner;
 import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
+import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
 
 import java.util.ArrayList;
 
@@ -72,5 +70,19 @@ public class ModuleManager {
                 .filter(Module::isEnable)
                 .forEach(module -> module.onRender2D(event.getContext()));
 
+    }
+
+    @Handler
+    public void onDoAttack(DoAttackEvent event) {
+        modules.stream()
+                .filter(Module::isEnable)
+                .forEach(Module::onDoAttack);
+    }
+
+    @Handler
+    public void onDoItemUse(DoItemUseEvent event) {
+        modules.stream()
+                .filter(Module::isEnable)
+                .forEach(Module::onDoItemUse);
     }
 }

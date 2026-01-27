@@ -8,6 +8,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.Pigeonqwq;
+import owo.pigeon.event.events.DoAttackEvent;
+import owo.pigeon.event.events.DoItemUseEvent;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
@@ -29,13 +31,26 @@ public class MixinMinecraftClient {
         Pigeonqwq.EVENT_BUS.post(new TickEvent.ClientTickEvent(TickEvent.Phase.POST)).now();
     }
 
-    @Inject(method = "doAttack", at = @At("HEAD"))
+    @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     public void onDoAttackPre(CallbackInfoReturnable<Boolean> cir) {
+        DoAttackEvent event = new DoAttackEvent();
+        Pigeonqwq.EVENT_BUS.post(event).now();
+        if (event.isCancelled()) {
+            cir.cancel();
+        }
+
         boolean removeDelay = false;
         if (ModuleUtil.isEnable(NoHitDelay.class)) removeDelay = true;
         if (ModuleUtil.isEnable(AutoClicker.class) && ModuleUtil.getModule(AutoClicker.class).leftClick.getValue()) removeDelay = true;
         if (removeDelay) this.attackCooldown = 0;
+    }
 
-
+    @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
+    public void onDoItemUsePre(CallbackInfo ci) {
+        DoItemUseEvent event = new DoItemUseEvent();
+        Pigeonqwq.EVENT_BUS.post(event).now();
+        if (event.isCancelled()) {
+            ci.cancel();
+        }
     }
 }
