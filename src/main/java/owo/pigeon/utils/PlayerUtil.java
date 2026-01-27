@@ -35,6 +35,11 @@ public class PlayerUtil {
         }
     }
 
+    public static void switchItemSlot(int index) {
+        if (index < 0 || index > 8 || mc.player == null) return;
+        mc.player.getInventory().setSelectedSlot(index);
+    }
+
     public static void clickSlot(int syncId, int slotId, int button, SlotActionType actionType) {
         mc.interactionManager.clickSlot(syncId, slotId, button, actionType, mc.player);
     }
