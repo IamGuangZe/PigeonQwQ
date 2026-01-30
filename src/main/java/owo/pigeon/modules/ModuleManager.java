@@ -14,6 +14,7 @@ import owo.pigeon.modules.impl.Movement.Sprint;
 import owo.pigeon.modules.impl.Player.AutoFish;
 import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
+import owo.pigeon.modules.impl.Skyblock.Rift.SnakingHelper;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class ModuleManager {
         modules.add(new AutoFish());
 
         modules.add(new AgaricusMiner());
+        modules.add(new SnakingHelper());
         modules.add(new AutoExperiments());
     }
 

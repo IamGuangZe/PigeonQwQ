@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock;
+package owo.pigeon.modules.impl.Skyblock.Rift;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
