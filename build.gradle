@@ -24,8 +24,9 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modLocalRuntime("net.litetex.mcm:dev-auth-neo:1.0.1")
 
     implementation "net.engio:mbassador:1.3.2"
     include "net.engio:mbassador:1.3.2"
@@ -90,3 +91,12 @@ publishing {
         // retrieving dependencies.
     }
 }
+
+loom {
+    runs {
+        client {
+            vmArg "-Ddevauth.enabled=true"
+        }
+    }
+}
+
