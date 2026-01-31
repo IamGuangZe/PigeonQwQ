@@ -15,6 +15,7 @@
   "client": [
     "accessors.IAccessorKeyBinding",
     "accessors.IAccessorMinecraftClient",
+    "accessors.IAccessorPlayerListHud",
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",
     "mixins.MixinInGameHud",

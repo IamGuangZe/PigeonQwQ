@@ -19,6 +19,8 @@ public abstract class MixinClientPlayNetworkHandler {
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     public void onSendMessagePre(String content, CallbackInfo ci) {
+        ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "Message: " + content);
+
         if (CommandManager.isSay) {
             ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "return because say command");
             CommandManager.isSay = false;

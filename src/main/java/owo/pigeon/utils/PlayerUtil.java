@@ -1,5 +1,7 @@
 package owo.pigeon.utils;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.HitResult;
@@ -49,5 +51,12 @@ public class PlayerUtil {
                 mc.crosshairTarget != null && mc.crosshairTarget.getType() == HitResult.Type.BLOCK &&
                 mc.interactionManager.getCurrentGameMode() != GameMode.ADVENTURE &&
                 KeybindUtil.isPressed(mc.options.attackKey);
+    }
+
+    public static boolean hasUUID(Entity entity) {
+        if (entity instanceof PlayerEntity player)
+            return player.getUuid().version() == 2;
+
+        return false;
     }
 }
