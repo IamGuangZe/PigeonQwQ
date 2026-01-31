@@ -3,7 +3,6 @@ package owo.pigeon.modules.impl.Player;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.item.FishingRodItem;
-import net.minecraft.item.ItemStack;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -68,14 +67,13 @@ public class AutoFish extends Module {
             }
         }
 
+        if (!isHeldRod()) return;
         if (mc.player.fishHook == null) ChatUtil.sendDebugMessage(this.name, "Player's bobber not found.");
         else if (!fishIncoming) ChatUtil.sendDebugMessage(this.name, "Fish not incoming.");
         else ChatUtil.sendDebugMessage(this.name, "Waiting to catch.");
     }
 
     private boolean isHeldRod() {
-        ItemStack handStack = mc.player.getMainHandStack();
-        if (handStack != null) return mc.player.getMainHandStack().getItem() instanceof FishingRodItem;
-        else return false;
+        return mc.player.getMainHandStack().getItem() instanceof FishingRodItem;
     }
 }
