@@ -31,11 +31,27 @@ public class TickEvent extends Event {
         public ClientTickEvent(Phase phase) {
             super(Type.CLIENT, phase);
         }
+
+        public static class Pre extends ClientTickEvent {
+            public Pre() { super(Phase.PRE); }
+        }
+
+        public static class Post extends ClientTickEvent {
+            public Post() { super(Phase.POST); }
+        }
     }
 
     public static class ServerTickEvent extends TickEvent {
         public ServerTickEvent(Phase phase) {
             super(Type.SERVER, phase);
+        }
+
+        public static class Pre extends ServerTickEvent {
+            public Pre() { super(Phase.PRE); }
+        }
+
+        public static class Post extends ServerTickEvent {
+            public Post() { super(Phase.POST); }
         }
     }
 }

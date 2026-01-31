@@ -23,17 +23,17 @@ public class MixinMinecraftClient {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onClientTickPre(CallbackInfo ci) {
-        Pigeonqwq.EVENT_BUS.post(new TickEvent.ClientTickEvent(TickEvent.Phase.PRE)).now();
+        Pigeonqwq.EVENT_BUS.post(new TickEvent.ClientTickEvent.Pre()).now();
     }
 
     @Inject(method = "tick",at = @At("RETURN"))
     public void onClientTickPost(CallbackInfo ci) {
-        Pigeonqwq.EVENT_BUS.post(new TickEvent.ClientTickEvent(TickEvent.Phase.POST)).now();
+        Pigeonqwq.EVENT_BUS.post(new TickEvent.ClientTickEvent.Post()).now();
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     public void onDoAttackPre(CallbackInfoReturnable<Boolean> cir) {
-        DoAttackEvent event = new DoAttackEvent();
+        DoAttackEvent.Pre event = new DoAttackEvent.Pre();
         Pigeonqwq.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
             cir.cancel();
@@ -47,10 +47,15 @@ public class MixinMinecraftClient {
 
     @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
     public void onDoItemUsePre(CallbackInfo ci) {
-        DoItemUseEvent event = new DoItemUseEvent();
+        DoItemUseEvent.Pre event = new DoItemUseEvent.Pre();
         Pigeonqwq.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
             ci.cancel();
         }
+    }
+
+    @Inject(method = "doItemUse", at = @At("RETURN"))
+    public void onDoItemUsePost(CallbackInfo ci) {
+        Pigeonqwq.EVENT_BUS.post(new DoItemUseEvent.Post()).now();
     }
 }
