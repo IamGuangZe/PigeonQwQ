@@ -2,7 +2,7 @@ package owo.pigeon.modules;
 
 import net.engio.mbassy.listener.Handler;
 import owo.pigeon.Pigeonqwq;
-import owo.pigeon.event.events.*;
+import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.modules.impl.Client.ClickGui;
 import owo.pigeon.modules.impl.Client.Debug.ClickSlotTest;
 import owo.pigeon.modules.impl.Client.Debug.SettingTest;
@@ -13,6 +13,7 @@ import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
 import owo.pigeon.modules.impl.Player.AutoFish;
 import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
+import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
 import owo.pigeon.modules.impl.Skyblock.Rift.SnakingHelper;
 
@@ -41,6 +42,8 @@ public class ModuleManager {
 
         modules.add(new AutoFish());
 
+        /* =======*SkyBlock Module*======= */
+        modules.add(new FlaySwitch());
         modules.add(new AgaricusMiner());
         modules.add(new SnakingHelper());
         modules.add(new AutoExperiments());
