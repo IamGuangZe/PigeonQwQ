@@ -1,8 +1,10 @@
 package owo.pigeon.modules.impl.Skyblock;
 
+import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.Items;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
+import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -41,10 +43,8 @@ public class AutoExperiments extends Module {
     private List<Integer> chronomatronOrder = new ArrayList<>();
     private Map<Integer, Integer> ultrasequencerOrder = new HashMap<>();
 
-    // 36
-
-    @Override
-    public void onTickPost() {
+    @Handler
+    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
         if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler containerScreen) {
             String title = mc.currentScreen.getTitle().getString();

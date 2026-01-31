@@ -1,5 +1,7 @@
 package owo.pigeon.modules.impl.Movement;
 
+import net.engio.mbassy.listener.Handler;
+import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.KeybindUtil;
@@ -12,8 +14,8 @@ public class Sprint extends Module {
         super("Sprint", Category.MOVEMENT);
     }
 
-    @Override
-    public void onTickPost() {
+    @Handler
+    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
         KeybindUtil.setPressed(mc.options.sprintKey,true);
     }

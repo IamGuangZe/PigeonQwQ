@@ -1,10 +1,13 @@
 package owo.pigeon.modules.impl.Skyblock.Rift;
 
+import net.engio.mbassy.listener.Handler;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import owo.pigeon.event.events.DoAttackEvent;
+import owo.pigeon.event.events.DoItemUseEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.Chat.ChatUtil;
@@ -22,13 +25,13 @@ public class SnakingHelper extends Module {
     private static final String PICKAXE = " Pickaxe";
     private static final String PUNGI = "Frozen Water Pungi";
 
-    @Override
-    public void onDoAttack() {
+    @Handler
+    public void onDoAttackPre(DoAttackEvent.Pre event) {
         switchTo(PICKAXE);
     }
 
-    @Override
-    public void onDoItemUse() {
+    @Handler
+    public void onDoItemUse(DoItemUseEvent.Pre event) {
         switchTo(PUNGI);
     }
 

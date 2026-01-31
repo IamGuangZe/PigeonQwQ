@@ -56,35 +56,4 @@ public class ModuleManager {
                     .forEach(Module::toggle);
         }
     }
-
-    @Handler
-    public void onTickPost(TickEvent.ClientTickEvent event) {
-        if (event.getPhase() == TickEvent.Phase.POST) {
-            modules.stream()
-                    .filter(Module::isEnable)
-                    .forEach(Module::onTickPost);
-        }
-    }
-
-    @Handler
-    public void onRender2D(RenderEvent.Render2DEvent event) {
-        modules.stream()
-                .filter(Module::isEnable)
-                .forEach(module -> module.onRender2D(event.getContext()));
-
-    }
-
-    @Handler
-    public void onDoAttack(DoAttackEvent event) {
-        modules.stream()
-                .filter(Module::isEnable)
-                .forEach(Module::onDoAttack);
-    }
-
-    @Handler
-    public void onDoItemUse(DoItemUseEvent event) {
-        modules.stream()
-                .filter(Module::isEnable)
-                .forEach(Module::onDoItemUse);
-    }
 }

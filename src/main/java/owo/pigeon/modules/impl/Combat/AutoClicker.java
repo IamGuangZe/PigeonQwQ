@@ -1,7 +1,9 @@
 package owo.pigeon.modules.impl.Combat;
 
+import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -28,8 +30,8 @@ public class AutoClicker extends Module {
     private long lastLeftClickTime = 0;
     private long lastRightClickTime = 0;
 
-    @Override
-    public void onTickPost() {
+    @Handler
+    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
 
         long clickInterval = 1000 / RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());

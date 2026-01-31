@@ -1,6 +1,5 @@
 package owo.pigeon.modules;
 
-import net.minecraft.client.gui.DrawContext;
 import owo.pigeon.Pigeonqwq;
 import owo.pigeon.settings.SettingDesigner;
 import owo.pigeon.utils.Chat.ChatUtil;
@@ -72,9 +71,5 @@ public class Module extends SettingDesigner {
 
     public void onEnable() { }
     public void onDisable() { }
-    public void onTickPost() { }
-    public void onDoAttack() { }
-    public void onDoItemUse() { }
-    public void onRender2D(DrawContext context) { }
 }
 

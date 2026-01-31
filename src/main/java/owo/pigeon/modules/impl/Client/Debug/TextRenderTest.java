@@ -1,6 +1,8 @@
 package owo.pigeon.modules.impl.Client.Debug;
 
+import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.DrawContext;
+import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.Chat.ChatUtil;
@@ -14,8 +16,9 @@ public class TextRenderTest extends Module {
         super("TextRenderTest", Category.CLIENT);
     }
 
-    @Override
-    public void onRender2D(DrawContext context) {
+    @Handler
+    public void onRender2D(RenderEvent.Render2DEvent event) {
+        DrawContext context = event.getContext();
         TextRendererUtil.drawString(context, "line 1: with color input &a[&&a]", 100, 100, 0xFF000000);
         TextRendererUtil.drawString(context, "line 2: without color input &a[&&a]", 100, 100 + TextRendererUtil.getLineHeight());
 
