@@ -13,6 +13,7 @@ import owo.pigeon.event.events.KeyInputEvent;
 public class MixinKeyboard {
     @Inject(method = "onKey", at = @At("HEAD"))
     public void onKeyInputPre(long window, int action, KeyInput input, CallbackInfo ci) {
-        Pigeonqwq.EVENT_BUS.post(new KeyInputEvent(action, input)).now();
+        if (input.key() != -1)
+            Pigeonqwq.EVENT_BUS.post(new KeyInputEvent(action, input)).now();
     }
 }
