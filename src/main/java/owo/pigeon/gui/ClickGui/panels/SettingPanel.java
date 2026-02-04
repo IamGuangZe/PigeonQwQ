@@ -10,7 +10,7 @@ import owo.pigeon.utils.ColorUtil;
 
 import java.awt.*;
 
-import static owo.pigeon.utils.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.Render.TextRendererUtil.textRenderer;
 
 public class SettingPanel extends AbstractDisplableItem {
     private AbstractSetting<?> setting;

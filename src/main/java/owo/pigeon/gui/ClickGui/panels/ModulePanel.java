@@ -13,7 +13,7 @@ import owo.pigeon.settings.ColorSetting;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static owo.pigeon.utils.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.Render.TextRendererUtil.textRenderer;
 
 public class ModulePanel extends AbstractDisplableItem {
     private Module module;

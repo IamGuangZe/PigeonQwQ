@@ -11,7 +11,7 @@ import owo.pigeon.utils.ModuleUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static owo.pigeon.utils.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.Render.TextRendererUtil.textRenderer;
 
 public class CategoryPanel extends AbstractDisplableItem {
     private final Category category;

@@ -2,12 +2,14 @@ package owo.pigeon.modules.impl.Client.Debug;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.Render.RenderUtil;
-import owo.pigeon.utils.TextRendererUtil;
+import owo.pigeon.utils.Render.TextRendererUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,13 +34,16 @@ public class RenderTest extends Module {
 
         TextRendererUtil.drawStringList(context, mutiText, 100, 100 + TextRendererUtil.getLineHeight() * 2);
 
-        // ChatUtil.sendDebugMessage(this.name,"drawString");
+        ChatUtil.sendDebugMessage(this.name, "drawString");
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        ChatUtil.sendDebugMessage(this.name,"drawBox");
-        RenderUtil.drawBox(event.getMatrix(),mc.player,Color.RED,2.0);
+        MatrixStack stack = event.getMatrix();
+        for (Entity entity : mc.world.getEntities()) {
+            RenderUtil.drawBox(stack, entity, Color.CYAN, 2.0);
+        }
 
+        ChatUtil.sendDebugMessage(this.name, "drawBox");
     }
 }

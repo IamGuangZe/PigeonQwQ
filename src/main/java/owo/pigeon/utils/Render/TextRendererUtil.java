@@ -1,8 +1,9 @@
-package owo.pigeon.utils;
+package owo.pigeon.utils.Render;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
+import owo.pigeon.utils.ColorUtil;
 
 import java.util.List;
 
