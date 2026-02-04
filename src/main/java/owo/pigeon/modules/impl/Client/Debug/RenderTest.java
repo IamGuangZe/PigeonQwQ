@@ -6,14 +6,18 @@ import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.utils.Render.RenderUtil;
 import owo.pigeon.utils.TextRendererUtil;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextRenderTest extends Module {
-    public TextRenderTest() {
-        super("TextRenderTest", Category.CLIENT);
+import static owo.pigeon.Pigeonqwq.mc;
+
+public class RenderTest extends Module {
+    public RenderTest() {
+        super("RenderTest", Category.CLIENT);
     }
 
     @Handler
@@ -28,6 +32,13 @@ public class TextRenderTest extends Module {
 
         TextRendererUtil.drawStringList(context, mutiText, 100, 100 + TextRendererUtil.getLineHeight() * 2);
 
-        ChatUtil.sendDebugMessage(this.name,"drawString");
+        // ChatUtil.sendDebugMessage(this.name,"drawString");
+    }
+
+    @Handler
+    public void onRender3D(RenderEvent.Render3DEvent event) {
+        ChatUtil.sendDebugMessage(this.name,"drawBox");
+        RenderUtil.drawBox(event.getMatrix(),mc.player,Color.RED,2.0);
+
     }
 }

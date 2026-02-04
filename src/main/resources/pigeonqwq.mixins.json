@@ -20,6 +20,7 @@
     "mixins.MixinClientPlayNetworkHandler",
     "mixins.MixinInGameHud",
     "mixins.MixinKeyboard",
-    "mixins.MixinMinecraftClient"
+    "mixins.MixinMinecraftClient",
+    "mixins.MixinWorldRenderer"
   ]
 }

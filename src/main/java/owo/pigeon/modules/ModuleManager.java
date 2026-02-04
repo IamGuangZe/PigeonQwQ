@@ -5,8 +5,8 @@ import owo.pigeon.Pigeonqwq;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.modules.impl.Client.ClickGui;
 import owo.pigeon.modules.impl.Client.Debug.ClickSlotTest;
+import owo.pigeon.modules.impl.Client.Debug.RenderTest;
 import owo.pigeon.modules.impl.Client.Debug.SettingTest;
-import owo.pigeon.modules.impl.Client.Debug.TextRenderTest;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
@@ -30,7 +30,7 @@ public class ModuleManager {
 
         modules.add(new ClickSlotTest());
         modules.add(new SettingTest());
-        modules.add(new TextRenderTest());
+        modules.add(new RenderTest());
 
         modules.add(new ClickGui());
         modules.add(new PigeonQwQ());

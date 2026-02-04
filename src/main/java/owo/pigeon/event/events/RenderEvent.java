@@ -1,6 +1,7 @@
 package owo.pigeon.event.events;
 
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
 import owo.pigeon.event.Event;
 
 public class RenderEvent extends Event {
@@ -22,8 +23,20 @@ public class RenderEvent extends Event {
     }
 
     public static class Render3DEvent extends RenderEvent {
-        public Render3DEvent() {
-            super();
+        protected final MatrixStack matrix;
+        protected final float delta;
+
+        public Render3DEvent(MatrixStack matrix, float delta) {
+            this.matrix = matrix;
+            this.delta = delta;
+        }
+
+        public MatrixStack getMatrix() {
+            return matrix;
+        }
+
+        public float getDelta() {
+            return delta;
         }
     }
 
