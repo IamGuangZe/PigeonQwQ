@@ -16,6 +16,8 @@
     "accessors.IAccessorKeyBinding",
     "accessors.IAccessorMinecraftClient",
     "accessors.IAccessorPlayerListHud",
+    "mixins.MixinBlockModelRenderer",
+    "mixins.MixinBlockRenderManager",
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",
     "mixins.MixinInGameHud",
