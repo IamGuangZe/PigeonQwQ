@@ -19,6 +19,10 @@ import java.awt.*;
 import static owo.pigeon.Pigeonqwq.mc;
 
 public class RenderUtil {
+    public enum ESPMode {
+        OUTLINE, FILL, BOTH
+    }
+
     public static final Matrix4f projection = new Matrix4f();
 
     public static void rect(MatrixStack stack, float x1, float y1, float x2, float y2, int color) {
@@ -112,6 +116,40 @@ public class RenderUtil {
     }
 
     // 3d
+    public static void drawBox(MatrixStack stack, Box box, Color c, double lineWidth) {
+        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPos().getX());
+        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getPos().getY());
+        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.getPos().getZ());
+        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.getPos().getX());
+        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.getPos().getY());
+        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.getPos().getZ());
+
+        BufferBuilder bufferBuilder = Tessellator.getInstance()
+                .begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
+
+        VertexRendering.drawBox(stack.peek(), bufferBuilder, minX, minY, minZ, maxX, maxY, maxZ,
+                c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
+
+        Layer.getGlobalLines(lineWidth).draw(bufferBuilder.end());
+    }
+
+    public static void drawBox(MatrixStack stack, Vec3d vec, Color c, double lineWidth) {
+        drawBox(stack, Box.from(vec), c, lineWidth);
+    }
+
+    public static void drawBox(MatrixStack stack, BlockPos pos, Color c, double lineWidth) {
+        drawBox(stack, new Box(pos), c, lineWidth);
+    }
+
+    public static void drawBox(MatrixStack stack, Entity entity, Color c, double lineWidth) {
+        float delta = mc.getRenderTickCounter().getTickProgress(true);
+        double x = MathHelper.lerp(delta, entity.lastRenderX, entity.getX());
+        double y = MathHelper.lerp(delta, entity.lastRenderY, entity.getY());
+        double z = MathHelper.lerp(delta, entity.lastRenderZ, entity.getZ());
+        Box box = entity.getBoundingBox().offset(x - entity.getX(), y - entity.getY(), z - entity.getZ());
+        drawBox(stack, box, c, lineWidth);
+    }
+
     public static void drawBoxFilled(MatrixStack stack, Box box, Color c) {
         float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPos().getX());
         float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getPos().getY());
@@ -172,38 +210,31 @@ public class RenderUtil {
         drawBoxFilled(stack, box, c);
     }
 
-    public static void drawBox(MatrixStack stack, Box box, Color c, double lineWidth) {
-        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPos().getX());
-        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getPos().getY());
-        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.getPos().getZ());
-        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.getPos().getX());
-        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.getPos().getY());
-        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.getPos().getZ());
-
-        BufferBuilder bufferBuilder = Tessellator.getInstance()
-                .begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
-
-        VertexRendering.drawBox(stack.peek(), bufferBuilder, minX, minY, minZ, maxX, maxY, maxZ,
-                c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
-
-        Layer.getGlobalLines(lineWidth).draw(bufferBuilder.end());
+    public static void drawESP(MatrixStack stack, Box box, Color c, ESPMode mode) {
+        if (mode == ESPMode.OUTLINE) drawBox(stack,box,c,1);
+        else if (mode == ESPMode.FILL) drawBoxFilled(stack,box,c);
+        else if (mode == ESPMode.BOTH) {
+            Color filledColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (c.getAlpha() * 0.33f));
+            drawBoxFilled(stack, box, filledColor);
+            drawBox(stack, box, c, 1);
+        }
     }
 
-    public static void drawBox(MatrixStack stack, Vec3d vec, Color c, double lineWidth) {
-        drawBox(stack, Box.from(vec), c, lineWidth);
+    public static void drawESP(MatrixStack stack, Vec3d vec, Color c, ESPMode mode) {
+        drawESP(stack, Box.from(vec), c, mode);
     }
 
-    public static void drawBox(MatrixStack stack, BlockPos pos, Color c, double lineWidth) {
-        drawBox(stack, new Box(pos), c, lineWidth);
+    public static void drawESP(MatrixStack stack, BlockPos pos, Color c, ESPMode mode) {
+        drawESP(stack, new Box(pos), c, mode);
     }
 
-    public static void drawBox(MatrixStack stack, Entity entity, Color c, double lineWidth) {
+    public static void drawESP(MatrixStack stack, Entity entity, Color c, ESPMode mode) {
         float delta = mc.getRenderTickCounter().getTickProgress(true);
         double x = MathHelper.lerp(delta, entity.lastRenderX, entity.getX());
         double y = MathHelper.lerp(delta, entity.lastRenderY, entity.getY());
         double z = MathHelper.lerp(delta, entity.lastRenderZ, entity.getZ());
         Box box = entity.getBoundingBox().offset(x - entity.getX(), y - entity.getY(), z - entity.getZ());
-        drawBox(stack, box, c, lineWidth);
+        drawESP(stack, box, c, mode);
     }
 
     // TODO: Tracer
