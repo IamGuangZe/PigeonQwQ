@@ -15,6 +15,7 @@ import owo.pigeon.modules.impl.Player.AutoFish;
 import owo.pigeon.modules.impl.Render.PlayerESP;
 import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
+import owo.pigeon.modules.impl.Skyblock.Dungeon.StarMobESP;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
 import owo.pigeon.modules.impl.Skyblock.Rift.SnakingHelper;
 
@@ -47,6 +48,7 @@ public class ModuleManager {
 
         /* =======*SkyBlock Module*======= */
         modules.add(new FlaySwitch());
+        modules.add(new StarMobESP());
         modules.add(new AgaricusMiner());
         modules.add(new SnakingHelper());
         modules.add(new AutoExperiments());
