@@ -214,7 +214,7 @@ public class RenderUtil {
         if (mode == ESPMode.OUTLINE) drawBox(stack,box,c,1);
         else if (mode == ESPMode.FILL) drawBoxFilled(stack,box,c);
         else if (mode == ESPMode.BOTH) {
-            Color filledColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (c.getAlpha() * 0.33f));
+            Color filledColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (c.getAlpha() * 0.2f));
             drawBoxFilled(stack, box, filledColor);
             drawBox(stack, box, c, 1);
         }
