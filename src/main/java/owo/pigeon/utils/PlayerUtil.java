@@ -55,7 +55,7 @@ public class PlayerUtil {
 
     public static boolean hasUUID(Entity entity) {
         if (entity instanceof PlayerEntity player)
-            return player.getUuid().version() == 2;
+            return player.getUuid().version() == 4;
 
         return false;
     }
