@@ -25,6 +25,7 @@
     "mixins.MixinInGameOverlayRenderer",
     "mixins.MixinKeyboard",
     "mixins.MixinLightmapTextureManager",
+    "mixins.MixinMessageHandler",
     "mixins.MixinMinecraftClient",
     "mixins.MixinSimpleOption",
     "mixins.MixinWorldRenderer"

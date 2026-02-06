@@ -4,7 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import owo.pigeon.Pigeonqwq;
 import owo.pigeon.commands.impl.*;
 import owo.pigeon.commands.impl.Debug.GetCommand;
-import owo.pigeon.event.events.SendMessageEvent;
+import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
 
@@ -36,7 +36,7 @@ public class CommandManager {
     }
 
     @Handler
-    public void onSendMessage(SendMessageEvent event) {
+    public void onSendMessage(MessageEvent.SendMessageEvent event) {
 
         ChatUtil.sendDebugMessage("CommandManager", "handle SendMessageEvent");
 
