@@ -27,4 +27,10 @@ public class KeybindUtil {
             return InputUtil.isKeyPressed(mc.getWindow(), boundKey.getCode());
         }
     }
+
+    public static void resetPressed(KeyBinding key) {
+        if (!isPressed(key)) {
+            setPressed(key, false);
+        }
+    }
 }

@@ -22,8 +22,6 @@ public class Sprint extends Module {
 
     @Override
     public void onDisable() {
-        if (!KeybindUtil.isPressed(mc.options.sprintKey)) {
-            KeybindUtil.setPressed(mc.options.sprintKey,false);
-        }
+        KeybindUtil.resetPressed(mc.options.sprintKey);
     }
 }
