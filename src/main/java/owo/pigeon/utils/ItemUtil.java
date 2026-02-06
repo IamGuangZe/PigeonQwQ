@@ -32,4 +32,7 @@ public class ItemUtil {
         return -1;
     }
 
+    public static ItemStack getItemStackfromSlot(int slot) {
+        return mc.player.getInventory().getStack(slot);
+    }
 }

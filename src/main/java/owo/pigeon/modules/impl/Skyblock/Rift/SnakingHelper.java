@@ -13,7 +13,7 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ItemUtil;
-import owo.pigeon.utils.PlayerUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
 
 import static owo.pigeon.Pigeonqwq.mc;
 

@@ -1,4 +1,4 @@
-package owo.pigeon.utils;
+package owo.pigeon.utils.Player;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,6 +8,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.GameMode;
 import owo.pigeon.mixin.accessors.IAccessorMinecraftClient;
 import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.utils.KeybindUtil;
 
 import static owo.pigeon.Pigeonqwq.mc;
 
@@ -40,6 +41,15 @@ public class PlayerUtil {
     public static void switchItemSlot(int index) {
         if (index < 0 || index > 8 || mc.player == null) return;
         mc.player.getInventory().setSelectedSlot(index);
+    }
+
+    public static void switchUseItem(int slot, RightClickMode mode) {
+        switchItemSlot(slot);
+        RightClick(mode);
+    }
+
+    public static void InstantUseItem(int slot, RightClickMode mode) {
+        InstantUse.instantUseItem(slot,mode);
     }
 
     public static void clickSlot(int syncId, int slotId, int button, SlotActionType actionType) {

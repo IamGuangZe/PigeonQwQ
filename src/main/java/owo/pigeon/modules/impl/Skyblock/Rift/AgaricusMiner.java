@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.utils.PlayerUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
 
 import static owo.pigeon.Pigeonqwq.mc;

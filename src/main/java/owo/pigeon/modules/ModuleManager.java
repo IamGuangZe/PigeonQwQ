@@ -10,8 +10,14 @@ import owo.pigeon.modules.impl.Client.Debug.SettingTest;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
+import owo.pigeon.modules.impl.Movement.NoJumpDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
 import owo.pigeon.modules.impl.Player.AutoFish;
+import owo.pigeon.modules.impl.Player.AutoHeal;
+import owo.pigeon.modules.impl.Player.FastPlace;
+import owo.pigeon.modules.impl.Player.NoBreakDelay;
+import owo.pigeon.modules.impl.Render.FullBright;
+import owo.pigeon.modules.impl.Render.ModifyCamera;
 import owo.pigeon.modules.impl.Render.PlayerESP;
 import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
@@ -40,10 +46,16 @@ public class ModuleManager {
         modules.add(new AutoClicker());
         modules.add(new NoHitDelay());
 
+        modules.add(new NoJumpDelay());
         modules.add(new Sprint());
 
         modules.add(new AutoFish());
+        modules.add(new AutoHeal());
+        modules.add(new FastPlace());
+        modules.add(new NoBreakDelay());
 
+        modules.add(new FullBright());
+        modules.add(new ModifyCamera());
         modules.add(new PlayerESP());
 
         /* =======*SkyBlock Module*======= */

@@ -12,7 +12,7 @@ import owo.pigeon.settings.StringSetting;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ItemUtil;
-import owo.pigeon.utils.PlayerUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
 
 import static owo.pigeon.Pigeonqwq.mc;

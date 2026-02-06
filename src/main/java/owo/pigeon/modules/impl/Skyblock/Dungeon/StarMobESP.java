@@ -12,7 +12,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.PlayerUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.Render.RenderUtil;
 
 import java.awt.*;

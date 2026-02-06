@@ -11,6 +11,7 @@ import owo.pigeon.modules.ModuleManager;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.SafeMessage;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.Player.InstantUse;
 
 public class Pigeonqwq implements ModInitializer {
 
@@ -23,6 +24,7 @@ public class Pigeonqwq implements ModInitializer {
     public static ConfigManager configManager;
 
     public static SafeMessage safeMessage = new SafeMessage();
+    public static InstantUse instantUse = new InstantUse();
 
     public static final String MOD_ID = "pigeonqwq";
     public static final String MOD_NAME = "PigeonQwQ";
@@ -32,6 +34,7 @@ public class Pigeonqwq implements ModInitializer {
     @Override
     public void onInitialize() {
         EVENT_BUS.subscribe(safeMessage);
+        EVENT_BUS.subscribe(instantUse);
 
         moduleManager = new ModuleManager();
         moduleManager.init();

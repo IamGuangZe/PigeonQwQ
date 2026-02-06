@@ -8,7 +8,11 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.IntSetting;
-import owo.pigeon.utils.*;
+import owo.pigeon.utils.ItemUtil;
+import owo.pigeon.utils.KeybindUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
+import owo.pigeon.utils.RandomUtil;
+import owo.pigeon.utils.WorldUtil;
 
 import static owo.pigeon.Pigeonqwq.mc;
 

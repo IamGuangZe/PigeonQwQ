@@ -13,6 +13,7 @@ import owo.pigeon.event.events.DoItemUseEvent;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
+import owo.pigeon.modules.impl.Player.FastPlace;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(MinecraftClient.class)
@@ -20,6 +21,9 @@ public class MixinMinecraftClient {
 
     @Shadow
     public int attackCooldown;
+
+    @Shadow
+    private int itemUseCooldown;
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onClientTickPre(CallbackInfo ci) {
@@ -57,5 +61,9 @@ public class MixinMinecraftClient {
     @Inject(method = "doItemUse", at = @At("RETURN"))
     public void onDoItemUsePost(CallbackInfo ci) {
         Pigeonqwq.EVENT_BUS.post(new DoItemUseEvent.Post()).now();
+
+        if (ModuleUtil.isEnable(FastPlace.class) && ModuleUtil.getModule(FastPlace.class).canFastPlace()) {
+            itemUseCooldown = ModuleUtil.getModule(FastPlace.class).delay.getValue();
+        }
     }
 }

@@ -4,7 +4,8 @@
   "package": "owo.pigeon.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "mixins.MixinClientConnection"
+    "mixins.MixinClientConnection",
+    "mixins.MixinLivingEntity"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -16,11 +17,16 @@
     "accessors.IAccessorKeyBinding",
     "accessors.IAccessorMinecraftClient",
     "accessors.IAccessorPlayerListHud",
+    "mixins.MixinCamera",
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",
+    "mixins.MixinGameRenderer",
     "mixins.MixinInGameHud",
+    "mixins.MixinInGameOverlayRenderer",
     "mixins.MixinKeyboard",
+    "mixins.MixinLightmapTextureManager",
     "mixins.MixinMinecraftClient",
+    "mixins.MixinSimpleOption",
     "mixins.MixinWorldRenderer"
   ]
 }

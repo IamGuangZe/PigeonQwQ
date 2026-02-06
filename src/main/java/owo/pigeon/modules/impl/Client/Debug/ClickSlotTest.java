@@ -9,7 +9,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.utils.Chat.ChatUtil;
-import owo.pigeon.utils.PlayerUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.RandomUtil;
 import owo.pigeon.utils.WorldUtil;
 
