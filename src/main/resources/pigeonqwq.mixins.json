@@ -28,6 +28,7 @@
     "mixins.MixinLightmapTextureManager",
     "mixins.MixinMessageHandler",
     "mixins.MixinMinecraftClient",
+    "mixins.MixinRebuildTask",
     "mixins.MixinSimpleOption",
     "mixins.MixinWorldRenderer"
   ]

@@ -17,6 +17,8 @@ import owo.pigeon.modules.impl.Player.AutoFish;
 import owo.pigeon.modules.impl.Player.AutoHeal;
 import owo.pigeon.modules.impl.Player.FastPlace;
 import owo.pigeon.modules.impl.Player.NoBreakDelay;
+import owo.pigeon.modules.impl.Render.BedESP;
+import owo.pigeon.modules.impl.Render.BlockESP;
 import owo.pigeon.modules.impl.Render.FullBright;
 import owo.pigeon.modules.impl.Render.ModifyCamera;
 import owo.pigeon.modules.impl.Render.PlayerESP;
@@ -59,6 +61,8 @@ public class ModuleManager {
         modules.add(new FastPlace());
         modules.add(new NoBreakDelay());
 
+        modules.add(new BedESP());
+        modules.add(new BlockESP());
         modules.add(new FullBright());
         modules.add(new ModifyCamera());
         modules.add(new PlayerESP());
