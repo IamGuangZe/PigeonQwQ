@@ -12,6 +12,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 
@@ -27,11 +28,13 @@ public class SnakingHelper extends Module {
 
     @Handler
     public void onDoAttackPre(DoAttackEvent.Pre event) {
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
         switchTo(PICKAXE);
     }
 
     @Handler
     public void onDoItemUse(DoItemUseEvent.Pre event) {
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
         switchTo(PUNGI);
     }
 

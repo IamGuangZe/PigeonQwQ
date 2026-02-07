@@ -135,7 +135,7 @@ public class VampireSlayer extends Module {
                     else if (subtitle.contains("CLICK DOWN")) impelAction = ImpelAction.DOWN;
 
                     if (impelAction != ImpelAction.NONE) {
-                        impelTicks = 3;
+                        impelTicks = 5;
                         hasImpel = true;
                         rawPitch = mc.player.getPitch();
                     }
@@ -147,11 +147,13 @@ public class VampireSlayer extends Module {
                         case SNEAK -> KeybindUtil.setPressed(mc.options.sneakKey,true);
                         case UP -> {
                             mc.player.setPitch(-90f);
-                            PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+                            if (impelTicks % 2 != 0)
+                                PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
                         }
                         case DOWN -> {
                             mc.player.setPitch(90f);
-                            PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+                            if (impelTicks % 2 != 0)
+                                PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
                         }
                     }
                 }
@@ -176,8 +178,13 @@ public class VampireSlayer extends Module {
             }
         }
 
-        if (!foundTitle && impelTicks <= 0) {
+        if (!foundTitle) {
+
+            if (impelTicks != 0)
+                ChatUtil.sendDebugMessage(this.name,"reset impel.");
+
             hasImpel = false;
+            impelTicks = 0;
             impelAction = ImpelAction.NONE;
         }
     }

@@ -15,6 +15,7 @@ import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
@@ -45,6 +46,7 @@ public class TimiteMiner extends Module {
     @Handler
     public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
         if (!autoMine.getValue()) return;
         if (!isHoldingTimiteTools()) return;
 
@@ -78,11 +80,13 @@ public class TimiteMiner extends Module {
 
     @Handler
     public void onDoAttackPre(DoAttackEvent.Pre event) {
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
         switchTo(PICKAXE);
     }
 
     @Handler
     public void onDoItemUse(DoItemUseEvent.Pre event) {
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
         switchTo(GUN);
     }
 

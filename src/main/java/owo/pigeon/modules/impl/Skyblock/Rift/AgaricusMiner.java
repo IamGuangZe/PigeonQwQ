@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
+import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
 
@@ -26,6 +27,7 @@ public class AgaricusMiner extends Module {
     @Handler
     public void onTickPost(TickEvent.ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
 
         if (mc.crosshairTarget == null || mc.crosshairTarget.getType() != HitResult.Type.BLOCK) {
             targetPos = null;
