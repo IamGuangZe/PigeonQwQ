@@ -25,6 +25,8 @@ import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
 import owo.pigeon.modules.impl.Skyblock.Dungeon.StarMobESP;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
 import owo.pigeon.modules.impl.Skyblock.Rift.SnakingHelper;
+import owo.pigeon.modules.impl.Skyblock.Slayer.AutoMaddox;
+import owo.pigeon.modules.impl.Skyblock.Slayer.VampireSlayer;
 
 import java.util.ArrayList;
 
@@ -65,6 +67,8 @@ public class ModuleManager {
         modules.add(new StarMobESP());
         modules.add(new AgaricusMiner());
         modules.add(new SnakingHelper());
+        modules.add(new AutoMaddox());
+        modules.add(new VampireSlayer());
         modules.add(new AutoExperiments());
     }
 

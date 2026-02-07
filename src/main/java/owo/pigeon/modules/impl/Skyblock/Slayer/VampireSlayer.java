@@ -1,0 +1,197 @@
+package owo.pigeon.modules.impl.Skyblock.Slayer;
+
+import net.engio.mbassy.listener.Handler;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.mixin.accessors.IAccessorInGameHud;
+import owo.pigeon.modules.Category;
+import owo.pigeon.modules.Module;
+import owo.pigeon.settings.EnableSetting;
+import owo.pigeon.settings.FloatSetting;
+import owo.pigeon.settings.IntSetting;
+import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.Hypixel.SkyblockUtil;
+import owo.pigeon.utils.ItemUtil;
+import owo.pigeon.utils.KeybindUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
+import owo.pigeon.utils.WorldUtil;
+
+import static owo.pigeon.Pigeonqwq.mc;
+
+public class VampireSlayer extends Module {
+    public VampireSlayer() {
+        super("VampireSlayer",Category.SKYBLOCK);
+    }
+
+    public EnableSetting autoHeal = setting("auto-heal",true,v->true);
+    public FloatSetting healHealth = setting("heal-health", 6.0F, 1.0F, 20.0F, v -> autoHeal.getValue());
+    public EnableSetting autoIce = setting("auto-ice",true,v->true);
+    public IntSetting iceDelayTick = setting("ice-delay-tick", 20, 0, 30, v -> autoIce.getValue());
+    public EnableSetting autoSteak = setting("auto-steak", true, v -> true);
+    public EnableSetting autoImpel = setting("auto-impel", true,v->true);
+
+    private enum ImpelAction {
+        NONE, JUMP, SNEAK, UP, DOWN
+    }
+
+    private boolean hasHeal,hasIced,hasImpel;
+    private int iceTicks,impelTicks;
+    private ImpelAction impelAction = ImpelAction.NONE;
+    private float rawPitch;
+
+    private static final String MELON = "Healing Melon";
+    private static final String ICE = "Holy Ice";
+    private static final String STEAK = "Steak Stake";
+
+    @Override
+    public void onEnable() {
+        impelAction = ImpelAction.NONE;
+        hasHeal = false;
+        hasIced = false;
+        hasImpel = false;
+        iceTicks = 0;
+        impelTicks = 0;
+    }
+
+    @Handler
+    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
+        if (WorldUtil.nullCheck()) return;
+        Entity slayer = SkyblockUtil.getSlayer();
+
+        if (autoHeal.getValue()) {
+            int melon = ItemUtil.getSlotFromItemName(MELON);
+            float health = mc.player.getHealth();
+
+            if (melon != -1 && health <= healHealth.getValue() && !hasHeal) {
+                PlayerUtil.InstantUseItem(melon, PlayerUtil.RightClickMode.MOUSE);
+                hasHeal = true;
+                return;
+            }
+
+            if (health > healHealth.getValue()) hasHeal = false;
+        }
+
+        if (autoIce.getValue()) {
+            int ice = ItemUtil.getSlotFromItemName(ICE);
+            if (ice == -1 || slayer == null) return;
+
+            boolean foundClaws = false;
+            for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25,2.5,0.25), entity -> true)) {
+                ChatUtil.sendDebugMessage(this.name,"stand: " + stand.getName().getString());
+
+                if (stand.getName().getString().contains("TWINCLAWS")) {
+                    foundClaws = true;
+                    break;
+                }
+            }
+
+            if (foundClaws) {
+                if (!hasIced) {
+                    if (iceTicks < iceDelayTick.getValue()) {
+                        iceTicks++;
+                    } else {
+                        PlayerUtil.InstantUseItem(ice, PlayerUtil.RightClickMode.MOUSE);
+                        hasIced = true;
+                        iceTicks = 0;
+                        return;
+                    }
+                }
+            } else {
+                hasIced = false;
+                iceTicks = 0;
+            }
+        }
+
+        if (autoSteak.getValue()) {
+            int steak = ItemUtil.getSlotFromItemName(STEAK);
+            if (steak == -1 || slayer == null) return;
+
+            for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25,2.5,0.25), entity -> true)) {
+                if (stand.getName().getString().contains("҉") && stand.getName().getString().contains("Bloodfiend")) {
+                    PlayerUtil.switchItemSlot(steak);
+                }
+            }
+        }
+    }
+
+    // 为了防止过后我自己读不懂 将AutoImpel单独分开 但依然写成Pre与Post单独处理
+    @Handler
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if (WorldUtil.nullCheck()) return;
+
+        String subtitle = ((IAccessorInGameHud)mc.inGameHud).getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorInGameHud)mc.inGameHud).getSubtitle().getString());
+        boolean foundTitle = subtitle.startsWith("Impel: ");
+
+        if (!subtitle.isEmpty()) ChatUtil.sendDebugMessage(this.name,"subtitle: " + subtitle);
+
+        if (event instanceof TickEvent.ClientTickEvent.Pre) {
+            if (autoImpel.getValue()) {
+                if (impelTicks <= 0 && foundTitle && !hasImpel) {
+                    if (subtitle.contains("JUMP")) impelAction = ImpelAction.JUMP;
+                    else if (subtitle.contains("SNEAK")) impelAction = ImpelAction.SNEAK;
+                    else if (subtitle.contains("CLICK UP")) impelAction = ImpelAction.UP;
+                    else if (subtitle.contains("CLICK DOWN")) impelAction = ImpelAction.DOWN;
+
+                    if (impelAction != ImpelAction.NONE) {
+                        impelTicks = 3;
+                        hasImpel = true;
+                        rawPitch = mc.player.getPitch();
+                    }
+                }
+
+                if (impelTicks > 0) {
+                    switch (impelAction) {
+                        case JUMP -> KeybindUtil.setPressed(mc.options.jumpKey,true);
+                        case SNEAK -> KeybindUtil.setPressed(mc.options.sneakKey,true);
+                        case UP -> {
+                            mc.player.setPitch(-90f);
+                            PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+                        }
+                        case DOWN -> {
+                            mc.player.setPitch(90f);
+                            PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (event instanceof TickEvent.ClientTickEvent.Post) {
+            if (autoImpel.getValue()) {
+                if (impelTicks > 0) {
+                    impelTicks --;
+
+                    if (impelTicks <= 0) {
+                        switch (impelAction) {
+                            case JUMP -> KeybindUtil.resetPressed(mc.options.jumpKey);
+                            case SNEAK -> KeybindUtil.resetPressed(mc.options.sneakKey);
+                            case UP,DOWN -> mc.player.setPitch(rawPitch);
+                        }
+
+                        impelAction = ImpelAction.NONE;
+                    }
+                }
+            }
+        }
+
+        if (!foundTitle && impelTicks <= 0) {
+            hasImpel = false;
+            impelAction = ImpelAction.NONE;
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        impelAction = ImpelAction.NONE;
+        hasHeal = false;
+        hasIced = false;
+        hasImpel = false;
+        iceTicks = 0;
+        impelTicks = 0;
+
+        KeybindUtil.resetPressed(mc.options.jumpKey);
+        KeybindUtil.resetPressed(mc.options.sneakKey);
+    }
+}
