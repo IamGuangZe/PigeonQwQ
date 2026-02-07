@@ -1,5 +1,7 @@
 package owo.pigeon.commands.impl.Debug;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
 import owo.pigeon.commands.Command;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.Hypixel.HypixelUtil;
@@ -7,6 +9,8 @@ import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
 
 import java.util.List;
+
+import static owo.pigeon.Pigeonqwq.mc;
 
 public class GetCommand extends Command {
     public GetCommand() {
@@ -18,6 +22,14 @@ public class GetCommand extends Command {
         if (args.length == 0) return;
 
         switch (args[0].toLowerCase()) {
+            case "armorstand","a" -> {
+                for (Entity entity : mc.world.getEntities()) {
+                    if (entity instanceof ArmorStandEntity stand) {
+                        ChatUtil.sendDebugMessage("ArmorStand","name: " + stand.getName().getString());
+                    }
+                }
+            }
+
             case "sidebar","s" -> {
                 String title = ScoreBoardUtil.getSidebarTitle();
                 List<String> lines = ScoreBoardUtil.getSidebarLines();

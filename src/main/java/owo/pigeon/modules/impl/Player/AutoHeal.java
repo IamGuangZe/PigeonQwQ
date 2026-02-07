@@ -78,7 +78,6 @@ public class AutoHeal extends Module {
         }
 
         if (d_tick <= 0) {
-            // 1.21.1 检查血量、游戏模式、药水效果
             if (mc.player.getHealth() < health.getValue() &&
                     mc.interactionManager.getCurrentGameMode() != GameMode.CREATIVE &&
                     !hasAbsorption() &&

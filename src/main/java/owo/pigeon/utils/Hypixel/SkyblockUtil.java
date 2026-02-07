@@ -1,9 +1,16 @@
 package owo.pigeon.utils.Hypixel;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Box;
 import owo.pigeon.Pigeonqwq;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.RegexUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
+import owo.pigeon.utils.WorldUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -174,5 +181,34 @@ public class SkyblockUtil {
         if (y < 166) return 3;
         if (y < 219) return 2;
         return 1;
+    }
+
+    public static Entity getSlayer() {
+        if (WorldUtil.nullCheck()) return null;
+
+        String ownerMarker = "Spawned by: " + mc.player.getName().getString();
+        for (Entity entity : mc.world.getEntities()) {
+            if (entity instanceof ArmorStandEntity stand && stand.getName().getString().startsWith(ownerMarker)) {
+
+                Entity closest = null;
+                double closestDistance = Double.MAX_VALUE;
+                Box box = stand.getBoundingBox().offset(0.0, -1.0, 0.0).expand(0.2);
+
+                for (Entity entityInBox : mc.world.getOtherEntities(stand, box)) {
+                    if (entityInBox instanceof ArmorStandEntity || entityInBox == mc.player) continue;
+                    if (entityInBox instanceof WitherEntity && entityInBox.isInvisible()) continue;
+                    if (entityInBox instanceof PlayerEntity player && PlayerUtil.hasUUID(player)) continue;
+
+                    double dist = stand.distanceTo(entityInBox);
+                    if (dist < closestDistance) {
+                        closestDistance = dist;
+                        closest = entityInBox;
+                    }
+                }
+
+                if (closest != null) return closest;
+            }
+        }
+        return null;
     }
 }
