@@ -1,0 +1,130 @@
+package owo.pigeon.modules.impl.Skyblock.Rift;
+
+import net.engio.mbassy.listener.Handler;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import owo.pigeon.event.events.DoAttackEvent;
+import owo.pigeon.event.events.DoItemUseEvent;
+import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.modules.Category;
+import owo.pigeon.modules.Module;
+import owo.pigeon.settings.EnableSetting;
+import owo.pigeon.settings.ModeSetting;
+import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.ItemUtil;
+import owo.pigeon.utils.KeybindUtil;
+import owo.pigeon.utils.Player.PlayerUtil;
+import owo.pigeon.utils.WorldUtil;
+
+import static owo.pigeon.Pigeonqwq.mc;
+
+public class TimiteMiner extends Module {
+    public TimiteMiner() {
+        super("TimiteMiner", Category.SKYBLOCK);
+    }
+
+    public enum TimiteStage {
+        YOUNGITE(0), TIMITE(1), OBSOLITE(2);
+
+        final int level;
+        TimiteStage(int level) {
+            this.level = level;
+        }
+    }
+
+    public EnableSetting autoMine = setting("auto-mine", false, v -> true);
+    public ModeSetting<TimiteStage> timiteStage = setting("timite-stage", TimiteStage.TIMITE, v->autoMine.getValue());
+
+    private static final String PICKAXE = " Pickaxe";
+    private static final String GUN = "Time Gun";
+
+    @Handler
+    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+        if (WorldUtil.nullCheck()) return;
+        if (!autoMine.getValue()) return;
+        if (!isHoldingTimiteTools()) return;
+
+        TimiteStage currentBlockStage = getTargetBlockStage();
+
+        if (currentBlockStage == null) {
+            KeybindUtil.resetPressed(mc.options.useKey);
+            KeybindUtil.resetPressed(mc.options.attackKey);
+            return;
+        }
+
+        int targetLevel = timiteStage.getValue().level;
+        int currentLevel = currentBlockStage.level;
+
+        if (currentLevel < targetLevel) {
+            // 阶段低于目标
+            switchTo(GUN);
+            KeybindUtil.resetPressed(mc.options.attackKey);
+            KeybindUtil.setPressed(mc.options.useKey, true);
+        } else if (currentLevel == targetLevel) {
+            // 阶段等于目标
+            switchTo(PICKAXE);
+            KeybindUtil.resetPressed(mc.options.useKey);
+            KeybindUtil.setPressed(mc.options.attackKey, true);
+        } else {
+            // 阶段高于目标
+            KeybindUtil.resetPressed(mc.options.useKey);
+            KeybindUtil.resetPressed(mc.options.attackKey);
+        }
+    }
+
+    @Handler
+    public void onDoAttackPre(DoAttackEvent.Pre event) {
+        switchTo(PICKAXE);
+    }
+
+    @Handler
+    public void onDoItemUse(DoItemUseEvent.Pre event) {
+        switchTo(GUN);
+    }
+
+    @Override
+    public void onDisable() {
+        if (mc.options != null) {
+            KeybindUtil.resetPressed(mc.options.useKey);
+            KeybindUtil.resetPressed(mc.options.attackKey);
+        }
+    }
+
+    private void switchTo(String itemName) {
+        if (!isHoldingTimiteTools()) return;
+        if (getTargetBlockStage() == null) return;
+
+        int slot = ItemUtil.getSlotFromItemName(itemName);
+
+        if (slot != -1) {
+            PlayerUtil.switchItemSlot(slot);
+            ChatUtil.sendDebugMessage(this.name, "Switched to " + itemName);
+        }
+    }
+
+    private TimiteStage getTargetBlockStage() {
+        if (mc.crosshairTarget == null || mc.crosshairTarget.getType() != HitResult.Type.BLOCK) return null;
+
+        Block block = mc.world
+                .getBlockState(((BlockHitResult) mc.crosshairTarget).getBlockPos())
+                .getBlock();
+
+        if (block == Blocks.LIGHT_BLUE_STAINED_GLASS_PANE) return TimiteStage.YOUNGITE;
+        if (block == Blocks.BLUE_STAINED_GLASS_PANE) return TimiteStage.TIMITE;
+        if (block == Blocks.PURPLE_STAINED_GLASS_PANE) return TimiteStage.OBSOLITE;
+
+        return null;
+    }
+
+    private boolean isHoldingTimiteTools() {
+        ItemStack stack = mc.player.getInventory().getSelectedStack();
+        if (stack.isEmpty()) return false;
+
+        String name = ColorUtil.removeColor(stack.getName().getString());
+        return name.contains(PICKAXE) || name.contains(GUN);
+    }
+}
