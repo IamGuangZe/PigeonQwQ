@@ -161,7 +161,8 @@ public class RenderUtil {
     }
 
     public static void drawBox(MatrixStack stack, Entity entity, Color c, double lineWidth) {
-        Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
+        Vec3d interpPos = getInterpolatedPos(entity);
+        Box box = entity.getBoundingBox().offset(interpPos.x - entity.getX(), interpPos.y - entity.getY(), interpPos.z - entity.getZ());
         drawBox(stack, box, c, lineWidth);
     }
 
@@ -232,7 +233,8 @@ public class RenderUtil {
     }
 
     public static void drawBoxFilled(MatrixStack stack, Entity entity, Color c) {
-        Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
+        Vec3d interpPos = getInterpolatedPos(entity);
+        Box box = entity.getBoundingBox().offset(interpPos.x - entity.getX(), interpPos.y - entity.getY(), interpPos.z - entity.getZ());
         drawBoxFilled(stack, box, c);
     }
 
@@ -270,7 +272,8 @@ public class RenderUtil {
     }
 
     public static void drawESP(MatrixStack stack, Entity entity, Color c, ESPMode mode) {
-        Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
+        Vec3d interpPos = getInterpolatedPos(entity);
+        Box box = entity.getBoundingBox().offset(interpPos.x - entity.getX(), interpPos.y - entity.getY(), interpPos.z - entity.getZ());
         drawESP(stack, box, c, mode);
     }
 

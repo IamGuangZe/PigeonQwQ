@@ -7,6 +7,7 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
+import owo.pigeon.Pigeonqwq;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -40,6 +41,15 @@ public class StarMobESP extends Module {
                 String name = stand.getName().getString();
 
                 if (name.contains("✯") && name.contains("❤")) {
+                    if (Pigeonqwq.isDebug())
+                        RenderUtil.drawESP(stack,
+                                stand,
+                                stand.getBoundingBox().offset(0.0, -1.0, 0.0).expand(0.2),
+                                Color.RED,
+                                RenderUtil.ESPMode.BOTH
+                                );
+
+
                     switch (target.getValue()) {
                         case STAND -> {
                             Box customBox = new Box(
