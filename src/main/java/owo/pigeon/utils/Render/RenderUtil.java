@@ -1,6 +1,7 @@
 package owo.pigeon.utils.Render;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
@@ -12,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 import org.joml.Matrix4f;
 
 import java.awt.*;
@@ -24,6 +26,14 @@ public class RenderUtil {
     }
 
     public static final Matrix4f projection = new Matrix4f();
+
+    public static Vec3d getInterpolatedPos(Entity entity) {
+        float delta = mc.getRenderTickCounter().getTickProgress(true);
+        double x = MathHelper.lerp(delta, entity.lastRenderX, entity.getX());
+        double y = MathHelper.lerp(delta, entity.lastRenderY, entity.getY());
+        double z = MathHelper.lerp(delta, entity.lastRenderZ, entity.getZ());
+        return new Vec3d(x, y, z);
+    }
 
     public static void rect(MatrixStack stack, float x1, float y1, float x2, float y2, int color) {
         rectFilled(stack, x1, y1, x2, y2, color);
@@ -138,16 +148,27 @@ public class RenderUtil {
     }
 
     public static void drawBox(MatrixStack stack, BlockPos pos, Color c, double lineWidth) {
-        drawBox(stack, new Box(pos), c, lineWidth);
+        BlockState state = mc.world.getBlockState(pos);
+        VoxelShape shape = state.getOutlineShape(mc.world, pos);
+
+        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            Box realBox = new Box(
+                    pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
+                    pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
+            );
+            drawBox(stack, realBox, c,lineWidth);
+        });
     }
 
     public static void drawBox(MatrixStack stack, Entity entity, Color c, double lineWidth) {
-        float delta = mc.getRenderTickCounter().getTickProgress(true);
-        double x = MathHelper.lerp(delta, entity.lastRenderX, entity.getX());
-        double y = MathHelper.lerp(delta, entity.lastRenderY, entity.getY());
-        double z = MathHelper.lerp(delta, entity.lastRenderZ, entity.getZ());
-        Box box = entity.getBoundingBox().offset(x - entity.getX(), y - entity.getY(), z - entity.getZ());
+        Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
         drawBox(stack, box, c, lineWidth);
+    }
+
+    public static void drawBox(MatrixStack stack, Entity entity, Box box, Color c, double lineWidth) {
+        Vec3d vec = getInterpolatedPos(entity);
+        Box renderedBox = box.offset(vec.x - entity.getX(), vec.y - entity.getY(), vec.z - entity.getZ());
+        drawBox(stack, renderedBox, c, lineWidth);
     }
 
     public static void drawBoxFilled(MatrixStack stack, Box box, Color c) {
@@ -198,16 +219,27 @@ public class RenderUtil {
     }
 
     public static void drawBoxFilled(MatrixStack stack, BlockPos pos, Color c) {
-        drawBoxFilled(stack, new Box(pos), c);
+        BlockState state = mc.world.getBlockState(pos);
+        VoxelShape shape = state.getOutlineShape(mc.world, pos);
+
+        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            Box realBox = new Box(
+                    pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
+                    pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
+            );
+            drawBoxFilled(stack, realBox, c);
+        });
     }
 
     public static void drawBoxFilled(MatrixStack stack, Entity entity, Color c) {
-        float delta = mc.getRenderTickCounter().getTickProgress(true);
-        double x = MathHelper.lerp(delta, entity.lastRenderX, entity.getX());
-        double y = MathHelper.lerp(delta, entity.lastRenderY, entity.getY());
-        double z = MathHelper.lerp(delta, entity.lastRenderZ, entity.getZ());
-        Box box = entity.getBoundingBox().offset(x - entity.getX(), y - entity.getY(), z - entity.getZ());
+        Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
         drawBoxFilled(stack, box, c);
+    }
+
+    public static void drawBoxFilled(MatrixStack stack, Entity entity, Box box, Color c) {
+        Vec3d vec = getInterpolatedPos(entity);
+        Box renderedBox = box.offset(vec.x - entity.getX(), vec.y - entity.getY(), vec.z - entity.getZ());
+        drawBoxFilled(stack, renderedBox, c);
     }
 
     public static void drawESP(MatrixStack stack, Box box, Color c, ESPMode mode) {
@@ -225,16 +257,27 @@ public class RenderUtil {
     }
 
     public static void drawESP(MatrixStack stack, BlockPos pos, Color c, ESPMode mode) {
-        drawESP(stack, new Box(pos), c, mode);
+        BlockState state = mc.world.getBlockState(pos);
+        VoxelShape shape = state.getOutlineShape(mc.world, pos);
+
+        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            Box realBox = new Box(
+                    pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
+                    pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
+            );
+            drawESP(stack, realBox, c, mode);
+        });
     }
 
     public static void drawESP(MatrixStack stack, Entity entity, Color c, ESPMode mode) {
-        float delta = mc.getRenderTickCounter().getTickProgress(true);
-        double x = MathHelper.lerp(delta, entity.lastRenderX, entity.getX());
-        double y = MathHelper.lerp(delta, entity.lastRenderY, entity.getY());
-        double z = MathHelper.lerp(delta, entity.lastRenderZ, entity.getZ());
-        Box box = entity.getBoundingBox().offset(x - entity.getX(), y - entity.getY(), z - entity.getZ());
+        Box box = entity.getBoundingBox().offset(-entity.getX(), -entity.getY(), -entity.getZ());
         drawESP(stack, box, c, mode);
+    }
+
+    public static void drawESP(MatrixStack stack, Entity entity, Box box, Color c, ESPMode mode) {
+        Vec3d vec = getInterpolatedPos(entity);
+        Box renderedBox = box.offset(vec.x - entity.getX(), vec.y - entity.getY(), vec.z - entity.getZ());
+        drawESP(stack, renderedBox, c, mode);
     }
 
     // TODO: Tracer

@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import owo.pigeon.modules.impl.Render.BedESP;
 import owo.pigeon.modules.impl.Render.BlockESP;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ModuleUtil;
 
 import java.util.concurrent.CompletableFuture;
@@ -48,7 +47,7 @@ public abstract class MixinRebuildTask {
             Block block = state.getBlock();
 
             if (state.isAir()) continue;
-            ChatUtil.sendDebugMessage("MixinRebuildTask", String.valueOf(state.getBlock()));
+            // ChatUtil.sendDebugMessage("MixinRebuildTask", String.valueOf(state.getBlock()));
 
             if (ModuleUtil.isEnable(BedESP.class) && block instanceof BedBlock) {
                 BedESP.beds.add(tempPos.toImmutable());
