@@ -13,6 +13,7 @@ import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
 import owo.pigeon.modules.impl.Player.AutoFish;
 import owo.pigeon.modules.impl.Render.BedESP;
+import owo.pigeon.modules.impl.Render.BlockESP;
 import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
@@ -44,6 +45,7 @@ public class ModuleManager {
         modules.add(new AutoFish());
 
         modules.add(new BedESP());
+        modules.add(new BlockESP());
 
         /* =======*SkyBlock Module*======= */
         modules.add(new FlaySwitch());

@@ -16,13 +16,12 @@
     "accessors.IAccessorKeyBinding",
     "accessors.IAccessorMinecraftClient",
     "accessors.IAccessorPlayerListHud",
-    "mixins.MixinBlockModelRenderer",
-    "mixins.MixinBlockRenderManager",
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",
     "mixins.MixinInGameHud",
     "mixins.MixinKeyboard",
     "mixins.MixinMinecraftClient",
+    "mixins.MixinRebuildTask",
     "mixins.MixinWorldRenderer"
   ]
 }
