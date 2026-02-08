@@ -75,7 +75,6 @@ public class ScoreBoardUtil {
 
         Collection<PlayerListEntry> entries = mc.getNetworkHandler().getPlayerList();
         return entries.stream()
-                .peek(entry -> System.out.print(entry.getDisplayName()))
                 .map(entry -> playerListHud.getPlayerName(entry).getString())
                 .toList();
     }

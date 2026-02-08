@@ -29,7 +29,8 @@ public class ModuleUtil {
     }
 
     public static boolean isEnable(Class<? extends Module> clazz) {
-        return Objects.requireNonNull(getModule(clazz)).isEnable();
+        Module module = getModule(clazz);
+        return module != null && module.isEnable();
     }
 
     public static boolean isModuleExist(String moduleName) {

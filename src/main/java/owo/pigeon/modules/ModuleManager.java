@@ -13,15 +13,8 @@ import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Movement.NoJumpDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
-import owo.pigeon.modules.impl.Player.AutoFish;
-import owo.pigeon.modules.impl.Player.AutoHeal;
-import owo.pigeon.modules.impl.Player.FastPlace;
-import owo.pigeon.modules.impl.Player.NoBreakDelay;
-import owo.pigeon.modules.impl.Render.BedESP;
-import owo.pigeon.modules.impl.Render.BlockESP;
-import owo.pigeon.modules.impl.Render.FullBright;
-import owo.pigeon.modules.impl.Render.ModifyCamera;
-import owo.pigeon.modules.impl.Render.PlayerESP;
+import owo.pigeon.modules.impl.Player.*;
+import owo.pigeon.modules.impl.Render.*;
 import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
 import owo.pigeon.modules.impl.Skyblock.Dungeon.StarMobESP;
@@ -59,6 +52,7 @@ public class ModuleManager {
         modules.add(new AutoFish());
         modules.add(new AutoHeal());
         modules.add(new FastPlace());
+        modules.add(new GhostHand());
         modules.add(new NoBreakDelay());
 
         modules.add(new BedESP());
