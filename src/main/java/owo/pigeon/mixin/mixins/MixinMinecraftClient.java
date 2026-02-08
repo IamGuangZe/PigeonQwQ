@@ -26,17 +26,17 @@ public class MixinMinecraftClient {
     private int itemUseCooldown;
 
     @Inject(method = "tick", at = @At("HEAD"))
-    public void onClientTickPre(CallbackInfo ci) {
+    private void onClientTickPre(CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new TickEvent.ClientTickEvent.Pre()).now();
     }
 
     @Inject(method = "tick",at = @At("RETURN"))
-    public void onClientTickPost(CallbackInfo ci) {
+    private void onClientTickPost(CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new TickEvent.ClientTickEvent.Post()).now();
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    public void onDoAttackPre(CallbackInfoReturnable<Boolean> cir) {
+    private void onDoAttackPre(CallbackInfoReturnable<Boolean> cir) {
         DoAttackEvent.Pre event = new DoAttackEvent.Pre();
         Pigeon.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
@@ -50,7 +50,7 @@ public class MixinMinecraftClient {
     }
 
     @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
-    public void onDoItemUsePre(CallbackInfo ci) {
+    private void onDoItemUsePre(CallbackInfo ci) {
         DoItemUseEvent.Pre event = new DoItemUseEvent.Pre();
         Pigeon.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
@@ -59,7 +59,7 @@ public class MixinMinecraftClient {
     }
 
     @Inject(method = "doItemUse", at = @At("RETURN"))
-    public void onDoItemUsePost(CallbackInfo ci) {
+    private void onDoItemUsePost(CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new DoItemUseEvent.Post()).now();
 
         if (ModuleUtil.isEnable(FastPlace.class) && ModuleUtil.getModule(FastPlace.class).canFastPlace()) {

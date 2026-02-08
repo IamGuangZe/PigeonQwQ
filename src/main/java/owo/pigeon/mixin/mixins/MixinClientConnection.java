@@ -14,9 +14,8 @@ import owo.pigeon.event.events.PacketEvent;
 
 @Mixin(ClientConnection.class)
 public class MixinClientConnection {
-
     @Inject(method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/packet/Packet;)V", at=@At("HEAD"), cancellable = true)
-    public void onChannelRead0Pre (ChannelHandlerContext channelHandlerContext, Packet<?> packet, CallbackInfo ci) {
+    private void onChannelRead0Pre (ChannelHandlerContext channelHandlerContext, Packet<?> packet, CallbackInfo ci) {
         PacketEvent.ReceivePacketEvent receivePacketEvent = new PacketEvent.ReceivePacketEvent(packet);
         Pigeon.EVENT_BUS.post(receivePacketEvent).now();
         if (receivePacketEvent.isCancelled()) {
@@ -25,7 +24,7 @@ public class MixinClientConnection {
     }
 
     @Inject(method = "send(Lnet/minecraft/network/packet/Packet;Lio/netty/channel/ChannelFutureListener;Z)V", at = @At("HEAD"), cancellable = true)
-    public void onSendPre(Packet<?> packet, @Nullable ChannelFutureListener channelFutureListener, boolean flush, CallbackInfo ci) {
+    private void onSendPre(Packet<?> packet, @Nullable ChannelFutureListener channelFutureListener, boolean flush, CallbackInfo ci) {
         PacketEvent.SendPacketEvent sendPacketEvent = new PacketEvent.SendPacketEvent(packet);
         Pigeon.EVENT_BUS.post(sendPacketEvent).now();
         if (sendPacketEvent.isCancelled()) {

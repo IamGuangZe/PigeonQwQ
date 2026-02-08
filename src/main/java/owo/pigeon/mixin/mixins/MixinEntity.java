@@ -11,7 +11,7 @@ import owo.pigeon.utils.ModuleUtil;
 @Mixin(Entity.class)
 public class MixinEntity {
     @Inject(method = "getTargetingMargin", at = @At("RETURN"), cancellable = true)
-    public void onGetTargetingMargin(CallbackInfoReturnable<Float> cir) {
+    private void onGetTargetingMargin(CallbackInfoReturnable<Float> cir) {
         if (ModuleUtil.isEnable(HitBox.class))
             cir.setReturnValue(ModuleUtil.getModule(HitBox.class).expand.getValue());
     }

@@ -21,7 +21,7 @@ import static owo.pigeon.Pigeon.mc;
 @Mixin(WorldRenderer.class)
 public class MixinWorldRenderer {
     @Inject(method = "render", at = @At("RETURN"))
-    public void onRender3DPost(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci) {
+    private void onRender3DPost(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci) {
         MatrixStack stack = new MatrixStack();
         stack.push();
         stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(mc.gameRenderer.getCamera().getPitch()));

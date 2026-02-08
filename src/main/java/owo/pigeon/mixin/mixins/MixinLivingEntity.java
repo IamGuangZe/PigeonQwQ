@@ -15,7 +15,7 @@ public class MixinLivingEntity {
     private int jumpingCooldown;
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
-    public void onTickMovement(CallbackInfo ci) {
+    private void onTickMovement(CallbackInfo ci) {
         if (ModuleUtil.isEnable(NoJumpDelay.class)) jumpingCooldown = 0;
     }
 }

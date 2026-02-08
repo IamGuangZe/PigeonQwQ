@@ -20,7 +20,7 @@ public class MixinSimpleOption<T> {
     private T value;
 
     @Inject(method = "setValue", at = @At("HEAD"), cancellable = true)
-    public void onSetValue(T value, CallbackInfo ci) {
+    private void onSetValue(T value, CallbackInfo ci) {
         ChatUtil.sendDebugMessage("MixinSimpleOption",text.getString() + " / " + text.getContent().toString() + " / " +this.text.getString());
 
         if (text.getContent().toString().contains("options.gamma")) {

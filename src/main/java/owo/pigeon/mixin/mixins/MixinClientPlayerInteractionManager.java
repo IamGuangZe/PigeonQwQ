@@ -22,12 +22,12 @@ public class MixinClientPlayerInteractionManager {
     private int blockBreakingCooldown;
 
     @Inject(method = "clickSlot",at = @At("HEAD"))
-    public void onClickSlotPre(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
+    private void onClickSlotPre(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new ClickSlotEvent()).now();
     }
 
     @Inject(method = "updateBlockBreakingProgress", at = @At("HEAD"))
-    public void onUpdateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
+    private void onUpdateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (ModuleUtil.isEnable(NoBreakDelay.class)) blockBreakingCooldown = 0;
     }
 }

@@ -12,12 +12,12 @@ import owo.pigeon.utils.ModuleUtil;
 @Mixin(Camera.class)
 public class MixinCamera {
     @ModifyVariable(method = "clipToSpace", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-    public float onClipToSpace(float value) {
+    private float onClipToSpace(float value) {
         return ModuleUtil.isEnable(ModifyCamera.class) ? ModuleUtil.getModule(ModifyCamera.class).distance.getValue() : 4.0f;
     }
 
     @Inject(method = "clipToSpace", at = @At("HEAD"), cancellable = true)
-    public void onClipToSpace(float f, CallbackInfoReturnable<Float> cir) {
+    private void onClipToSpace(float f, CallbackInfoReturnable<Float> cir) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).camNoClip.getValue())
             cir.setReturnValue(f);
     }

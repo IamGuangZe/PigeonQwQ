@@ -12,7 +12,7 @@ import owo.pigeon.event.events.MessageEvent;
 @Mixin(MessageHandler.class)
 public class MixinMessageHandler {
     @Inject(method = "onGameMessage", at = @At("HEAD"), cancellable = true)
-    public void onGameMessage(Text message, boolean overlay, CallbackInfo ci) {
+    private void onGameMessage(Text message, boolean overlay, CallbackInfo ci) {
         // ChatUtil.sendDebugMessage("MixinMessageHandler","Game Message: " + message.getString());
 
         MessageEvent.ReceiveMessageEvent event = new MessageEvent.ReceiveMessageEvent(message.getString());
