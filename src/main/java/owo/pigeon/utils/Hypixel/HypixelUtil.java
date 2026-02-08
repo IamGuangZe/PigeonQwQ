@@ -2,13 +2,13 @@ package owo.pigeon.utils.Hypixel;
 
 import com.google.common.collect.Sets;
 import net.minecraft.client.network.ServerInfo;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
 
 import java.util.Set;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class HypixelUtil {
     public enum Game {
@@ -26,7 +26,7 @@ public class HypixelUtil {
     }
 
     public static boolean isInHypixel() {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
 
         ServerInfo serverInfo = mc.getCurrentServerEntry();
         if (serverInfo == null) return false;
@@ -39,7 +39,7 @@ public class HypixelUtil {
     }
 
     public static boolean isInGame(Game game) {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
         if (!isInHypixel()) return false;
 
         String sidebarTitle = ColorUtil.removeColor(ScoreBoardUtil.getSidebarTitle());

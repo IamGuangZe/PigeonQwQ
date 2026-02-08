@@ -16,7 +16,7 @@ import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class AutoHeal extends Module {
     public AutoHeal() {

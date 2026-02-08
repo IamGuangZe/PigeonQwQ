@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class ItemUtil {
     public static boolean isSword(Item item) {

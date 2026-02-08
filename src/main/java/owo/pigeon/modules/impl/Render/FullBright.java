@@ -9,7 +9,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class FullBright extends Module {
     public FullBright() {

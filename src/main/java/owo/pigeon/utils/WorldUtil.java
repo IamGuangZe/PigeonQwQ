@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class WorldUtil {
     public static boolean nullCheck() {

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.commands.CommandManager;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.utils.Chat.ChatUtil;
@@ -28,7 +28,7 @@ public abstract class MixinClientPlayNetworkHandler {
         }
 
         MessageEvent.SendMessageEvent event = new MessageEvent.SendMessageEvent(content);
-        Pigeonqwq.EVENT_BUS.post(event).now();
+        Pigeon.EVENT_BUS.post(event).now();
 
         if (event.isCancelled()) {
 

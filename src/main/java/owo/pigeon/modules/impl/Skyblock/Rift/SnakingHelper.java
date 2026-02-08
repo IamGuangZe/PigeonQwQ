@@ -16,7 +16,7 @@ import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class SnakingHelper extends Module {
     public SnakingHelper() {

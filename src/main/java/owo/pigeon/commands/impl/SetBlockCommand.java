@@ -8,7 +8,7 @@ import owo.pigeon.commands.Command;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.WorldUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class SetBlockCommand extends Command {
     public SetBlockCommand() {

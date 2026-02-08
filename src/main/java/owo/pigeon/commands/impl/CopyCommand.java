@@ -4,7 +4,7 @@ import owo.pigeon.commands.Command;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class CopyCommand extends Command {
     public CopyCommand() {

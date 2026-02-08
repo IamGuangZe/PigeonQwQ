@@ -7,7 +7,7 @@ import owo.pigeon.event.events.TickEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class SafeMessage {
     public static List<String> messages = new ArrayList<>();

@@ -1,10 +1,10 @@
 package owo.pigeon.utils.Chat;
 
 import net.minecraft.text.Text;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class ChatUtil {
     // 发送客户端消息
@@ -19,12 +19,12 @@ public class ChatUtil {
 
     // 发送带客户端前缀且可上色的消息
     public static void sendMessage(String message) {
-        sendRawMessage(ColorUtil.parseColor("&8[&3" + Pigeonqwq.MOD_NAME + "&8]&r " + message));
+        sendRawMessage(ColorUtil.parseColor("&8[&3" + Pigeon.MOD_NAME + "&8]&r " + message));
     }
 
     // 发送带客户端前缀且不可上色的消息
     public static void sendUncoloredMessage(String message) {
-        sendRawMessage(ColorUtil.parseColor("&8[&3" + Pigeonqwq.MOD_NAME + "&8]&r ") + message);
+        sendRawMessage(ColorUtil.parseColor("&8[&3" + Pigeon.MOD_NAME + "&8]&r ") + message);
     }
 
     // 发送自定义前缀且可上色的消息
@@ -44,19 +44,19 @@ public class ChatUtil {
     // 发送带客户端前缀且可上色的调试信息
     public static void sendDebugMessage(String message) {
         int tick = mc.player != null ? mc.player.age : -1;
-        if (Pigeonqwq.isDebug())
-            sendRawMessage(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] &8[&3" + Pigeonqwq.MOD_NAME + "&8]&r " + message));
+        if (Pigeon.isDebug())
+            sendRawMessage(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] &8[&3" + Pigeon.MOD_NAME + "&8]&r " + message));
     }
 
     // 发送自定义前缀且可上色的调试信息
     public static void sendDebugMessage(String prefix, String message) {
         int tick = mc.player != null ? mc.player.age : -1;
-        if (Pigeonqwq.isDebug())
+        if (Pigeon.isDebug())
             sendRawMessage(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] &8[&3" + prefix + "&8]&r " + message));
     }
 
     public static void sendIfHudReadyMessage(String message) {
         if (mc.inGameHud == null || mc.inGameHud.getChatHud() == null) return;
-        mc.inGameHud.getChatHud().addMessage(Text.of(ColorUtil.parseColor("&8[&3" + Pigeonqwq.MOD_NAME + "&8]&r " + message)));
+        mc.inGameHud.getChatHud().addMessage(Text.of(ColorUtil.parseColor("&8[&3" + Pigeon.MOD_NAME + "&8]&r " + message)));
     }
 }

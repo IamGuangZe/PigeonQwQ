@@ -5,7 +5,7 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import owo.pigeon.mixin.accessors.IAccessorKeyBinding;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class KeybindUtil {
     public static void onPressed(KeyBinding key) {

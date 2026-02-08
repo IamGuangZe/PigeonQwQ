@@ -5,7 +5,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.gui.ClickGui.panels.CategoryPanel;
 import owo.pigeon.gui.ClickGui.panels.ModulePanel;
 import owo.pigeon.gui.ClickGui.panels.SettingPanel;
@@ -16,7 +16,7 @@ import owo.pigeon.utils.ModuleUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class ClickGuiScreen extends Screen {
 
@@ -56,8 +56,8 @@ public class ClickGuiScreen extends Screen {
         }
 
         context.drawTextWithShadow(textRenderer,
-                Pigeonqwq.WATERMARK,
-                this.width - textRenderer.getWidth(Pigeonqwq.WATERMARK) - 2,
+                Pigeon.WATERMARK,
+                this.width - textRenderer.getWidth(Pigeon.WATERMARK) - 2,
                 this.height - textRenderer.fontHeight - 2,
                 Color.WHITE.getRGB());
     }

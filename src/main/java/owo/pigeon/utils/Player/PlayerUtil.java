@@ -10,7 +10,7 @@ import owo.pigeon.mixin.accessors.IAccessorMinecraftClient;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.KeybindUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class PlayerUtil {
     public enum LeftClickMode {

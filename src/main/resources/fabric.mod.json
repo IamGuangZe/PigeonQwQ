@@ -11,7 +11,7 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-      "owo.pigeon.Pigeonqwq"
+      "owo.pigeon.Pigeon"
     ]
   },
   "mixins": [

@@ -13,7 +13,7 @@ import owo.pigeon.utils.Render.RenderUtil;
 import java.awt.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class BedESP extends Module {
     public BedESP() {

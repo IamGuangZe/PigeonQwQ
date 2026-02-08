@@ -1,7 +1,7 @@
 package owo.pigeon.commands;
 
 import net.engio.mbassy.listener.Handler;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.commands.impl.*;
 import owo.pigeon.commands.impl.Debug.GetCommand;
 import owo.pigeon.event.events.MessageEvent;
@@ -11,7 +11,7 @@ import owo.pigeon.utils.CommandUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class CommandManager {
 
@@ -19,7 +19,7 @@ public class CommandManager {
     public static final ArrayList<Command> commands = new ArrayList<>();
 
     public void init() {
-        Pigeonqwq.EVENT_BUS.subscribe(this);
+        Pigeon.EVENT_BUS.subscribe(this);
 
         commands.add(new BindCommand());
         commands.add(new ConfigCommand());

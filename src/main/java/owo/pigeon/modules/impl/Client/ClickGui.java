@@ -1,13 +1,13 @@
 package owo.pigeon.modules.impl.Client;
 
 import net.minecraft.client.util.InputUtil;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.ModeSetting;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class ClickGui extends Module {
     public ClickGui() {
@@ -24,7 +24,7 @@ public class ClickGui extends Module {
     @Override
     public void onEnable() {
         if (mc.currentScreen == null) {
-            mc.setScreen(Pigeonqwq.clickGuiScreen);
+            mc.setScreen(Pigeon.clickGuiScreen);
         } else {
             this.disable();
         }
@@ -32,7 +32,7 @@ public class ClickGui extends Module {
 
     @Override
     public void onDisable() {
-        if (mc.currentScreen == Pigeonqwq.clickGuiScreen) {
+        if (mc.currentScreen == Pigeon.clickGuiScreen) {
             mc.setScreen(null);
         }
     }

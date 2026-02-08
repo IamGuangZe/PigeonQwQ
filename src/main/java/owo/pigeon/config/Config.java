@@ -1,6 +1,6 @@
 package owo.pigeon.config;
 
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 
 import java.io.File;
 
@@ -13,7 +13,7 @@ public abstract class Config {
 
     /** 子类可覆盖：决定放在哪个子目录 */
     public File getBaseDir() {
-        return new File("config/" + Pigeonqwq.MOD_ID);
+        return new File("config/" + Pigeon.MOD_ID);
     }
 
     /** 最终文件路径 */

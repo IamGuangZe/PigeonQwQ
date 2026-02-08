@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class ScoreBoardUtil {
     public static String getSidebarTitle() {

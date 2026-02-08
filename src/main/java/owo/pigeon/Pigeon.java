@@ -13,7 +13,7 @@ import owo.pigeon.utils.Chat.SafeMessage;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.Player.InstantUse;
 
-public class Pigeonqwq implements ModInitializer {
+public class Pigeon implements ModInitializer {
 
     // public static final NyaEventBus EVENT_BUS = new NyaEventBus();
     public static final MBassador<Event> EVENT_BUS = new MBassador<>();

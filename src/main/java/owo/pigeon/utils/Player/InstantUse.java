@@ -4,7 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.utils.WorldUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class InstantUse {
     private static Integer inputSlot;

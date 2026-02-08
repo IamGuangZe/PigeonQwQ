@@ -12,7 +12,7 @@ import owo.pigeon.utils.Render.RenderUtil;
 
 import java.awt.*;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class PlayerESP extends Module {
     public PlayerESP() {

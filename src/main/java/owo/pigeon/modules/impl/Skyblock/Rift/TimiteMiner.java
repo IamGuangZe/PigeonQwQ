@@ -21,7 +21,7 @@ import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class TimiteMiner extends Module {
     public TimiteMiner() {

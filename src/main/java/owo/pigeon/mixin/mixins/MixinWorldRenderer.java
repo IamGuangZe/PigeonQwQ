@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.RenderEvent;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 @Mixin(WorldRenderer.class)
 public class MixinWorldRenderer {
@@ -27,7 +27,7 @@ public class MixinWorldRenderer {
         stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(mc.gameRenderer.getCamera().getPitch()));
         stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(mc.gameRenderer.getCamera().getYaw() + 180f));
 
-        Pigeonqwq.EVENT_BUS.post(new RenderEvent.Render3DEvent(stack, tickCounter.getTickProgress(true))).now();
+        Pigeon.EVENT_BUS.post(new RenderEvent.Render3DEvent(stack, tickCounter.getTickProgress(true))).now();
 
         stack.pop();
     }

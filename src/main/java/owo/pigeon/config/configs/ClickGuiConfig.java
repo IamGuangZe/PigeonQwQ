@@ -1,6 +1,6 @@
 package owo.pigeon.config.configs;
 
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.config.Config;
 import owo.pigeon.gui.ClickGui.panels.CategoryPanel;
 import owo.pigeon.gui.ClickGui.panels.ModulePanel;
@@ -25,7 +25,7 @@ public class ClickGuiConfig extends Config {
             Map<?, ?> root = GSON.fromJson(reader, Map.class);
             if (root == null) return;
 
-            for (CategoryPanel categoryPanel : Pigeonqwq.clickGuiScreen.categoryPanels) {
+            for (CategoryPanel categoryPanel : Pigeon.clickGuiScreen.categoryPanels) {
                 Object categoryObj = root.get(categoryPanel.getCategory().name());
                 if (!(categoryObj instanceof Map<?, ?> categoryMap)) continue;
 
@@ -56,7 +56,7 @@ public class ClickGuiConfig extends Config {
     public void save() {
         Map<String, Object> root = new HashMap<>();
 
-        for (CategoryPanel categoryPanel : Pigeonqwq.clickGuiScreen.categoryPanels) {
+        for (CategoryPanel categoryPanel : Pigeon.clickGuiScreen.categoryPanels) {
             Map<String, Object> categoryMap = new HashMap<>();
 
             categoryMap.put("x", categoryPanel.x);

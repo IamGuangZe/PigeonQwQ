@@ -5,7 +5,7 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.RegexUtil;
@@ -15,7 +15,7 @@ import owo.pigeon.utils.WorldUtil;
 import java.util.List;
 import java.util.Objects;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class SkyblockUtil {
     public enum Island {
@@ -90,7 +90,7 @@ public class SkyblockUtil {
     }
 
     public static boolean isInSkyblock() {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
         return HypixelUtil.isInGame(HypixelUtil.Game.SKYBLOCK);
     }
 
@@ -114,7 +114,7 @@ public class SkyblockUtil {
     }
 
     public static boolean isInIsland(Island island) {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
         return getIsland() == island;
     }
 
@@ -140,27 +140,27 @@ public class SkyblockUtil {
     }
 
     public static boolean isInFloor(Floor floor) {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
         return getFloor() == floor;
     }
 
     public static boolean isInFloor(int floor) {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
         return getFloor().getFloorNum() == floor;
     }
 
     public static boolean isInBoss() {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
         return isInBoss(getFloor());
     }
 
     public static boolean isInBoss(Floor floor) {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
         return isInBoss(floor.getFloorNum());
     }
 
     public static boolean isInBoss(int floor) {
-        if (Pigeonqwq.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
 
         double x = mc.player.getX();
         double z = mc.player.getZ();

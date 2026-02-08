@@ -1,6 +1,6 @@
 package owo.pigeon.modules;
 
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.settings.SettingDesigner;
 import owo.pigeon.utils.Chat.ChatUtil;
 
@@ -26,7 +26,7 @@ public class Module extends SettingDesigner {
     public final void enable() {
         if (!enable) {
             enable = true;
-            Pigeonqwq.EVENT_BUS.subscribe(this);
+            Pigeon.EVENT_BUS.subscribe(this);
             onEnable();
         }
         ChatUtil.sendIfHudReadyMessage(this.name + " has &aEnabled!");
@@ -35,7 +35,7 @@ public class Module extends SettingDesigner {
     public final void disable() {
         if (enable) {
             enable = false;
-            Pigeonqwq.EVENT_BUS.unsubscribe(this);
+            Pigeon.EVENT_BUS.unsubscribe(this);
             onDisable();
         }
         ChatUtil.sendIfHudReadyMessage(this.name + " has &4Disabled!");

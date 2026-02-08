@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.config.Config;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -38,7 +38,7 @@ public class SettingConfig extends Config {
 
     @Override
     public File getBaseDir() {
-        return new File("config/" + Pigeonqwq.MOD_ID + "/settings");
+        return new File("config/" + Pigeon.MOD_ID + "/settings");
     }
 
     @Override

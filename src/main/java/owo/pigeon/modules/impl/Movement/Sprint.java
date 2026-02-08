@@ -7,7 +7,7 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.WorldUtil;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class Sprint extends Module {
     public Sprint() {

@@ -18,7 +18,7 @@ import org.joml.Matrix4f;
 
 import java.awt.*;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class RenderUtil {
     public enum ESPMode {

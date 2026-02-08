@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.DoItemUseEvent;
 import owo.pigeon.event.events.TickEvent;
@@ -27,18 +27,18 @@ public class MixinMinecraftClient {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onClientTickPre(CallbackInfo ci) {
-        Pigeonqwq.EVENT_BUS.post(new TickEvent.ClientTickEvent.Pre()).now();
+        Pigeon.EVENT_BUS.post(new TickEvent.ClientTickEvent.Pre()).now();
     }
 
     @Inject(method = "tick",at = @At("RETURN"))
     public void onClientTickPost(CallbackInfo ci) {
-        Pigeonqwq.EVENT_BUS.post(new TickEvent.ClientTickEvent.Post()).now();
+        Pigeon.EVENT_BUS.post(new TickEvent.ClientTickEvent.Post()).now();
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     public void onDoAttackPre(CallbackInfoReturnable<Boolean> cir) {
         DoAttackEvent.Pre event = new DoAttackEvent.Pre();
-        Pigeonqwq.EVENT_BUS.post(event).now();
+        Pigeon.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
             cir.cancel();
         }
@@ -52,7 +52,7 @@ public class MixinMinecraftClient {
     @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
     public void onDoItemUsePre(CallbackInfo ci) {
         DoItemUseEvent.Pre event = new DoItemUseEvent.Pre();
-        Pigeonqwq.EVENT_BUS.post(event).now();
+        Pigeon.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
             ci.cancel();
         }
@@ -60,7 +60,7 @@ public class MixinMinecraftClient {
 
     @Inject(method = "doItemUse", at = @At("RETURN"))
     public void onDoItemUsePost(CallbackInfo ci) {
-        Pigeonqwq.EVENT_BUS.post(new DoItemUseEvent.Post()).now();
+        Pigeon.EVENT_BUS.post(new DoItemUseEvent.Post()).now();
 
         if (ModuleUtil.isEnable(FastPlace.class) && ModuleUtil.getModule(FastPlace.class).canFastPlace()) {
             itemUseCooldown = ModuleUtil.getModule(FastPlace.class).delay.getValue();

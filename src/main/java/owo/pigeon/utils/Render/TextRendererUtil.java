@@ -7,7 +7,7 @@ import owo.pigeon.utils.ColorUtil;
 
 import java.util.List;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class TextRendererUtil {
     public static final TextRenderer textRenderer = mc.textRenderer;

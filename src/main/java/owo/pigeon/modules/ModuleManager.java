@@ -1,7 +1,7 @@
 package owo.pigeon.modules;
 
 import net.engio.mbassy.listener.Handler;
-import owo.pigeon.Pigeonqwq;
+import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.modules.impl.Client.ClickGui;
 import owo.pigeon.modules.impl.Client.Debug.ClickSlotTest;
@@ -26,14 +26,14 @@ import owo.pigeon.modules.impl.Skyblock.Slayer.VampireSlayer;
 
 import java.util.ArrayList;
 
-import static owo.pigeon.Pigeonqwq.mc;
+import static owo.pigeon.Pigeon.mc;
 
 public class ModuleManager {
 
     public static final ArrayList<Module> modules = new ArrayList<>();
 
     public void init() {
-        Pigeonqwq.EVENT_BUS.subscribe(this);
+        Pigeon.EVENT_BUS.subscribe(this);
 
         modules.add(new ClickSlotTest());
         modules.add(new SettingTest());
