@@ -9,7 +9,9 @@ import owo.pigeon.modules.impl.Client.Debug.RenderTest;
 import owo.pigeon.modules.impl.Client.Debug.SettingTest;
 import owo.pigeon.modules.impl.Client.Debug.SlayerESP;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
+import owo.pigeon.modules.impl.Combat.AutoBow;
 import owo.pigeon.modules.impl.Combat.AutoClicker;
+import owo.pigeon.modules.impl.Combat.HitBox;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Movement.NoJumpDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
@@ -43,7 +45,9 @@ public class ModuleManager {
         modules.add(new ClickGui());
         modules.add(new PigeonQwQ());
 
+        modules.add(new AutoBow());
         modules.add(new AutoClicker());
+        modules.add(new HitBox());
         modules.add(new NoHitDelay());
 
         modules.add(new NoJumpDelay());
