@@ -29,8 +29,6 @@ public class KeybindUtil {
     }
 
     public static void resetPressed(KeyBinding key) {
-        if (!isPressed(key)) {
-            setPressed(key, false);
-        }
+        setPressed(key, isPressed(key));
     }
 }
