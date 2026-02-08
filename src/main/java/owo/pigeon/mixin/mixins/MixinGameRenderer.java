@@ -37,16 +37,18 @@ public abstract class MixinGameRenderer {
 
     @Inject(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;raycast(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/EntityHitResult;"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
     public void onFindCrosshairTarget(Entity camera, double blockInteractionRange, double entityInteractionRange, float tickProgress, CallbackInfoReturnable<HitResult> cir, double d, double e, Vec3d vec3d, HitResult hitResult, double f, Vec3d vec3d2, Vec3d vec3d3, float g, Box box) {
-        EntityHitResult entityHitResult = ProjectileUtil.raycast(
-                camera, vec3d, vec3d3, box,
-                entity -> EntityPredicates.CAN_HIT.test(entity) && !ModuleUtil.getModule(GhostHand.class).shouldIgnore(entity),
-                e
-        );
+        if (ModuleUtil.isEnable(GhostHand.class)) {
+            EntityHitResult entityHitResult = ProjectileUtil.raycast(
+                    camera, vec3d, vec3d3, box,
+                    entity -> EntityPredicates.CAN_HIT.test(entity) && !ModuleUtil.getModule(GhostHand.class).shouldIgnore(entity),
+                    e
+            );
 
-        HitResult finalResult = (entityHitResult != null && entityHitResult.getPos().squaredDistanceTo(vec3d) < f)
-                ? ensureTargetInRange(entityHitResult, vec3d, entityInteractionRange)
-                : ensureTargetInRange(hitResult, vec3d, blockInteractionRange);
+            HitResult finalResult = (entityHitResult != null && entityHitResult.getPos().squaredDistanceTo(vec3d) < f)
+                    ? ensureTargetInRange(entityHitResult, vec3d, entityInteractionRange)
+                    : ensureTargetInRange(hitResult, vec3d, blockInteractionRange);
 
-        cir.setReturnValue(finalResult);
+            cir.setReturnValue(finalResult);
+        }
     }
 }
