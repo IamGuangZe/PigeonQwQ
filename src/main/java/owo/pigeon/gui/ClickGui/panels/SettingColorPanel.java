@@ -5,6 +5,7 @@ import net.minecraft.client.gui.DrawContext;
 import owo.pigeon.settings.AbstractSetting;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.Render.RenderUtil;
 
 import java.awt.*;
 
@@ -99,7 +100,7 @@ public class SettingColorPanel extends SettingPanel {
         context.drawTextWithShadow(textRenderer,
                 ColorUtil.parseColor(displayName + " : " + displayValue),
                 (int) ((x + 4) / scale),
-                (int) (((y + (float) rawHeight / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                (int) ((y + (float) rawHeight / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                 Color.LIGHT_GRAY.getRGB());
 
         context.getMatrices().popMatrix();
@@ -110,6 +111,7 @@ public class SettingColorPanel extends SettingPanel {
         int colorCubeY = y;
 
         context.fill(colorCubeX, colorCubeY, colorCubeX + colorCubeSize, colorCubeY + colorCubeSize, colorSetting.getRGB());
+        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, Color.GREEN.getRGB());
     }
 
     @Override

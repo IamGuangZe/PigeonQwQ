@@ -9,6 +9,7 @@ import owo.pigeon.modules.impl.Client.ClickGui;
 import owo.pigeon.settings.AbstractNumSetting;
 import owo.pigeon.settings.AbstractSetting;
 import owo.pigeon.settings.ColorSetting;
+import owo.pigeon.utils.Render.RenderUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class ModulePanel extends AbstractDisplableItem {
                         y + height / 2 - textRenderer.fontHeight / 2 + 1,
                         color_new);
         }
+        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, Color.BLUE.getRGB());
 
         visiblePanels.clear();
 

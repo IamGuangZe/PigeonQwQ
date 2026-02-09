@@ -7,6 +7,7 @@ import owo.pigeon.gui.ClickGui.AbstractDisplableItem;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.Render.RenderUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         context.fill(x, y, x + width, y + height, Color.BLACK.getRGB());
+        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, Color.RED.getRGB());
 
         switch (clickGui.style.getValue()) {
             case OLD:

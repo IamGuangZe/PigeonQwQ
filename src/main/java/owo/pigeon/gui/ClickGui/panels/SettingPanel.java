@@ -7,6 +7,7 @@ import net.minecraft.client.util.InputUtil;
 import owo.pigeon.gui.ClickGui.AbstractDisplableItem;
 import owo.pigeon.settings.*;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.Render.RenderUtil;
 
 import java.awt.*;
 
@@ -53,7 +54,7 @@ public class SettingPanel extends AbstractDisplableItem {
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) (((y + (float) height / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB()
             );
 
@@ -64,7 +65,7 @@ public class SettingPanel extends AbstractDisplableItem {
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) (((y + (float) height / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof EnableSetting enableSetting) {
@@ -76,7 +77,7 @@ public class SettingPanel extends AbstractDisplableItem {
                             textRenderer,
                             displayName,
                             (int) ((x + 4) / scale),
-                            (int) (((y + (float) height / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                             value ? Color.WHITE.getRGB() : Color.GRAY.getRGB()
                     );
                     break;
@@ -88,7 +89,7 @@ public class SettingPanel extends AbstractDisplableItem {
                             textRenderer,
                             ColorUtil.parseColor(displayName + " : " + displayValue),
                             (int) ((x + 4) / scale),
-                            (int) (((y + (float) height / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                             Color.LIGHT_GRAY.getRGB());
                     break;
             }
@@ -114,7 +115,7 @@ public class SettingPanel extends AbstractDisplableItem {
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) (((y + (float) height / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof ModeSetting<?> modeSetting) {
@@ -124,7 +125,7 @@ public class SettingPanel extends AbstractDisplableItem {
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) (((y + (float) height / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof StringSetting stringSetting) {
@@ -134,7 +135,7 @@ public class SettingPanel extends AbstractDisplableItem {
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) (((y + (float) height / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else {
@@ -147,6 +148,7 @@ public class SettingPanel extends AbstractDisplableItem {
         }
 
         context.getMatrices().popMatrix();
+        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, Color.GREEN.getRGB());
     }
 
     public boolean mouseClicked(Click click, boolean doubled) {
