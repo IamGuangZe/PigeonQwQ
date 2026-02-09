@@ -10,7 +10,6 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
 
@@ -22,17 +21,24 @@ public class AutoFish extends Module {
     }
 
     public ModeSetting<PlayerUtil.RightClickMode> castMode = setting("cast-mode", PlayerUtil.RightClickMode.MOUSE, v -> true);
+    public EnableSetting slugfishMode = setting("slugfish-mode", false, v -> true);
     public EnableSetting stopInGui = setting("stop-in-gui", true, v -> true);
     public EnableSetting rethrow = setting("rethrow", true, v -> true);
-    public IntSetting rethrowTick = setting("rethrow-tick", 10, 1, 20, "tick", v -> rethrow.getValue());
-    public EnableSetting slugfishMode = setting("slugfish-mode", false, v -> true);
+    public IntSetting rethrowDelay = setting("rethrow-delay", 10, 1, 20, "tick", v -> rethrow.getValue());
+    public EnableSetting idleTimeoutCheck = setting("idle-timeout-check", true, v -> rethrow.getValue());
+    public IntSetting idleTimeout = setting("idle-timeout", 5, 1, 30, "s", v -> rethrow.getValue() && idleTimeoutCheck.getValue());
+    public EnableSetting hookTimeoutCheck = setting("hook-timeout-check", true, v -> rethrow.getValue());
+    public IntSetting hookTimeout = setting("hook-timeout", 20, 10, 90, "s", v -> rethrow.getValue() && hookTimeoutCheck.getValue());
 
-    private int rethrowTicks;
+    private int rethrowTick, idleTick;
     private boolean fishIncoming;
+    private boolean wasHoldingRod;
 
     @Override
     public void onEnable() {
-        rethrowTicks = rethrowTick.getValue() + 1;
+        rethrowTick = rethrowDelay.getValue() + 1;
+        idleTick = 0;
+        wasHoldingRod = false;
     }
 
     @Handler
@@ -46,8 +52,39 @@ public class AutoFish extends Module {
         else fishHookAge = 0;
 
         // Rethrow
-        if (mc.player.fishHook == null && rethrowTicks < rethrowTick.getValue() + 1) rethrowTicks++;
-        if (isHeldRod() && rethrowTicks == rethrowTick.getValue()) PlayerUtil.RightClick(castMode.getValue());
+        if (fishHookAge == 0 && rethrowTick < rethrowDelay.getValue() + 1) rethrowTick++;
+        if (isHeldRod() && rethrowTick == rethrowDelay.getValue()) PlayerUtil.RightClick(castMode.getValue());
+
+        // Idle Timeout
+        if (rethrow.getValue() && idleTimeoutCheck.getValue() && isHeldRod()) {
+            // ChatUtil.sendDebugMessage(this.name,"idleTick: " + idleTick);
+            if (!wasHoldingRod) {
+                idleTick = Integer.MIN_VALUE;
+                wasHoldingRod = true;
+            }
+            if (fishHookAge == 0 && rethrowTick > rethrowDelay.getValue()) {
+                idleTick++;
+                if (idleTick >= idleTimeout.getValue() * 20) {
+                    PlayerUtil.RightClick(castMode.getValue());
+                    idleTick = 0;
+                }
+            } else {
+                idleTick = 0;
+            }
+        } else {
+            wasHoldingRod = isHeldRod();
+        }
+
+        // Hook Timeout
+        if (rethrow.getValue() && hookTimeoutCheck.getValue() && fishHookAge != 0) {
+            // ChatUtil.sendDebugMessage(this.name,"fishHookAge: " + fishHookAge);
+            if (fishHookAge >= hookTimeout.getValue() * 20 && rethrowTick > rethrowDelay.getValue()) {
+                PlayerUtil.RightClick(castMode.getValue());
+                fishIncoming = false;
+                rethrowTick = 0;
+                return;
+            }
+        }
 
         // Catch Fish
         for (Entity entity : mc.world.getEntities()) {
@@ -63,16 +100,18 @@ public class AutoFish extends Module {
 
                     if (!slugfishMode.getValue() || fishHookAge > 22 * 20) {
                         PlayerUtil.RightClick(castMode.getValue());
-                        if (rethrow.getValue()) rethrowTicks = 0;
+                        if (rethrow.getValue()) rethrowTick = 0;
                     }
                 }
             }
         }
 
+        /*
         if (!isHeldRod()) return;
         if (mc.player.fishHook == null) ChatUtil.sendDebugMessage(this.name, "Player's bobber not found.");
         else if (!fishIncoming) ChatUtil.sendDebugMessage(this.name, "Fish not incoming.");
         else ChatUtil.sendDebugMessage(this.name, "Waiting to catch.");
+        */
     }
 
     private boolean isHeldRod() {
