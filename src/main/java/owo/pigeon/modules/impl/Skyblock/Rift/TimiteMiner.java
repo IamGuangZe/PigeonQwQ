@@ -32,13 +32,15 @@ public class TimiteMiner extends Module {
         YOUNGITE(0), TIMITE(1), OBSOLITE(2);
 
         final int level;
+
         TimiteStage(int level) {
             this.level = level;
         }
     }
 
     public EnableSetting autoMine = setting("auto-mine", false, v -> true);
-    public ModeSetting<TimiteStage> timiteStage = setting("timite-stage", TimiteStage.TIMITE, v->autoMine.getValue());
+    public EnableSetting highliteMode = setting("highlite-mode", false, v -> autoMine.getValue());
+    public ModeSetting<TimiteStage> timiteStage = setting("timite-stage", TimiteStage.TIMITE, v -> autoMine.getValue() && !highliteMode.getValue());
 
     private static final String PICKAXE = " Pickaxe";
     private static final String GUN = "Time Gun";
@@ -58,8 +60,11 @@ public class TimiteMiner extends Module {
             return;
         }
 
-        int targetLevel = timiteStage.getValue().level;
+        int targetLevel;
         int currentLevel = currentBlockStage.level;
+
+        if (highliteMode.getValue()) targetLevel = getTargetStageForHighliteMode().level;
+        else targetLevel = timiteStage.getValue().level;
 
         if (currentLevel < targetLevel) {
             // 阶段低于目标
@@ -130,5 +135,31 @@ public class TimiteMiner extends Module {
 
         String name = ColorUtil.removeColor(stack.getName().getString());
         return name.contains(PICKAXE) || name.contains(GUN);
+    }
+
+    private TimiteStage getTargetStageForHighliteMode() {
+        int youngiteCount = ItemUtil.getTotalItemCount("Youngite");
+        int timiteCount = ItemUtil.getTotalItemCount("Timite");
+        int obsoliteCount = ItemUtil.getTotalItemCount("Obsolite");
+
+        // 计算当前能合成多少个Highlite
+        int completedHighlites = Math.min(
+            youngiteCount / 32,
+            Math.min(timiteCount / 32, obsoliteCount / 16)
+        );
+
+        // 计算下一个Highlite需要的数量
+        int youngiteNeeded = (completedHighlites + 1) * 32;
+        int timiteNeeded = (completedHighlites + 1) * 32;
+        int obsoliteNeeded = (completedHighlites + 1) * 16;
+
+        // 判断应该挖哪个 (优先级：Youngite -> Timite -> Obsolite)
+        if (youngiteCount < youngiteNeeded) {
+            return TimiteStage.YOUNGITE;
+        } else if (timiteCount < timiteNeeded) {
+            return TimiteStage.TIMITE;
+        } else {
+            return TimiteStage.OBSOLITE;
+        }
     }
 }

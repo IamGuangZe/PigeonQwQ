@@ -3,6 +3,7 @@ package owo.pigeon.utils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.tag.TagKey;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -34,5 +35,38 @@ public class ItemUtil {
 
     public static ItemStack getItemStackfromSlot(int slot) {
         return mc.player.getInventory().getStack(slot);
+    }
+
+    public static int getTotalItemCount(Item item) {
+        int totalCount = 0;
+        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getStack(i);
+            if (!stack.isEmpty() && stack.isOf(item)) {
+                totalCount += stack.getCount();
+            }
+        }
+        return totalCount;
+    }
+
+    public static int getTotalItemCount(TagKey<Item> tag) {
+        int totalCount = 0;
+        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getStack(i);
+            if (!stack.isEmpty() && stack.isIn(tag)) {
+                totalCount += stack.getCount();
+            }
+        }
+        return totalCount;
+    }
+
+    public static int getTotalItemCount(String name) {
+        int totalCount = 0;
+        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getStack(i);
+            if (!stack.isEmpty() && stack.getName().getString().contains(name)) {
+                totalCount += stack.getCount();
+            }
+        }
+        return totalCount;
     }
 }
