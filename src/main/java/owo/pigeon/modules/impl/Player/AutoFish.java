@@ -63,7 +63,7 @@ public class AutoFish extends Module {
 
                     if (!slugfishMode.getValue() || fishHookAge > 22 * 20) {
                         PlayerUtil.RightClick(castMode.getValue());
-                        rethrowTicks = 0;
+                        if (rethrow.getValue()) rethrowTicks = 0;
                     }
                 }
             }
