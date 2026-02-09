@@ -24,7 +24,7 @@ public class AutoFish extends Module {
     public ModeSetting<PlayerUtil.RightClickMode> castMode = setting("cast-mode", PlayerUtil.RightClickMode.MOUSE, v -> true);
     public EnableSetting stopInGui = setting("stop-in-gui", true, v -> true);
     public EnableSetting rethrow = setting("rethrow", true, v -> true);
-    public IntSetting rethrowTick = setting("rethrow-tick", 10, 1, 20, v -> rethrow.getValue());
+    public IntSetting rethrowTick = setting("rethrow-tick", 10, 1, 20, "tick", v -> rethrow.getValue());
     public EnableSetting slugfishMode = setting("slugfish-mode", false, v -> true);
 
     private int rethrowTicks;

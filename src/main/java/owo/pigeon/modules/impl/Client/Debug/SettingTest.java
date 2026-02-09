@@ -20,7 +20,9 @@ public class SettingTest extends owo.pigeon.modules.Module {
     public ColorSetting colorSetting = setting("color", new Color(0x39C5BB, true), v -> true);
     public EnableSetting enableSetting = setting("boolean", true, v -> true);
     public FloatSetting floatSetting = setting("float", 0.0f, 0.0f, 20.0f, v -> true);
+    public FloatSetting floatWithUnitSetting = setting("float-with-unit", 0.0f, 0.0f, 20.0f, "block", v -> true);
     public IntSetting intSetting = setting("int", 0, 0, 20, v -> true);
+    public IntSetting intWithUnitSetting = setting("int-with-unit", 0, 0, 20, "second", v -> true);
     public KeySetting keySetting = setting("key", -1, v -> true);
     public ModeSetting<mode> modeSetting = setting("enum", mode.MODEA, v -> true);
     public StringSetting stringSetting = setting("string", "&string&", v -> true);

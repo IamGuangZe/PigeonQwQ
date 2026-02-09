@@ -78,6 +78,10 @@ public class SettingNumPanel extends SettingPanel {
 
         if (numberSetting instanceof FloatSetting floatSetting) {
             String displayValue = "&e" + floatSetting.getValue();
+            String unit = floatSetting.getUnit();
+            if (unit != null && !unit.isEmpty()) {
+                displayValue += " &r" + unit;
+            }
 
             context.drawTextWithShadow(textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
@@ -87,6 +91,10 @@ public class SettingNumPanel extends SettingPanel {
 
         } else if (numberSetting instanceof IntSetting intSetting) {
             String displayValue = "&6" + intSetting.getValue();
+            String unit = intSetting.getUnit();
+            if (unit != null && !unit.isEmpty()) {
+                displayValue += " &r" + unit;
+            }
 
             context.drawTextWithShadow(textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),

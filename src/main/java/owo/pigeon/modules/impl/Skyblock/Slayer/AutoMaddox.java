@@ -29,7 +29,7 @@ public class AutoMaddox extends Module {
     public ModeSetting<CallMode> callMode = setting("call-mode", CallMode.BATPHONE, v -> true);
     public ModeSetting<PlayerUtil.RightClickMode> clickMode = setting("click-mode", PlayerUtil.RightClickMode.MOUSE, v -> callMode.getValue() == CallMode.BATPHONE);
     public ModeSetting<SwitchMode> switchMode = setting("switch-mode", SwitchMode.NORMAL, v -> callMode.getValue() == CallMode.BATPHONE);
-    public IntSetting switchTick = setting("switch-tick", 2, 1, 20, v -> callMode.getValue() == CallMode.BATPHONE && switchMode.getValue() == SwitchMode.NORMAL);
+    public IntSetting switchTick = setting("switch-tick", 2, 1, 20, "tick", v -> callMode.getValue() == CallMode.BATPHONE && switchMode.getValue() == SwitchMode.NORMAL);
 
     private int s_tick;
     private int rawSlot = -1;

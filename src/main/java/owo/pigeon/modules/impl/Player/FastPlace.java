@@ -15,7 +15,7 @@ public class FastPlace extends Module {
         super("FastPlace", Category.PLAYER);
     }
 
-    public IntSetting delay = setting("delay", 1, 0, 3, v -> true); // 0 代表完全无间隔
+    public IntSetting delay = setting("delay", 1, 0, 3, "tick", v -> true); // 0 代表完全无间隔
     public EnableSetting anyItem = setting("any-item", false, v -> true);
 
     public EnableSetting blocks = setting("blocks", true, v -> !anyItem.getValue());

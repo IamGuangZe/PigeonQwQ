@@ -34,13 +34,25 @@ public abstract class SettingDesigner {
     }
 
     public FloatSetting setting(String name, Float value, Float minValue, Float maxValue, Predicate<Boolean> visible) {
-        FloatSetting setting = new FloatSetting(name, value, minValue, maxValue, visible);
+        FloatSetting setting = new FloatSetting(name, value, minValue, maxValue, null, visible);
+        settings.add(setting);
+        return setting;
+    }
+
+    public FloatSetting setting(String name, Float value, Float minValue, Float maxValue, String unit, Predicate<Boolean> visible) {
+        FloatSetting setting = new FloatSetting(name, value, minValue, maxValue, unit, visible);
         settings.add(setting);
         return setting;
     }
 
     public IntSetting setting(String name, Integer value, Integer minValue, Integer maxValue, Predicate<Boolean> visible) {
-        IntSetting setting = new IntSetting(name, value, minValue, maxValue, visible);
+        IntSetting setting = new IntSetting(name, value, minValue, maxValue, null,visible);
+        settings.add(setting);
+        return setting;
+    }
+
+    public IntSetting setting(String name, Integer value, Integer minValue, Integer maxValue, String unit, Predicate<Boolean> visible) {
+        IntSetting setting = new IntSetting(name, value, minValue, maxValue, unit, visible);
         settings.add(setting);
         return setting;
     }

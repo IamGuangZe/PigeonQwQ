@@ -30,8 +30,8 @@ public class AutoHeal extends Module {
     public FloatSetting health = setting("health", 10F, 1F, 20F, v -> true);
     public ModeSetting<PlayerUtil.RightClickMode> clickMode = setting("click-mode", PlayerUtil.RightClickMode.MOUSE, v -> true);
     public ModeSetting<SwitchMode> switchMode = setting("switch-mode", SwitchMode.NORMAL, v -> true);
-    public IntSetting switchTick = setting("switch-tick", 2, 1, 20, v -> switchMode.getValue() == SwitchMode.NORMAL);
-    public IntSetting checkDelay = setting("check-delay", 10, 1, 60, v -> true);
+    public IntSetting switchTick = setting("switch-tick", 2, 1, 20, "tick", v -> switchMode.getValue() == SwitchMode.NORMAL);
+    public IntSetting checkDelay = setting("check-delay", 10, 1, 60, "tick", v -> true);
     public EnableSetting absorptionCheck = setting("absorption-check", true, v -> true);
     public EnableSetting regenerationCheck = setting("regeneration-check", true, v -> true);
     public EnableSetting goldenHead = setting("golden-head", true, v -> true);

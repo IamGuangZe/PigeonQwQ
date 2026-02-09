@@ -24,7 +24,7 @@ public class FlaySwitch extends Module {
 
     public StringSetting weaponName = setting("weapon-name","Figstone Splitter",v -> true);
     public EnableSetting switchBack = setting("switch-back",false,v->true);
-    public IntSetting switchBackDelay = setting("switch-back-delay",15,1,20,v-> switchBack.getValue());
+    public IntSetting switchBackDelay = setting("switch-back-delay",15,1,20, "tick",v-> switchBack.getValue());
 
     private int rawSlot = 0;
     private int delay = 21;

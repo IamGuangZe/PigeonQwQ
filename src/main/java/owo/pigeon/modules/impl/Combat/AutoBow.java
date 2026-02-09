@@ -18,7 +18,7 @@ public class AutoBow extends Module {
         super("AutoBow", Category.COMBAT);
     }
 
-    public IntSetting power = setting("power", 20, 1, 20, v -> true);
+    public IntSetting power = setting("power", 20, 3, 20, "tick", v -> true);
 
     private boolean hasRelease;
 

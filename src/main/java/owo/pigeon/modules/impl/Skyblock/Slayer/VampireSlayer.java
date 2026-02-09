@@ -28,7 +28,7 @@ public class VampireSlayer extends Module {
     public EnableSetting autoHeal = setting("auto-heal",true,v->true);
     public FloatSetting healHealth = setting("heal-health", 6.0F, 1.0F, 20.0F, v -> autoHeal.getValue());
     public EnableSetting autoIce = setting("auto-ice",true,v->true);
-    public IntSetting iceDelayTick = setting("ice-delay-tick", 20, 0, 30, v -> autoIce.getValue());
+    public IntSetting iceDelayTick = setting("ice-delay-tick", 20, 0, 30, "tick", v -> autoIce.getValue());
     public EnableSetting autoSteak = setting("auto-steak", true, v -> true);
     public EnableSetting autoImpel = setting("auto-impel", true,v->true);
 
