@@ -10,9 +10,11 @@ public class ModifyCamera extends Module {
         super("ModifyCamera", Category.RENDER);
     }
 
+    // 不会命名导致的
     public EnableSetting noFire = setting("no-fire", true, v -> true);
     public EnableSetting noUnderwater = setting("no-underwater", true, v -> true);
     public EnableSetting noHurtCam = setting("no-hurtcam", true, v -> true);
+    public EnableSetting noInWall = setting("no-inwall", true, v -> true);
     public EnableSetting camNoClip = setting("cam-noclip", true, v -> true);
     public FloatSetting distance = setting("distance", 5.0f, 3.0f, 12.0f, v -> true);
     // TODO: no-blindness

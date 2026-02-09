@@ -27,4 +27,11 @@ public class MixinInGameOverlayRenderer {
             ci.cancel();
         }
     }
+
+    @Inject(method = "renderInWallOverlay", at = @At("HEAD"), cancellable = true)
+    private static void onRenderInWallOverlay(Sprite sprite, MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo ci) {
+        if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noInWall.getValue()) {
+            ci.cancel();
+        }
+    }
 }
