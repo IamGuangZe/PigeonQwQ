@@ -21,6 +21,7 @@ import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
 import owo.pigeon.modules.impl.Skyblock.Dungeon.StarMobESP;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
+import owo.pigeon.modules.impl.Skyblock.Rift.PotReplace;
 import owo.pigeon.modules.impl.Skyblock.Rift.SnakingHelper;
 import owo.pigeon.modules.impl.Skyblock.Rift.TimiteMiner;
 import owo.pigeon.modules.impl.Skyblock.Slayer.AutoMaddox;
@@ -69,6 +70,7 @@ public class ModuleManager {
         modules.add(new FlaySwitch());
         modules.add(new StarMobESP());
         modules.add(new AgaricusMiner());
+        modules.add(new PotReplace());
         modules.add(new SnakingHelper());
         modules.add(new TimiteMiner());
         modules.add(new AutoMaddox());

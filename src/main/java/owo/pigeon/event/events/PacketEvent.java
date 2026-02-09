@@ -34,5 +34,17 @@ public class PacketEvent extends CancellableEvent {
         public ReceivePacketEvent(Packet<?> packet) {
             super(packet, Type.RECEIVE);
         }
+
+        public static class Pre extends ReceivePacketEvent {
+            public Pre(Packet<?> packet) {
+                super(packet);
+            }
+        }
+
+        public static class Post extends ReceivePacketEvent {
+            public Post(Packet<?> packet) {
+                super(packet);
+            }
+        }
     }
 }
