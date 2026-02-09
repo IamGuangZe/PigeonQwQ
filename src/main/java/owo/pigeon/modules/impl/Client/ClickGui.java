@@ -14,11 +14,11 @@ public class ClickGui extends Module {
         super("ClickGui", Category.CLIENT, InputUtil.GLFW_KEY_RIGHT_SHIFT);
     }
 
-    public enum styleEnum {
+    public enum Style {
         OLD, NEW
     }
 
-    public ModeSetting<styleEnum> style = setting("style", styleEnum.NEW, v -> true);
+    public ModeSetting<Style> style = setting("style", Style.NEW, v -> true);
     public EnableSetting background = setting("background", true, v -> true);
 
     @Override

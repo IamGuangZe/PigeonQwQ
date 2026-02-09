@@ -25,11 +25,11 @@ public class StarMobESP extends Module {
         super("StarMobESP", Category.SKYBLOCK);
     }
 
-    public enum TargetEnum {
+    public enum Target {
         STAND, MOB
     }
 
-    public ModeSetting<TargetEnum> target = setting("target", TargetEnum.MOB, v -> true);
+    public ModeSetting<Target> target = setting("target", Target.MOB, v -> true);
     public ModeSetting<RenderUtil.ESPMode> espMode = setting("esp-mode", RenderUtil.ESPMode.OUTLINE, v -> true);
     public ColorSetting color = setting("color", new Color(0xFFFF6666, true), v -> true);
 
@@ -47,7 +47,7 @@ public class StarMobESP extends Module {
                                 stand.getBoundingBox().offset(0.0, -1.0, 0.0).expand(0.2),
                                 Color.RED,
                                 RenderUtil.ESPMode.BOTH
-                                );
+                        );
 
 
                     switch (target.getValue()) {

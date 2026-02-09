@@ -95,7 +95,7 @@ public class ModulePanel extends AbstractDisplableItem {
                 panel.drawScreen(context, mouseX, mouseY, delta);
                 startY += panel.height;
 
-                if (clickGui.style.getValue() == ClickGui.styleEnum.OLD) {
+                if (clickGui.style.getValue() == ClickGui.Style.OLD) {
                     panel.color_old = module.isEnable() ?
                             new Color(20, 20, 20, 186).getRGB() :
                             new Color(50, 50, 50, 186).getRGB();
