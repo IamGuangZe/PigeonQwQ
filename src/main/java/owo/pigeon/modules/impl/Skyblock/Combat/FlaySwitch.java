@@ -47,9 +47,12 @@ public class FlaySwitch extends Module {
         if (!name.contains("Soul Whip") && !name.contains("Flaming Flay")) return;
 
         rawSlot = mc.player.getInventory().getSelectedSlot();
-        ChatUtil.sendDebugMessage(this.name, String.valueOf(ItemUtil.getSlotFromItemName(weaponName.getName())));
-        PlayerUtil.switchItemSlot(ItemUtil.getSlotFromItemName(weaponName.getValue()));
+        int weaponSlot = ItemUtil.getSlotFromItemName(weaponName.getValue());
 
+        ChatUtil.sendDebugMessage(this.name, String.valueOf(weaponSlot));
+        if (weaponSlot == -1) return;
+
+        PlayerUtil.switchItemSlot(weaponSlot);
         if (switchBack.getValue()) delay = 0;
     }
 
