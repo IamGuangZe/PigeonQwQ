@@ -31,6 +31,10 @@ public class VampireSlayer extends Module {
     public IntSetting iceDelay = setting("ice-delay", 20, 0, 30, "tick", v -> autoIce.getValue());
     public EnableSetting autoSteak = setting("auto-steak", true, v -> true);
     public EnableSetting autoImpel = setting("auto-impel", true,v->true);
+    public EnableSetting autoImpelJump = setting("auto-impel-jump", true, v -> autoImpel.getValue());
+    public EnableSetting autoImpelSneak = setting("auto-impel-sneak", true, v -> autoImpel.getValue());
+    public EnableSetting autoImpelUp = setting("auto-impel-up", true, v -> autoImpel.getValue());
+    public EnableSetting autoImpelDown = setting("auto-impel-down", true, v -> autoImpel.getValue());
 
     private enum ImpelAction {
         NONE, JUMP, SNEAK, UP, DOWN
@@ -129,10 +133,10 @@ public class VampireSlayer extends Module {
         if (event instanceof TickEvent.ClientTickEvent.Pre) {
             if (autoImpel.getValue()) {
                 if (impelTicks <= 0 && foundTitle && !hasImpel) {
-                    if (subtitle.contains("JUMP")) impelAction = ImpelAction.JUMP;
-                    else if (subtitle.contains("SNEAK")) impelAction = ImpelAction.SNEAK;
-                    else if (subtitle.contains("CLICK UP")) impelAction = ImpelAction.UP;
-                    else if (subtitle.contains("CLICK DOWN")) impelAction = ImpelAction.DOWN;
+                    if (subtitle.contains("JUMP") && autoImpelJump.getValue()) impelAction = ImpelAction.JUMP;
+                    else if (subtitle.contains("SNEAK") && autoImpelSneak.getValue()) impelAction = ImpelAction.SNEAK;
+                    else if (subtitle.contains("CLICK UP") && autoImpelUp.getValue()) impelAction = ImpelAction.UP;
+                    else if (subtitle.contains("CLICK DOWN") && autoImpelDown.getValue()) impelAction = ImpelAction.DOWN;
 
                     if (impelAction != ImpelAction.NONE) {
                         impelTicks = 5;
