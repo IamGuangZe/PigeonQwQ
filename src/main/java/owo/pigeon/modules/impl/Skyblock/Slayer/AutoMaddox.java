@@ -51,7 +51,7 @@ public class AutoMaddox extends Module {
     @Handler
     public void onReceiveMessage(MessageEvent.ReceiveMessageEvent event) {
         //   » Talk to Maddox to claim your Zombie Slayer XP!
-        if (event.getMessage().matches(" {3}» Talk to Maddox to claim your (.*) Slayer XP!")) {
+        if (event.getMessage().getString().matches(" {3}» Talk to Maddox to claim your (.*) Slayer XP!")) {
             switch (callMode.getValue()) {
                 case CALL -> {
                     mc.player.networkHandler.sendChatMessage("/call maddox");

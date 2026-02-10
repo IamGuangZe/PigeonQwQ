@@ -15,7 +15,7 @@ public class MixinMessageHandler {
     private void onGameMessage(Text message, boolean overlay, CallbackInfo ci) {
         // ChatUtil.sendDebugMessage("MixinMessageHandler","Game Message: " + message.getString());
 
-        MessageEvent.ReceiveMessageEvent event = new MessageEvent.ReceiveMessageEvent(message.getString());
+        MessageEvent.ReceiveMessageEvent event = new MessageEvent.ReceiveMessageEvent(message);
         Pigeon.EVENT_BUS.post(event).now();
 
         if (event.isCancelled()) {

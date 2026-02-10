@@ -1,6 +1,7 @@
 package owo.pigeon.mixin.mixins;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +28,7 @@ public abstract class MixinClientPlayNetworkHandler {
             return;
         }
 
-        MessageEvent.SendMessageEvent event = new MessageEvent.SendMessageEvent(content);
+        MessageEvent.SendMessageEvent event = new MessageEvent.SendMessageEvent(Text.of(content));
         Pigeon.EVENT_BUS.post(event).now();
 
         if (event.isCancelled()) {
@@ -39,10 +40,10 @@ public abstract class MixinClientPlayNetworkHandler {
         }
 
         if (event.isMessageModified()) {
-            String modifiedMessage = event.getMessage();
-            if (modifiedMessage != null && !modifiedMessage.isEmpty()) {
+            Text modifiedMessage = event.getMessage();
+            if (modifiedMessage != null && !modifiedMessage.getString().isEmpty()) {
                 ci.cancel();
-                this.sendChatMessage(modifiedMessage);
+                this.sendChatMessage(modifiedMessage.getString());
             }
         }
     }

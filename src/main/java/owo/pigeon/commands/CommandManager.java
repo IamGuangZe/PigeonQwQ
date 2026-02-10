@@ -40,7 +40,7 @@ public class CommandManager {
 
         ChatUtil.sendDebugMessage("CommandManager", "handle SendMessageEvent");
 
-        String input = CommandUtil.normalize(event.getMessage());
+        String input = CommandUtil.normalize(event.getMessage().getString());
 
         if (!input.startsWith(
                 String.valueOf(
