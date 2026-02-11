@@ -9,15 +9,18 @@ import static owo.pigeon.Pigeon.mc;
 
 public class KeybindUtil {
     public static void onPressed(KeyBinding key) {
+        if (mc.currentScreen != null) return;
         KeyBinding.onKeyPressed(((IAccessorKeyBinding) key).getBoundKey());
     }
 
     public static void setPressed(KeyBinding key, boolean pressed) {
+        if (mc.currentScreen != null) return;
         if (key.isUnbound()) return;
         key.setPressed(pressed);
     }
 
     public static boolean isPressed(KeyBinding key) {
+        if (mc.currentScreen != null) return false;
         if (mc.getWindow() == null || key.isUnbound()) return false;
 
         InputUtil.Key boundKey = ((IAccessorKeyBinding) key).getBoundKey();
@@ -29,6 +32,7 @@ public class KeybindUtil {
     }
 
     public static void resetPressed(KeyBinding key) {
+        if (mc.currentScreen != null) return;
         setPressed(key, isPressed(key));
     }
 }
