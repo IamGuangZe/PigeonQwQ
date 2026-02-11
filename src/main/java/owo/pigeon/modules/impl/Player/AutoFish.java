@@ -36,7 +36,7 @@ public class AutoFish extends Module {
 
     @Override
     public void onEnable() {
-        rethrowTick = rethrowDelay.getValue() + 1;
+        rethrowTick = rethrowDelay.getMaxValue() + 1;
         idleTick = 0;
         wasHoldingRod = false;
     }
@@ -52,8 +52,8 @@ public class AutoFish extends Module {
         else fishHookAge = 0;
 
         // Rethrow
-        if (fishHookAge == 0 && rethrowTick < rethrowDelay.getValue() + 1) rethrowTick++;
-        if (isHeldRod() && rethrowTick == rethrowDelay.getValue()) PlayerUtil.RightClick(castMode.getValue());
+        if (fishHookAge == 0 && rethrowTick < rethrowDelay.getMaxValue() + 1) rethrowTick++;
+        if (isHeldRod() && rethrowTick == rethrowDelay.getMaxValue()) PlayerUtil.RightClick(castMode.getValue());
 
         // Idle Timeout
         if (rethrow.getValue() && idleTimeoutCheck.getValue() && isHeldRod()) {

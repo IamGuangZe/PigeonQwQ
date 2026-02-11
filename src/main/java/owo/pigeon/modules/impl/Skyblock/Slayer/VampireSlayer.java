@@ -33,8 +33,8 @@ public class VampireSlayer extends Module {
     public EnableSetting autoImpel = setting("auto-impel", true,v->true);
     public EnableSetting autoImpelJump = setting("auto-impel-jump", true, v -> autoImpel.getValue());
     public EnableSetting autoImpelSneak = setting("auto-impel-sneak", true, v -> autoImpel.getValue());
-    public EnableSetting autoImpelUp = setting("auto-impel-up", true, v -> autoImpel.getValue());
-    public EnableSetting autoImpelDown = setting("auto-impel-down", true, v -> autoImpel.getValue());
+    public EnableSetting autoImpelUp = setting("auto-impel-up", false, v -> autoImpel.getValue());
+    public EnableSetting autoImpelDown = setting("auto-impel-down", false, v -> autoImpel.getValue());
 
     private enum ImpelAction {
         NONE, JUMP, SNEAK, UP, DOWN

@@ -33,8 +33,8 @@ public class FlaySwitch extends Module {
     public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
 
-        if (delay <= switchBackDelay.getValue()) delay ++;
-        if (delay == switchBackDelay.getValue()) PlayerUtil.switchItemSlot(rawSlot);
+        if (delay <= switchBackDelay.getMaxValue()) delay ++;
+        if (delay == switchBackDelay.getMaxValue()) PlayerUtil.switchItemSlot(rawSlot);
     }
 
     @Handler
@@ -58,6 +58,6 @@ public class FlaySwitch extends Module {
 
     @Override
     public void onEnable() {
-        delay = switchBackDelay.getValue() + 1;
+        delay = switchBackDelay.getMaxValue() + 1;
     }
 }

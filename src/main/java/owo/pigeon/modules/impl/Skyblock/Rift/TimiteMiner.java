@@ -50,7 +50,12 @@ public class TimiteMiner extends Module {
         if (WorldUtil.nullCheck()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
         if (!autoMine.getValue()) return;
-        if (!isHoldingTimiteTools()) return;
+
+        if (!isHoldingTimiteTools()) {
+            KeybindUtil.resetPressed(mc.options.useKey);
+            KeybindUtil.resetPressed(mc.options.attackKey);
+            return;
+        }
 
         TimiteStage currentBlockStage = getTargetBlockStage();
 
