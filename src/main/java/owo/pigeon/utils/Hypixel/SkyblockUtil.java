@@ -192,7 +192,7 @@ public class SkyblockUtil {
 
                 Entity closest = null;
                 double closestDistance = Double.MAX_VALUE;
-                Box box = stand.getBoundingBox().offset(0.0, -1.0, 0.0).expand(0.2);
+                Box box = stand.getBoundingBox().offset(0.0, -1.0, 0.0).expand(0.5);
 
                 for (Entity entityInBox : mc.world.getOtherEntities(stand, box)) {
                     if (entityInBox instanceof ArmorStandEntity || entityInBox == mc.player) continue;

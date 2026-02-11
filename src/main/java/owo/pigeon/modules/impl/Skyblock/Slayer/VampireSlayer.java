@@ -62,96 +62,14 @@ public class VampireSlayer extends Module {
     }
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
-        if (WorldUtil.nullCheck()) return;
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
-
-        Entity slayer = SkyblockUtil.getSlayer();
-
-        if (changeGamemode.getValue()) {
-            GameMode targetMode = (slayer != null) ? GameMode.ADVENTURE : GameMode.SURVIVAL;
-
-            if (mc.interactionManager != null && mc.interactionManager.getCurrentGameMode() != targetMode) {
-
-                boolean wasFlying = mc.player.getAbilities().flying;
-                boolean canFly = mc.player.getAbilities().allowFlying;
-
-                mc.interactionManager.setGameMode(targetMode);
-
-                mc.player.getAbilities().allowFlying = canFly;
-                mc.player.getAbilities().flying = wasFlying;
-
-                ChatUtil.sendCustomPrefixMessage(this.name, "Changed gamemode to &6" + targetMode.getId().toUpperCase());
-                ChatUtil.sendDebugMessage(this.name, "Client Gamemode -> " + targetMode.getId());
-            }
-        }
-
-        if (autoHeal.getValue()) {
-            int melon = ItemUtil.getSlotFromItemName(MELON);
-            float health = mc.player.getHealth();
-
-            if (melon != -1 && health <= healHealth.getValue() && !hasHeal) {
-                ChatUtil.sendDebugMessage(this.name, "Heal");
-                PlayerUtil.InstantUseItem(melon, PlayerUtil.RightClickMode.MOUSE);
-                hasHeal = true;
-                return;
-            }
-
-            if (health > healHealth.getValue()) hasHeal = false;
-        }
-
-        if (autoIce.getValue()) {
-            int ice = ItemUtil.getSlotFromItemName(ICE);
-            if (ice == -1 || slayer == null) return;
-
-            boolean foundClaws = false;
-            for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25, 2.5, 0.25), entity -> true)) {
-                ChatUtil.sendDebugMessage(this.name, "stand: " + stand.getName().getString());
-
-                if (stand.getName().getString().contains("TWINCLAWS")) {
-                    foundClaws = true;
-                    break;
-                }
-            }
-
-            if (foundClaws) {
-                if (!hasIced) {
-                    if (iceTicks < iceDelay.getValue()) {
-                        iceTicks++;
-                    } else {
-                        ChatUtil.sendDebugMessage(this.name, "ICE");
-                        PlayerUtil.InstantUseItem(ice, PlayerUtil.RightClickMode.MOUSE);
-                        hasIced = true;
-                        iceTicks = 0;
-                        return;
-                    }
-                }
-            } else {
-                hasIced = false;
-                iceTicks = 0;
-            }
-        }
-
-        if (autoSteak.getValue()) {
-            int steak = ItemUtil.getSlotFromItemName(STEAK);
-            if (steak == -1 || slayer == null) return;
-
-            for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25, 2.5, 0.25), entity -> true)) {
-                if (stand.getName().getString().contains("҉") && stand.getName().getString().contains("Bloodfiend")) {
-                    PlayerUtil.switchItemSlot(steak);
-                }
-            }
-        }
-    }
-
-    // 为了防止过后我自己读不懂 将AutoImpel单独分开 但依然写成Pre与Post单独处理
-    @Handler
     public void onTick(TickEvent.ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
 
         String subtitle = ((IAccessorInGameHud) mc.inGameHud).getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorInGameHud) mc.inGameHud).getSubtitle().getString());
         boolean foundTitle = subtitle.startsWith("Impel: ");
+
+        Entity slayer = SkyblockUtil.getSlayer();
 
         if (!subtitle.isEmpty()) ChatUtil.sendDebugMessage(this.name, "subtitle: " + subtitle);
 
@@ -188,6 +106,79 @@ public class VampireSlayer extends Module {
                     }
                 }
             }
+
+                GameMode targetMode = (changeGamemode.getValue() && slayer != null && impelAction != ImpelAction.DOWN) ? GameMode.ADVENTURE : GameMode.SURVIVAL;
+
+                if (mc.interactionManager != null && mc.interactionManager.getCurrentGameMode() != targetMode) {
+
+                    boolean wasFlying = mc.player.getAbilities().flying;
+                    boolean canFly = mc.player.getAbilities().allowFlying;
+
+                    mc.interactionManager.setGameMode(targetMode);
+
+                    mc.player.getAbilities().allowFlying = canFly;
+                    mc.player.getAbilities().flying = wasFlying;
+
+                    // ChatUtil.sendCustomPrefixMessage(this.name, "Changed gamemode to &6" + targetMode.getId().toUpperCase());
+                    ChatUtil.sendDebugMessage(this.name, "Client Gamemode -> " + targetMode.getId());
+                }
+
+            if (autoHeal.getValue()) {
+                int melon = ItemUtil.getSlotFromItemName(MELON);
+                float health = mc.player.getHealth();
+
+                if (melon != -1 && health <= healHealth.getValue() && !hasHeal) {
+                    ChatUtil.sendDebugMessage(this.name, "Heal");
+                    PlayerUtil.InstantUseItem(melon, PlayerUtil.RightClickMode.MOUSE);
+                    hasHeal = true;
+                    return;
+                }
+
+                if (health > healHealth.getValue()) hasHeal = false;
+            }
+
+            if (autoIce.getValue()) {
+                int ice = ItemUtil.getSlotFromItemName(ICE);
+                if (ice == -1 || slayer == null) return;
+
+                boolean foundClaws = false;
+                for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25, 2.5, 0.25), entity -> true)) {
+                    ChatUtil.sendDebugMessage(this.name, "stand: " + stand.getName().getString());
+
+                    if (stand.getName().getString().contains("TWINCLAWS")) {
+                        foundClaws = true;
+                        break;
+                    }
+                }
+
+                if (foundClaws) {
+                    if (!hasIced) {
+                        if (iceTicks < iceDelay.getValue()) {
+                            iceTicks++;
+                        } else {
+                            ChatUtil.sendDebugMessage(this.name, "ICE");
+                            PlayerUtil.InstantUseItem(ice, PlayerUtil.RightClickMode.MOUSE);
+                            hasIced = true;
+                            iceTicks = 0;
+                            return;
+                        }
+                    }
+                } else {
+                    hasIced = false;
+                    iceTicks = 0;
+                }
+            }
+
+            if (autoSteak.getValue()) {
+                int steak = ItemUtil.getSlotFromItemName(STEAK);
+                if (steak == -1 || slayer == null) return;
+
+                for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25, 2.5, 0.25), entity -> true)) {
+                    if (stand.getName().getString().contains("҉") && stand.getName().getString().contains("Bloodfiend")) {
+                        PlayerUtil.switchItemSlot(steak);
+                    }
+                }
+            }
         }
 
         if (event instanceof TickEvent.ClientTickEvent.Post) {
@@ -209,13 +200,15 @@ public class VampireSlayer extends Module {
         }
 
         if (!foundTitle) {
-
             if (impelTicks != 0)
                 ChatUtil.sendDebugMessage(this.name, "reset impel.");
 
             hasImpel = false;
             impelTicks = 0;
             impelAction = ImpelAction.NONE;
+
+            KeybindUtil.resetPressed(mc.options.jumpKey);
+            KeybindUtil.resetPressed(mc.options.sneakKey);
         }
     }
 
@@ -230,5 +223,13 @@ public class VampireSlayer extends Module {
 
         KeybindUtil.resetPressed(mc.options.jumpKey);
         KeybindUtil.resetPressed(mc.options.sneakKey);
+
+        if (changeGamemode.getValue() && SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) {
+            boolean wasFlying = mc.player.getAbilities().flying;
+            boolean canFly = mc.player.getAbilities().allowFlying;
+            mc.interactionManager.setGameMode(GameMode.SURVIVAL);
+            mc.player.getAbilities().allowFlying = canFly;
+            mc.player.getAbilities().flying = wasFlying;
+        }
     }
 }
