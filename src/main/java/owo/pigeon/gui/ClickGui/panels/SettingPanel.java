@@ -5,12 +5,14 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.InputUtil;
 import owo.pigeon.gui.ClickGui.AbstractDisplableItem;
+import owo.pigeon.gui.ClickGui.SettingEditScreen;
 import owo.pigeon.settings.*;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.Render.RenderUtil;
 
 import java.awt.*;
 
+import static owo.pigeon.Pigeon.mc;
 import static owo.pigeon.utils.Render.TextRendererUtil.textRenderer;
 
 public class SettingPanel extends AbstractDisplableItem {
@@ -162,6 +164,8 @@ public class SettingPanel extends AbstractDisplableItem {
                 waitingForKey = !waitingForKey;
             } else if (setting instanceof ModeSetting<?> modeSetting) {
                 switchToNextMode(modeSetting);
+            } else if (setting instanceof BlockSetting || setting instanceof CharSetting || setting instanceof StringSetting) {
+                mc.setScreen(new SettingEditScreen(setting));
             }
         } else if (click.button() == 1) {
             if (setting instanceof ModeSetting<?> modeSetting) {

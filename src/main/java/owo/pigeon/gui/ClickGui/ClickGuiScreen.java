@@ -151,9 +151,4 @@ public class ClickGuiScreen extends Screen {
         ModuleUtil.disableModule(ClickGui.class);
         super.close();
     }
-
-    @Override
-    public boolean shouldPause() {
-        return false;
-    }
 }

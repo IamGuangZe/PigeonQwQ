@@ -23,7 +23,7 @@ public class Module extends SettingDesigner {
         this.key = -1;
     }
 
-    public final void enable() {
+    public void enable() {
         if (!enable) {
             enable = true;
             Pigeon.EVENT_BUS.subscribe(this);
@@ -32,7 +32,7 @@ public class Module extends SettingDesigner {
         ChatUtil.sendIfHudReadyMessage(this.name + " has &aEnabled!");
     }
 
-    public final void disable() {
+    public void disable() {
         if (enable) {
             enable = false;
             Pigeon.EVENT_BUS.unsubscribe(this);

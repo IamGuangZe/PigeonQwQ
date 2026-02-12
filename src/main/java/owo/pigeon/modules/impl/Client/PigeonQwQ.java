@@ -13,4 +13,8 @@ public class PigeonQwQ extends Module {
     public EnableSetting debug = setting("debug",false,v->true);
     public CharSetting commandPrefix = setting("command-prefix",'>',v->true);
 
+    @Override
+    public void enable() {
+
+    }
 }

@@ -53,8 +53,8 @@ public class SettingCommand extends Command {
                 found = true;
                 settingname = setting.getName();
                 if (setting instanceof BlockSetting) {
-                    Identifier id = Identifier.tryParse(value);
-                    if (id == null) {
+                    Identifier id = Identifier.tryParse(value.toLowerCase());
+                    if (id == null || !Registries.BLOCK.containsId(id)) {
                         CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownBlock,
                                 this.getCommand(),
                                 args,
@@ -65,11 +65,11 @@ public class SettingCommand extends Command {
                     Block blockValue = Registries.BLOCK.get(id);
                     ((BlockSetting) setting).setValue(blockValue);
                     value = blockValue.getName().getString() + "(" + Registries.BLOCK.getId(blockValue) + ")";
-                } else if (setting instanceof CharSetting) {
+                } else if (setting instanceof CharSetting charSetting) {
                     char charValue = value.charAt(0);
-                    ((CharSetting) setting).setValue(charValue);
+                    charSetting.setValue(charValue);
                     value = String.valueOf(charValue);
-                } else if (setting instanceof ColorSetting) {
+                } else if (setting instanceof ColorSetting colorSetting) {
                     try {
                         Color colorValue;
                         if (value.startsWith("#")) { // HEX (e.g. "39C5BB", "#39C5BB")
@@ -95,7 +95,7 @@ public class SettingCommand extends Command {
                             return;
                         }
 
-                        ((ColorSetting) setting).setValue(colorValue);
+                        colorSetting.setValue(colorValue);
                         value = String.format("R:%d G:%d B:%d A:%d",
                                 colorValue.getRed(), colorValue.getGreen(), colorValue.getBlue(), colorValue.getAlpha());
                     } catch (NumberFormatException e) {
@@ -106,7 +106,7 @@ public class SettingCommand extends Command {
                         );
                         return;
                     }
-                } else if (setting instanceof EnableSetting) {
+                } else if (setting instanceof EnableSetting enableSetting) {
                     boolean booleanValue;
                     if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("enable")) {
                         booleanValue = true;
@@ -120,11 +120,10 @@ public class SettingCommand extends Command {
                         );
                         return;
                     }
-                    ((EnableSetting) setting).setValue(booleanValue);
+                    enableSetting.setValue(booleanValue);
                     value = String.valueOf(booleanValue);
-                } else if (setting instanceof FloatSetting) {
+                } else if (setting instanceof FloatSetting floatSetting) {
                     try {
-                        FloatSetting floatSetting = (FloatSetting) setting;
                         float floatValue = Float.parseFloat(value);
 
                         if (floatValue < floatSetting.getMinValue()) {
@@ -133,7 +132,7 @@ public class SettingCommand extends Command {
                             floatValue = floatSetting.getMaxValue();
                         }
 
-                        ((FloatSetting) setting).setValue(floatValue);
+                        floatSetting.setValue(floatValue);
                         value = String.valueOf(floatValue);
                     } catch (NumberFormatException e) {
                         CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedFloat,
@@ -143,9 +142,8 @@ public class SettingCommand extends Command {
                         );
                         return;
                     }
-                } else if (setting instanceof IntSetting) {
+                } else if (setting instanceof IntSetting intSetting) {
                     try {
-                        IntSetting intSetting = (IntSetting) setting;
                         Integer intValue = Integer.parseInt(value);
 
                         if (intValue < intSetting.getMinValue()) {
@@ -154,7 +152,7 @@ public class SettingCommand extends Command {
                             intValue = intSetting.getMaxValue();
                         }
 
-                        ((IntSetting) setting).setValue(intValue);
+                        intSetting.setValue(intValue);
                         value = String.valueOf(intValue);
                     } catch (NumberFormatException e) {
                         CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger,
@@ -164,7 +162,7 @@ public class SettingCommand extends Command {
                         );
                         return;
                     }
-                } else if (setting instanceof KeySetting) {
+                } else if (setting instanceof KeySetting keySetting) {
                     Integer keyCode = null;
                     try {
                         keyCode = InputUtil.fromTranslationKey("key.keyboard." + value.toLowerCase()).getCode();
@@ -174,14 +172,13 @@ public class SettingCommand extends Command {
 
                     ChatUtil.sendDebugMessage("SettingCommand","Setting Key: " + keyCode);
 
-                    ((KeySetting) setting).setValue(keyCode);
+                    keySetting.setValue(keyCode);
                     value = keyCode == -1 ?
                             "None" :
                             InputUtil.Type.KEYSYM.createFromCode(keyCode)
                                     .getTranslationKey().replace("key.keyboard.","").toUpperCase() + " (keycode: " + keyCode + ")" ;
-                } else if (setting instanceof ModeSetting) {
+                } else if (setting instanceof ModeSetting<?> modeSetting) {
                     try {
-                        ModeSetting<?> modeSetting = (ModeSetting<?>) setting;
                         Enum<?> enumValue = Enum.valueOf((Class<Enum>) modeSetting.getValue().getClass(), value.toUpperCase());
                         ((ModeSetting) setting).setValue(enumValue);
                         value = enumValue.toString().toUpperCase();
