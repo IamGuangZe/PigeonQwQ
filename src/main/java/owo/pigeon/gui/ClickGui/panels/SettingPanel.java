@@ -105,6 +105,7 @@ public class SettingPanel extends AbstractDisplableItem {
                             .createFromCode(keySetting.getValue())
                             .getTranslationKey()
                             .replace("key.keyboard.", "")
+                            .replace(".", " ")
                             .toUpperCase();
                 } else {
                     displayValue = "&cNone";

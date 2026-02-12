@@ -23,6 +23,7 @@ public class ModulePanel extends AbstractDisplableItem {
     private boolean displaySetting;
     public ArrayList<SettingPanel> settingPanels = new ArrayList<>();
     public ArrayList<SettingPanel> visiblePanels = new ArrayList<>();
+    public final KeybindPanel keybindPanel;
 
     public ModulePanel(Module module, int x, int y, int width, int height) {
         this.module = module;
@@ -40,6 +41,8 @@ public class ModulePanel extends AbstractDisplableItem {
                 settingPanels.add(new SettingPanel(setting, x, 0, width, height));
             }
         }
+
+        keybindPanel = new KeybindPanel(module, x, 0, width, height);
     }
 
     @Override
@@ -103,6 +106,18 @@ public class ModulePanel extends AbstractDisplableItem {
                             new Color(50, 50, 50, 186).getRGB();
                 }
             }
+
+            keybindPanel.x = this.x;
+            keybindPanel.y = startY;
+            keybindPanel.width = this.width;
+            keybindPanel.height = this.height / 2;
+            keybindPanel.drawScreen(context, mouseX, mouseY, delta);
+            
+            if (clickGui.style.getValue() == ClickGui.Style.OLD) {
+                keybindPanel.color_old = module.isEnable() ?
+                        new Color(20, 20, 20, 186).getRGB() :
+                        new Color(50, 50, 50, 186).getRGB();
+            }
         }
     }
 
@@ -116,6 +131,10 @@ public class ModulePanel extends AbstractDisplableItem {
             } else if (click.button() == 1) {
                 displaySetting = !displaySetting;
             }
+        }
+
+        if (displaySetting && keybindPanel.mouseClicked(click, doubled)) {
+            handled = true;
         }
 
         for (int i = visiblePanels.size() - 1; i >= 0; i--) {
@@ -142,6 +161,8 @@ public class ModulePanel extends AbstractDisplableItem {
     }
 
     public void keyPressed(KeyInput input) {
+        keybindPanel.keyPressed(input);
+        
         for (SettingPanel panel : visiblePanels) {
             panel.keyPressed(input);
         }
@@ -152,6 +173,10 @@ public class ModulePanel extends AbstractDisplableItem {
 
         for (SettingPanel panel : visiblePanels) {
             settingHeight += panel.height;
+        }
+
+        if (displaySetting) {
+            settingHeight += keybindPanel.height;
         }
 
         return settingHeight;

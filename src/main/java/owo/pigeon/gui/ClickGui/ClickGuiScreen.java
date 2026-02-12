@@ -125,6 +125,11 @@ public class ClickGuiScreen extends Screen {
 
         for (CategoryPanel panel : categoryPanels) {
             for (ModulePanel modulePanel : panel.modulePanels) {
+
+                if (modulePanel.keybindPanel.isWaitingForKey()) {
+                    waitingForKey = true;
+                }
+
                 for (SettingPanel settingPanel : modulePanel.visiblePanels) {
                     if (settingPanel.isWaitingForKey()) {
                         waitingForKey = true;
