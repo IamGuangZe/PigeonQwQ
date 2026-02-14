@@ -11,6 +11,7 @@ import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.StringSetting;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
@@ -25,6 +26,7 @@ public class FlaySwitch extends Module {
     public StringSetting weaponName = setting("weapon-name","Figstone Splitter",v -> true);
     public EnableSetting switchBack = setting("switch-back",false,v->true);
     public IntSetting switchBackDelay = setting("switch-back-delay",15,1,20, "tick",v-> switchBack.getValue());
+    public EnableSetting onlyInGalatea = setting("only-in-galatea",true,v->true);
 
     private int rawSlot = 0;
     private int delay = 21;
@@ -34,11 +36,14 @@ public class FlaySwitch extends Module {
         if (WorldUtil.nullCheck()) return;
 
         if (delay <= switchBackDelay.getMaxValue()) delay ++;
-        if (delay == switchBackDelay.getMaxValue()) PlayerUtil.switchItemSlot(rawSlot);
+        if (delay == switchBackDelay.getValue()) PlayerUtil.switchItemSlot(rawSlot);
     }
 
     @Handler
     public void onDoItemUsePost(DoItemUseEvent.Post event) {
+        if (onlyInGalatea.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.Galatea))
+            return;
+
         ItemStack stack = mc.player.getInventory().getSelectedStack();
         if (stack.isEmpty()) return;
 

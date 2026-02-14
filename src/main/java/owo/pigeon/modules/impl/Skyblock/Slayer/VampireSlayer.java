@@ -107,7 +107,7 @@ public class VampireSlayer extends Module {
                 }
             }
 
-                GameMode targetMode = (changeGamemode.getValue() && slayer != null && impelAction != ImpelAction.DOWN) ? GameMode.ADVENTURE : GameMode.SURVIVAL;
+                GameMode targetMode = (changeGamemode.getValue() && slayer != null && mc.player.getPitch() <= 45) ? GameMode.ADVENTURE : GameMode.SURVIVAL;
 
                 if (mc.interactionManager != null && mc.interactionManager.getCurrentGameMode() != targetMode) {
 
