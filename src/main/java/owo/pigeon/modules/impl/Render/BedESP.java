@@ -36,7 +36,7 @@ public class BedESP extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         for (BlockPos pos : beds) {
             if (mc.world.getBlockState(pos).getBlock() instanceof BedBlock) {
-                RenderUtil.drawESP(event.getMatrix(),pos,color.getValue(), mode.getValue());
+                RenderUtil.drawESP(event.getMatrix(),pos,color.getValue(), mode.getValue(),false);
             } else {
                 beds.remove(pos);
             }

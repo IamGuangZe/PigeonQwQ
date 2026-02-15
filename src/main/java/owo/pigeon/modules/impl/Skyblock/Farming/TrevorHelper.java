@@ -31,6 +31,7 @@ public class TrevorHelper extends Module {
     public EnableSetting autoWarp = setting("auto-warp", true, v -> true);
     public EnableSetting autoAccept = setting("auto-accept", true, v -> true);
     public EnableSetting huntedAnimalEsp = setting("hunted-animal-esp", true, v -> true);
+    public EnableSetting tracer = setting("tracer", true, v -> huntedAnimalEsp.getValue());
     public ColorSetting color = setting("color", new Color(0xAA00FF00, true), v -> huntedAnimalEsp.getValue());
 
     @Handler
@@ -51,8 +52,8 @@ public class TrevorHelper extends Module {
             Box box = stand.getBoundingBox().offset(0.0D, -0.75D, 0.0D);
 
             if (Pigeon.isDebug()) {
-                RenderUtil.drawESP(event.getMatrix(),stand, stand.getBoundingBox().expand(0.2),Color.GREEN, RenderUtil.ESPMode.BOTH);
-                RenderUtil.drawESP(event.getMatrix(),stand, box.expand(0.2),Color.BLUE, RenderUtil.ESPMode.BOTH);
+                RenderUtil.drawESP(event.getMatrix(), stand, stand.getBoundingBox().expand(0.2), Color.GREEN, RenderUtil.ESPMode.BOTH, false);
+                RenderUtil.drawESP(event.getMatrix(), stand, box.expand(0.2), Color.BLUE, RenderUtil.ESPMode.BOTH, false);
             }
 
             Entity closestAnimal = null;
@@ -69,8 +70,7 @@ public class TrevorHelper extends Module {
             }
 
             if (closestAnimal != null && huntedAnimalEsp.getValue()) {
-                RenderUtil.drawESP(event.getMatrix(), closestAnimal, color.getValue(), RenderUtil.ESPMode.BOTH);
-                // TODO: Tracer
+                RenderUtil.drawESP(event.getMatrix(), closestAnimal, color.getValue(), RenderUtil.ESPMode.BOTH, tracer.getValue());
             }
         }
     }

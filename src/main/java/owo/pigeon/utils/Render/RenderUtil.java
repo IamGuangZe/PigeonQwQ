@@ -56,6 +56,46 @@ public class RenderUtil {
         context.fill(x + width - 1, y, x + width, y + height, color);
     }
 
+    public static void draw3DLine(MatrixStack stack, Vec3d start, Vec3d end, Color c, double pixelWidth) {
+        Vec3d camPos = mc.getEntityRenderDispatcher().camera.getPos();
+
+        float x1 = (float) (start.x - camPos.x);
+        float y1 = (float) (start.y - camPos.y);
+        float z1 = (float) (start.z - camPos.z);
+        float x2 = (float) (end.x - camPos.x);
+        float y2 = (float) (end.y - camPos.y);
+        float z2 = (float) (end.z - camPos.z);
+
+        Vec3d dir = end.subtract(start).normalize();
+        Vec3d toCamStart = start.subtract(camPos).normalize();
+        Vec3d toCamEnd = end.subtract(camPos).normalize();
+
+        double dist1 = start.distanceTo(camPos);
+        double dist2 = end.distanceTo(camPos);
+
+        double scale1 = (pixelWidth * dist1) / 400.0f;
+        double scale2 = (pixelWidth * dist2) / 400.0f;
+
+        Vec3d perp1 = dir.crossProduct(toCamStart).normalize().multiply(scale1);
+        Vec3d perp2 = dir.crossProduct(toCamEnd).normalize().multiply(scale2);
+
+        float r = c.getRed() / 255f;
+        float g = c.getGreen() / 255f;
+        float b = c.getBlue() / 255f;
+        float a = 1.0f;
+
+        Matrix4f matrix = stack.peek().getPositionMatrix();
+        BufferBuilder bufferBuilder = Tessellator.getInstance()
+                .begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+
+        bufferBuilder.vertex(matrix, (float)(x1 + perp1.x), (float)(y1 + perp1.y), (float)(z1 + perp1.z)).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, (float)(x2 + perp2.x), (float)(y2 + perp2.y), (float)(z2 + perp2.z)).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, (float)(x2 - perp2.x), (float)(y2 - perp2.y), (float)(z2 - perp2.z)).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, (float)(x1 - perp1.x), (float)(y1 - perp1.y), (float)(z1 - perp1.z)).color(r, g, b, a);
+
+        Layer.getGlobalQuads().draw(bufferBuilder.end());
+    }
+
     protected static void drawHorizontalLine(MatrixStack matrices, float x1, float x2, float y, int color) {
         if (x2 < x1) {
             float i = x1;
@@ -125,7 +165,6 @@ public class RenderUtil {
         Layer.getGlobalQuads().draw(bufferBuilder.end());
     }
 
-    // 3d
     public static void drawBox(MatrixStack stack, Box box, Color c, double lineWidth) {
         float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPos().getX());
         float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getPos().getY());
@@ -244,7 +283,50 @@ public class RenderUtil {
         drawBoxFilled(stack, renderedBox, c);
     }
 
-    public static void drawESP(MatrixStack stack, Box box, Color c, ESPMode mode) {
+    public static void drawTracer(MatrixStack stack, Box box, double yOffset, Color c, double pixelWidth) {
+        double targetX = box.minX + (box.maxX - box.minX) / 2.0;
+        double targetY = box.minY + yOffset;
+        double targetZ = box.minZ + (box.maxZ - box.minZ) / 2.0;
+
+        drawTracer(stack, new Vec3d(targetX, targetY, targetZ), c, pixelWidth);
+    }
+
+    public static void drawTracer(MatrixStack stack, Box box, Color c, double pixelWidth) {
+        double centerYOffset = (box.maxY - box.minY) / 2.0;
+        drawTracer(stack, box, centerYOffset, c, pixelWidth);
+    }
+
+    public static void drawTracer(MatrixStack stack, Vec3d target, Color c, double pixelWidth) {
+        Vec3d cameraPos = mc.getEntityRenderDispatcher().camera.getPos();
+
+        Vec3d rotationVec = mc.player.getRotationVec(mc.getRenderTickCounter().getTickProgress(true));
+        Vec3d startPos = cameraPos.add(rotationVec.multiply(0.1));
+
+        draw3DLine(stack, startPos, target, c, pixelWidth);
+    }
+
+    public static void drawTracer(MatrixStack stack, BlockPos pos, Color c, double pixelWidth) {
+        BlockState state = mc.world.getBlockState(pos);
+        VoxelShape shape = state.getOutlineShape(mc.world, pos);
+
+        Box b = shape.isEmpty() ? new Box(0, 0, 0, 1, 1, 1) : shape.getBoundingBox();
+
+        double targetX = pos.getX() + b.minX + (b.maxX - b.minX) / 2.0;
+        double targetY = pos.getY() + b.minY + (b.maxY - b.minY) / 2.0;
+        double targetZ = pos.getZ() + b.minZ + (b.maxZ - b.minZ) / 2.0;
+
+        drawTracer(stack, new Vec3d(targetX, targetY, targetZ), c, pixelWidth);
+    }
+
+    public static void drawTracer(MatrixStack stack, Entity entity, Color c, double pixelWidth) {
+        Vec3d interpPos = getInterpolatedPos(entity);
+
+        double eyeY = interpPos.y + entity.getEyeHeight(entity.getPose());
+
+        drawTracer(stack, new Vec3d(interpPos.x, eyeY, interpPos.z), c, pixelWidth);
+    }
+
+    public static void drawESP(MatrixStack stack, Box box, Color c, ESPMode mode, boolean drawTracer) {
         if (mode == ESPMode.OUTLINE) drawBox(stack,box,c,1);
         else if (mode == ESPMode.FILL) drawBoxFilled(stack,box,c);
         else if (mode == ESPMode.BOTH) {
@@ -252,37 +334,43 @@ public class RenderUtil {
             drawBoxFilled(stack, box, filledColor);
             drawBox(stack, box, c, 1);
         }
+
+        if (drawTracer) drawTracer(stack, box, c, 1.5);
     }
 
-    public static void drawESP(MatrixStack stack, Vec3d vec, Color c, ESPMode mode) {
-        drawESP(stack, Box.from(vec), c, mode);
+    public static void drawESP(MatrixStack stack, Vec3d vec, Color c, ESPMode mode, boolean drawTracer) {
+        drawESP(stack, Box.from(vec), c, mode, false);
+
+        if (drawTracer) drawTracer(stack, vec, c, 1.5);
     }
 
-    public static void drawESP(MatrixStack stack, BlockPos pos, Color c, ESPMode mode) {
+    public static void drawESP(MatrixStack stack, BlockPos pos, Color c, ESPMode mode, boolean drawTracer) {
         BlockState state = mc.world.getBlockState(pos);
         VoxelShape shape = state.getOutlineShape(mc.world, pos);
-
         shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
             Box realBox = new Box(
                     pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
                     pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
             );
-            drawESP(stack, realBox, c, mode);
+            drawESP(stack, realBox, c, mode, false);
         });
+
+        if (drawTracer) drawTracer(stack, pos, c, 1.5);
     }
 
-    public static void drawESP(MatrixStack stack, Entity entity, Color c, ESPMode mode) {
+    public static void drawESP(MatrixStack stack, Entity entity, Color c, ESPMode mode, boolean drawTracer) {
         Vec3d interpPos = getInterpolatedPos(entity);
         Box box = entity.getBoundingBox().offset(interpPos.x - entity.getX(), interpPos.y - entity.getY(), interpPos.z - entity.getZ());
-        drawESP(stack, box, c, mode);
+        drawESP(stack, box, c, mode, false);
+
+        if (drawTracer) drawTracer(stack, entity, c, 1.5);
     }
 
-    public static void drawESP(MatrixStack stack, Entity entity, Box box, Color c, ESPMode mode) {
+    public static void drawESP(MatrixStack stack, Entity entity, Box box, Color c, ESPMode mode, boolean drawTracer) {
         Vec3d vec = getInterpolatedPos(entity);
         Box renderedBox = box.offset(vec.x - entity.getX(), vec.y - entity.getY(), vec.z - entity.getZ());
-        drawESP(stack, renderedBox, c, mode);
+        drawESP(stack, renderedBox, c, mode, false);
+
+        if (drawTracer) drawTracer(stack, entity, c, 1.5);
     }
-
-    // TODO: Tracer
-
 }

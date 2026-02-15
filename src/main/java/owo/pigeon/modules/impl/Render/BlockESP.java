@@ -47,7 +47,7 @@ public class BlockESP extends Module {
 
         for (BlockPos pos : blocks) {
             if (mc.world.getBlockState(pos).getBlock() == block.getValue()) {
-                RenderUtil.drawESP(event.getMatrix(),pos,color.getValue(), mode.getValue());
+                RenderUtil.drawESP(event.getMatrix(),pos,color.getValue(), mode.getValue(),false);
             } else {
                 blocks.remove(pos);
             }

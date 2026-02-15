@@ -25,7 +25,7 @@ public class SlayerESP extends Module {
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
 
-        RenderUtil.drawESP(event.getMatrix(), SkyblockUtil.getSlayer(),Color.PINK, RenderUtil.ESPMode.BOTH);
+        RenderUtil.drawESP(event.getMatrix(), SkyblockUtil.getSlayer(),Color.PINK, RenderUtil.ESPMode.BOTH,false);
 
         /*
         for (Entity entity : mc.world.getEntities()) {

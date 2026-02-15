@@ -59,7 +59,7 @@ public class SettingNumPanel extends SettingPanel {
 
         sliderHovered = isHovered(mouseX, mouseY, barX, knobY, barWidth, knobHeight);
 
-        // TODO : OLD STYLE使用双色矩形不同占比来替代滑块
+        // TODO: OLD STYLE使用双色矩形不同占比来替代滑块
         switch (clickGui.style.getValue()) {
             case OLD:
                 context.fill(x, y, x + width, y + height, color_old);

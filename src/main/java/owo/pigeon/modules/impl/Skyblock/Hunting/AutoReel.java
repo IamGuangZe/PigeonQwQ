@@ -70,8 +70,8 @@ public class AutoReel extends Module {
             Entity entity = getLeashedEntity(mc.player);
             if (entity == null) return;
 
-            RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH);
-            RenderUtil.drawESP(stack, entity, entity.getBoundingBox().expand(1.0).offset(0.0, 3.0, 0.0), Color.BLUE, RenderUtil.ESPMode.BOTH);
+            RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH,false);
+            RenderUtil.drawESP(stack, entity, entity.getBoundingBox().expand(1.0).offset(0.0, 3.0, 0.0), Color.BLUE, RenderUtil.ESPMode.BOTH,false);
         }
     }
 
