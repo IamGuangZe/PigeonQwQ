@@ -104,6 +104,13 @@ public class ClickGuiScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         if (verticalAmount == 0) return false;
+
+        for (CategoryPanel categoryPanel : categoryPanels) {
+            if (categoryPanel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+                return true;
+            }
+        }
+
         int moveAmount = verticalAmount > 0 ? 10 : -10;
 
         if (mc.isShiftPressed()) {

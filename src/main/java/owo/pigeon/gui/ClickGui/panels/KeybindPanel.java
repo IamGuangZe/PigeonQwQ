@@ -85,6 +85,10 @@ public class KeybindPanel extends AbstractDisplableItem {
         return true;
     }
 
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        return hovered;
+    }
+
     public void keyPressed(KeyInput input) {
         if (waitingForKey) {
             if (input.getKeycode() == InputUtil.GLFW_KEY_ESCAPE) {

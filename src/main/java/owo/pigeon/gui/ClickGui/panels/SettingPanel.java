@@ -184,6 +184,10 @@ public class SettingPanel extends AbstractDisplableItem {
 
     }
 
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        return hovered;
+    }
+
     public void keyPressed(KeyInput input) {
         if (waitingForKey && setting instanceof KeySetting keySetting) {
             if (input.getKeycode() == InputUtil.GLFW_KEY_ESCAPE) {

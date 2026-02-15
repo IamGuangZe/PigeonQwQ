@@ -160,9 +160,24 @@ public class ModulePanel extends AbstractDisplableItem {
         }
     }
 
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        for (int i = visiblePanels.size() - 1; i >= 0; i--) {
+            SettingPanel panel = visiblePanels.get(i);
+            if (panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+                return true;
+            }
+        }
+
+        if (keybindPanel.mouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount)) {
+            return true;
+        }
+
+        return hovered;
+    }
+
     public void keyPressed(KeyInput input) {
         keybindPanel.keyPressed(input);
-        
+
         for (SettingPanel panel : visiblePanels) {
             panel.keyPressed(input);
         }

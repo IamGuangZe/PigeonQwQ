@@ -2,6 +2,7 @@ package owo.pigeon.gui.ClickGui.panels;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
+import owo.pigeon.Pigeon;
 import owo.pigeon.settings.AbstractNumSetting;
 import owo.pigeon.settings.AbstractSetting;
 import owo.pigeon.settings.FloatSetting;
@@ -11,6 +12,7 @@ import owo.pigeon.utils.Render.RenderUtil;
 
 import java.awt.*;
 
+import static owo.pigeon.Pigeon.mc;
 import static owo.pigeon.utils.Render.TextRendererUtil.textRenderer;
 
 public class SettingNumPanel extends SettingPanel {
@@ -131,6 +133,45 @@ public class SettingNumPanel extends SettingPanel {
         if (sliderHovered && dragging && click.button() == 0) {
             updateSliderValue(click.x());
         }
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        if (verticalAmount == 0) return false;
+
+        if (sliderHovered) {
+            double min = numberSetting.getMinValue().doubleValue();
+            double max = numberSetting.getMaxValue().doubleValue();
+            double value = numberSetting.getValue().doubleValue();
+
+            double scrollAmount = verticalAmount < 0 ? 1 : -1;
+
+            if (numberSetting instanceof FloatSetting floatSetting) {
+                double baseStep = 0.01;
+                double multiplier = 1.0;
+
+                if (Pigeon.mc.isCtrlPressed()) {
+                    multiplier *= 2;
+                }
+
+                if (mc.isShiftPressed()) {
+                    multiplier *= 5;
+                }
+
+                double newValue = value + scrollAmount * (baseStep * multiplier);
+                newValue = Math.max(min, Math.min(max, newValue));
+                newValue = Math.round(newValue * 100.0) / 100.0;
+                floatSetting.setValue((float) newValue);
+                return true;
+            } else if (numberSetting instanceof IntSetting intSetting) {
+                int newValue = (int) Math.round(value + scrollAmount);
+                newValue = Math.max((int) min, Math.min((int) max, newValue));
+                intSetting.setValue(newValue);
+                return true;
+            }
+        }
+
+        return hovered;
     }
 
     private void updateSliderValue(double mouseX) {

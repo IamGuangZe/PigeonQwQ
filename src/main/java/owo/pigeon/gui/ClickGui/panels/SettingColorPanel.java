@@ -144,6 +144,26 @@ public class SettingColorPanel extends SettingPanel {
         }
     }
 
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        if (verticalAmount == 0) return false;
+
+        for (int i = 0; i < 4; i++) {
+            if (sliderHovered[i]) {
+                int scrollAmount = verticalAmount < 0 ? 1 : -1;
+
+                int currentValue = getColorValue(i);
+                int newValue = currentValue + scrollAmount;
+                newValue = Math.max(0, Math.min(255, newValue));
+
+                setColor(newValue, i);
+                return true;
+            }
+        }
+
+        return hovered;
+    }
+
     private void updateSliderValue(double mouseX, int index) {
         int barX = x + 4;
         int barWidth = width - 8;
@@ -154,6 +174,21 @@ public class SettingColorPanel extends SettingPanel {
         int value = (int) Math.round(percent * 255.0);
 
         setColor(value, index);
+    }
+
+    private int getColorValue(int index) {
+        switch (index) {
+            case 0:
+                return colorSetting.getRed();
+            case 1:
+                return colorSetting.getGreen();
+            case 2:
+                return colorSetting.getBlue();
+            case 3:
+                return colorSetting.getAlpha();
+            default:
+                return 0;
+        }
     }
 
     private void setColor(int value, int index) {

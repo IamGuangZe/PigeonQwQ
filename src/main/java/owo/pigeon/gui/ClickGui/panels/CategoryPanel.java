@@ -131,6 +131,15 @@ public class CategoryPanel extends AbstractDisplableItem {
         }
     }
 
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        for (ModulePanel panel : modulePanels) {
+            if (panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+                return true;
+            }
+        }
+        return hovered;
+    }
+
     public void keyPressed(KeyInput input) {
         for (ModulePanel panel : modulePanels) {
             panel.keyPressed(input);
