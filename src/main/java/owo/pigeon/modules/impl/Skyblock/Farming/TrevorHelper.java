@@ -14,6 +14,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.settings.EnableSetting;
+import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.Hypixel.SkyblockUtil;
@@ -31,6 +32,7 @@ public class TrevorHelper extends Module {
     public EnableSetting autoWarp = setting("auto-warp", true, v -> true);
     public EnableSetting autoAccept = setting("auto-accept", true, v -> true);
     public EnableSetting huntedAnimalEsp = setting("hunted-animal-esp", true, v -> true);
+    public ModeSetting<RenderUtil.ESPMode> espMode = setting("esp-mode", RenderUtil.ESPMode.OUTLINE, v -> huntedAnimalEsp.getValue());
     public EnableSetting tracer = setting("tracer", true, v -> huntedAnimalEsp.getValue());
     public ColorSetting color = setting("color", new Color(0xAA00FF00, true), v -> huntedAnimalEsp.getValue());
 
@@ -70,7 +72,7 @@ public class TrevorHelper extends Module {
             }
 
             if (closestAnimal != null && huntedAnimalEsp.getValue()) {
-                RenderUtil.drawESP(event.getMatrix(), closestAnimal, color.getValue(), RenderUtil.ESPMode.BOTH, tracer.getValue());
+                RenderUtil.drawESP(event.getMatrix(), closestAnimal, color.getValue(), espMode.getValue(), tracer.getValue());
             }
         }
     }

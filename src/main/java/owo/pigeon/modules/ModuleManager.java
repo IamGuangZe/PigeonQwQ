@@ -20,6 +20,7 @@ import owo.pigeon.modules.impl.Render.*;
 import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
 import owo.pigeon.modules.impl.Skyblock.Dungeon.StarMobESP;
+import owo.pigeon.modules.impl.Skyblock.Farming.PestESP;
 import owo.pigeon.modules.impl.Skyblock.Farming.TrevorHelper;
 import owo.pigeon.modules.impl.Skyblock.Hunting.AutoReel;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
@@ -71,6 +72,7 @@ public class ModuleManager {
         /* =======*SkyBlock Module*======= */
         modules.add(new FlaySwitch());
         modules.add(new StarMobESP());
+        modules.add(new PestESP());
         modules.add(new TrevorHelper());
         modules.add(new AutoReel());
         modules.add(new AgaricusMiner());

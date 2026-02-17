@@ -1,9 +1,15 @@
 package owo.pigeon.utils;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ProfileComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.TagKey;
+
+import java.util.Collection;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -68,5 +74,20 @@ public class ItemUtil {
             }
         }
         return totalCount;
+    }
+
+    public static String getSkullTexture(ItemStack stack) {
+        if (stack == null || stack.isEmpty() || !stack.isOf(Items.PLAYER_HEAD)) return null;
+
+        ProfileComponent profileComponent = stack.get(DataComponentTypes.PROFILE);
+        if (profileComponent == null) return null;
+
+        GameProfile profile = profileComponent.getGameProfile();
+        if (profile == null) return null;
+
+        Collection<Property> textures = profile.properties().get("textures");
+        if (textures.isEmpty()) return null;
+
+        return textures.iterator().next().value();
     }
 }
