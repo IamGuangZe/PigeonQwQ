@@ -22,6 +22,7 @@ public class CommandManager {
         Pigeon.EVENT_BUS.subscribe(this);
 
         commands.add(new BindCommand());
+        commands.add(new CalcCommand());
         commands.add(new ConfigCommand());
         commands.add(new CopyCommand());
         commands.add(new FillCommand());
