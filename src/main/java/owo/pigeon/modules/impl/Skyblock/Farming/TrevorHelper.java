@@ -79,6 +79,7 @@ public class TrevorHelper extends Module {
 
     @Handler
     public void onChatReceive(MessageEvent.ReceiveMessageEvent event) {
+        if (event.isOverlay()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.FarmingIsland)) return;
 
         Text messageText = event.getMessage();

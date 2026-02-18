@@ -13,9 +13,9 @@ import owo.pigeon.event.events.MessageEvent;
 public class MixinMessageHandler {
     @Inject(method = "onGameMessage", at = @At("HEAD"), cancellable = true)
     private void onGameMessage(Text message, boolean overlay, CallbackInfo ci) {
-        // ChatUtil.sendDebugMessage("MixinMessageHandler","Game Message: " + message.getString());
+        // ChatUtil.sendDebugMessage("MixinMessageHandler","Game Message: " + message.getString() + ", Overlay: " + overlay);
 
-        MessageEvent.ReceiveMessageEvent event = new MessageEvent.ReceiveMessageEvent(message);
+        MessageEvent.ReceiveMessageEvent event = new MessageEvent.ReceiveMessageEvent(message, overlay);
         Pigeon.EVENT_BUS.post(event).now();
 
         if (event.isCancelled()) {

@@ -41,8 +41,15 @@ public class MessageEvent extends CancellableEvent {
     }
 
     public static class ReceiveMessageEvent extends MessageEvent {
-        public ReceiveMessageEvent(Text message) {
+        private final boolean overlay;
+
+        public ReceiveMessageEvent(Text message, boolean overlay) {
             super(message, Type.RECEIVE);
+            this.overlay = overlay;
+        }
+
+        public boolean isOverlay() {
+            return overlay;
         }
     }
 }
