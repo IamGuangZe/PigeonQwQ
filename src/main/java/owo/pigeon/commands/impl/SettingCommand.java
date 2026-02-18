@@ -72,20 +72,26 @@ public class SettingCommand extends Command {
                 } else if (setting instanceof ColorSetting colorSetting) {
                     try {
                         Color colorValue;
-                        if (value.startsWith("#")) { // HEX (e.g. "39C5BB", "#39C5BB")
-                            colorValue = Color.decode(value);
-                        } else if (value.startsWith("0x")) {
-                            colorValue = Color.decode(value.replace("0x","#"));
-                        } else if (value.matches("(?i)[0-9A-F]{6,8}")) {
-                            colorValue = Color.decode("#" + value);
-                        } else if (value.matches("\\d+")) { // RGB/ARGB (e.g. 4280763835)
-                            colorValue = new Color(Integer.parseInt(value),true);
+                        if (value.startsWith("#") || value.startsWith("0x")) {
+                            // HEX format with prefix (e.g. "#39C5BB", "0x39C5BB", "#39C5BBFF", "0x39C5BBFF")
+                            colorValue = ColorUtil.parseHexColor(value);
+                        } else if (value.matches("(?i)[0-9A-F]{6}") || value.matches("(?i)[0-9A-F]{8}")) {
+                            // HEX format without prefix (e.g. "39C5BB", "39C5BBFF")
+                            colorValue = ColorUtil.parseHexColor(value);
                         } else if (args.length >= 5) { // Separate R G B [A] inputs (args[2] R, args[3] G, args[4] B, optional args[5] A, e.g., 57 197 187)
                             int r = ColorUtil.colorClamp(Integer.parseInt(args[2]));
                             int g = ColorUtil.colorClamp(Integer.parseInt(args[3]));
                             int b = ColorUtil.colorClamp(Integer.parseInt(args[4]));
                             int a = ColorUtil.colorClamp((args.length > 5) ? Integer.parseInt(args[5]) : 255);
                             colorValue = new Color(r, g, b, a);
+                        } else if (value.matches("\\d+")) { // RGBA format (e.g. 3786171 for RGB, 3786171255 for RGBA)
+                            long longValue = Long.parseLong(value);
+                            if (args.length > 3) {
+                                int alpha = Integer.parseInt(args[3]);
+                                colorValue = ColorUtil.parseDecimalColor(longValue, alpha);
+                            } else {
+                                colorValue = ColorUtil.parseDecimalColor(longValue);
+                            }
                         } else {
                             CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
                                     this.getCommand(),
@@ -100,6 +106,13 @@ public class SettingCommand extends Command {
                                 colorValue.getRed(), colorValue.getGreen(), colorValue.getBlue(), colorValue.getAlpha());
                     } catch (NumberFormatException e) {
                         CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger,
+                                this.getCommand(),
+                                args,
+                                2
+                        );
+                        return;
+                    } catch (IllegalArgumentException e) {
+                        CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
                                 this.getCommand(),
                                 args,
                                 2
@@ -170,13 +183,13 @@ public class SettingCommand extends Command {
                         keyCode = -1;
                     }
 
-                    ChatUtil.sendDebugMessage("SettingCommand","Setting Key: " + keyCode);
+                    ChatUtil.sendDebugMessage("SettingCommand", "Setting Key: " + keyCode);
 
                     keySetting.setValue(keyCode);
                     value = keyCode == -1 ?
                             "None" :
                             InputUtil.Type.KEYSYM.createFromCode(keyCode)
-                                    .getTranslationKey().replace("key.keyboard.","").toUpperCase() + " (keycode: " + keyCode + ")" ;
+                                    .getTranslationKey().replace("key.keyboard.", "").toUpperCase() + " (keycode: " + keyCode + ")";
                 } else if (setting instanceof ModeSetting<?> modeSetting) {
                     try {
                         Enum<?> enumValue = Enum.valueOf((Class<Enum>) modeSetting.getValue().getClass(), value.toUpperCase());
