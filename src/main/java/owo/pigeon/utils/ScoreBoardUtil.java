@@ -58,13 +58,13 @@ public class ScoreBoardUtil {
 
     public static String getTabHeader() {
         if (mc.inGameHud == null || mc.inGameHud.getPlayerListHud() == null) return null;
-        Text header = ((IAccessorPlayerListHud) mc.inGameHud.getPlayerListHud()).getHeader();
+        Text header = ((IAccessorPlayerListHud) mc.inGameHud.getPlayerListHud()).pigeon$getHeader();
         return header == null ? null : header.getString();
     }
 
     public static String getTabFooter() {
         if (mc.inGameHud == null || mc.inGameHud.getPlayerListHud() == null) return null;
-        Text footer = ((IAccessorPlayerListHud) mc.inGameHud.getPlayerListHud()).getFooter();
+        Text footer = ((IAccessorPlayerListHud) mc.inGameHud.getPlayerListHud()).pigeon$getFooter();
         return footer == null ? null : footer.getString();
     }
 

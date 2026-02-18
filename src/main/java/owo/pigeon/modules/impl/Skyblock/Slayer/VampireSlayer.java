@@ -66,7 +66,7 @@ public class VampireSlayer extends Module {
         if (WorldUtil.nullCheck()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
 
-        String subtitle = ((IAccessorInGameHud) mc.inGameHud).getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorInGameHud) mc.inGameHud).getSubtitle().getString());
+        String subtitle = ((IAccessorInGameHud) mc.inGameHud).pigeon$getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorInGameHud) mc.inGameHud).pigeon$getSubtitle().getString());
         boolean foundTitle = subtitle.startsWith("Impel: ");
 
         Entity slayer = SkyblockUtil.getSlayer();

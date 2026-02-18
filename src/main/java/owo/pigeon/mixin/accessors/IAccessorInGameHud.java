@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(InGameHud.class)
 public interface IAccessorInGameHud {
     @Accessor("title")
-    Text getTitle();
+    Text pigeon$getTitle();
 
     @Accessor("subtitle")
-    Text getSubtitle();
+    Text pigeon$getSubtitle();
 }

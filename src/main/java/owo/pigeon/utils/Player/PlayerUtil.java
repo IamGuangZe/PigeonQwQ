@@ -25,7 +25,7 @@ public class PlayerUtil {
         ChatUtil.sendDebugMessage("PlayerUtil","LeftClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.attackKey);
-            case DOATTACK -> ((IAccessorMinecraftClient) mc).invokeDoAttack();
+            case DOATTACK -> ((IAccessorMinecraftClient) mc).pigeon$invokeDoAttack();
         }
     }
 
@@ -33,7 +33,7 @@ public class PlayerUtil {
         ChatUtil.sendDebugMessage("PlayerUtil","RightClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.useKey);
-            case DOITEMUSE -> ((IAccessorMinecraftClient) mc).invokeDoItemUse();
+            case DOITEMUSE -> ((IAccessorMinecraftClient) mc).pigeon$invokeDoItemUse();
             case INTERACTITEM -> mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
         }
     }

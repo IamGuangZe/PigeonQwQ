@@ -10,7 +10,7 @@ import static owo.pigeon.Pigeon.mc;
 public class KeybindUtil {
     public static void onPressed(KeyBinding key) {
         if (mc.currentScreen != null) return;
-        KeyBinding.onKeyPressed(((IAccessorKeyBinding) key).getBoundKey());
+        KeyBinding.onKeyPressed(((IAccessorKeyBinding) key).pigeon$getBoundKey());
     }
 
     public static void setPressed(KeyBinding key, boolean pressed) {
@@ -23,7 +23,7 @@ public class KeybindUtil {
         if (mc.currentScreen != null) return false;
         if (mc.getWindow() == null || key.isUnbound()) return false;
 
-        InputUtil.Key boundKey = ((IAccessorKeyBinding) key).getBoundKey();
+        InputUtil.Key boundKey = ((IAccessorKeyBinding) key).pigeon$getBoundKey();
         if (boundKey.getCategory() == InputUtil.Type.MOUSE) {
             return GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), boundKey.getCode()) == GLFW.GLFW_PRESS;
         } else {
