@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock;
+package owo.pigeon.modules.impl.Skyblock.Misc;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.Items;

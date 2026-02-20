@@ -17,7 +17,6 @@ import owo.pigeon.modules.impl.Movement.NoJumpDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
 import owo.pigeon.modules.impl.Player.*;
 import owo.pigeon.modules.impl.Render.*;
-import owo.pigeon.modules.impl.Skyblock.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
 import owo.pigeon.modules.impl.Skyblock.Dungeon.ChestClose;
 import owo.pigeon.modules.impl.Skyblock.Dungeon.StarMobESP;
@@ -25,6 +24,8 @@ import owo.pigeon.modules.impl.Skyblock.Event.AutoBouncingBall;
 import owo.pigeon.modules.impl.Skyblock.Farming.PestESP;
 import owo.pigeon.modules.impl.Skyblock.Farming.TrevorHelper;
 import owo.pigeon.modules.impl.Skyblock.Hunting.AutoReel;
+import owo.pigeon.modules.impl.Skyblock.Misc.AutoEquipment;
+import owo.pigeon.modules.impl.Skyblock.Misc.AutoExperiments;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
 import owo.pigeon.modules.impl.Skyblock.Rift.PotReplace;
 import owo.pigeon.modules.impl.Skyblock.Rift.SnakingHelper;
@@ -79,13 +80,14 @@ public class ModuleManager {
         modules.add(new PestESP());
         modules.add(new TrevorHelper());
         modules.add(new AutoReel());
+        modules.add(new AutoEquipment());
+        modules.add(new AutoExperiments());
         modules.add(new AgaricusMiner());
         modules.add(new PotReplace());
         modules.add(new SnakingHelper());
         modules.add(new TimiteMiner());
         modules.add(new AutoMaddox());
         modules.add(new VampireSlayer());
-        modules.add(new AutoExperiments());
     }
 
     @Handler

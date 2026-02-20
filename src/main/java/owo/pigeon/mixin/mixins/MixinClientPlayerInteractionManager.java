@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClickSlotEvent;
 import owo.pigeon.modules.impl.Player.NoBreakDelay;
+import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(ClientPlayerInteractionManager.class)
@@ -24,6 +25,7 @@ public class MixinClientPlayerInteractionManager {
     @Inject(method = "clickSlot",at = @At("HEAD"))
     private void onClickSlotPre(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new ClickSlotEvent()).now();
+        ChatUtil.sendDebugMessage("MixinClientPlayerInteractionManager","syanId: " + syncId + ", slotId: " + slotId);
     }
 
     @Inject(method = "updateBlockBreakingProgress", at = @At("HEAD"))
