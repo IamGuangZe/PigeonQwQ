@@ -7,6 +7,7 @@ import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
+import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.KeySetting;
 import owo.pigeon.settings.StringSetting;
 import owo.pigeon.utils.Chat.ChatUtil;
@@ -26,10 +27,12 @@ public class AutoEquipment extends Module {
     public KeySetting davidCloak = setting("david-cloak", -1, v -> true);
     public StringSetting custom = setting("custom", "Golden Necron Head", v -> true);
     public KeySetting customKey = setting("custom-key", -1, v -> true);
+    public IntSetting delay = setting("delay", 5, 0, 20, "tick",v -> true);
 
     private final String BONZO_MASK = "Bonzo's Mask";
     private final String SPIRIT_MASK = "Spirit Mask";
     private final String DAVID_CLOAK = "David's Cloak";
+    private int ticksOpened;
     private Integer targetSlot;
     private boolean isWaitingToClose;
 
@@ -37,6 +40,7 @@ public class AutoEquipment extends Module {
     public void onEnable() {
         targetSlot = null;
         isWaitingToClose = false;
+        ticksOpened = 0;
     }
 
     @Handler
@@ -59,6 +63,7 @@ public class AutoEquipment extends Module {
                 }
 
                 targetSlot = slot;
+                ticksOpened = 0;
                 mc.execute(() -> mc.player.networkHandler.sendChatMessage("/eq"));
             }
         }
@@ -73,6 +78,12 @@ public class AutoEquipment extends Module {
             if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler containerScreen) {
                 String title = mc.currentScreen.getTitle().getString();
                 if (title.equals("Your Equipment and Stats")) {
+
+                    if (ticksOpened < delay.getValue()) {
+                        ticksOpened++;
+                        return;
+                    }
+
                     int containerSize = containerScreen.slots.size() - 36;
 
                     int slotId = (targetSlot < 9)
@@ -82,8 +93,9 @@ public class AutoEquipment extends Module {
                     PlayerUtil.clickSlot(containerScreen.syncId, slotId,0, SlotActionType.QUICK_MOVE);
                     targetSlot = null;
                     isWaitingToClose = true;
+                    ticksOpened = 0;
                 }
-            }
+            } else ticksOpened = 0;
         }
 
         if (event instanceof TickEvent.ClientTickEvent.Post) {
