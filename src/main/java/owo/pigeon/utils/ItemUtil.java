@@ -23,16 +23,16 @@ public class ItemUtil {
                 || item == Items.NETHERITE_SWORD;
     }
 
-    public static int getSlotFromItemName(String itemName) {
+    public static int getSlotFromItemName(String itemName, boolean onlyHotbar) {
         if (mc.player == null) return -1;
 
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
+        int limit = onlyHotbar ? 9 : 36;
 
+        for (int i = 0; i < limit; i++) {
+            ItemStack stack = mc.player.getInventory().getStack(i);
             if (stack.isEmpty()) continue;
 
             String name = ColorUtil.removeColor(stack.getName().getString());
-
             if (name.toLowerCase().contains(itemName.toLowerCase())) return i;
         }
 

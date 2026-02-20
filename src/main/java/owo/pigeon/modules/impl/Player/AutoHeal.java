@@ -49,22 +49,22 @@ public class AutoHeal extends Module {
 
         int healingItemSlot = -1;
         if (goldenHead.getValue()) {
-            int slot = ItemUtil.getSlotFromItemName("Golden Head");
+            int slot = ItemUtil.getSlotFromItemName("Golden Head",true);
             if (slot != -1) healingItemSlot = slot;
         }
         if (ragePotato.getValue()) {
-            int slot = ItemUtil.getSlotFromItemName("Rage Potato");
+            int slot = ItemUtil.getSlotFromItemName("Rage Potato",true);
             if (slot != -1) healingItemSlot = slot;
         }
         if (firstAidEgg.getValue()) {
-            int slot = ItemUtil.getSlotFromItemName("First-Aid Egg");
+            int slot = ItemUtil.getSlotFromItemName("First-Aid Egg",true);
             if (slot != -1) {
                 ItemStack itemStack = ItemUtil.getItemStackfromSlot(slot);
                 if (itemStack.getItem() == Items.MOOSHROOM_SPAWN_EGG) healingItemSlot = slot;
             }
         }
         if (fracturedSoul.getValue()) {
-            int slot = ItemUtil.getSlotFromItemName("Fractured Soul");
+            int slot = ItemUtil.getSlotFromItemName("Fractured Soul",true);
             if (slot != -1) healingItemSlot = slot;
         }
 

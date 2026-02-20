@@ -59,7 +59,7 @@ public class AutoMaddox extends Module {
                 }
 
                 case BATPHONE -> {
-                    int slot = ItemUtil.getSlotFromItemName("Maddox ");
+                    int slot = ItemUtil.getSlotFromItemName("Maddox ",true);
                     if (slot == -1) return;
 
                     switch (switchMode.getValue()) {

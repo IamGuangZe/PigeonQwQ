@@ -124,7 +124,7 @@ public class VampireSlayer extends Module {
                 }
 
             if (autoHeal.getValue()) {
-                int melon = ItemUtil.getSlotFromItemName(MELON);
+                int melon = ItemUtil.getSlotFromItemName(MELON,true);
                 float health = mc.player.getHealth();
 
                 if (melon != -1 && health <= healHealth.getValue() && !hasHeal) {
@@ -138,7 +138,7 @@ public class VampireSlayer extends Module {
             }
 
             if (autoIce.getValue()) {
-                int ice = ItemUtil.getSlotFromItemName(ICE);
+                int ice = ItemUtil.getSlotFromItemName(ICE,true);
                 if (ice == -1 || slayer == null) return;
 
                 boolean foundClaws = false;
@@ -170,7 +170,7 @@ public class VampireSlayer extends Module {
             }
 
             if (autoSteak.getValue()) {
-                int steak = ItemUtil.getSlotFromItemName(STEAK);
+                int steak = ItemUtil.getSlotFromItemName(STEAK,true);
                 if (steak == -1 || slayer == null) return;
 
                 for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25, 2.5, 0.25), entity -> true)) {

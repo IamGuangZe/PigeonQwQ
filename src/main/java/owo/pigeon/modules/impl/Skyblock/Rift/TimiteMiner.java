@@ -112,7 +112,7 @@ public class TimiteMiner extends Module {
         if (!isHoldingTimiteTools()) return;
         if (getTargetBlockStage() == null) return;
 
-        int slot = ItemUtil.getSlotFromItemName(itemName);
+        int slot = ItemUtil.getSlotFromItemName(itemName,true);
 
         if (slot != -1) {
             PlayerUtil.switchItemSlot(slot);

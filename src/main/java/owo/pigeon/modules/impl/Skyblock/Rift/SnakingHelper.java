@@ -48,7 +48,7 @@ public class SnakingHelper extends Module {
             return;
         }
 
-        int slot = ItemUtil.getSlotFromItemName(itemName);
+        int slot = ItemUtil.getSlotFromItemName(itemName,true);
         ChatUtil.sendDebugMessage(this.name, "search item: " + itemName + ", slot=" + slot);
 
         if (slot != -1) {
