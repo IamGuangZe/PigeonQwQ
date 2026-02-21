@@ -26,6 +26,7 @@ public class CommandManager {
         commands.add(new ConfigCommand());
         commands.add(new CopyCommand());
         commands.add(new FillCommand());
+        commands.add(new GamemodeCommand());
         commands.add(new HelpCommand());
         commands.add(new PrefixCommand());
         commands.add(new SayCommand());

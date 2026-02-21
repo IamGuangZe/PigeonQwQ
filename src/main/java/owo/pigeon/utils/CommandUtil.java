@@ -14,6 +14,7 @@ public class CommandUtil {
         InvalidBoolean("Invalid boolean: expected 'true' or 'false'"), // 不为布尔
         IncorrectArgument("Incorrect argument for command"),  // 参数错误
         UnknownBlock("Unknown block type"),   // 未知方块
+        UnknownGamemode("Unknown game mode"),   // 未知游戏模式
         UnknownItem("Unknown item"),    // 未知物品
         UnknownModule("Unknown Module"), // 未知模块
         UnknownSetting("Unknown Setting"); // 未知设置
