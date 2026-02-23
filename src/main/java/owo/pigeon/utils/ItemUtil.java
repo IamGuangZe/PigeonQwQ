@@ -3,13 +3,17 @@ package owo.pigeon.utils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.component.type.ProfileComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.text.Text;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -74,6 +78,15 @@ public class ItemUtil {
             }
         }
         return totalCount;
+    }
+
+    public static List<Text> getItemLore(ItemStack stack) {
+        if (stack.isEmpty()) return Collections.emptyList();
+
+        LoreComponent loreComponent = stack.get(DataComponentTypes.LORE);
+
+        if (loreComponent == null) return Collections.emptyList();
+        return loreComponent.lines();
     }
 
     public static String getSkullTexture(ItemStack stack) {

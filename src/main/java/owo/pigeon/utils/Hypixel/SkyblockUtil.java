@@ -5,6 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
@@ -13,11 +15,16 @@ import owo.pigeon.utils.RegexUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
 import owo.pigeon.utils.WorldUtil;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static owo.pigeon.Pigeon.mc;
+import static owo.pigeon.utils.ItemUtil.getItemLore;
 
 public class SkyblockUtil {
     public enum Island {
@@ -233,5 +240,21 @@ public class SkyblockUtil {
             }
         }
         return null;
+    }
+
+    // .*?Ability:\s+(.*?)(?:\s{2,}(.*)|(?:\s+)?)$
+    private static final Pattern ABILITY_PATTERN = Pattern.compile(".*?Ability:\\s+(.*?)(?:\\s{2,}.*|\\s*)$");
+
+    public static Set<String> getItemAbilityNames(ItemStack stack) {
+        List<Text> lore = getItemLore(stack);
+        if (lore.isEmpty()) return Collections.emptySet();
+
+        return lore.stream()
+                .map(Text::getString)
+                .map(ABILITY_PATTERN::matcher)
+                .filter(Matcher::find)
+                .map(matcher -> matcher.group(1).trim())
+                .filter(name -> !name.isEmpty())
+                .collect(Collectors.toSet());
     }
 }
