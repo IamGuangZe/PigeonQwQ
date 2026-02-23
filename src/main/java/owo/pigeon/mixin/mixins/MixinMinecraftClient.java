@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -12,7 +13,6 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.DoItemUseEvent;
 import owo.pigeon.event.events.TickEvent;
-import owo.pigeon.event.events.WorldChangeEvent;
 import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Player.FastPlace;
@@ -26,6 +26,9 @@ public class MixinMinecraftClient {
 
     @Shadow
     private int itemUseCooldown;
+
+    @Unique
+    private ClientWorld lastProcessedWorld;
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void onClientTickPre(CallbackInfo ci) {
@@ -67,11 +70,5 @@ public class MixinMinecraftClient {
         if (ModuleUtil.isEnable(FastPlace.class) && ModuleUtil.getModule(FastPlace.class).canFastPlace()) {
             itemUseCooldown = ModuleUtil.getModule(FastPlace.class).delay.getValue();
         }
-    }
-
-    @Inject(method = "setWorld", at = @At("RETURN"))
-    private void onSetWorldPost(ClientWorld world, CallbackInfo ci) {
-        if (world == null) return;
-        Pigeon.EVENT_BUS.post(new WorldChangeEvent()).now();
     }
 }
