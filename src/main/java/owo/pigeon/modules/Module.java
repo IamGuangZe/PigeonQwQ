@@ -26,19 +26,19 @@ public class Module extends SettingDesigner {
     public void enable() {
         if (!enable) {
             enable = true;
-            Pigeon.EVENT_BUS.subscribe(this);
             onEnable();
+            Pigeon.EVENT_BUS.subscribe(this);
+            ChatUtil.sendIfHudReadyMessage(this.name + " has &aEnabled!");
         }
-        ChatUtil.sendIfHudReadyMessage(this.name + " has &aEnabled!");
     }
 
     public void disable() {
         if (enable) {
             enable = false;
-            Pigeon.EVENT_BUS.unsubscribe(this);
             onDisable();
+            Pigeon.EVENT_BUS.unsubscribe(this);
+            ChatUtil.sendIfHudReadyMessage(this.name + " has &4Disabled!");
         }
-        ChatUtil.sendIfHudReadyMessage(this.name + " has &4Disabled!");
     }
 
     public void toggle() {

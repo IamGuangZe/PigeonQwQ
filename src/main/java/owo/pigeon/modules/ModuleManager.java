@@ -26,6 +26,7 @@ import owo.pigeon.modules.impl.Skyblock.Farming.TrevorHelper;
 import owo.pigeon.modules.impl.Skyblock.Hunting.AutoReel;
 import owo.pigeon.modules.impl.Skyblock.Misc.AutoEquipment;
 import owo.pigeon.modules.impl.Skyblock.Misc.AutoExperiments;
+import owo.pigeon.modules.impl.Skyblock.Misc.FailSafe;
 import owo.pigeon.modules.impl.Skyblock.Rift.AgaricusMiner;
 import owo.pigeon.modules.impl.Skyblock.Rift.PotReplace;
 import owo.pigeon.modules.impl.Skyblock.Rift.SnakingHelper;
@@ -82,6 +83,7 @@ public class ModuleManager {
         modules.add(new AutoReel());
         modules.add(new AutoEquipment());
         modules.add(new AutoExperiments());
+        modules.add(new FailSafe());
         modules.add(new AgaricusMiner());
         modules.add(new PotReplace());
         modules.add(new SnakingHelper());
