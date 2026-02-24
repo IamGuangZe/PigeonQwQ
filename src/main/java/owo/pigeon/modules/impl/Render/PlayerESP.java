@@ -20,7 +20,7 @@ public class PlayerESP extends Module {
         super("PlayerESP", Category.RENDER);
     }
 
-    public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.FILL, v -> true);
+    public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public EnableSetting tracer = setting("tracer", false, v -> true);
     public ColorSetting color = setting("color", new Color(0x5FFFFFFF, true), v -> true);
 

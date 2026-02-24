@@ -12,6 +12,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class HypixelUtil {
     public enum Game {
+        PIXELPARTY(Sets.newHashSet("PIXEL PARTY", "像素派对", "跳色舞會")),
         SKYBLOCK(Sets.newHashSet("SKYBLOCK", "SKYBLOCK CO-OP", "空岛生存", "空島生存", "SKIBLOCK"));
 
         private final Set<String> displayNames;

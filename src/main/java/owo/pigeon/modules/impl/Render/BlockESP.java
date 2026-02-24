@@ -23,7 +23,7 @@ public class BlockESP extends Module {
     }
 
     public BlockSetting block = setting("block", Blocks.DRAGON_EGG, v->true);
-    public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.FILL, v -> true);
+    public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public ColorSetting color = setting("color", new Color(0x22FF1111, true), v -> true);
 
     public static CopyOnWriteArraySet<BlockPos> blocks = new CopyOnWriteArraySet<>();

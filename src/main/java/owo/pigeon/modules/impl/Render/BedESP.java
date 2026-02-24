@@ -20,7 +20,7 @@ public class BedESP extends Module {
         super("BedESP", Category.RENDER);
     }
 
-    public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.FILL, v -> true);
+    public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public ColorSetting color = setting("color", new Color(0x22FF1111, true), v -> true);
 
     public static CopyOnWriteArraySet<BlockPos> beds = new CopyOnWriteArraySet<>();
