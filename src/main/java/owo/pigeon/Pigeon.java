@@ -10,6 +10,7 @@ import owo.pigeon.gui.ClickGui.ClickGuiScreen;
 import owo.pigeon.modules.ModuleManager;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.SafeMessage;
+import owo.pigeon.utils.Hypixel.BanTracker;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.Player.InstantUse;
 
@@ -24,6 +25,7 @@ public class Pigeon implements ModInitializer {
     public static ConfigManager configManager;
 
     public static SafeMessage safeMessage = new SafeMessage();
+    public static BanTracker banTracker = new BanTracker();
     public static InstantUse instantUse = new InstantUse();
 
     public static final String MOD_ID = "pigeonqwq";
@@ -46,6 +48,8 @@ public class Pigeon implements ModInitializer {
 
         configManager = new ConfigManager();
         configManager.init();
+
+        banTracker.start();
     }
 
     public static boolean isDebug() {

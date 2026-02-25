@@ -21,6 +21,7 @@ public class CommandManager {
     public void init() {
         Pigeon.EVENT_BUS.subscribe(this);
 
+        commands.add(new BannedStatsCommand());
         commands.add(new BindCommand());
         commands.add(new CalcCommand());
         commands.add(new ConfigCommand());
