@@ -4,6 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.Items;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.text.Text;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -12,6 +13,7 @@ import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
 
@@ -32,6 +34,7 @@ public class AutoExperiments extends Module {
     }
 
     public IntSetting clickDelay = setting("click-delay", 4, 1, 20, v -> true);
+    public EnableSetting autoClaim = setting("auto-claim", true, v -> true);
     public EnableSetting autoClose = setting("auto-close", true, v -> true);
     public ModeSetting<AutoCloseMode> autoCloseMode = setting("auto-close-mode", AutoCloseMode.MAX_XP, v -> autoClose.getValue());
     public IntSetting metaphysicalSerumUsed = setting("metaphysical-serum-used", 0, 0, 3, v -> autoCloseMode.getValue() == AutoCloseMode.MAX_CLICK);
@@ -194,6 +197,16 @@ public class AutoExperiments extends Module {
                 clickIndex = 0;
                 chronomatronOrder.clear();
                 ultrasequencerOrder.clear();
+
+                if (autoClaim.getValue() && title.startsWith("Experiment Over")) {
+                    List<Text> lore = ItemUtil.getItemLore(containerScreen.getSlot(11).getStack());
+                    List<String> target = List.of("You closed the game!","Game closed");
+                    boolean isMatched = lore.stream()
+                            .map(Text::getString)
+                            .anyMatch(target::contains);
+
+                    if (isMatched) mc.player.closeHandledScreen();
+                }
             }
         }
     }
