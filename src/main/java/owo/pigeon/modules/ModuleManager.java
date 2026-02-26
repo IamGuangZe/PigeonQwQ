@@ -14,6 +14,7 @@ import owo.pigeon.modules.impl.Combat.AutoClicker;
 import owo.pigeon.modules.impl.Combat.HitBox;
 import owo.pigeon.modules.impl.Combat.NoHitDelay;
 import owo.pigeon.modules.impl.Hypixel.BannedStats;
+import owo.pigeon.modules.impl.Hypixel.GTBSolver;
 import owo.pigeon.modules.impl.Hypixel.PixelHelper;
 import owo.pigeon.modules.impl.Movement.NoJumpDelay;
 import owo.pigeon.modules.impl.Movement.Sprint;
@@ -61,6 +62,7 @@ public class ModuleManager {
         modules.add(new NoHitDelay());
 
         modules.add(new BannedStats());
+        modules.add(new GTBSolver());
         modules.add(new PixelHelper());
 
         modules.add(new NoJumpDelay());

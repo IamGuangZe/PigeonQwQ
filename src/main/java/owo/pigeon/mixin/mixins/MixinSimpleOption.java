@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import owo.pigeon.utils.Chat.ChatUtil;
 
 @Mixin(SimpleOption.class)
 public class MixinSimpleOption<T> {
@@ -21,7 +20,7 @@ public class MixinSimpleOption<T> {
 
     @Inject(method = "setValue", at = @At("HEAD"), cancellable = true)
     private void onSetValue(T value, CallbackInfo ci) {
-        ChatUtil.sendDebugMessage("MixinSimpleOption",text.getString() + " / " + text.getContent().toString() + " / " +this.text.getString());
+        // ChatUtil.sendDebugMessage("MixinSimpleOption",text.getString() + " / " + text.getContent().toString() + " / " +this.text.getString());
 
         if (text.getContent().toString().contains("options.gamma")) {
             this.value = value;

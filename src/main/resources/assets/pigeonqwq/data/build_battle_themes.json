@@ -1,0 +1,6742 @@
+[
+  {
+    "en": "Abandoned",
+    "zh_cn": "遗址"
+  },
+  {
+    "en": "Abandoned Mansion",
+    "zh_cn": "废弃豪宅"
+  },
+  {
+    "en": "Abstract",
+    "zh_cn": "抽象"
+  },
+  {
+    "en": "Advent Calendar",
+    "zh_cn": "惊喜月历"
+  },
+  {
+    "en": "Air Horn",
+    "zh_cn": "汽笛"
+  },
+  {
+    "en": "Airport",
+    "zh_cn": "机场"
+  },
+  {
+    "en": "Airship",
+    "zh_cn": "飞艇"
+  },
+  {
+    "en": "Alarm Clock",
+    "zh_cn": "闹钟"
+  },
+  {
+    "en": "Alien",
+    "zh_cn": "外星人"
+  },
+  {
+    "en": "Alien Invasion",
+    "zh_cn": "外星人入侵"
+  },
+  {
+    "en": "Ambulance",
+    "zh_cn": "救护车"
+  },
+  {
+    "en": "Anchor",
+    "zh_cn": "锚"
+  },
+  {
+    "en": "Ancient",
+    "zh_cn": "古代"
+  },
+  {
+    "en": "Angel",
+    "zh_cn": "天使"
+  },
+  {
+    "en": "Animal",
+    "zh_cn": "动物"
+  },
+  {
+    "en": "Ant",
+    "zh_cn": "蚂蚁"
+  },
+  {
+    "en": "Antivirus",
+    "zh_cn": "杀毒软件"
+  },
+  {
+    "en": "Anvil",
+    "zh_cn": "铁砧"
+  },
+  {
+    "en": "Apocalypse",
+    "zh_cn": "末日"
+  },
+  {
+    "en": "Apocalyptic",
+    "zh_cn": "末日"
+  },
+  {
+    "en": "Apple",
+    "zh_cn": "苹果"
+  },
+  {
+    "en": "Apple Pie",
+    "zh_cn": "苹果派"
+  },
+  {
+    "en": "Apple Tree",
+    "zh_cn": "苹果树"
+  },
+  {
+    "en": "Aquarium",
+    "zh_cn": "水族馆"
+  },
+  {
+    "en": "Arcade",
+    "zh_cn": "街机游戏"
+  },
+  {
+    "en": "Archer",
+    "zh_cn": "射手"
+  },
+  {
+    "en": "Arctic",
+    "zh_cn": "北极"
+  },
+  {
+    "en": "Armor",
+    "zh_cn": "盔甲"
+  },
+  {
+    "en": "Army",
+    "zh_cn": "军队"
+  },
+  {
+    "en": "Arrow",
+    "zh_cn": "箭"
+  },
+  {
+    "en": "Art",
+    "zh_cn": "艺术"
+  },
+  {
+    "en": "Astronaut",
+    "zh_cn": "宇航员"
+  },
+  {
+    "en": "Atmosphere",
+    "zh_cn": "大气层"
+  },
+  {
+    "en": "Atom",
+    "zh_cn": "原子"
+  },
+  {
+    "en": "Australia",
+    "zh_cn": "澳大利亚"
+  },
+  {
+    "en": "Autumn",
+    "zh_cn": "秋天"
+  },
+  {
+    "en": "Avocado",
+    "zh_cn": "牛油果"
+  },
+  {
+    "en": "Award",
+    "zh_cn": "奖励"
+  },
+  {
+    "en": "Axe",
+    "zh_cn": "斧子"
+  },
+  {
+    "en": "Axolotl",
+    "zh_cn": "美西螈"
+  },
+  {
+    "en": "Baby",
+    "zh_cn": "婴儿"
+  },
+  {
+    "en": "Backflip",
+    "zh_cn": "后空翻"
+  },
+  {
+    "en": "Backpack",
+    "zh_cn": "背包"
+  },
+  {
+    "en": "Bacon",
+    "zh_cn": "培根"
+  },
+  {
+    "en": "Badge",
+    "zh_cn": "徽章"
+  },
+  {
+    "en": "Bag",
+    "zh_cn": "袋子"
+  },
+  {
+    "en": "Baguette",
+    "zh_cn": "法式长棍"
+  },
+  {
+    "en": "Bakery",
+    "zh_cn": "面包店"
+  },
+  {
+    "en": "Bald Head",
+    "zh_cn": "秃头"
+  },
+  {
+    "en": "Balloon",
+    "zh_cn": "气球"
+  },
+  {
+    "en": "Bamboo",
+    "zh_cn": "竹子"
+  },
+  {
+    "en": "Band",
+    "zh_cn": "乐队"
+  },
+  {
+    "en": "Bandage",
+    "zh_cn": "绷带"
+  },
+  {
+    "en": "Banjo",
+    "zh_cn": "班卓琴"
+  },
+  {
+    "en": "Bank",
+    "zh_cn": "银行"
+  },
+  {
+    "en": "Banner",
+    "zh_cn": "旗帜"
+  },
+  {
+    "en": "Bar",
+    "zh_cn": "酒吧"
+  },
+  {
+    "en": "Barbeque",
+    "zh_cn": "烧烤"
+  },
+  {
+    "en": "Barcode",
+    "zh_cn": "条形码"
+  },
+  {
+    "en": "Barn",
+    "zh_cn": "谷仓"
+  },
+  {
+    "en": "Barrel",
+    "zh_cn": "桶"
+  },
+  {
+    "en": "Barrier",
+    "zh_cn": "屏障"
+  },
+  {
+    "en": "Baseball",
+    "zh_cn": "棒球"
+  },
+  {
+    "en": "Baseball Field",
+    "zh_cn": "棒球场"
+  },
+  {
+    "en": "Baseball Glove",
+    "zh_cn": "棒球手套"
+  },
+  {
+    "en": "Basket",
+    "zh_cn": "篮子"
+  },
+  {
+    "en": "Basketball",
+    "zh_cn": "篮球"
+  },
+  {
+    "en": "Basketball Court",
+    "zh_cn": "篮球场"
+  },
+  {
+    "en": "Bastion",
+    "zh_cn": "堡垒"
+  },
+  {
+    "en": "Bat",
+    "zh_cn": "蝙蝠"
+  },
+  {
+    "en": "Bath",
+    "zh_cn": "浴室"
+  },
+  {
+    "en": "Bathroom",
+    "zh_cn": "浴室"
+  },
+  {
+    "en": "Bats",
+    "zh_cn": "蝙蝠"
+  },
+  {
+    "en": "Battery",
+    "zh_cn": "电池"
+  },
+  {
+    "en": "Battle",
+    "zh_cn": "战斗"
+  },
+  {
+    "en": "Battleship",
+    "zh_cn": "战舰"
+  },
+  {
+    "en": "Baubles",
+    "zh_cn": "装饰球"
+  },
+  {
+    "en": "Beach",
+    "zh_cn": "沙滩"
+  },
+  {
+    "en": "Beach Ball",
+    "zh_cn": "沙滩球"
+  },
+  {
+    "en": "Beach Party",
+    "zh_cn": "沙滩派对"
+  },
+  {
+    "en": "Beanie",
+    "zh_cn": "针织帽"
+  },
+  {
+    "en": "Beans",
+    "zh_cn": "豆子"
+  },
+  {
+    "en": "Bear",
+    "zh_cn": "熊"
+  },
+  {
+    "en": "Beard",
+    "zh_cn": "胡子"
+  },
+  {
+    "en": "Beaver",
+    "zh_cn": "海狸"
+  },
+  {
+    "en": "Bed Wars",
+    "zh_cn": "起床战争"
+  },
+  {
+    "en": "Bedtime",
+    "zh_cn": "睡觉时间"
+  },
+  {
+    "en": "Bee",
+    "zh_cn": "蜜蜂"
+  },
+  {
+    "en": "Beef",
+    "zh_cn": "牛肉"
+  },
+  {
+    "en": "Beehive",
+    "zh_cn": "蜂巢"
+  },
+  {
+    "en": "Beetle",
+    "zh_cn": "甲虫"
+  },
+  {
+    "en": "Bell",
+    "zh_cn": "铃铛"
+  },
+  {
+    "en": "Bell Pepper",
+    "zh_cn": "甜椒"
+  },
+  {
+    "en": "Belt",
+    "zh_cn": "腰带"
+  },
+  {
+    "en": "Bench",
+    "zh_cn": "长凳"
+  },
+  {
+    "en": "Berries",
+    "zh_cn": "浆果"
+  },
+  {
+    "en": "Bicycle",
+    "zh_cn": "自行车"
+  },
+  {
+    "en": "Bigfoot",
+    "zh_cn": "大脚怪"
+  },
+  {
+    "en": "Bike",
+    "zh_cn": "自行车"
+  },
+  {
+    "en": "Bike Path",
+    "zh_cn": "自行车道"
+  },
+  {
+    "en": "Bin",
+    "zh_cn": "垃圾箱"
+  },
+  {
+    "en": "Bingo",
+    "zh_cn": "宾果"
+  },
+  {
+    "en": "Binoculars",
+    "zh_cn": "双筒望远镜"
+  },
+  {
+    "en": "Bird",
+    "zh_cn": "鸟"
+  },
+  {
+    "en": "Bird Bath",
+    "zh_cn": "鸟盆"
+  },
+  {
+    "en": "Bird Cage",
+    "zh_cn": "鸟笼"
+  },
+  {
+    "en": "Bird House",
+    "zh_cn": "鸟屋"
+  },
+  {
+    "en": "Bird Nest",
+    "zh_cn": "鸟巢"
+  },
+  {
+    "en": "Birthday",
+    "zh_cn": "生日"
+  },
+  {
+    "en": "Birthday Party",
+    "zh_cn": "生日派对"
+  },
+  {
+    "en": "Biscuit",
+    "zh_cn": "饼干"
+  },
+  {
+    "en": "Bison",
+    "zh_cn": "野牛"
+  },
+  {
+    "en": "Black Hole",
+    "zh_cn": "黑洞"
+  },
+  {
+    "en": "Blackboard",
+    "zh_cn": "黑板"
+  },
+  {
+    "en": "Blacksmith",
+    "zh_cn": "铁匠"
+  },
+  {
+    "en": "Blanket",
+    "zh_cn": "毯子"
+  },
+  {
+    "en": "Blaze",
+    "zh_cn": "烈焰人"
+  },
+  {
+    "en": "Blender",
+    "zh_cn": "搅拌机"
+  },
+  {
+    "en": "Blimp",
+    "zh_cn": "软式飞艇"
+  },
+  {
+    "en": "Blizzard",
+    "zh_cn": "暴风雪"
+  },
+  {
+    "en": "Blocks",
+    "zh_cn": "方块"
+  },
+  {
+    "en": "Blooming",
+    "zh_cn": "绽放"
+  },
+  {
+    "en": "Blueprint",
+    "zh_cn": "蓝图"
+  },
+  {
+    "en": "Board Game",
+    "zh_cn": "桌游"
+  },
+  {
+    "en": "Board Games",
+    "zh_cn": "桌游"
+  },
+  {
+    "en": "Boat",
+    "zh_cn": "船"
+  },
+  {
+    "en": "Bobsledding",
+    "zh_cn": "无舵雪橇"
+  },
+  {
+    "en": "Bomb",
+    "zh_cn": "炸弹"
+  },
+  {
+    "en": "Bone",
+    "zh_cn": "骨头"
+  },
+  {
+    "en": "Bones",
+    "zh_cn": "骨头"
+  },
+  {
+    "en": "Boogeyman",
+    "zh_cn": "恶灵"
+  },
+  {
+    "en": "Book",
+    "zh_cn": "书"
+  },
+  {
+    "en": "Book Shelf",
+    "zh_cn": "书架"
+  },
+  {
+    "en": "Bookmark",
+    "zh_cn": "书签"
+  },
+  {
+    "en": "Bookstore",
+    "zh_cn": "书店"
+  },
+  {
+    "en": "Boomerang",
+    "zh_cn": "回旋镖"
+  },
+  {
+    "en": "Boot",
+    "zh_cn": "靴子"
+  },
+  {
+    "en": "Boots",
+    "zh_cn": "靴子"
+  },
+  {
+    "en": "Border",
+    "zh_cn": "边界"
+  },
+  {
+    "en": "Bottle",
+    "zh_cn": "瓶子"
+  },
+  {
+    "en": "Bouncy Castle",
+    "zh_cn": "充气城堡"
+  },
+  {
+    "en": "Bow and Arrow",
+    "zh_cn": "弓和箭"
+  },
+  {
+    "en": "Bow Tie",
+    "zh_cn": "领结"
+  },
+  {
+    "en": "Bowl",
+    "zh_cn": "碗"
+  },
+  {
+    "en": "Bowling",
+    "zh_cn": "保龄球"
+  },
+  {
+    "en": "Bowling Ball",
+    "zh_cn": "保龄球"
+  },
+  {
+    "en": "Bowling Pin",
+    "zh_cn": "保龄球瓶"
+  },
+  {
+    "en": "Box of Chocolate",
+    "zh_cn": "巧克力盒"
+  },
+  {
+    "en": "Boxing Ring",
+    "zh_cn": "拳击场"
+  },
+  {
+    "en": "Boy",
+    "zh_cn": "男孩"
+  },
+  {
+    "en": "Bracelet",
+    "zh_cn": "手镯"
+  },
+  {
+    "en": "Brain",
+    "zh_cn": "脑"
+  },
+  {
+    "en": "Breakfast",
+    "zh_cn": "早餐"
+  },
+  {
+    "en": "Brewing Stand",
+    "zh_cn": "酿造台"
+  },
+  {
+    "en": "Brick",
+    "zh_cn": "红砖"
+  },
+  {
+    "en": "Bridge",
+    "zh_cn": "桥"
+  },
+  {
+    "en": "Broccoli",
+    "zh_cn": "西兰花"
+  },
+  {
+    "en": "Broken",
+    "zh_cn": "损坏的"
+  },
+  {
+    "en": "Broken Bridge",
+    "zh_cn": "断桥"
+  },
+  {
+    "en": "Broom",
+    "zh_cn": "扫帚"
+  },
+  {
+    "en": "Broomstick",
+    "zh_cn": "扫帚"
+  },
+  {
+    "en": "Brush",
+    "zh_cn": "刷子"
+  },
+  {
+    "en": "Bubbles",
+    "zh_cn": "泡泡"
+  },
+  {
+    "en": "Buffet",
+    "zh_cn": "自助餐"
+  },
+  {
+    "en": "Bug",
+    "zh_cn": "虫子"
+  },
+  {
+    "en": "Build Battle",
+    "zh_cn": "建筑大师"
+  },
+  {
+    "en": "Building",
+    "zh_cn": "建筑"
+  },
+  {
+    "en": "Bull",
+    "zh_cn": "公牛"
+  },
+  {
+    "en": "Bulldozer",
+    "zh_cn": "推土机"
+  },
+  {
+    "en": "Bumblebee",
+    "zh_cn": "大黄蜂"
+  },
+  {
+    "en": "Bumper Cars",
+    "zh_cn": "碰碰车"
+  },
+  {
+    "en": "Bunk Bed",
+    "zh_cn": "双层床"
+  },
+  {
+    "en": "Bunker",
+    "zh_cn": "地堡"
+  },
+  {
+    "en": "Bunny",
+    "zh_cn": "兔子"
+  },
+  {
+    "en": "Burger",
+    "zh_cn": "汉堡"
+  },
+  {
+    "en": "Buried",
+    "zh_cn": "埋葬"
+  },
+  {
+    "en": "Bus Stop",
+    "zh_cn": "公交车站"
+  },
+  {
+    "en": "Bush",
+    "zh_cn": "灌木"
+  },
+  {
+    "en": "Butter",
+    "zh_cn": "黄油"
+  },
+  {
+    "en": "Butterfly",
+    "zh_cn": "蝴蝶"
+  },
+  {
+    "en": "Button",
+    "zh_cn": "按钮"
+  },
+  {
+    "en": "Cab",
+    "zh_cn": "出租车"
+  },
+  {
+    "en": "Cabbage",
+    "zh_cn": "卷心菜"
+  },
+  {
+    "en": "Cabin",
+    "zh_cn": "小屋"
+  },
+  {
+    "en": "Cabinet",
+    "zh_cn": "橱柜"
+  },
+  {
+    "en": "Cable",
+    "zh_cn": "电缆"
+  },
+  {
+    "en": "Cactus",
+    "zh_cn": "仙人掌"
+  },
+  {
+    "en": "Cafe",
+    "zh_cn": "咖啡馆"
+  },
+  {
+    "en": "Cage",
+    "zh_cn": "笼子"
+  },
+  {
+    "en": "Cake",
+    "zh_cn": "蛋糕"
+  },
+  {
+    "en": "Calculator",
+    "zh_cn": "计算器"
+  },
+  {
+    "en": "Calendar",
+    "zh_cn": "日历"
+  },
+  {
+    "en": "Camel",
+    "zh_cn": "骆驼"
+  },
+  {
+    "en": "Camera",
+    "zh_cn": "相机"
+  },
+  {
+    "en": "Camouflage",
+    "zh_cn": "迷彩"
+  },
+  {
+    "en": "Campfire",
+    "zh_cn": "篝火"
+  },
+  {
+    "en": "Campground",
+    "zh_cn": "野营地"
+  },
+  {
+    "en": "Campsite",
+    "zh_cn": "营地"
+  },
+  {
+    "en": "Can",
+    "zh_cn": "罐头"
+  },
+  {
+    "en": "Canada",
+    "zh_cn": "加拿大"
+  },
+  {
+    "en": "Canal",
+    "zh_cn": "运河"
+  },
+  {
+    "en": "Candle",
+    "zh_cn": "蜡烛"
+  },
+  {
+    "en": "Candlelight",
+    "zh_cn": "烛光"
+  },
+  {
+    "en": "Candles",
+    "zh_cn": "蜡烛"
+  },
+  {
+    "en": "Candy",
+    "zh_cn": "糖果"
+  },
+  {
+    "en": "Candy Buckets",
+    "zh_cn": "糖果篮子"
+  },
+  {
+    "en": "Candy Cane",
+    "zh_cn": "拐杖糖"
+  },
+  {
+    "en": "Cane",
+    "zh_cn": "手杖"
+  },
+  {
+    "en": "Cannon",
+    "zh_cn": "大炮"
+  },
+  {
+    "en": "Canoe",
+    "zh_cn": "独木舟"
+  },
+  {
+    "en": "Cap",
+    "zh_cn": "帽子"
+  },
+  {
+    "en": "Cape",
+    "zh_cn": "披风"
+  },
+  {
+    "en": "Capybara",
+    "zh_cn": "水豚"
+  },
+  {
+    "en": "Car",
+    "zh_cn": "小轿车"
+  },
+  {
+    "en": "Car Wash",
+    "zh_cn": "洗车"
+  },
+  {
+    "en": "Card Games",
+    "zh_cn": "卡牌游戏"
+  },
+  {
+    "en": "Cardboard Box",
+    "zh_cn": "纸板箱"
+  },
+  {
+    "en": "Caribbean",
+    "zh_cn": "加勒比海"
+  },
+  {
+    "en": "Carnival",
+    "zh_cn": "嘉年华"
+  },
+  {
+    "en": "Carolling",
+    "zh_cn": "圣诞颂歌"
+  },
+  {
+    "en": "Carpenter",
+    "zh_cn": "木匠"
+  },
+  {
+    "en": "Carpet",
+    "zh_cn": "地毯"
+  },
+  {
+    "en": "Carriage",
+    "zh_cn": "马车"
+  },
+  {
+    "en": "Carrot",
+    "zh_cn": "胡萝卜"
+  },
+  {
+    "en": "Cartoon",
+    "zh_cn": "卡通"
+  },
+  {
+    "en": "Cash",
+    "zh_cn": "现金"
+  },
+  {
+    "en": "Cashier",
+    "zh_cn": "收银员"
+  },
+  {
+    "en": "Castle",
+    "zh_cn": "城堡"
+  },
+  {
+    "en": "Cat",
+    "zh_cn": "猫"
+  },
+  {
+    "en": "Catacomb",
+    "zh_cn": "地下墓穴"
+  },
+  {
+    "en": "Catapult",
+    "zh_cn": "投石机"
+  },
+  {
+    "en": "Caterpillar",
+    "zh_cn": "毛毛虫"
+  },
+  {
+    "en": "Cauldron",
+    "zh_cn": "炼药锅"
+  },
+  {
+    "en": "Cave",
+    "zh_cn": "洞穴"
+  },
+  {
+    "en": "Ceiling Fan",
+    "zh_cn": "吊扇"
+  },
+  {
+    "en": "Celebrate",
+    "zh_cn": "庆祝"
+  },
+  {
+    "en": "Celebration",
+    "zh_cn": "节日庆典"
+  },
+  {
+    "en": "Celestial",
+    "zh_cn": "天神下凡"
+  },
+  {
+    "en": "Cell",
+    "zh_cn": "细胞"
+  },
+  {
+    "en": "Cellar",
+    "zh_cn": "酒窖"
+  },
+  {
+    "en": "Cement Mixer",
+    "zh_cn": "水泥搅拌机"
+  },
+  {
+    "en": "Centaur",
+    "zh_cn": "半人马"
+  },
+  {
+    "en": "Cereal",
+    "zh_cn": "谷物"
+  },
+  {
+    "en": "Cereal Box",
+    "zh_cn": "麦片盒"
+  },
+  {
+    "en": "Chain",
+    "zh_cn": "锁链"
+  },
+  {
+    "en": "Chainsaw",
+    "zh_cn": "电锯"
+  },
+  {
+    "en": "Chair",
+    "zh_cn": "椅子"
+  },
+  {
+    "en": "Chalk",
+    "zh_cn": "粉笔"
+  },
+  {
+    "en": "Chandelier",
+    "zh_cn": "枝形吊灯"
+  },
+  {
+    "en": "Checkerboard",
+    "zh_cn": "棋盘"
+  },
+  {
+    "en": "Cheese",
+    "zh_cn": "奶酪"
+  },
+  {
+    "en": "Cheeseburger",
+    "zh_cn": "芝士汉堡"
+  },
+  {
+    "en": "Cheesecake",
+    "zh_cn": "芝士蛋糕"
+  },
+  {
+    "en": "Chef",
+    "zh_cn": "厨师"
+  },
+  {
+    "en": "Chef Hat",
+    "zh_cn": "厨师帽"
+  },
+  {
+    "en": "Cherry Blossom",
+    "zh_cn": "樱花"
+  },
+  {
+    "en": "Cherry Blossoms",
+    "zh_cn": "樱花"
+  },
+  {
+    "en": "Chess",
+    "zh_cn": "国际象棋"
+  },
+  {
+    "en": "Chestnut",
+    "zh_cn": "板栗"
+  },
+  {
+    "en": "Chestplate",
+    "zh_cn": "胸甲"
+  },
+  {
+    "en": "Chicken",
+    "zh_cn": "鸡"
+  },
+  {
+    "en": "Chicken Coop",
+    "zh_cn": "鸡舍"
+  },
+  {
+    "en": "Chicken Nugget",
+    "zh_cn": "炸鸡块"
+  },
+  {
+    "en": "Chilli",
+    "zh_cn": "辣椒"
+  },
+  {
+    "en": "Chimney",
+    "zh_cn": "烟囱"
+  },
+  {
+    "en": "China",
+    "zh_cn": "中国"
+  },
+  {
+    "en": "Chip",
+    "zh_cn": "芯片"
+  },
+  {
+    "en": "Chocolate",
+    "zh_cn": "巧克力"
+  },
+  {
+    "en": "Chocolate Cake",
+    "zh_cn": "巧克力蛋糕"
+  },
+  {
+    "en": "Chocolate Chip Cookie",
+    "zh_cn": "巧克力曲奇"
+  },
+  {
+    "en": "Chocolate Factory",
+    "zh_cn": "巧克力工厂"
+  },
+  {
+    "en": "Chocolate Milk",
+    "zh_cn": "巧克力牛奶"
+  },
+  {
+    "en": "Choir",
+    "zh_cn": "合唱团"
+  },
+  {
+    "en": "Chopsticks",
+    "zh_cn": "筷子"
+  },
+  {
+    "en": "Christmas",
+    "zh_cn": "圣诞节"
+  },
+  {
+    "en": "Christmas Card",
+    "zh_cn": "圣诞贺卡"
+  },
+  {
+    "en": "Christmas Dinner",
+    "zh_cn": "圣诞晚餐"
+  },
+  {
+    "en": "Christmas Eve",
+    "zh_cn": "平安夜"
+  },
+  {
+    "en": "Christmas Gift",
+    "zh_cn": "圣诞礼物"
+  },
+  {
+    "en": "Christmas Morning",
+    "zh_cn": "圣诞早晨"
+  },
+  {
+    "en": "Christmas Tree",
+    "zh_cn": "圣诞树"
+  },
+  {
+    "en": "Church",
+    "zh_cn": "教堂"
+  },
+  {
+    "en": "Cinema",
+    "zh_cn": "电影院"
+  },
+  {
+    "en": "Circle",
+    "zh_cn": "圆形"
+  },
+  {
+    "en": "Circus",
+    "zh_cn": "马戏团"
+  },
+  {
+    "en": "City",
+    "zh_cn": "城市"
+  },
+  {
+    "en": "Clam",
+    "zh_cn": "蛤蜊"
+  },
+  {
+    "en": "Clap",
+    "zh_cn": "鼓掌"
+  },
+  {
+    "en": "Class",
+    "zh_cn": "职业"
+  },
+  {
+    "en": "Claw",
+    "zh_cn": "爪子"
+  },
+  {
+    "en": "Clay",
+    "zh_cn": "黏土"
+  },
+  {
+    "en": "Cliff",
+    "zh_cn": "悬崖"
+  },
+  {
+    "en": "Climbing",
+    "zh_cn": "登山"
+  },
+  {
+    "en": "Cloak",
+    "zh_cn": "披风"
+  },
+  {
+    "en": "Clock",
+    "zh_cn": "时钟"
+  },
+  {
+    "en": "Closet",
+    "zh_cn": "壁橱"
+  },
+  {
+    "en": "Cloud",
+    "zh_cn": "云"
+  },
+  {
+    "en": "Clouds",
+    "zh_cn": "云"
+  },
+  {
+    "en": "Clover",
+    "zh_cn": "三叶草"
+  },
+  {
+    "en": "Clown",
+    "zh_cn": "小丑"
+  },
+  {
+    "en": "Clown Fish",
+    "zh_cn": "小丑鱼"
+  },
+  {
+    "en": "Coat",
+    "zh_cn": "外套"
+  },
+  {
+    "en": "Coat Hanger",
+    "zh_cn": "衣架"
+  },
+  {
+    "en": "Cobweb",
+    "zh_cn": "蜘蛛网"
+  },
+  {
+    "en": "Cockroach",
+    "zh_cn": "蟑螂"
+  },
+  {
+    "en": "Coconut",
+    "zh_cn": "椰子"
+  },
+  {
+    "en": "Cocoon",
+    "zh_cn": "茧"
+  },
+  {
+    "en": "Coffee",
+    "zh_cn": "咖啡"
+  },
+  {
+    "en": "Coffee Machine",
+    "zh_cn": "咖啡机"
+  },
+  {
+    "en": "Coffee Shop",
+    "zh_cn": "咖啡馆"
+  },
+  {
+    "en": "Coffin",
+    "zh_cn": "棺材"
+  },
+  {
+    "en": "Coin",
+    "zh_cn": "硬币"
+  },
+  {
+    "en": "Colored Pencil",
+    "zh_cn": "彩色铅笔"
+  },
+  {
+    "en": "Colosseum",
+    "zh_cn": "斗兽场"
+  },
+  {
+    "en": "Comb",
+    "zh_cn": "梳子"
+  },
+  {
+    "en": "Comet",
+    "zh_cn": "彗星"
+  },
+  {
+    "en": "Compass",
+    "zh_cn": "指南针"
+  },
+  {
+    "en": "Computer",
+    "zh_cn": "电脑"
+  },
+  {
+    "en": "Concert",
+    "zh_cn": "音乐会"
+  },
+  {
+    "en": "Construction",
+    "zh_cn": "施工"
+  },
+  {
+    "en": "Controller",
+    "zh_cn": "控制器"
+  },
+  {
+    "en": "Conveyor Belt",
+    "zh_cn": "传送带"
+  },
+  {
+    "en": "Cook",
+    "zh_cn": "厨师"
+  },
+  {
+    "en": "Cookie",
+    "zh_cn": "曲奇"
+  },
+  {
+    "en": "Cookie Mountain",
+    "zh_cn": "曲奇山"
+  },
+  {
+    "en": "Cooking",
+    "zh_cn": "烹饪"
+  },
+  {
+    "en": "Coral",
+    "zh_cn": "珊瑚"
+  },
+  {
+    "en": "Corn",
+    "zh_cn": "玉米"
+  },
+  {
+    "en": "Corn Dog",
+    "zh_cn": "玉米热狗"
+  },
+  {
+    "en": "Corner",
+    "zh_cn": "角落"
+  },
+  {
+    "en": "Corpse Bride",
+    "zh_cn": "僵尸新娘"
+  },
+  {
+    "en": "Costume",
+    "zh_cn": "时装"
+  },
+  {
+    "en": "Cotton Candy",
+    "zh_cn": "棉花糖"
+  },
+  {
+    "en": "Couch",
+    "zh_cn": "沙发"
+  },
+  {
+    "en": "Cow",
+    "zh_cn": "牛"
+  },
+  {
+    "en": "Cowbell",
+    "zh_cn": "牛铃"
+  },
+  {
+    "en": "Cowboy",
+    "zh_cn": "牛仔"
+  },
+  {
+    "en": "Cowboy Hat",
+    "zh_cn": "牛仔帽"
+  },
+  {
+    "en": "Crab",
+    "zh_cn": "螃蟹"
+  },
+  {
+    "en": "Crafting Table",
+    "zh_cn": "工作台"
+  },
+  {
+    "en": "Crane",
+    "zh_cn": "起重机"
+  },
+  {
+    "en": "Crate",
+    "zh_cn": "板条箱"
+  },
+  {
+    "en": "Crater",
+    "zh_cn": "弹坑"
+  },
+  {
+    "en": "Crayon",
+    "zh_cn": "蜡笔"
+  },
+  {
+    "en": "Credit Card",
+    "zh_cn": "信用卡"
+  },
+  {
+    "en": "Creeper",
+    "zh_cn": "苦力怕"
+  },
+  {
+    "en": "Crib",
+    "zh_cn": "婴儿床"
+  },
+  {
+    "en": "Cricket",
+    "zh_cn": "板球"
+  },
+  {
+    "en": "Criminal",
+    "zh_cn": "罪犯"
+  },
+  {
+    "en": "Crocodile",
+    "zh_cn": "鳄鱼"
+  },
+  {
+    "en": "Crossbow",
+    "zh_cn": "弩"
+  },
+  {
+    "en": "Crosswalk",
+    "zh_cn": "人行横道"
+  },
+  {
+    "en": "Crow",
+    "zh_cn": "乌鸦"
+  },
+  {
+    "en": "Crowbar",
+    "zh_cn": "撬棍"
+  },
+  {
+    "en": "Crown",
+    "zh_cn": "皇冠"
+  },
+  {
+    "en": "Cruise Ship",
+    "zh_cn": "游轮"
+  },
+  {
+    "en": "Cry",
+    "zh_cn": "哭"
+  },
+  {
+    "en": "Crystal",
+    "zh_cn": "水晶"
+  },
+  {
+    "en": "Crystal Ball",
+    "zh_cn": "水晶球"
+  },
+  {
+    "en": "Cube",
+    "zh_cn": "立方体"
+  },
+  {
+    "en": "Cup",
+    "zh_cn": "杯子"
+  },
+  {
+    "en": "Cupcake",
+    "zh_cn": "纸杯蛋糕"
+  },
+  {
+    "en": "Curtain",
+    "zh_cn": "窗帘"
+  },
+  {
+    "en": "Cutting Board",
+    "zh_cn": "砧板"
+  },
+  {
+    "en": "Cyborg",
+    "zh_cn": "半机械人"
+  },
+  {
+    "en": "Cyclops",
+    "zh_cn": "独眼巨人"
+  },
+  {
+    "en": "Dad",
+    "zh_cn": "爸爸"
+  },
+  {
+    "en": "Daffodil",
+    "zh_cn": "水仙花"
+  },
+  {
+    "en": "Dagger",
+    "zh_cn": "匕首"
+  },
+  {
+    "en": "Dark woods",
+    "zh_cn": "黑暗树林"
+  },
+  {
+    "en": "Dart Board",
+    "zh_cn": "标靶"
+  },
+  {
+    "en": "Date",
+    "zh_cn": "日期"
+  },
+  {
+    "en": "Day",
+    "zh_cn": "白天"
+  },
+  {
+    "en": "Dead Tree",
+    "zh_cn": "枯树"
+  },
+  {
+    "en": "Decorated House",
+    "zh_cn": "装饰后的房子"
+  },
+  {
+    "en": "Deer",
+    "zh_cn": "鹿"
+  },
+  {
+    "en": "Demon",
+    "zh_cn": "恶魔"
+  },
+  {
+    "en": "Dentist",
+    "zh_cn": "牙医"
+  },
+  {
+    "en": "Desert",
+    "zh_cn": "沙漠"
+  },
+  {
+    "en": "Desk",
+    "zh_cn": "桌子"
+  },
+  {
+    "en": "Dessert",
+    "zh_cn": "甜点"
+  },
+  {
+    "en": "Devil",
+    "zh_cn": "魔鬼"
+  },
+  {
+    "en": "Diamond",
+    "zh_cn": "钻石"
+  },
+  {
+    "en": "Diamond Ring",
+    "zh_cn": "钻戒"
+  },
+  {
+    "en": "Dice",
+    "zh_cn": "骰子"
+  },
+  {
+    "en": "Dinner",
+    "zh_cn": "晚餐"
+  },
+  {
+    "en": "Dinosaur",
+    "zh_cn": "恐龙"
+  },
+  {
+    "en": "Diploma",
+    "zh_cn": "文凭"
+  },
+  {
+    "en": "Dirt House",
+    "zh_cn": "泥土房"
+  },
+  {
+    "en": "Disco",
+    "zh_cn": "迪斯科"
+  },
+  {
+    "en": "Disco Ball",
+    "zh_cn": "迪斯科球"
+  },
+  {
+    "en": "Disguise",
+    "zh_cn": "伪装"
+  },
+  {
+    "en": "Dish",
+    "zh_cn": "盘子"
+  },
+  {
+    "en": "Dishwasher",
+    "zh_cn": "洗碗机"
+  },
+  {
+    "en": "Dispenser",
+    "zh_cn": "发射器"
+  },
+  {
+    "en": "Diving Board",
+    "zh_cn": "跳水板"
+  },
+  {
+    "en": "DNA",
+    "zh_cn": "DNA"
+  },
+  {
+    "en": "Dock",
+    "zh_cn": "码头"
+  },
+  {
+    "en": "Doctor",
+    "zh_cn": "医生"
+  },
+  {
+    "en": "Dodgeball",
+    "zh_cn": "躲避球"
+  },
+  {
+    "en": "Dog",
+    "zh_cn": "狗"
+  },
+  {
+    "en": "Dog Collar",
+    "zh_cn": "狗项圈"
+  },
+  {
+    "en": "Doll",
+    "zh_cn": "洋娃娃"
+  },
+  {
+    "en": "Dollar",
+    "zh_cn": "美元"
+  },
+  {
+    "en": "Dollhouse",
+    "zh_cn": "玩具屋"
+  },
+  {
+    "en": "Dolphin",
+    "zh_cn": "海豚"
+  },
+  {
+    "en": "Domino",
+    "zh_cn": "多米诺"
+  },
+  {
+    "en": "Donkey",
+    "zh_cn": "驴"
+  },
+  {
+    "en": "Donut",
+    "zh_cn": "甜甜圈"
+  },
+  {
+    "en": "Door",
+    "zh_cn": "门"
+  },
+  {
+    "en": "Door Knob",
+    "zh_cn": "门把手"
+  },
+  {
+    "en": "Doorbell",
+    "zh_cn": "门铃"
+  },
+  {
+    "en": "Doughnut",
+    "zh_cn": "甜甜圈"
+  },
+  {
+    "en": "Dove",
+    "zh_cn": "鸽子"
+  },
+  {
+    "en": "Dracula",
+    "zh_cn": "德古拉"
+  },
+  {
+    "en": "Dragon",
+    "zh_cn": "龙"
+  },
+  {
+    "en": "Dragon Egg",
+    "zh_cn": "龙蛋"
+  },
+  {
+    "en": "Dragonfly",
+    "zh_cn": "蜻蜓"
+  },
+  {
+    "en": "Drawing",
+    "zh_cn": "图画"
+  },
+  {
+    "en": "Dress",
+    "zh_cn": "连衣裙"
+  },
+  {
+    "en": "Drink",
+    "zh_cn": "饮料"
+  },
+  {
+    "en": "Driveway",
+    "zh_cn": "车道"
+  },
+  {
+    "en": "Drum",
+    "zh_cn": "鼓"
+  },
+  {
+    "en": "Drum Sticks",
+    "zh_cn": "鼓槌"
+  },
+  {
+    "en": "Duck",
+    "zh_cn": "鸭子"
+  },
+  {
+    "en": "Dumbbell",
+    "zh_cn": "哑铃"
+  },
+  {
+    "en": "Dungeon",
+    "zh_cn": "地牢"
+  },
+  {
+    "en": "DVD",
+    "zh_cn": "DVD"
+  },
+  {
+    "en": "Dwarf",
+    "zh_cn": "矮人"
+  },
+  {
+    "en": "Dynamite",
+    "zh_cn": "炸药"
+  },
+  {
+    "en": "Eagle",
+    "zh_cn": "鹰"
+  },
+  {
+    "en": "Ear",
+    "zh_cn": "耳朵"
+  },
+  {
+    "en": "Earmuffs",
+    "zh_cn": "耳罩"
+  },
+  {
+    "en": "Earring",
+    "zh_cn": "耳环"
+  },
+  {
+    "en": "Earth",
+    "zh_cn": "地球"
+  },
+  {
+    "en": "Easter",
+    "zh_cn": "复活节"
+  },
+  {
+    "en": "Easter Bunny",
+    "zh_cn": "复活节兔子"
+  },
+  {
+    "en": "Easter Egg",
+    "zh_cn": "复活节彩蛋"
+  },
+  {
+    "en": "Eel",
+    "zh_cn": "电鳗"
+  },
+  {
+    "en": "Egg Basket",
+    "zh_cn": "鸡蛋篮"
+  },
+  {
+    "en": "Eggplant",
+    "zh_cn": "茄子"
+  },
+  {
+    "en": "Eggs",
+    "zh_cn": "鸡蛋"
+  },
+  {
+    "en": "Egypt",
+    "zh_cn": "埃及"
+  },
+  {
+    "en": "Elbow",
+    "zh_cn": "手肘"
+  },
+  {
+    "en": "Elephant",
+    "zh_cn": "大象"
+  },
+  {
+    "en": "Elevator",
+    "zh_cn": "电梯"
+  },
+  {
+    "en": "Elf",
+    "zh_cn": "精灵"
+  },
+  {
+    "en": "Emerald",
+    "zh_cn": "绿宝石"
+  },
+  {
+    "en": "Emoji",
+    "zh_cn": "表情符号"
+  },
+  {
+    "en": "Enchant",
+    "zh_cn": "附魔"
+  },
+  {
+    "en": "Ender Dragon",
+    "zh_cn": "末影龙"
+  },
+  {
+    "en": "Enderman",
+    "zh_cn": "末影人"
+  },
+  {
+    "en": "England",
+    "zh_cn": "英格兰"
+  },
+  {
+    "en": "Envelope",
+    "zh_cn": "信封"
+  },
+  {
+    "en": "Environment",
+    "zh_cn": "环境"
+  },
+  {
+    "en": "Eraser",
+    "zh_cn": "橡皮"
+  },
+  {
+    "en": "Escalator",
+    "zh_cn": "自动扶梯"
+  },
+  {
+    "en": "Ethereal",
+    "zh_cn": "空灵"
+  },
+  {
+    "en": "Europe",
+    "zh_cn": "欧洲"
+  },
+  {
+    "en": "Evergreen Tree",
+    "zh_cn": "常青树"
+  },
+  {
+    "en": "Evil Cat",
+    "zh_cn": "邪恶猫猫"
+  },
+  {
+    "en": "Evil Clown",
+    "zh_cn": "邪恶小丑"
+  },
+  {
+    "en": "Exit",
+    "zh_cn": "退出"
+  },
+  {
+    "en": "Experiment",
+    "zh_cn": "实验"
+  },
+  {
+    "en": "Explosion",
+    "zh_cn": "爆炸"
+  },
+  {
+    "en": "Extraterrestrial",
+    "zh_cn": "外星人"
+  },
+  {
+    "en": "Eye",
+    "zh_cn": "眼睛"
+  },
+  {
+    "en": "Eye Patch",
+    "zh_cn": "眼罩"
+  },
+  {
+    "en": "Eyebrow",
+    "zh_cn": "眉毛"
+  },
+  {
+    "en": "Face",
+    "zh_cn": "脸"
+  },
+  {
+    "en": "Factory",
+    "zh_cn": "工厂"
+  },
+  {
+    "en": "Fair",
+    "zh_cn": "集市"
+  },
+  {
+    "en": "Fairy",
+    "zh_cn": "仙女"
+  },
+  {
+    "en": "Family",
+    "zh_cn": "家庭"
+  },
+  {
+    "en": "Fan",
+    "zh_cn": "风扇"
+  },
+  {
+    "en": "Fancy",
+    "zh_cn": "漂亮"
+  },
+  {
+    "en": "Fang",
+    "zh_cn": "牙齿"
+  },
+  {
+    "en": "Fangs",
+    "zh_cn": "獠牙"
+  },
+  {
+    "en": "Fantasy",
+    "zh_cn": "幻想"
+  },
+  {
+    "en": "Farm",
+    "zh_cn": "农场"
+  },
+  {
+    "en": "Farmer's Market",
+    "zh_cn": "农贸市场"
+  },
+  {
+    "en": "Fashion Show",
+    "zh_cn": "时装秀"
+  },
+  {
+    "en": "Fast Food",
+    "zh_cn": "快餐"
+  },
+  {
+    "en": "Fat",
+    "zh_cn": "胖子"
+  },
+  {
+    "en": "Feast",
+    "zh_cn": "盛宴"
+  },
+  {
+    "en": "Feet",
+    "zh_cn": "脚"
+  },
+  {
+    "en": "Fence",
+    "zh_cn": "栅栏"
+  },
+  {
+    "en": "Ferris Wheel",
+    "zh_cn": "摩天轮"
+  },
+  {
+    "en": "Festival",
+    "zh_cn": "节日"
+  },
+  {
+    "en": "Field",
+    "zh_cn": "田野"
+  },
+  {
+    "en": "Fin",
+    "zh_cn": "鱼鳍"
+  },
+  {
+    "en": "Finger",
+    "zh_cn": "手指"
+  },
+  {
+    "en": "Finish Line",
+    "zh_cn": "终点线"
+  },
+  {
+    "en": "Fire",
+    "zh_cn": "火焰"
+  },
+  {
+    "en": "Fire Engine",
+    "zh_cn": "消防车"
+  },
+  {
+    "en": "Fire Extinguisher",
+    "zh_cn": "灭火器"
+  },
+  {
+    "en": "Fireball",
+    "zh_cn": "火球"
+  },
+  {
+    "en": "Firefly",
+    "zh_cn": "萤火虫"
+  },
+  {
+    "en": "Fireplace",
+    "zh_cn": "壁炉"
+  },
+  {
+    "en": "Firetruck",
+    "zh_cn": "消防车"
+  },
+  {
+    "en": "Firework",
+    "zh_cn": "烟花"
+  },
+  {
+    "en": "Fireworks",
+    "zh_cn": "烟花"
+  },
+  {
+    "en": "First Aid",
+    "zh_cn": "急救"
+  },
+  {
+    "en": "Fish",
+    "zh_cn": "鱼"
+  },
+  {
+    "en": "Fish Bowl",
+    "zh_cn": "鱼缸"
+  },
+  {
+    "en": "Fisherman",
+    "zh_cn": "渔夫"
+  },
+  {
+    "en": "Fishing",
+    "zh_cn": "钓鱼"
+  },
+  {
+    "en": "Fist",
+    "zh_cn": "拳头"
+  },
+  {
+    "en": "Flags",
+    "zh_cn": "旗帜"
+  },
+  {
+    "en": "Flamingo",
+    "zh_cn": "火烈鸟"
+  },
+  {
+    "en": "Flare",
+    "zh_cn": "照明弹"
+  },
+  {
+    "en": "Flashlight",
+    "zh_cn": "手电筒"
+  },
+  {
+    "en": "Flipper",
+    "zh_cn": "脚蹼"
+  },
+  {
+    "en": "Floating Island",
+    "zh_cn": "浮空岛屿"
+  },
+  {
+    "en": "Flood",
+    "zh_cn": "洪水"
+  },
+  {
+    "en": "Floor",
+    "zh_cn": "地板"
+  },
+  {
+    "en": "Flower Patch",
+    "zh_cn": "花簇"
+  },
+  {
+    "en": "Flowerpot",
+    "zh_cn": "花盆"
+  },
+  {
+    "en": "Flowers",
+    "zh_cn": "花"
+  },
+  {
+    "en": "Flute",
+    "zh_cn": "长笛"
+  },
+  {
+    "en": "Fly",
+    "zh_cn": "苍蝇"
+  },
+  {
+    "en": "Flying Pig",
+    "zh_cn": "飞猪"
+  },
+  {
+    "en": "Flying Saucer",
+    "zh_cn": "飞碟"
+  },
+  {
+    "en": "Folder",
+    "zh_cn": "文件夹"
+  },
+  {
+    "en": "Food",
+    "zh_cn": "食物"
+  },
+  {
+    "en": "Football",
+    "zh_cn": "足球"
+  },
+  {
+    "en": "Football Field",
+    "zh_cn": "足球场"
+  },
+  {
+    "en": "Football Helmet",
+    "zh_cn": "橄榄球头盔"
+  },
+  {
+    "en": "Footprint",
+    "zh_cn": "脚印"
+  },
+  {
+    "en": "Forehead",
+    "zh_cn": "额头"
+  },
+  {
+    "en": "Forest",
+    "zh_cn": "森林"
+  },
+  {
+    "en": "Forest Fire",
+    "zh_cn": "森林火灾"
+  },
+  {
+    "en": "Forge",
+    "zh_cn": "铁匠铺"
+  },
+  {
+    "en": "Fortress",
+    "zh_cn": "要塞"
+  },
+  {
+    "en": "Fortune Cookie",
+    "zh_cn": "幸运曲奇"
+  },
+  {
+    "en": "Fortuneteller",
+    "zh_cn": "占卜师"
+  },
+  {
+    "en": "Fossil",
+    "zh_cn": "化石"
+  },
+  {
+    "en": "Fountain",
+    "zh_cn": "喷泉"
+  },
+  {
+    "en": "Fox",
+    "zh_cn": "狐狸"
+  },
+  {
+    "en": "Frame",
+    "zh_cn": "框架"
+  },
+  {
+    "en": "Frankenstein",
+    "zh_cn": "科学怪人"
+  },
+  {
+    "en": "Freezer",
+    "zh_cn": "冷冻柜"
+  },
+  {
+    "en": "French Fries",
+    "zh_cn": "薯条"
+  },
+  {
+    "en": "Fridge",
+    "zh_cn": "冰箱"
+  },
+  {
+    "en": "Frisbee",
+    "zh_cn": "飞盘"
+  },
+  {
+    "en": "Frog",
+    "zh_cn": "青蛙"
+  },
+  {
+    "en": "Frosty the Snowman",
+    "zh_cn": "雪人Frosty"
+  },
+  {
+    "en": "Frown",
+    "zh_cn": "皱眉"
+  },
+  {
+    "en": "Frozen",
+    "zh_cn": "冻结"
+  },
+  {
+    "en": "Fruit",
+    "zh_cn": "水果"
+  },
+  {
+    "en": "Fruit Basket",
+    "zh_cn": "水果篮"
+  },
+  {
+    "en": "Fruit Punch",
+    "zh_cn": "果酒"
+  },
+  {
+    "en": "Frying pan",
+    "zh_cn": "煎锅"
+  },
+  {
+    "en": "Fudge",
+    "zh_cn": "牛奶软糖"
+  },
+  {
+    "en": "Full Moon",
+    "zh_cn": "满月"
+  },
+  {
+    "en": "Fur",
+    "zh_cn": "毛皮"
+  },
+  {
+    "en": "Furnace",
+    "zh_cn": "熔炉"
+  },
+  {
+    "en": "Furniture",
+    "zh_cn": "家具"
+  },
+  {
+    "en": "Galaxy",
+    "zh_cn": "星系"
+  },
+  {
+    "en": "Gallery",
+    "zh_cn": "画廊"
+  },
+  {
+    "en": "Game",
+    "zh_cn": "游戏"
+  },
+  {
+    "en": "Game Show",
+    "zh_cn": "竞赛节目"
+  },
+  {
+    "en": "Games Controller",
+    "zh_cn": "游戏手柄"
+  },
+  {
+    "en": "Gaming Chair",
+    "zh_cn": "游戏椅"
+  },
+  {
+    "en": "Garage",
+    "zh_cn": "车库"
+  },
+  {
+    "en": "Garbage Can",
+    "zh_cn": "垃圾桶"
+  },
+  {
+    "en": "Garbage Truck",
+    "zh_cn": "垃圾车"
+  },
+  {
+    "en": "Garden",
+    "zh_cn": "花园"
+  },
+  {
+    "en": "Garlic Bread",
+    "zh_cn": "大蒜面包"
+  },
+  {
+    "en": "Gates",
+    "zh_cn": "大门"
+  },
+  {
+    "en": "Genie",
+    "zh_cn": "精灵"
+  },
+  {
+    "en": "Genie Lamp",
+    "zh_cn": "神灯"
+  },
+  {
+    "en": "Ghast",
+    "zh_cn": "恶魂"
+  },
+  {
+    "en": "Ghost",
+    "zh_cn": "鬼魂"
+  },
+  {
+    "en": "Ghost Ship",
+    "zh_cn": "幽灵船"
+  },
+  {
+    "en": "Ghoul",
+    "zh_cn": "食尸鬼"
+  },
+  {
+    "en": "Giant",
+    "zh_cn": "巨人"
+  },
+  {
+    "en": "Giant Presents",
+    "zh_cn": "巨型礼物"
+  },
+  {
+    "en": "Gift",
+    "zh_cn": "礼物"
+  },
+  {
+    "en": "Gingerbread",
+    "zh_cn": "姜饼"
+  },
+  {
+    "en": "Gingerbread House",
+    "zh_cn": "姜饼屋"
+  },
+  {
+    "en": "Gingerbread Man",
+    "zh_cn": "姜饼人"
+  },
+  {
+    "en": "Giraffe",
+    "zh_cn": "长颈鹿"
+  },
+  {
+    "en": "Girl",
+    "zh_cn": "女孩"
+  },
+  {
+    "en": "Glass",
+    "zh_cn": "玻璃"
+  },
+  {
+    "en": "Glass of Milk",
+    "zh_cn": "一杯牛奶"
+  },
+  {
+    "en": "Glasses",
+    "zh_cn": "眼镜"
+  },
+  {
+    "en": "Globe",
+    "zh_cn": "地球仪"
+  },
+  {
+    "en": "Gloves",
+    "zh_cn": "手套"
+  },
+  {
+    "en": "Glue",
+    "zh_cn": "胶水"
+  },
+  {
+    "en": "Gnome",
+    "zh_cn": "地精"
+  },
+  {
+    "en": "Goal",
+    "zh_cn": "球门"
+  },
+  {
+    "en": "Goalkeeper",
+    "zh_cn": "守门员"
+  },
+  {
+    "en": "Goat",
+    "zh_cn": "山羊"
+  },
+  {
+    "en": "Goblin",
+    "zh_cn": "哥布林"
+  },
+  {
+    "en": "Godzilla",
+    "zh_cn": "哥斯拉"
+  },
+  {
+    "en": "Goggles",
+    "zh_cn": "护目镜"
+  },
+  {
+    "en": "Gold",
+    "zh_cn": "金"
+  },
+  {
+    "en": "Gold Medal",
+    "zh_cn": "金牌"
+  },
+  {
+    "en": "Gold Mine",
+    "zh_cn": "黄金矿区"
+  },
+  {
+    "en": "Gold Ring",
+    "zh_cn": "金戒指"
+  },
+  {
+    "en": "Golden Apple",
+    "zh_cn": "金苹果"
+  },
+  {
+    "en": "Goldfish",
+    "zh_cn": "金鱼"
+  },
+  {
+    "en": "Golem",
+    "zh_cn": "铁傀儡"
+  },
+  {
+    "en": "Golf Ball",
+    "zh_cn": "高尔夫球"
+  },
+  {
+    "en": "Golf Cart",
+    "zh_cn": "高尔夫球车"
+  },
+  {
+    "en": "Golf Club",
+    "zh_cn": "高尔夫球杆"
+  },
+  {
+    "en": "Golf Course",
+    "zh_cn": "高尔夫球场"
+  },
+  {
+    "en": "Goose",
+    "zh_cn": "鹅"
+  },
+  {
+    "en": "Gorilla",
+    "zh_cn": "大猩猩"
+  },
+  {
+    "en": "Gothic",
+    "zh_cn": "哥特"
+  },
+  {
+    "en": "Grapes",
+    "zh_cn": "葡萄"
+  },
+  {
+    "en": "Graph",
+    "zh_cn": "图表"
+  },
+  {
+    "en": "Grappling Hook",
+    "zh_cn": "抓钩"
+  },
+  {
+    "en": "Grasshopper",
+    "zh_cn": "蚱蜢"
+  },
+  {
+    "en": "Gravel",
+    "zh_cn": "碎石"
+  },
+  {
+    "en": "Gravestone",
+    "zh_cn": "墓碑"
+  },
+  {
+    "en": "Graveyard",
+    "zh_cn": "墓地"
+  },
+  {
+    "en": "Great Britain",
+    "zh_cn": "大不列颠"
+  },
+  {
+    "en": "Greek Temple",
+    "zh_cn": "希腊神庙"
+  },
+  {
+    "en": "Green",
+    "zh_cn": "绿色"
+  },
+  {
+    "en": "Greenhouse",
+    "zh_cn": "温室"
+  },
+  {
+    "en": "Griffin",
+    "zh_cn": "狮鹫"
+  },
+  {
+    "en": "Grim Reaper",
+    "zh_cn": "死神"
+  },
+  {
+    "en": "Guardian",
+    "zh_cn": "守卫者"
+  },
+  {
+    "en": "Guitar",
+    "zh_cn": "吉他"
+  },
+  {
+    "en": "Gum",
+    "zh_cn": "口香糖"
+  },
+  {
+    "en": "Gumball",
+    "zh_cn": "口香糖球"
+  },
+  {
+    "en": "Gym",
+    "zh_cn": "体育馆"
+  },
+  {
+    "en": "Hair",
+    "zh_cn": "头发"
+  },
+  {
+    "en": "Hair Band",
+    "zh_cn": "发带"
+  },
+  {
+    "en": "Hairbrush",
+    "zh_cn": "发刷"
+  },
+  {
+    "en": "Haircut",
+    "zh_cn": "发型"
+  },
+  {
+    "en": "Halloween",
+    "zh_cn": "万圣节"
+  },
+  {
+    "en": "Halloween Party",
+    "zh_cn": "万圣节派对"
+  },
+  {
+    "en": "Halloween Treats",
+    "zh_cn": "万圣节糖果"
+  },
+  {
+    "en": "Hallway",
+    "zh_cn": "走廊"
+  },
+  {
+    "en": "Halo",
+    "zh_cn": "光环"
+  },
+  {
+    "en": "Ham",
+    "zh_cn": "火腿"
+  },
+  {
+    "en": "Hamburger",
+    "zh_cn": "汉堡包"
+  },
+  {
+    "en": "Hammer",
+    "zh_cn": "锤子"
+  },
+  {
+    "en": "Hammock",
+    "zh_cn": "吊床"
+  },
+  {
+    "en": "Hamster",
+    "zh_cn": "仓鼠"
+  },
+  {
+    "en": "Handbag",
+    "zh_cn": "手提包"
+  },
+  {
+    "en": "Handcuffs",
+    "zh_cn": "手铐"
+  },
+  {
+    "en": "Handshake",
+    "zh_cn": "握手"
+  },
+  {
+    "en": "Handstand",
+    "zh_cn": "倒立"
+  },
+  {
+    "en": "Hanggliding",
+    "zh_cn": "滑翔伞"
+  },
+  {
+    "en": "Happy",
+    "zh_cn": "开心"
+  },
+  {
+    "en": "Harbor",
+    "zh_cn": "港口"
+  },
+  {
+    "en": "Hard Hat",
+    "zh_cn": "安全帽"
+  },
+  {
+    "en": "Harmony",
+    "zh_cn": "和谐"
+  },
+  {
+    "en": "Harp",
+    "zh_cn": "竖琴"
+  },
+  {
+    "en": "Hat",
+    "zh_cn": "帽子"
+  },
+  {
+    "en": "Haunted Forest",
+    "zh_cn": "闹鬼森林"
+  },
+  {
+    "en": "Haunted House",
+    "zh_cn": "鬼屋"
+  },
+  {
+    "en": "Hay",
+    "zh_cn": "干草"
+  },
+  {
+    "en": "Head",
+    "zh_cn": "头"
+  },
+  {
+    "en": "Headband",
+    "zh_cn": "头带"
+  },
+  {
+    "en": "Headless Horseman",
+    "zh_cn": "无头骑士"
+  },
+  {
+    "en": "Headphones",
+    "zh_cn": "耳机"
+  },
+  {
+    "en": "Headset",
+    "zh_cn": "耳机"
+  },
+  {
+    "en": "Heart",
+    "zh_cn": "爱心"
+  },
+  {
+    "en": "Hedge",
+    "zh_cn": "树篱"
+  },
+  {
+    "en": "Hedgehog",
+    "zh_cn": "刺猬"
+  },
+  {
+    "en": "Helicopter",
+    "zh_cn": "直升机"
+  },
+  {
+    "en": "Helipad",
+    "zh_cn": "直升机停机坪"
+  },
+  {
+    "en": "Helmet",
+    "zh_cn": "头盔"
+  },
+  {
+    "en": "Hen",
+    "zh_cn": "母鸡"
+  },
+  {
+    "en": "Hero",
+    "zh_cn": "英雄"
+  },
+  {
+    "en": "Hexagon",
+    "zh_cn": "六边形"
+  },
+  {
+    "en": "Hide and Seek",
+    "zh_cn": "躲猫猫"
+  },
+  {
+    "en": "High Heels",
+    "zh_cn": "高跟鞋"
+  },
+  {
+    "en": "Highway",
+    "zh_cn": "公路"
+  },
+  {
+    "en": "Hill",
+    "zh_cn": "小山"
+  },
+  {
+    "en": "Hippopotamus",
+    "zh_cn": "河马"
+  },
+  {
+    "en": "Hockey",
+    "zh_cn": "曲棍球"
+  },
+  {
+    "en": "Hockey Rink",
+    "zh_cn": "曲棍球场地"
+  },
+  {
+    "en": "Hog",
+    "zh_cn": "猪"
+  },
+  {
+    "en": "Hole",
+    "zh_cn": "洞"
+  },
+  {
+    "en": "Holiday",
+    "zh_cn": "节日"
+  },
+  {
+    "en": "Holiday Lights",
+    "zh_cn": "节日彩灯"
+  },
+  {
+    "en": "Hollywood Sign",
+    "zh_cn": "好莱坞标志"
+  },
+  {
+    "en": "Homework",
+    "zh_cn": "家庭作业"
+  },
+  {
+    "en": "Honey",
+    "zh_cn": "蜂蜜"
+  },
+  {
+    "en": "Honeycomb",
+    "zh_cn": "蜜脾"
+  },
+  {
+    "en": "Hook",
+    "zh_cn": "钩子"
+  },
+  {
+    "en": "Horn",
+    "zh_cn": "喇叭"
+  },
+  {
+    "en": "Horse",
+    "zh_cn": "马"
+  },
+  {
+    "en": "Horse Racing",
+    "zh_cn": "赛马"
+  },
+  {
+    "en": "Hospital",
+    "zh_cn": "医院"
+  },
+  {
+    "en": "Hot Air Balloon",
+    "zh_cn": "热气球"
+  },
+  {
+    "en": "Hot Chocolate",
+    "zh_cn": "热巧克力"
+  },
+  {
+    "en": "Hot Dog",
+    "zh_cn": "热狗"
+  },
+  {
+    "en": "Hot Tub",
+    "zh_cn": "热水浴池"
+  },
+  {
+    "en": "Hotel",
+    "zh_cn": "酒店"
+  },
+  {
+    "en": "Hourglass",
+    "zh_cn": "沙漏"
+  },
+  {
+    "en": "House",
+    "zh_cn": "房子"
+  },
+  {
+    "en": "Howl",
+    "zh_cn": "长嚎"
+  },
+  {
+    "en": "Huge Stocking",
+    "zh_cn": "巨型长袜"
+  },
+  {
+    "en": "Hula Hoop",
+    "zh_cn": "呼啦圈"
+  },
+  {
+    "en": "Hunger Games",
+    "zh_cn": "饥饿游戏"
+  },
+  {
+    "en": "Hunter",
+    "zh_cn": "猎人"
+  },
+  {
+    "en": "Hurdles",
+    "zh_cn": "跨栏"
+  },
+  {
+    "en": "Hurricane",
+    "zh_cn": "飓风"
+  },
+  {
+    "en": "Hut",
+    "zh_cn": "小屋"
+  },
+  {
+    "en": "Hypixel",
+    "zh_cn": "Hypixel"
+  },
+  {
+    "en": "Hypixel Sweater",
+    "zh_cn": "Hypixel毛衣"
+  },
+  {
+    "en": "Hypnotize",
+    "zh_cn": "催眠"
+  },
+  {
+    "en": "Ice Age",
+    "zh_cn": "冰河时代"
+  },
+  {
+    "en": "Ice Bucket",
+    "zh_cn": "冰桶"
+  },
+  {
+    "en": "Ice Castle",
+    "zh_cn": "冰雪城堡"
+  },
+  {
+    "en": "Ice Cream",
+    "zh_cn": "冰淇淋"
+  },
+  {
+    "en": "Ice Cream Cone",
+    "zh_cn": "蛋卷冰淇淋"
+  },
+  {
+    "en": "Ice Cream Truck",
+    "zh_cn": "冰淇淋车"
+  },
+  {
+    "en": "Ice Cube",
+    "zh_cn": "冰块"
+  },
+  {
+    "en": "Ice Fishing",
+    "zh_cn": "冰钓"
+  },
+  {
+    "en": "Ice Skates",
+    "zh_cn": "溜冰鞋"
+  },
+  {
+    "en": "Ice Skating",
+    "zh_cn": "滑冰"
+  },
+  {
+    "en": "Ice Spike",
+    "zh_cn": "冰刺"
+  },
+  {
+    "en": "Iceberg",
+    "zh_cn": "冰山"
+  },
+  {
+    "en": "Icicle",
+    "zh_cn": "冰柱"
+  },
+  {
+    "en": "Icy",
+    "zh_cn": "冰冷的"
+  },
+  {
+    "en": "Igloo",
+    "zh_cn": "雪屋"
+  },
+  {
+    "en": "Illusion",
+    "zh_cn": "幻象"
+  },
+  {
+    "en": "Imp",
+    "zh_cn": "小鬼"
+  },
+  {
+    "en": "Ink",
+    "zh_cn": "墨水"
+  },
+  {
+    "en": "Insect",
+    "zh_cn": "昆虫"
+  },
+  {
+    "en": "Instrument",
+    "zh_cn": "乐器"
+  },
+  {
+    "en": "Iron",
+    "zh_cn": "铁"
+  },
+  {
+    "en": "Ironing Board",
+    "zh_cn": "熨衣板"
+  },
+  {
+    "en": "Island",
+    "zh_cn": "岛屿"
+  },
+  {
+    "en": "Jack-O-Lantern",
+    "zh_cn": "南瓜灯"
+  },
+  {
+    "en": "Jacket",
+    "zh_cn": "夹克"
+  },
+  {
+    "en": "Jail",
+    "zh_cn": "监狱"
+  },
+  {
+    "en": "Janitor",
+    "zh_cn": "看门人"
+  },
+  {
+    "en": "Japan",
+    "zh_cn": "日本"
+  },
+  {
+    "en": "Jar",
+    "zh_cn": "罐子"
+  },
+  {
+    "en": "Jeans",
+    "zh_cn": "牛仔裤"
+  },
+  {
+    "en": "Jelly",
+    "zh_cn": "果冻"
+  },
+  {
+    "en": "Jellybeans",
+    "zh_cn": "彩虹糖"
+  },
+  {
+    "en": "Jellyfish",
+    "zh_cn": "水母"
+  },
+  {
+    "en": "Jet Ski",
+    "zh_cn": "摩托艇"
+  },
+  {
+    "en": "Jetpack",
+    "zh_cn": "喷气背包"
+  },
+  {
+    "en": "Jetski",
+    "zh_cn": "摩托艇"
+  },
+  {
+    "en": "Jewellery",
+    "zh_cn": "珠宝"
+  },
+  {
+    "en": "Jigsaw",
+    "zh_cn": "拼图"
+  },
+  {
+    "en": "Jogging",
+    "zh_cn": "慢跑"
+  },
+  {
+    "en": "Joystick",
+    "zh_cn": "操纵杆"
+  },
+  {
+    "en": "Juggling",
+    "zh_cn": "杂耍"
+  },
+  {
+    "en": "Juice",
+    "zh_cn": "果汁"
+  },
+  {
+    "en": "Jump Rope",
+    "zh_cn": "跳绳"
+  },
+  {
+    "en": "Jumping",
+    "zh_cn": "跳跃"
+  },
+  {
+    "en": "Jungle",
+    "zh_cn": "丛林"
+  },
+  {
+    "en": "Kangaroo",
+    "zh_cn": "袋鼠"
+  },
+  {
+    "en": "Karaoke",
+    "zh_cn": "卡拉OK"
+  },
+  {
+    "en": "Karate",
+    "zh_cn": "空手道"
+  },
+  {
+    "en": "Kayak",
+    "zh_cn": "皮划艇"
+  },
+  {
+    "en": "Kelp",
+    "zh_cn": "海带"
+  },
+  {
+    "en": "Kennel",
+    "zh_cn": "狗窝"
+  },
+  {
+    "en": "Ketchup",
+    "zh_cn": "番茄酱"
+  },
+  {
+    "en": "Kettle",
+    "zh_cn": "水壶"
+  },
+  {
+    "en": "Key",
+    "zh_cn": "钥匙"
+  },
+  {
+    "en": "Keyboard",
+    "zh_cn": "键盘"
+  },
+  {
+    "en": "Kid",
+    "zh_cn": "小孩"
+  },
+  {
+    "en": "King",
+    "zh_cn": "国王"
+  },
+  {
+    "en": "Kiss",
+    "zh_cn": "吻"
+  },
+  {
+    "en": "Kitchen",
+    "zh_cn": "厨房"
+  },
+  {
+    "en": "Kite",
+    "zh_cn": "风筝"
+  },
+  {
+    "en": "Kitten",
+    "zh_cn": "小猫"
+  },
+  {
+    "en": "Kiwi Fruit",
+    "zh_cn": "猕猴桃"
+  },
+  {
+    "en": "Knee",
+    "zh_cn": "膝盖"
+  },
+  {
+    "en": "Knife",
+    "zh_cn": "小刀"
+  },
+  {
+    "en": "Knight",
+    "zh_cn": "骑士"
+  },
+  {
+    "en": "Koala",
+    "zh_cn": "树袋熊"
+  },
+  {
+    "en": "Label",
+    "zh_cn": "标签"
+  },
+  {
+    "en": "Laboratory",
+    "zh_cn": "实验室"
+  },
+  {
+    "en": "Ladder",
+    "zh_cn": "梯子"
+  },
+  {
+    "en": "Ladybug",
+    "zh_cn": "瓢虫"
+  },
+  {
+    "en": "Ladybug",
+    "zh_cn": "瓢虫"
+  },
+  {
+    "en": "Lake",
+    "zh_cn": "湖泊"
+  },
+  {
+    "en": "Lamb",
+    "zh_cn": "羔羊"
+  },
+  {
+    "en": "Lamp",
+    "zh_cn": "台灯"
+  },
+  {
+    "en": "Lamp Post",
+    "zh_cn": "灯柱"
+  },
+  {
+    "en": "Lampshade",
+    "zh_cn": "灯罩"
+  },
+  {
+    "en": "Lantern",
+    "zh_cn": "灯笼"
+  },
+  {
+    "en": "Laptop",
+    "zh_cn": "笔记本电脑"
+  },
+  {
+    "en": "Laser",
+    "zh_cn": "激光"
+  },
+  {
+    "en": "Laundry Basket",
+    "zh_cn": "洗衣篮"
+  },
+  {
+    "en": "Lava",
+    "zh_cn": "熔岩"
+  },
+  {
+    "en": "Lava Bucket",
+    "zh_cn": "熔岩桶"
+  },
+  {
+    "en": "Lava Lamp",
+    "zh_cn": "熔岩灯"
+  },
+  {
+    "en": "Lawn Games",
+    "zh_cn": "草坪游戏"
+  },
+  {
+    "en": "Lawn Mower",
+    "zh_cn": "割草机"
+  },
+  {
+    "en": "Lawyer",
+    "zh_cn": "律师"
+  },
+  {
+    "en": "Leaf",
+    "zh_cn": "叶子"
+  },
+  {
+    "en": "Leaking roof",
+    "zh_cn": "漏水屋顶"
+  },
+  {
+    "en": "Leather",
+    "zh_cn": "皮革"
+  },
+  {
+    "en": "Leaves",
+    "zh_cn": "树叶"
+  },
+  {
+    "en": "Lecture Hall",
+    "zh_cn": "报告厅"
+  },
+  {
+    "en": "Legend of Zelda",
+    "zh_cn": "塞尔达传说"
+  },
+  {
+    "en": "Lemon",
+    "zh_cn": "柠檬"
+  },
+  {
+    "en": "Lemonade",
+    "zh_cn": "柠檬水"
+  },
+  {
+    "en": "Lemonade Stand",
+    "zh_cn": "柠檬水小摊"
+  },
+  {
+    "en": "Leprechaun",
+    "zh_cn": "矮精灵"
+  },
+  {
+    "en": "Letter",
+    "zh_cn": "信"
+  },
+  {
+    "en": "Lettuce",
+    "zh_cn": "生菜"
+  },
+  {
+    "en": "Librarian",
+    "zh_cn": "图书管理员"
+  },
+  {
+    "en": "Library",
+    "zh_cn": "图书馆"
+  },
+  {
+    "en": "Lifejacket",
+    "zh_cn": "救生衣"
+  },
+  {
+    "en": "Light",
+    "zh_cn": "灯"
+  },
+  {
+    "en": "Light Switch",
+    "zh_cn": "照明开关"
+  },
+  {
+    "en": "Lightbulb",
+    "zh_cn": "灯泡"
+  },
+  {
+    "en": "Lighthouse",
+    "zh_cn": "灯塔"
+  },
+  {
+    "en": "Lightning Strike",
+    "zh_cn": "闪电强袭"
+  },
+  {
+    "en": "Lightsaber",
+    "zh_cn": "光剑"
+  },
+  {
+    "en": "Lilypad",
+    "zh_cn": "睡莲"
+  },
+  {
+    "en": "Lime",
+    "zh_cn": "黄绿色"
+  },
+  {
+    "en": "Limousine",
+    "zh_cn": "豪华轿车"
+  },
+  {
+    "en": "Line",
+    "zh_cn": "线"
+  },
+  {
+    "en": "Lion",
+    "zh_cn": "狮子"
+  },
+  {
+    "en": "Lips",
+    "zh_cn": "嘴唇"
+  },
+  {
+    "en": "Lipstick",
+    "zh_cn": "口红"
+  },
+  {
+    "en": "Litter",
+    "zh_cn": "垃圾"
+  },
+  {
+    "en": "Living dead",
+    "zh_cn": "行尸走肉"
+  },
+  {
+    "en": "Living room",
+    "zh_cn": "客厅"
+  },
+  {
+    "en": "Lizard",
+    "zh_cn": "蜥蜴"
+  },
+  {
+    "en": "Llama",
+    "zh_cn": "羊驼"
+  },
+  {
+    "en": "Loaf of Bread",
+    "zh_cn": "一块面包"
+  },
+  {
+    "en": "Lobby",
+    "zh_cn": "大厅"
+  },
+  {
+    "en": "Lobster",
+    "zh_cn": "龙虾"
+  },
+  {
+    "en": "Loch Ness Monster",
+    "zh_cn": "尼斯湖水怪"
+  },
+  {
+    "en": "Lock",
+    "zh_cn": "锁"
+  },
+  {
+    "en": "Lock Pick",
+    "zh_cn": "开锁器"
+  },
+  {
+    "en": "Log",
+    "zh_cn": "原木"
+  },
+  {
+    "en": "Log Cabin",
+    "zh_cn": "小木屋"
+  },
+  {
+    "en": "Lollipop",
+    "zh_cn": "棒棒糖"
+  },
+  {
+    "en": "London",
+    "zh_cn": "伦敦"
+  },
+  {
+    "en": "Lucky Block",
+    "zh_cn": "幸运方块"
+  },
+  {
+    "en": "Luggage",
+    "zh_cn": "行李"
+  },
+  {
+    "en": "Lumberjack",
+    "zh_cn": "伐木工"
+  },
+  {
+    "en": "Lunch",
+    "zh_cn": "午餐"
+  },
+  {
+    "en": "Lunchbox",
+    "zh_cn": "午餐盒"
+  },
+  {
+    "en": "Machine",
+    "zh_cn": "机器"
+  },
+  {
+    "en": "Mad Scientist",
+    "zh_cn": "疯狂科学家"
+  },
+  {
+    "en": "Magazine",
+    "zh_cn": "杂志"
+  },
+  {
+    "en": "Magic",
+    "zh_cn": "魔法"
+  },
+  {
+    "en": "Magic Carpet",
+    "zh_cn": "魔毯"
+  },
+  {
+    "en": "Magic Hat",
+    "zh_cn": "魔法帽子"
+  },
+  {
+    "en": "Magic Wand",
+    "zh_cn": "魔杖"
+  },
+  {
+    "en": "Magician",
+    "zh_cn": "魔术师"
+  },
+  {
+    "en": "Magma Cube",
+    "zh_cn": "岩浆怪"
+  },
+  {
+    "en": "Magnet",
+    "zh_cn": "磁铁"
+  },
+  {
+    "en": "Magnifying Glass",
+    "zh_cn": "放大镜"
+  },
+  {
+    "en": "Mail",
+    "zh_cn": "邮件"
+  },
+  {
+    "en": "Mail Box",
+    "zh_cn": "邮箱"
+  },
+  {
+    "en": "Mailbox",
+    "zh_cn": "邮箱"
+  },
+  {
+    "en": "Mailman",
+    "zh_cn": "邮差"
+  },
+  {
+    "en": "Makeup",
+    "zh_cn": "化妆品"
+  },
+  {
+    "en": "Mammoth",
+    "zh_cn": "猛犸象"
+  },
+  {
+    "en": "Mannequin",
+    "zh_cn": "人体模型"
+  },
+  {
+    "en": "Mansion",
+    "zh_cn": "府邸"
+  },
+  {
+    "en": "Map",
+    "zh_cn": "地图"
+  },
+  {
+    "en": "Marbles",
+    "zh_cn": "大理石"
+  },
+  {
+    "en": "Marker",
+    "zh_cn": "标记笔"
+  },
+  {
+    "en": "Market",
+    "zh_cn": "市场"
+  },
+  {
+    "en": "Mars",
+    "zh_cn": "火星"
+  },
+  {
+    "en": "Marshmallow",
+    "zh_cn": "棉花糖"
+  },
+  {
+    "en": "Marshmallows",
+    "zh_cn": "棉花糖"
+  },
+  {
+    "en": "Martians",
+    "zh_cn": "火星人"
+  },
+  {
+    "en": "Mask",
+    "zh_cn": "面罩"
+  },
+  {
+    "en": "Matchstick",
+    "zh_cn": "火柴"
+  },
+  {
+    "en": "Mathematics",
+    "zh_cn": "数学"
+  },
+  {
+    "en": "Mattress",
+    "zh_cn": "床垫"
+  },
+  {
+    "en": "Mayonnaise",
+    "zh_cn": "蛋黄酱"
+  },
+  {
+    "en": "Maze",
+    "zh_cn": "迷宫"
+  },
+  {
+    "en": "Meadow",
+    "zh_cn": "草地"
+  },
+  {
+    "en": "Measurement",
+    "zh_cn": "测量"
+  },
+  {
+    "en": "Meatball",
+    "zh_cn": "肉丸"
+  },
+  {
+    "en": "Mechanic",
+    "zh_cn": "机械师"
+  },
+  {
+    "en": "Medieval",
+    "zh_cn": "中世纪"
+  },
+  {
+    "en": "Medieval House",
+    "zh_cn": "中世纪风格小屋"
+  },
+  {
+    "en": "Meeting",
+    "zh_cn": "会议"
+  },
+  {
+    "en": "Mermaid",
+    "zh_cn": "美人鱼"
+  },
+  {
+    "en": "Meteorite",
+    "zh_cn": "陨石"
+  },
+  {
+    "en": "Mexico",
+    "zh_cn": "墨西哥"
+  },
+  {
+    "en": "Mice",
+    "zh_cn": "老鼠"
+  },
+  {
+    "en": "Microphone",
+    "zh_cn": "麦克风"
+  },
+  {
+    "en": "Microwave",
+    "zh_cn": "微波炉"
+  },
+  {
+    "en": "Midnight",
+    "zh_cn": "午夜"
+  },
+  {
+    "en": "Milk and Cookies",
+    "zh_cn": "牛奶与饼干"
+  },
+  {
+    "en": "Milkshake",
+    "zh_cn": "奶昔"
+  },
+  {
+    "en": "Milky Way",
+    "zh_cn": "银河系"
+  },
+  {
+    "en": "Mince Pie",
+    "zh_cn": "肉馅派"
+  },
+  {
+    "en": "Mine",
+    "zh_cn": "矿井"
+  },
+  {
+    "en": "Minecart",
+    "zh_cn": "矿车"
+  },
+  {
+    "en": "Minecraft",
+    "zh_cn": "我的世界"
+  },
+  {
+    "en": "Miner",
+    "zh_cn": "矿工"
+  },
+  {
+    "en": "Mineshaft",
+    "zh_cn": "废弃矿井"
+  },
+  {
+    "en": "Mini Golf",
+    "zh_cn": "迷你高尔夫"
+  },
+  {
+    "en": "Mining",
+    "zh_cn": "挖矿"
+  },
+  {
+    "en": "Minotaur",
+    "zh_cn": "牛头人"
+  },
+  {
+    "en": "Mirror",
+    "zh_cn": "镜子"
+  },
+  {
+    "en": "Missile",
+    "zh_cn": "导弹"
+  },
+  {
+    "en": "Mistletoe",
+    "zh_cn": "槲寄生"
+  },
+  {
+    "en": "Mittens",
+    "zh_cn": "连指手套"
+  },
+  {
+    "en": "Moat",
+    "zh_cn": "护城河"
+  },
+  {
+    "en": "Modern Art",
+    "zh_cn": "现代艺术"
+  },
+  {
+    "en": "Modern Home",
+    "zh_cn": "现代住宅"
+  },
+  {
+    "en": "Modern House",
+    "zh_cn": "现代风格小屋"
+  },
+  {
+    "en": "Mole",
+    "zh_cn": "鼹鼠"
+  },
+  {
+    "en": "Mom",
+    "zh_cn": "妈妈"
+  },
+  {
+    "en": "Money",
+    "zh_cn": "金钱"
+  },
+  {
+    "en": "Monitor",
+    "zh_cn": "显示器"
+  },
+  {
+    "en": "Monocle",
+    "zh_cn": "单片眼镜"
+  },
+  {
+    "en": "Monster",
+    "zh_cn": "怪物"
+  },
+  {
+    "en": "Monsters",
+    "zh_cn": "怪物"
+  },
+  {
+    "en": "Monument",
+    "zh_cn": "纪念碑"
+  },
+  {
+    "en": "Moon",
+    "zh_cn": "月亮"
+  },
+  {
+    "en": "Moose",
+    "zh_cn": "驼鹿"
+  },
+  {
+    "en": "Mop",
+    "zh_cn": "拖把"
+  },
+  {
+    "en": "Morning",
+    "zh_cn": "早上"
+  },
+  {
+    "en": "Moth",
+    "zh_cn": "飞蛾"
+  },
+  {
+    "en": "Motorbike",
+    "zh_cn": "摩托车"
+  },
+  {
+    "en": "Motorcycle",
+    "zh_cn": "摩托车"
+  },
+  {
+    "en": "Mountain",
+    "zh_cn": "山脉"
+  },
+  {
+    "en": "Mouse",
+    "zh_cn": "老鼠"
+  },
+  {
+    "en": "Mousepad",
+    "zh_cn": "鼠标垫"
+  },
+  {
+    "en": "Mousetrap",
+    "zh_cn": "老鼠夹"
+  },
+  {
+    "en": "Moustache",
+    "zh_cn": "小胡子"
+  },
+  {
+    "en": "Mouth",
+    "zh_cn": "嘴巴"
+  },
+  {
+    "en": "Movie",
+    "zh_cn": "电影"
+  },
+  {
+    "en": "Movie Theatre",
+    "zh_cn": "电影院"
+  },
+  {
+    "en": "Mrs. Claus",
+    "zh_cn": "圣诞奶奶"
+  },
+  {
+    "en": "Mud",
+    "zh_cn": "泥"
+  },
+  {
+    "en": "Muffin",
+    "zh_cn": "松饼"
+  },
+  {
+    "en": "Mug",
+    "zh_cn": "马克杯"
+  },
+  {
+    "en": "Mummy",
+    "zh_cn": "木乃伊"
+  },
+  {
+    "en": "Muscle",
+    "zh_cn": "肌肉"
+  },
+  {
+    "en": "Museum",
+    "zh_cn": "博物馆"
+  },
+  {
+    "en": "Mushroom",
+    "zh_cn": "蘑菇"
+  },
+  {
+    "en": "Music",
+    "zh_cn": "音乐"
+  },
+  {
+    "en": "Musical",
+    "zh_cn": "音乐"
+  },
+  {
+    "en": "Musician",
+    "zh_cn": "音乐家"
+  },
+  {
+    "en": "Mustard",
+    "zh_cn": "芥末"
+  },
+  {
+    "en": "Mutant",
+    "zh_cn": "突变体"
+  },
+  {
+    "en": "Mythical",
+    "zh_cn": "神话"
+  },
+  {
+    "en": "Nachos",
+    "zh_cn": "墨西哥玉米片"
+  },
+  {
+    "en": "Nail polish",
+    "zh_cn": "指甲油"
+  },
+  {
+    "en": "Name Tag",
+    "zh_cn": "命名牌"
+  },
+  {
+    "en": "Napkin",
+    "zh_cn": "餐巾"
+  },
+  {
+    "en": "Narwhal",
+    "zh_cn": "独角鲸"
+  },
+  {
+    "en": "Natural Disaster",
+    "zh_cn": "自然灾害"
+  },
+  {
+    "en": "Nature",
+    "zh_cn": "自然"
+  },
+  {
+    "en": "Necklace",
+    "zh_cn": "项链"
+  },
+  {
+    "en": "Needle",
+    "zh_cn": "针"
+  },
+  {
+    "en": "Neon",
+    "zh_cn": "霓虹灯"
+  },
+  {
+    "en": "Nether",
+    "zh_cn": "下界"
+  },
+  {
+    "en": "Newspaper",
+    "zh_cn": "报纸"
+  },
+  {
+    "en": "Night",
+    "zh_cn": "晚上"
+  },
+  {
+    "en": "Nightmare",
+    "zh_cn": "梦魇"
+  },
+  {
+    "en": "Ninja",
+    "zh_cn": "忍者"
+  },
+  {
+    "en": "North Pole",
+    "zh_cn": "北极"
+  },
+  {
+    "en": "Northern Lights",
+    "zh_cn": "北极光"
+  },
+  {
+    "en": "Nostalgia",
+    "zh_cn": "怀旧"
+  },
+  {
+    "en": "Notepad",
+    "zh_cn": "记事本"
+  },
+  {
+    "en": "Nurse",
+    "zh_cn": "护士"
+  },
+  {
+    "en": "Nutcracker",
+    "zh_cn": "胡桃夹子"
+  },
+  {
+    "en": "Oar",
+    "zh_cn": "船桨"
+  },
+  {
+    "en": "Oasis",
+    "zh_cn": "绿洲"
+  },
+  {
+    "en": "Ocean",
+    "zh_cn": "海洋"
+  },
+  {
+    "en": "Ocelot",
+    "zh_cn": "豹猫"
+  },
+  {
+    "en": "Octagon",
+    "zh_cn": "八角形"
+  },
+  {
+    "en": "Octopus",
+    "zh_cn": "章鱼"
+  },
+  {
+    "en": "Office",
+    "zh_cn": "办公室"
+  },
+  {
+    "en": "Ogre",
+    "zh_cn": "食人魔"
+  },
+  {
+    "en": "Oil",
+    "zh_cn": "石油"
+  },
+  {
+    "en": "Olympics",
+    "zh_cn": "奥运会"
+  },
+  {
+    "en": "Omelette",
+    "zh_cn": "煎蛋卷"
+  },
+  {
+    "en": "Onesie",
+    "zh_cn": "连体衣"
+  },
+  {
+    "en": "Onion Ring",
+    "zh_cn": "洋葱圈"
+  },
+  {
+    "en": "Orange",
+    "zh_cn": "橙子"
+  },
+  {
+    "en": "Orange Juice",
+    "zh_cn": "橙汁"
+  },
+  {
+    "en": "Orchard",
+    "zh_cn": "果园"
+  },
+  {
+    "en": "Orchestra",
+    "zh_cn": "管弦乐队"
+  },
+  {
+    "en": "Orchid",
+    "zh_cn": "兰花"
+  },
+  {
+    "en": "Ore",
+    "zh_cn": "矿石"
+  },
+  {
+    "en": "Ornament",
+    "zh_cn": "装饰"
+  },
+  {
+    "en": "Ostrich",
+    "zh_cn": "鸵鸟"
+  },
+  {
+    "en": "Otter",
+    "zh_cn": "水獭"
+  },
+  {
+    "en": "Oven",
+    "zh_cn": "烤箱"
+  },
+  {
+    "en": "Owl",
+    "zh_cn": "猫头鹰"
+  },
+  {
+    "en": "Oyster",
+    "zh_cn": "牡蛎"
+  },
+  {
+    "en": "Packet",
+    "zh_cn": "包裹"
+  },
+  {
+    "en": "Paint",
+    "zh_cn": "油漆"
+  },
+  {
+    "en": "Paint Bucket",
+    "zh_cn": "油漆桶"
+  },
+  {
+    "en": "Paint Palette",
+    "zh_cn": "调色板"
+  },
+  {
+    "en": "Paintball",
+    "zh_cn": "彩弹射击"
+  },
+  {
+    "en": "Paintbrush",
+    "zh_cn": "画笔"
+  },
+  {
+    "en": "Painting",
+    "zh_cn": "画"
+  },
+  {
+    "en": "Palace",
+    "zh_cn": "宫殿"
+  },
+  {
+    "en": "Palm Tree",
+    "zh_cn": "棕榈树"
+  },
+  {
+    "en": "Palm tree",
+    "zh_cn": "棕榈树"
+  },
+  {
+    "en": "Pan",
+    "zh_cn": "平底锅"
+  },
+  {
+    "en": "Pancake",
+    "zh_cn": "煎饼"
+  },
+  {
+    "en": "Panda",
+    "zh_cn": "熊猫"
+  },
+  {
+    "en": "Paper",
+    "zh_cn": "纸"
+  },
+  {
+    "en": "Paper Airplane",
+    "zh_cn": "纸飞机"
+  },
+  {
+    "en": "Paperclip",
+    "zh_cn": "回形针"
+  },
+  {
+    "en": "Parachute",
+    "zh_cn": "降落伞"
+  },
+  {
+    "en": "Parade",
+    "zh_cn": "游行"
+  },
+  {
+    "en": "Park",
+    "zh_cn": "公园"
+  },
+  {
+    "en": "Parking Lot",
+    "zh_cn": "停车场"
+  },
+  {
+    "en": "Parkour",
+    "zh_cn": "跑酷"
+  },
+  {
+    "en": "Parrot",
+    "zh_cn": "鹦鹉"
+  },
+  {
+    "en": "Party",
+    "zh_cn": "派对"
+  },
+  {
+    "en": "Party Hat",
+    "zh_cn": "派对帽子"
+  },
+  {
+    "en": "Pastel",
+    "zh_cn": "蜡笔"
+  },
+  {
+    "en": "Pasture",
+    "zh_cn": "牧场"
+  },
+  {
+    "en": "Pathway",
+    "zh_cn": "小径"
+  },
+  {
+    "en": "Patio",
+    "zh_cn": "庭院"
+  },
+  {
+    "en": "Pattern",
+    "zh_cn": "图案"
+  },
+  {
+    "en": "Paws",
+    "zh_cn": "爪子"
+  },
+  {
+    "en": "Pea",
+    "zh_cn": "豌豆"
+  },
+  {
+    "en": "Peach",
+    "zh_cn": "桃子"
+  },
+  {
+    "en": "Peacock",
+    "zh_cn": "孔雀"
+  },
+  {
+    "en": "Peanut",
+    "zh_cn": "花生"
+  },
+  {
+    "en": "Peanut Butter",
+    "zh_cn": "花生酱"
+  },
+  {
+    "en": "Pear",
+    "zh_cn": "梨"
+  },
+  {
+    "en": "Pearl",
+    "zh_cn": "珍珠"
+  },
+  {
+    "en": "Pedals",
+    "zh_cn": "踏板"
+  },
+  {
+    "en": "Pen",
+    "zh_cn": "笔"
+  },
+  {
+    "en": "Pencil",
+    "zh_cn": "铅笔"
+  },
+  {
+    "en": "Pencil Case",
+    "zh_cn": "铅笔盒"
+  },
+  {
+    "en": "Penguin",
+    "zh_cn": "企鹅"
+  },
+  {
+    "en": "Pentagon",
+    "zh_cn": "五角形"
+  },
+  {
+    "en": "Perfume",
+    "zh_cn": "香水"
+  },
+  {
+    "en": "Pet",
+    "zh_cn": "宠物"
+  },
+  {
+    "en": "Pet Shop",
+    "zh_cn": "宠物店"
+  },
+  {
+    "en": "Phantom",
+    "zh_cn": "幻翼"
+  },
+  {
+    "en": "Pharaoh",
+    "zh_cn": "法老"
+  },
+  {
+    "en": "Phoenix",
+    "zh_cn": "凤凰"
+  },
+  {
+    "en": "Phone Case",
+    "zh_cn": "手机壳"
+  },
+  {
+    "en": "Phone Charger",
+    "zh_cn": "手机充电器"
+  },
+  {
+    "en": "Photograph",
+    "zh_cn": "照片"
+  },
+  {
+    "en": "Photographer",
+    "zh_cn": "摄影师"
+  },
+  {
+    "en": "Piano",
+    "zh_cn": "钢琴"
+  },
+  {
+    "en": "Pickaxe",
+    "zh_cn": "镐"
+  },
+  {
+    "en": "Pickle",
+    "zh_cn": "泡菜"
+  },
+  {
+    "en": "Picnic",
+    "zh_cn": "野餐"
+  },
+  {
+    "en": "Picture",
+    "zh_cn": "照片"
+  },
+  {
+    "en": "Picture Frame",
+    "zh_cn": "画框"
+  },
+  {
+    "en": "Pie",
+    "zh_cn": "派"
+  },
+  {
+    "en": "Pier",
+    "zh_cn": "码头"
+  },
+  {
+    "en": "Pig",
+    "zh_cn": "猪"
+  },
+  {
+    "en": "Pigeon",
+    "zh_cn": "鸽子"
+  },
+  {
+    "en": "Piggy bank",
+    "zh_cn": "小猪存钱罐"
+  },
+  {
+    "en": "Pigman",
+    "zh_cn": "猪人"
+  },
+  {
+    "en": "Pikachu",
+    "zh_cn": "皮卡丘"
+  },
+  {
+    "en": "Pillow",
+    "zh_cn": "枕头"
+  },
+  {
+    "en": "Pillowcase",
+    "zh_cn": "枕套"
+  },
+  {
+    "en": "Pin",
+    "zh_cn": "大头针"
+  },
+  {
+    "en": "Pinata",
+    "zh_cn": "皮纳塔"
+  },
+  {
+    "en": "Pine Tree",
+    "zh_cn": "松树"
+  },
+  {
+    "en": "Pineapple",
+    "zh_cn": "菠萝"
+  },
+  {
+    "en": "Pineapple Pizza",
+    "zh_cn": "菠萝披萨"
+  },
+  {
+    "en": "Pinecone",
+    "zh_cn": "松果"
+  },
+  {
+    "en": "Pirate",
+    "zh_cn": "海盗"
+  },
+  {
+    "en": "Pirate Hat",
+    "zh_cn": "海盗帽"
+  },
+  {
+    "en": "Pirate Ship",
+    "zh_cn": "海盗船"
+  },
+  {
+    "en": "Pirates",
+    "zh_cn": "海盗"
+  },
+  {
+    "en": "Piston",
+    "zh_cn": "活塞"
+  },
+  {
+    "en": "Pitchfork",
+    "zh_cn": "干草叉"
+  },
+  {
+    "en": "Pizza",
+    "zh_cn": "披萨"
+  },
+  {
+    "en": "Planet",
+    "zh_cn": "行星"
+  },
+  {
+    "en": "Plank",
+    "zh_cn": "木板"
+  },
+  {
+    "en": "Plant",
+    "zh_cn": "植物"
+  },
+  {
+    "en": "Plate",
+    "zh_cn": "盘子"
+  },
+  {
+    "en": "Platform",
+    "zh_cn": "平台"
+  },
+  {
+    "en": "Platypus",
+    "zh_cn": "鸭嘴兽"
+  },
+  {
+    "en": "Playground",
+    "zh_cn": "游乐场"
+  },
+  {
+    "en": "Plug",
+    "zh_cn": "插头"
+  },
+  {
+    "en": "Plumber",
+    "zh_cn": "管道工"
+  },
+  {
+    "en": "Plunger",
+    "zh_cn": "塞子"
+  },
+  {
+    "en": "Pocket Watch",
+    "zh_cn": "怀表"
+  },
+  {
+    "en": "Podium",
+    "zh_cn": "讲台"
+  },
+  {
+    "en": "Pogo Stick",
+    "zh_cn": "弹跳杆"
+  },
+  {
+    "en": "Poison",
+    "zh_cn": "剧毒"
+  },
+  {
+    "en": "Polar Bear",
+    "zh_cn": "北极熊"
+  },
+  {
+    "en": "Police",
+    "zh_cn": "警察"
+  },
+  {
+    "en": "Police Car",
+    "zh_cn": "警车"
+  },
+  {
+    "en": "Police Officer",
+    "zh_cn": "警官"
+  },
+  {
+    "en": "Police Station",
+    "zh_cn": "警察局"
+  },
+  {
+    "en": "Pond",
+    "zh_cn": "池塘"
+  },
+  {
+    "en": "Pony",
+    "zh_cn": "矮种马"
+  },
+  {
+    "en": "Pool",
+    "zh_cn": "水池"
+  },
+  {
+    "en": "Pool Table",
+    "zh_cn": "台球桌"
+  },
+  {
+    "en": "Pool table",
+    "zh_cn": "台球桌"
+  },
+  {
+    "en": "Popcorn",
+    "zh_cn": "爆米花"
+  },
+  {
+    "en": "Popsicle",
+    "zh_cn": "冰棍"
+  },
+  {
+    "en": "Portal",
+    "zh_cn": "传送门"
+  },
+  {
+    "en": "Post Office",
+    "zh_cn": "邮局"
+  },
+  {
+    "en": "Postcard",
+    "zh_cn": "明信片"
+  },
+  {
+    "en": "Poster",
+    "zh_cn": "海报"
+  },
+  {
+    "en": "Pot of Gold",
+    "zh_cn": "一桶黄金"
+  },
+  {
+    "en": "Potato",
+    "zh_cn": "马铃薯"
+  },
+  {
+    "en": "Potato Chips",
+    "zh_cn": "薯片"
+  },
+  {
+    "en": "Potion",
+    "zh_cn": "药水"
+  },
+  {
+    "en": "Power Lines",
+    "zh_cn": "电线"
+  },
+  {
+    "en": "Prehistoric",
+    "zh_cn": "史前"
+  },
+  {
+    "en": "Present",
+    "zh_cn": "礼物"
+  },
+  {
+    "en": "Presentation",
+    "zh_cn": "演示"
+  },
+  {
+    "en": "Presents Pile",
+    "zh_cn": "礼物堆"
+  },
+  {
+    "en": "Pretzel",
+    "zh_cn": "椒盐卷饼"
+  },
+  {
+    "en": "Prince",
+    "zh_cn": "王子"
+  },
+  {
+    "en": "Princess",
+    "zh_cn": "公主"
+  },
+  {
+    "en": "Printer",
+    "zh_cn": "打印机"
+  },
+  {
+    "en": "Prison",
+    "zh_cn": "监狱"
+  },
+  {
+    "en": "Prison Cell",
+    "zh_cn": "牢房"
+  },
+  {
+    "en": "Prisoner",
+    "zh_cn": "囚犯"
+  },
+  {
+    "en": "Projectile",
+    "zh_cn": "弹射物"
+  },
+  {
+    "en": "Propeller",
+    "zh_cn": "螺旋桨"
+  },
+  {
+    "en": "Pudding",
+    "zh_cn": "布丁"
+  },
+  {
+    "en": "Puddle",
+    "zh_cn": "水坑"
+  },
+  {
+    "en": "Puffin",
+    "zh_cn": "海鹦"
+  },
+  {
+    "en": "Pumpkin",
+    "zh_cn": "南瓜"
+  },
+  {
+    "en": "Pumpkin Carving",
+    "zh_cn": "南瓜雕刻"
+  },
+  {
+    "en": "Puppet",
+    "zh_cn": "木偶"
+  },
+  {
+    "en": "Puppy",
+    "zh_cn": "小狗"
+  },
+  {
+    "en": "Purse",
+    "zh_cn": "钱包"
+  },
+  {
+    "en": "Puzzle",
+    "zh_cn": "拼图"
+  },
+  {
+    "en": "Puzzle Cube",
+    "zh_cn": "魔方"
+  },
+  {
+    "en": "Pyjamas",
+    "zh_cn": "睡衣"
+  },
+  {
+    "en": "Pyramid",
+    "zh_cn": "金字塔"
+  },
+  {
+    "en": "Quad Bike",
+    "zh_cn": "四轮摩托车"
+  },
+  {
+    "en": "Queen",
+    "zh_cn": "皇后"
+  },
+  {
+    "en": "Quicksand",
+    "zh_cn": "流沙"
+  },
+  {
+    "en": "Quiver",
+    "zh_cn": "箭袋"
+  },
+  {
+    "en": "Rabbit",
+    "zh_cn": "兔子"
+  },
+  {
+    "en": "Raccoon",
+    "zh_cn": "浣熊"
+  },
+  {
+    "en": "Race",
+    "zh_cn": "比赛"
+  },
+  {
+    "en": "Race Track",
+    "zh_cn": "赛道"
+  },
+  {
+    "en": "Racecar",
+    "zh_cn": "赛车"
+  },
+  {
+    "en": "Radio",
+    "zh_cn": "收音机"
+  },
+  {
+    "en": "Raft",
+    "zh_cn": "木筏"
+  },
+  {
+    "en": "Railway",
+    "zh_cn": "铁路"
+  },
+  {
+    "en": "Rain",
+    "zh_cn": "雨天"
+  },
+  {
+    "en": "Rain Coat",
+    "zh_cn": "雨衣"
+  },
+  {
+    "en": "Rainbow",
+    "zh_cn": "彩虹"
+  },
+  {
+    "en": "Raindrop",
+    "zh_cn": "雨滴"
+  },
+  {
+    "en": "Rainforest",
+    "zh_cn": "雨林"
+  },
+  {
+    "en": "Rake",
+    "zh_cn": "耙子"
+  },
+  {
+    "en": "Ramen",
+    "zh_cn": "拉面"
+  },
+  {
+    "en": "Rat",
+    "zh_cn": "老鼠"
+  },
+  {
+    "en": "Ravine",
+    "zh_cn": "峡谷"
+  },
+  {
+    "en": "Reading",
+    "zh_cn": "阅读"
+  },
+  {
+    "en": "Reaper",
+    "zh_cn": "收割者"
+  },
+  {
+    "en": "Recycle",
+    "zh_cn": "回收"
+  },
+  {
+    "en": "Red Panda",
+    "zh_cn": "小熊猫"
+  },
+  {
+    "en": "Redstone",
+    "zh_cn": "红石"
+  },
+  {
+    "en": "Reef",
+    "zh_cn": "暗礁"
+  },
+  {
+    "en": "Refrigerator",
+    "zh_cn": "冰箱"
+  },
+  {
+    "en": "Reindeer",
+    "zh_cn": "驯鹿"
+  },
+  {
+    "en": "Remote",
+    "zh_cn": "遥控器"
+  },
+  {
+    "en": "Restaurant",
+    "zh_cn": "餐厅"
+  },
+  {
+    "en": "Rhino",
+    "zh_cn": "犀牛"
+  },
+  {
+    "en": "Ribbon",
+    "zh_cn": "丝带"
+  },
+  {
+    "en": "Rice",
+    "zh_cn": "米饭"
+  },
+  {
+    "en": "Rich",
+    "zh_cn": "富有"
+  },
+  {
+    "en": "Ride",
+    "zh_cn": "骑行"
+  },
+  {
+    "en": "Ring",
+    "zh_cn": "戒指"
+  },
+  {
+    "en": "River",
+    "zh_cn": "河流"
+  },
+  {
+    "en": "Road",
+    "zh_cn": "道路"
+  },
+  {
+    "en": "Robot",
+    "zh_cn": "机器人"
+  },
+  {
+    "en": "Rock",
+    "zh_cn": "岩石"
+  },
+  {
+    "en": "Rock Band",
+    "zh_cn": "摇滚乐队"
+  },
+  {
+    "en": "Rock Climbing",
+    "zh_cn": "攀岩"
+  },
+  {
+    "en": "Rocket",
+    "zh_cn": "火箭"
+  },
+  {
+    "en": "Rocket Ship",
+    "zh_cn": "火箭飞船"
+  },
+  {
+    "en": "Rocking Chair",
+    "zh_cn": "摇椅"
+  },
+  {
+    "en": "Roller Blades",
+    "zh_cn": "轮滑鞋"
+  },
+  {
+    "en": "Rollercoaster",
+    "zh_cn": "过山车"
+  },
+  {
+    "en": "Roof",
+    "zh_cn": "屋顶"
+  },
+  {
+    "en": "Room",
+    "zh_cn": "房间"
+  },
+  {
+    "en": "Rose",
+    "zh_cn": "玫瑰"
+  },
+  {
+    "en": "Roundabout",
+    "zh_cn": "环岛"
+  },
+  {
+    "en": "Rowboat",
+    "zh_cn": "划艇"
+  },
+  {
+    "en": "Rubber Band",
+    "zh_cn": "橡皮筋"
+  },
+  {
+    "en": "Rubber Duck",
+    "zh_cn": "橡皮鸭"
+  },
+  {
+    "en": "Rubbish",
+    "zh_cn": "垃圾"
+  },
+  {
+    "en": "Rubiks Cube",
+    "zh_cn": "魔方"
+  },
+  {
+    "en": "Rudolph",
+    "zh_cn": "鲁道夫"
+  },
+  {
+    "en": "Rug",
+    "zh_cn": "地毯"
+  },
+  {
+    "en": "Ruins",
+    "zh_cn": "废墟"
+  },
+  {
+    "en": "Ruler",
+    "zh_cn": "尺子"
+  },
+  {
+    "en": "Runner",
+    "zh_cn": "运动员"
+  },
+  {
+    "en": "Running",
+    "zh_cn": "跑"
+  },
+  {
+    "en": "Rustic",
+    "zh_cn": "田园风格"
+  },
+  {
+    "en": "Sack of Presents",
+    "zh_cn": "礼物袋"
+  },
+  {
+    "en": "Saddle",
+    "zh_cn": "鞍"
+  },
+  {
+    "en": "Safari",
+    "zh_cn": "游猎"
+  },
+  {
+    "en": "Safe",
+    "zh_cn": "保险柜"
+  },
+  {
+    "en": "Sailboat",
+    "zh_cn": "帆船"
+  },
+  {
+    "en": "Salad",
+    "zh_cn": "沙拉"
+  },
+  {
+    "en": "Salamander",
+    "zh_cn": "火蜥蜴"
+  },
+  {
+    "en": "Salmon",
+    "zh_cn": "鲑鱼"
+  },
+  {
+    "en": "Saloon",
+    "zh_cn": "酒馆"
+  },
+  {
+    "en": "Salt",
+    "zh_cn": "盐"
+  },
+  {
+    "en": "Salt and Pepper",
+    "zh_cn": "盐和胡椒"
+  },
+  {
+    "en": "Samurai",
+    "zh_cn": "武士"
+  },
+  {
+    "en": "Sandbox",
+    "zh_cn": "沙盒"
+  },
+  {
+    "en": "Sandcastle",
+    "zh_cn": "沙滩城堡"
+  },
+  {
+    "en": "Sandwich",
+    "zh_cn": "三明治"
+  },
+  {
+    "en": "Santa",
+    "zh_cn": "圣诞老人"
+  },
+  {
+    "en": "Santa Claus",
+    "zh_cn": "圣诞老人"
+  },
+  {
+    "en": "Santa's Sleigh",
+    "zh_cn": "圣诞雪橇"
+  },
+  {
+    "en": "Santa's Workshop",
+    "zh_cn": "圣诞老人工坊"
+  },
+  {
+    "en": "Sardines",
+    "zh_cn": "沙丁鱼"
+  },
+  {
+    "en": "Satellite",
+    "zh_cn": "人造卫星"
+  },
+  {
+    "en": "Sauce",
+    "zh_cn": "酱汁"
+  },
+  {
+    "en": "Sausage",
+    "zh_cn": "香肠"
+  },
+  {
+    "en": "Savanna",
+    "zh_cn": "热带草原"
+  },
+  {
+    "en": "Saw",
+    "zh_cn": "锯子"
+  },
+  {
+    "en": "Saxophone",
+    "zh_cn": "萨克斯管"
+  },
+  {
+    "en": "Scaffold",
+    "zh_cn": "脚手架"
+  },
+  {
+    "en": "Scale",
+    "zh_cn": "秤"
+  },
+  {
+    "en": "Scarecrow",
+    "zh_cn": "稻草人"
+  },
+  {
+    "en": "Scared",
+    "zh_cn": "害怕"
+  },
+  {
+    "en": "Scarf",
+    "zh_cn": "围巾"
+  },
+  {
+    "en": "Scary Movie",
+    "zh_cn": "恐怖电影"
+  },
+  {
+    "en": "School Bus",
+    "zh_cn": "校车"
+  },
+  {
+    "en": "Sci-fi",
+    "zh_cn": "科幻"
+  },
+  {
+    "en": "Science",
+    "zh_cn": "科学"
+  },
+  {
+    "en": "Scientist",
+    "zh_cn": "科学家"
+  },
+  {
+    "en": "Scooby Doo",
+    "zh_cn": "史酷比"
+  },
+  {
+    "en": "Scooter",
+    "zh_cn": "踏板车"
+  },
+  {
+    "en": "Scorpion",
+    "zh_cn": "蝎子"
+  },
+  {
+    "en": "Screen",
+    "zh_cn": "屏幕"
+  },
+  {
+    "en": "Screwdriver",
+    "zh_cn": "螺丝刀"
+  },
+  {
+    "en": "Scuba Diving",
+    "zh_cn": "水肺潜水"
+  },
+  {
+    "en": "Scythe",
+    "zh_cn": "大镰刀"
+  },
+  {
+    "en": "Sea Turtle",
+    "zh_cn": "海龟"
+  },
+  {
+    "en": "Seafood",
+    "zh_cn": "海鲜"
+  },
+  {
+    "en": "Seagull",
+    "zh_cn": "海鸥"
+  },
+  {
+    "en": "Seahorse",
+    "zh_cn": "海马"
+  },
+  {
+    "en": "Seal",
+    "zh_cn": "海豹"
+  },
+  {
+    "en": "Seat",
+    "zh_cn": "座位"
+  },
+  {
+    "en": "Seaweed",
+    "zh_cn": "海藻"
+  },
+  {
+    "en": "Security Camera",
+    "zh_cn": "监控摄像头"
+  },
+  {
+    "en": "Seed",
+    "zh_cn": "种子"
+  },
+  {
+    "en": "Seesaw",
+    "zh_cn": "跷跷板"
+  },
+  {
+    "en": "Self Portrait",
+    "zh_cn": "自画像"
+  },
+  {
+    "en": "Sewer",
+    "zh_cn": "下水道"
+  },
+  {
+    "en": "Sewing Machine",
+    "zh_cn": "缝纫机"
+  },
+  {
+    "en": "Shack",
+    "zh_cn": "小屋"
+  },
+  {
+    "en": "Shadow",
+    "zh_cn": "影子"
+  },
+  {
+    "en": "Shampoo",
+    "zh_cn": "洗发水"
+  },
+  {
+    "en": "Shapes",
+    "zh_cn": "形状"
+  },
+  {
+    "en": "Shark",
+    "zh_cn": "鲨鱼"
+  },
+  {
+    "en": "Shaving",
+    "zh_cn": "刮胡子"
+  },
+  {
+    "en": "Shed",
+    "zh_cn": "棚屋"
+  },
+  {
+    "en": "Sheep",
+    "zh_cn": "绵羊"
+  },
+  {
+    "en": "Sheet",
+    "zh_cn": "薄板"
+  },
+  {
+    "en": "Shelf",
+    "zh_cn": "架子"
+  },
+  {
+    "en": "Shell",
+    "zh_cn": "贝壳"
+  },
+  {
+    "en": "Shelter",
+    "zh_cn": "庇护所"
+  },
+  {
+    "en": "Shepherd",
+    "zh_cn": "牧羊人"
+  },
+  {
+    "en": "Shield",
+    "zh_cn": "盾牌"
+  },
+  {
+    "en": "Ship",
+    "zh_cn": "船"
+  },
+  {
+    "en": "Shipwreck",
+    "zh_cn": "沉船"
+  },
+  {
+    "en": "Shirt",
+    "zh_cn": "衬衫"
+  },
+  {
+    "en": "Shoe",
+    "zh_cn": "鞋子"
+  },
+  {
+    "en": "Shoe Laces",
+    "zh_cn": "鞋带"
+  },
+  {
+    "en": "Shoes",
+    "zh_cn": "鞋子"
+  },
+  {
+    "en": "Shop",
+    "zh_cn": "商店"
+  },
+  {
+    "en": "Shopping",
+    "zh_cn": "购物"
+  },
+  {
+    "en": "Shopping Bag",
+    "zh_cn": "购物袋"
+  },
+  {
+    "en": "Shopping Trolley",
+    "zh_cn": "购物车"
+  },
+  {
+    "en": "Short",
+    "zh_cn": "短"
+  },
+  {
+    "en": "Shorts",
+    "zh_cn": "短裤"
+  },
+  {
+    "en": "Shoulder",
+    "zh_cn": "肩膀"
+  },
+  {
+    "en": "Shovel",
+    "zh_cn": "铲子"
+  },
+  {
+    "en": "Shower",
+    "zh_cn": "淋浴"
+  },
+  {
+    "en": "Shuriken",
+    "zh_cn": "手里剑"
+  },
+  {
+    "en": "Sickle",
+    "zh_cn": "镰刀"
+  },
+  {
+    "en": "Sidewalk",
+    "zh_cn": "人行道"
+  },
+  {
+    "en": "Sign",
+    "zh_cn": "告示牌"
+  },
+  {
+    "en": "Signal",
+    "zh_cn": "信号"
+  },
+  {
+    "en": "Silo",
+    "zh_cn": "筒仓"
+  },
+  {
+    "en": "Silver",
+    "zh_cn": "银子"
+  },
+  {
+    "en": "Sing",
+    "zh_cn": "唱歌"
+  },
+  {
+    "en": "Sink",
+    "zh_cn": "洗手盆"
+  },
+  {
+    "en": "Skateboard",
+    "zh_cn": "滑板"
+  },
+  {
+    "en": "Skateboarding",
+    "zh_cn": "滑板"
+  },
+  {
+    "en": "Skating",
+    "zh_cn": "滑冰"
+  },
+  {
+    "en": "Skeleton",
+    "zh_cn": "骷髅"
+  },
+  {
+    "en": "Skeleton Jockey",
+    "zh_cn": "骷髅骑士"
+  },
+  {
+    "en": "Ski",
+    "zh_cn": "滑雪"
+  },
+  {
+    "en": "Ski Cabin",
+    "zh_cn": "滑雪小屋"
+  },
+  {
+    "en": "Skiing",
+    "zh_cn": "滑雪"
+  },
+  {
+    "en": "Skirt",
+    "zh_cn": "裙子"
+  },
+  {
+    "en": "Skull",
+    "zh_cn": "头颅"
+  },
+  {
+    "en": "SkyBlock",
+    "zh_cn": "空岛生存"
+  },
+  {
+    "en": "Skyscraper",
+    "zh_cn": "摩天大楼"
+  },
+  {
+    "en": "SkyWars",
+    "zh_cn": "空岛战争"
+  },
+  {
+    "en": "Sled",
+    "zh_cn": "雪橇"
+  },
+  {
+    "en": "Sleep",
+    "zh_cn": "睡觉"
+  },
+  {
+    "en": "Sleeping Bag",
+    "zh_cn": "睡袋"
+  },
+  {
+    "en": "Sleigh",
+    "zh_cn": "雪橇"
+  },
+  {
+    "en": "Slenderman",
+    "zh_cn": "瘦长鬼影"
+  },
+  {
+    "en": "Slide",
+    "zh_cn": "滑梯"
+  },
+  {
+    "en": "Slime",
+    "zh_cn": "史莱姆"
+  },
+  {
+    "en": "Slippers",
+    "zh_cn": "拖鞋"
+  },
+  {
+    "en": "Sloth",
+    "zh_cn": "树懒"
+  },
+  {
+    "en": "Slug",
+    "zh_cn": "鼻涕虫"
+  },
+  {
+    "en": "Smartphone",
+    "zh_cn": "智能手机"
+  },
+  {
+    "en": "Smell",
+    "zh_cn": "味道"
+  },
+  {
+    "en": "Smelting",
+    "zh_cn": "熔炼"
+  },
+  {
+    "en": "Smile",
+    "zh_cn": "笑"
+  },
+  {
+    "en": "Smiley",
+    "zh_cn": "笑脸"
+  },
+  {
+    "en": "Smoke",
+    "zh_cn": "烟雾"
+  },
+  {
+    "en": "Smoothie",
+    "zh_cn": "冰沙"
+  },
+  {
+    "en": "Smore",
+    "zh_cn": "棉花糖巧克力夹心饼"
+  },
+  {
+    "en": "Snail",
+    "zh_cn": "蜗牛"
+  },
+  {
+    "en": "Snake",
+    "zh_cn": "蛇"
+  },
+  {
+    "en": "Sneakers",
+    "zh_cn": "运动鞋"
+  },
+  {
+    "en": "Snow",
+    "zh_cn": "雪"
+  },
+  {
+    "en": "Snow Angel",
+    "zh_cn": "雪天使"
+  },
+  {
+    "en": "Snow Fort",
+    "zh_cn": "冰雪堡垒"
+  },
+  {
+    "en": "Snow Globe",
+    "zh_cn": "雪景球"
+  },
+  {
+    "en": "Snowball",
+    "zh_cn": "雪球"
+  },
+  {
+    "en": "Snowball Fight",
+    "zh_cn": "打雪仗"
+  },
+  {
+    "en": "Snowboarding",
+    "zh_cn": "单板滑雪"
+  },
+  {
+    "en": "Snowflake",
+    "zh_cn": "雪花"
+  },
+  {
+    "en": "Snowing",
+    "zh_cn": "下雪"
+  },
+  {
+    "en": "Snowman",
+    "zh_cn": "雪人"
+  },
+  {
+    "en": "Snowy Forest",
+    "zh_cn": "积雪森林"
+  },
+  {
+    "en": "Soap",
+    "zh_cn": "肥皂"
+  },
+  {
+    "en": "Sob",
+    "zh_cn": "哭泣"
+  },
+  {
+    "en": "Soccer",
+    "zh_cn": "足球"
+  },
+  {
+    "en": "Socks",
+    "zh_cn": "袜子"
+  },
+  {
+    "en": "Soda",
+    "zh_cn": "苏打"
+  },
+  {
+    "en": "Sofa",
+    "zh_cn": "沙发"
+  },
+  {
+    "en": "Soil",
+    "zh_cn": "土壤"
+  },
+  {
+    "en": "Solar Panels",
+    "zh_cn": "太阳能电池板"
+  },
+  {
+    "en": "Solar System",
+    "zh_cn": "太阳系"
+  },
+  {
+    "en": "Sorcerer",
+    "zh_cn": "巫师"
+  },
+  {
+    "en": "Sound",
+    "zh_cn": "声音"
+  },
+  {
+    "en": "Soup",
+    "zh_cn": "汤"
+  },
+  {
+    "en": "Space",
+    "zh_cn": "太空"
+  },
+  {
+    "en": "Spaceship",
+    "zh_cn": "宇宙飞船"
+  },
+  {
+    "en": "Spade",
+    "zh_cn": "铲子"
+  },
+  {
+    "en": "Spaghetti",
+    "zh_cn": "意大利面"
+  },
+  {
+    "en": "Sparkler",
+    "zh_cn": "仙女棒"
+  },
+  {
+    "en": "Speakers",
+    "zh_cn": "扬声器"
+  },
+  {
+    "en": "Spear",
+    "zh_cn": "矛"
+  },
+  {
+    "en": "Speedboat",
+    "zh_cn": "快艇"
+  },
+  {
+    "en": "Spellbook",
+    "zh_cn": "魔法书"
+  },
+  {
+    "en": "Sphere",
+    "zh_cn": "球"
+  },
+  {
+    "en": "Spider",
+    "zh_cn": "蜘蛛"
+  },
+  {
+    "en": "Spider Web",
+    "zh_cn": "蜘蛛网"
+  },
+  {
+    "en": "Spiderman",
+    "zh_cn": "蜘蛛侠"
+  },
+  {
+    "en": "Spiral Staircase",
+    "zh_cn": "螺旋楼梯"
+  },
+  {
+    "en": "Spirit",
+    "zh_cn": "灵魂"
+  },
+  {
+    "en": "Spirits",
+    "zh_cn": "灵魂"
+  },
+  {
+    "en": "Spleef",
+    "zh_cn": "掘一死战"
+  },
+  {
+    "en": "Sponge",
+    "zh_cn": "海绵"
+  },
+  {
+    "en": "Spooky Tree",
+    "zh_cn": "阴森之树"
+  },
+  {
+    "en": "Spoon",
+    "zh_cn": "勺子"
+  },
+  {
+    "en": "Sports",
+    "zh_cn": "运动"
+  },
+  {
+    "en": "Spray",
+    "zh_cn": "喷漆"
+  },
+  {
+    "en": "Spring",
+    "zh_cn": "春天"
+  },
+  {
+    "en": "Sprinkler",
+    "zh_cn": "喷头"
+  },
+  {
+    "en": "Sprint",
+    "zh_cn": "疾跑"
+  },
+  {
+    "en": "Spy",
+    "zh_cn": "间谍"
+  },
+  {
+    "en": "Square",
+    "zh_cn": "正方形"
+  },
+  {
+    "en": "Squid",
+    "zh_cn": "鱿鱼"
+  },
+  {
+    "en": "Squirrel",
+    "zh_cn": "松鼠"
+  },
+  {
+    "en": "Stables",
+    "zh_cn": "马场"
+  },
+  {
+    "en": "Stadium",
+    "zh_cn": "体育场"
+  },
+  {
+    "en": "Stage",
+    "zh_cn": "舞台"
+  },
+  {
+    "en": "Staircase",
+    "zh_cn": "楼梯"
+  },
+  {
+    "en": "Stamp",
+    "zh_cn": "邮票"
+  },
+  {
+    "en": "Star",
+    "zh_cn": "星星"
+  },
+  {
+    "en": "Starfish",
+    "zh_cn": "海星"
+  },
+  {
+    "en": "Statue",
+    "zh_cn": "雕像"
+  },
+  {
+    "en": "Steak",
+    "zh_cn": "牛排"
+  },
+  {
+    "en": "Steampunk",
+    "zh_cn": "蒸汽朋克"
+  },
+  {
+    "en": "Steering Wheel",
+    "zh_cn": "方向盘"
+  },
+  {
+    "en": "Step Ladder",
+    "zh_cn": "人字梯"
+  },
+  {
+    "en": "Step Stool",
+    "zh_cn": "梯凳"
+  },
+  {
+    "en": "Stepping Stones",
+    "zh_cn": "垫脚石"
+  },
+  {
+    "en": "Stereo",
+    "zh_cn": "立体声"
+  },
+  {
+    "en": "Sticky Note",
+    "zh_cn": "便利贴"
+  },
+  {
+    "en": "Stingray",
+    "zh_cn": "黄貂鱼"
+  },
+  {
+    "en": "Stocking",
+    "zh_cn": "长袜"
+  },
+  {
+    "en": "Stop Sign",
+    "zh_cn": "停止牌子"
+  },
+  {
+    "en": "Stopwatch",
+    "zh_cn": "秒表"
+  },
+  {
+    "en": "Storage",
+    "zh_cn": "储藏室"
+  },
+  {
+    "en": "Store",
+    "zh_cn": "商店"
+  },
+  {
+    "en": "Storm",
+    "zh_cn": "风暴"
+  },
+  {
+    "en": "Stove",
+    "zh_cn": "炉子"
+  },
+  {
+    "en": "Straw",
+    "zh_cn": "稻草"
+  },
+  {
+    "en": "Strawberry",
+    "zh_cn": "草莓"
+  },
+  {
+    "en": "Street",
+    "zh_cn": "街道"
+  },
+  {
+    "en": "Streetlamp",
+    "zh_cn": "路灯"
+  },
+  {
+    "en": "String",
+    "zh_cn": "线"
+  },
+  {
+    "en": "Strong",
+    "zh_cn": "强壮"
+  },
+  {
+    "en": "Stronghold",
+    "zh_cn": "要塞"
+  },
+  {
+    "en": "Submarine",
+    "zh_cn": "潜水艇"
+  },
+  {
+    "en": "Sugar",
+    "zh_cn": "糖"
+  },
+  {
+    "en": "Suit",
+    "zh_cn": "套装"
+  },
+  {
+    "en": "Suitcase",
+    "zh_cn": "手提箱"
+  },
+  {
+    "en": "Summer",
+    "zh_cn": "夏天"
+  },
+  {
+    "en": "Sumo",
+    "zh_cn": "相扑"
+  },
+  {
+    "en": "Sun",
+    "zh_cn": "太阳"
+  },
+  {
+    "en": "Sunbed",
+    "zh_cn": "日光浴床"
+  },
+  {
+    "en": "Sunflower",
+    "zh_cn": "向日葵"
+  },
+  {
+    "en": "Sunglasses",
+    "zh_cn": "太阳镜"
+  },
+  {
+    "en": "Sunken Airplane",
+    "zh_cn": "海底飞机残骸"
+  },
+  {
+    "en": "Sunlight",
+    "zh_cn": "阳光"
+  },
+  {
+    "en": "Sunrise",
+    "zh_cn": "日出"
+  },
+  {
+    "en": "Sunset",
+    "zh_cn": "日落"
+  },
+  {
+    "en": "Super Hero",
+    "zh_cn": "超级英雄"
+  },
+  {
+    "en": "Superhero",
+    "zh_cn": "超级英雄"
+  },
+  {
+    "en": "Supermarket",
+    "zh_cn": "超市"
+  },
+  {
+    "en": "Supernatural",
+    "zh_cn": "超自然现象"
+  },
+  {
+    "en": "Surfboard",
+    "zh_cn": "冲浪板"
+  },
+  {
+    "en": "Surfing",
+    "zh_cn": "冲浪"
+  },
+  {
+    "en": "Surprise",
+    "zh_cn": "吃惊"
+  },
+  {
+    "en": "Surreal",
+    "zh_cn": "超现实"
+  },
+  {
+    "en": "Sushi",
+    "zh_cn": "寿司"
+  },
+  {
+    "en": "Swamp",
+    "zh_cn": "沼泽"
+  },
+  {
+    "en": "Swan",
+    "zh_cn": "天鹅"
+  },
+  {
+    "en": "Sweater",
+    "zh_cn": "毛衣"
+  },
+  {
+    "en": "Sweets",
+    "zh_cn": "糖果"
+  },
+  {
+    "en": "Swimming",
+    "zh_cn": "游泳"
+  },
+  {
+    "en": "Swimming Pool",
+    "zh_cn": "泳池"
+  },
+  {
+    "en": "Swing",
+    "zh_cn": "秋千"
+  },
+  {
+    "en": "Swiss Cheese",
+    "zh_cn": "瑞士奶酪"
+  },
+  {
+    "en": "Switch",
+    "zh_cn": "开关"
+  },
+  {
+    "en": "Sword",
+    "zh_cn": "剑"
+  },
+  {
+    "en": "Swordfish",
+    "zh_cn": "剑鱼"
+  },
+  {
+    "en": "T-Rex",
+    "zh_cn": "霸王龙"
+  },
+  {
+    "en": "T-Shirt",
+    "zh_cn": "T恤"
+  },
+  {
+    "en": "Table",
+    "zh_cn": "桌子"
+  },
+  {
+    "en": "Table Cloth",
+    "zh_cn": "桌布"
+  },
+  {
+    "en": "Table Tennis",
+    "zh_cn": "乒乓球"
+  },
+  {
+    "en": "Tablet",
+    "zh_cn": "平板电脑"
+  },
+  {
+    "en": "Taco",
+    "zh_cn": "玉米卷"
+  },
+  {
+    "en": "Tail",
+    "zh_cn": "尾巴"
+  },
+  {
+    "en": "Tall",
+    "zh_cn": "高"
+  },
+  {
+    "en": "Tape",
+    "zh_cn": "胶带"
+  },
+  {
+    "en": "Tarantula",
+    "zh_cn": "狼蛛"
+  },
+  {
+    "en": "Target",
+    "zh_cn": "目标"
+  },
+  {
+    "en": "Tattoo",
+    "zh_cn": "纹身"
+  },
+  {
+    "en": "Tavern",
+    "zh_cn": "酒馆"
+  },
+  {
+    "en": "Taxi",
+    "zh_cn": "出租车"
+  },
+  {
+    "en": "Tea",
+    "zh_cn": "茶"
+  },
+  {
+    "en": "Teapot",
+    "zh_cn": "茶壶"
+  },
+  {
+    "en": "Tears",
+    "zh_cn": "眼泪"
+  },
+  {
+    "en": "Technology",
+    "zh_cn": "科技"
+  },
+  {
+    "en": "Teddy Bear",
+    "zh_cn": "泰迪熊"
+  },
+  {
+    "en": "Teeth",
+    "zh_cn": "牙齿"
+  },
+  {
+    "en": "Telephone",
+    "zh_cn": "电话"
+  },
+  {
+    "en": "Telephone Booth",
+    "zh_cn": "电话亭"
+  },
+  {
+    "en": "Telescope",
+    "zh_cn": "望远镜"
+  },
+  {
+    "en": "Television",
+    "zh_cn": "电视机"
+  },
+  {
+    "en": "Temple",
+    "zh_cn": "寺庙"
+  },
+  {
+    "en": "Tennis",
+    "zh_cn": "网球"
+  },
+  {
+    "en": "Tennis Ball",
+    "zh_cn": "网球"
+  },
+  {
+    "en": "Tennis Court",
+    "zh_cn": "网球场"
+  },
+  {
+    "en": "Tent",
+    "zh_cn": "帐篷"
+  },
+  {
+    "en": "Tetris",
+    "zh_cn": "俄罗斯方块"
+  },
+  {
+    "en": "Texting",
+    "zh_cn": "发短信"
+  },
+  {
+    "en": "Thanksgiving",
+    "zh_cn": "感恩节"
+  },
+  {
+    "en": "The Best Toy Ever",
+    "zh_cn": "有史以来最好的玩具"
+  },
+  {
+    "en": "The End",
+    "zh_cn": "末地"
+  },
+  {
+    "en": "The Future",
+    "zh_cn": "未来"
+  },
+  {
+    "en": "The Grinch",
+    "zh_cn": "圣诞怪杰"
+  },
+  {
+    "en": "Theater",
+    "zh_cn": "剧院"
+  },
+  {
+    "en": "Theme Park",
+    "zh_cn": "主题公园"
+  },
+  {
+    "en": "Thermometer",
+    "zh_cn": "温度计"
+  },
+  {
+    "en": "Thief",
+    "zh_cn": "小偷"
+  },
+  {
+    "en": "Throne",
+    "zh_cn": "王座"
+  },
+  {
+    "en": "Thug",
+    "zh_cn": "暴徒"
+  },
+  {
+    "en": "Thumb",
+    "zh_cn": "拇指"
+  },
+  {
+    "en": "Thunder",
+    "zh_cn": "雷电"
+  },
+  {
+    "en": "Thunder and Lightning",
+    "zh_cn": "电闪雷鸣"
+  },
+  {
+    "en": "Thunderstorm",
+    "zh_cn": "雷雨"
+  },
+  {
+    "en": "Tic Tac Toe",
+    "zh_cn": "井字棋"
+  },
+  {
+    "en": "Ticket",
+    "zh_cn": "票"
+  },
+  {
+    "en": "Tie",
+    "zh_cn": "领带"
+  },
+  {
+    "en": "Tiger",
+    "zh_cn": "老虎"
+  },
+  {
+    "en": "Time Machine",
+    "zh_cn": "时光机"
+  },
+  {
+    "en": "Tin Can",
+    "zh_cn": "罐头"
+  },
+  {
+    "en": "Tinsel",
+    "zh_cn": "圣诞茜草"
+  },
+  {
+    "en": "Tire Swing",
+    "zh_cn": "轮胎秋千"
+  },
+  {
+    "en": "Tissue",
+    "zh_cn": "纸巾"
+  },
+  {
+    "en": "Titanic",
+    "zh_cn": "泰坦尼克号"
+  },
+  {
+    "en": "TNT",
+    "zh_cn": "TNT"
+  },
+  {
+    "en": "TNT Cannon",
+    "zh_cn": "TNT大炮"
+  },
+  {
+    "en": "Toad",
+    "zh_cn": "蟾蜍"
+  },
+  {
+    "en": "Toast",
+    "zh_cn": "吐司"
+  },
+  {
+    "en": "Toaster",
+    "zh_cn": "吐司机"
+  },
+  {
+    "en": "Toes",
+    "zh_cn": "脚趾"
+  },
+  {
+    "en": "Toilet",
+    "zh_cn": "厕所"
+  },
+  {
+    "en": "Toilet Paper",
+    "zh_cn": "卫生纸"
+  },
+  {
+    "en": "Tomato",
+    "zh_cn": "番茄"
+  },
+  {
+    "en": "Tomato Ketchup",
+    "zh_cn": "番茄酱"
+  },
+  {
+    "en": "Tomb",
+    "zh_cn": "坟墓"
+  },
+  {
+    "en": "Tombstone",
+    "zh_cn": "墓碑"
+  },
+  {
+    "en": "Tongue",
+    "zh_cn": "舌头"
+  },
+  {
+    "en": "Tools",
+    "zh_cn": "工具"
+  },
+  {
+    "en": "Tooth",
+    "zh_cn": "牙齿"
+  },
+  {
+    "en": "Tooth Fairy",
+    "zh_cn": "牙仙"
+  },
+  {
+    "en": "Toothbrush",
+    "zh_cn": "牙刷"
+  },
+  {
+    "en": "Toothpaste",
+    "zh_cn": "牙膏"
+  },
+  {
+    "en": "Top Hat",
+    "zh_cn": "高帽"
+  },
+  {
+    "en": "Torch",
+    "zh_cn": "火把"
+  },
+  {
+    "en": "Tornado",
+    "zh_cn": "龙卷风"
+  },
+  {
+    "en": "Tortoise",
+    "zh_cn": "乌龟"
+  },
+  {
+    "en": "Totem Pole",
+    "zh_cn": "图腾柱"
+  },
+  {
+    "en": "Towel",
+    "zh_cn": "毛巾"
+  },
+  {
+    "en": "Towel Rack",
+    "zh_cn": "毛巾架"
+  },
+  {
+    "en": "Toy",
+    "zh_cn": "玩具"
+  },
+  {
+    "en": "Toy Box",
+    "zh_cn": "玩具盒"
+  },
+  {
+    "en": "Toy Factory",
+    "zh_cn": "玩具工厂"
+  },
+  {
+    "en": "Toy Soldier",
+    "zh_cn": "玩具士兵"
+  },
+  {
+    "en": "Track",
+    "zh_cn": "轨道"
+  },
+  {
+    "en": "Tractor",
+    "zh_cn": "拖拉机"
+  },
+  {
+    "en": "Traffic",
+    "zh_cn": "交通"
+  },
+  {
+    "en": "Traffic Jam",
+    "zh_cn": "堵车"
+  },
+  {
+    "en": "Traffic Lights",
+    "zh_cn": "红绿灯"
+  },
+  {
+    "en": "Trailer",
+    "zh_cn": "拖车"
+  },
+  {
+    "en": "Train",
+    "zh_cn": "火车"
+  },
+  {
+    "en": "Train Station",
+    "zh_cn": "火车站"
+  },
+  {
+    "en": "Train Tracks",
+    "zh_cn": "铁轨"
+  },
+  {
+    "en": "Trains",
+    "zh_cn": "火车"
+  },
+  {
+    "en": "Trampoline",
+    "zh_cn": "蹦床"
+  },
+  {
+    "en": "Transport",
+    "zh_cn": "运输"
+  },
+  {
+    "en": "Transportation",
+    "zh_cn": "运输"
+  },
+  {
+    "en": "Trap",
+    "zh_cn": "陷阱"
+  },
+  {
+    "en": "Trash Can",
+    "zh_cn": "垃圾桶"
+  },
+  {
+    "en": "Treadmill",
+    "zh_cn": "跑步机"
+  },
+  {
+    "en": "Treasure",
+    "zh_cn": "宝藏"
+  },
+  {
+    "en": "Treasure Chest",
+    "zh_cn": "宝箱"
+  },
+  {
+    "en": "Tree",
+    "zh_cn": "树"
+  },
+  {
+    "en": "Tree Frog",
+    "zh_cn": "树蛙"
+  },
+  {
+    "en": "Treehouse",
+    "zh_cn": "树屋"
+  },
+  {
+    "en": "Triangle",
+    "zh_cn": "三角形"
+  },
+  {
+    "en": "Trick Shot",
+    "zh_cn": "花式进球"
+  },
+  {
+    "en": "Trick-or-Treating",
+    "zh_cn": "不给糖就捣蛋"
+  },
+  {
+    "en": "Tricycle",
+    "zh_cn": "三轮车"
+  },
+  {
+    "en": "Troll",
+    "zh_cn": "巨魔"
+  },
+  {
+    "en": "Trolley",
+    "zh_cn": "手推车"
+  },
+  {
+    "en": "Trophy",
+    "zh_cn": "奖杯"
+  },
+  {
+    "en": "Trousers",
+    "zh_cn": "长裤"
+  },
+  {
+    "en": "Truck",
+    "zh_cn": "卡车"
+  },
+  {
+    "en": "Trumpet",
+    "zh_cn": "小号"
+  },
+  {
+    "en": "Tsunami",
+    "zh_cn": "海啸"
+  },
+  {
+    "en": "Tub",
+    "zh_cn": "浴缸"
+  },
+  {
+    "en": "Tuba",
+    "zh_cn": "大号"
+  },
+  {
+    "en": "Tug of War",
+    "zh_cn": "拔河"
+  },
+  {
+    "en": "Tuna",
+    "zh_cn": "金枪鱼"
+  },
+  {
+    "en": "Tunnel",
+    "zh_cn": "隧道"
+  },
+  {
+    "en": "Turkey",
+    "zh_cn": "火鸡"
+  },
+  {
+    "en": "Turret",
+    "zh_cn": "炮塔"
+  },
+  {
+    "en": "Turtle",
+    "zh_cn": "海龟"
+  },
+  {
+    "en": "Twig",
+    "zh_cn": "树枝"
+  },
+  {
+    "en": "Typewriter",
+    "zh_cn": "打字机"
+  },
+  {
+    "en": "Tyre",
+    "zh_cn": "轮胎"
+  },
+  {
+    "en": "UFO",
+    "zh_cn": "UFO"
+  },
+  {
+    "en": "Ukulele",
+    "zh_cn": "尤克里里"
+  },
+  {
+    "en": "Umbrella",
+    "zh_cn": "雨伞"
+  },
+  {
+    "en": "Undead",
+    "zh_cn": "亡灵生物"
+  },
+  {
+    "en": "Under the Sea",
+    "zh_cn": "海底世界"
+  },
+  {
+    "en": "Under The Sea",
+    "zh_cn": "海底世界"
+  },
+  {
+    "en": "Underground",
+    "zh_cn": "地底"
+  },
+  {
+    "en": "Underwater World",
+    "zh_cn": "水下世界"
+  },
+  {
+    "en": "Unicorn",
+    "zh_cn": "独角兽"
+  },
+  {
+    "en": "Unicycle",
+    "zh_cn": "独轮车"
+  },
+  {
+    "en": "University",
+    "zh_cn": "大学"
+  },
+  {
+    "en": "Upside Down",
+    "zh_cn": "颠倒"
+  },
+  {
+    "en": "Vacuum",
+    "zh_cn": "吸尘器"
+  },
+  {
+    "en": "Valentine",
+    "zh_cn": "情人节"
+  },
+  {
+    "en": "Vampire",
+    "zh_cn": "吸血鬼"
+  },
+  {
+    "en": "Van",
+    "zh_cn": "面包车"
+  },
+  {
+    "en": "Vase",
+    "zh_cn": "花瓶"
+  },
+  {
+    "en": "Vault",
+    "zh_cn": "宝库"
+  },
+  {
+    "en": "Vegetable Garden",
+    "zh_cn": "菜园"
+  },
+  {
+    "en": "Vegetables",
+    "zh_cn": "蔬菜"
+  },
+  {
+    "en": "Vehicle",
+    "zh_cn": "载具"
+  },
+  {
+    "en": "Vending Machine",
+    "zh_cn": "自动售货机"
+  },
+  {
+    "en": "Video Game",
+    "zh_cn": "电子游戏"
+  },
+  {
+    "en": "Video games",
+    "zh_cn": "电子游戏"
+  },
+  {
+    "en": "Viking",
+    "zh_cn": "维京"
+  },
+  {
+    "en": "Village",
+    "zh_cn": "村庄"
+  },
+  {
+    "en": "Villager",
+    "zh_cn": "村民"
+  },
+  {
+    "en": "Villain",
+    "zh_cn": "反派"
+  },
+  {
+    "en": "Violin",
+    "zh_cn": "小提琴"
+  },
+  {
+    "en": "Virtual Reality",
+    "zh_cn": "虚拟现实"
+  },
+  {
+    "en": "Volcano",
+    "zh_cn": "火山"
+  },
+  {
+    "en": "Volleyball",
+    "zh_cn": "排球"
+  },
+  {
+    "en": "Vulture",
+    "zh_cn": "秃鹫"
+  },
+  {
+    "en": "Waffle",
+    "zh_cn": "华夫饼"
+  },
+  {
+    "en": "Wagon",
+    "zh_cn": "马车"
+  },
+  {
+    "en": "Wall",
+    "zh_cn": "墙壁"
+  },
+  {
+    "en": "Wallet",
+    "zh_cn": "钱包"
+  },
+  {
+    "en": "Wallpaper",
+    "zh_cn": "壁纸"
+  },
+  {
+    "en": "Walrus",
+    "zh_cn": "海象"
+  },
+  {
+    "en": "Wand",
+    "zh_cn": "魔杖"
+  },
+  {
+    "en": "Wardrobe",
+    "zh_cn": "衣柜"
+  },
+  {
+    "en": "Warlock",
+    "zh_cn": "术士"
+  },
+  {
+    "en": "Warrior",
+    "zh_cn": "战士"
+  },
+  {
+    "en": "Washing Machine",
+    "zh_cn": "洗衣机"
+  },
+  {
+    "en": "Wasp",
+    "zh_cn": "黄蜂"
+  },
+  {
+    "en": "Watch",
+    "zh_cn": "手表"
+  },
+  {
+    "en": "Water",
+    "zh_cn": "水"
+  },
+  {
+    "en": "Water Balloon",
+    "zh_cn": "水气球"
+  },
+  {
+    "en": "Water Bottle",
+    "zh_cn": "水瓶"
+  },
+  {
+    "en": "Water Bucket",
+    "zh_cn": "水桶"
+  },
+  {
+    "en": "Water Park",
+    "zh_cn": "水上乐园"
+  },
+  {
+    "en": "Water Slide",
+    "zh_cn": "水上滑梯"
+  },
+  {
+    "en": "Waterfall",
+    "zh_cn": "瀑布"
+  },
+  {
+    "en": "Watermelon",
+    "zh_cn": "西瓜"
+  },
+  {
+    "en": "Waterski",
+    "zh_cn": "滑水"
+  },
+  {
+    "en": "Wave",
+    "zh_cn": "波浪"
+  },
+  {
+    "en": "Weather",
+    "zh_cn": "天气"
+  },
+  {
+    "en": "Web",
+    "zh_cn": "网"
+  },
+  {
+    "en": "Wedding",
+    "zh_cn": "婚礼"
+  },
+  {
+    "en": "Wedding Cake",
+    "zh_cn": "婚庆蛋糕"
+  },
+  {
+    "en": "Weightlifting",
+    "zh_cn": "举重"
+  },
+  {
+    "en": "Well",
+    "zh_cn": "水井"
+  },
+  {
+    "en": "Werewolf",
+    "zh_cn": "狼人"
+  },
+  {
+    "en": "Western",
+    "zh_cn": "西部"
+  },
+  {
+    "en": "Whale",
+    "zh_cn": "鲸鱼"
+  },
+  {
+    "en": "Wheat",
+    "zh_cn": "小麦"
+  },
+  {
+    "en": "Wheel",
+    "zh_cn": "轮子"
+  },
+  {
+    "en": "Wheelie",
+    "zh_cn": "自行车悬空特技"
+  },
+  {
+    "en": "Whirlpool",
+    "zh_cn": "漩涡"
+  },
+  {
+    "en": "Whistle",
+    "zh_cn": "口哨"
+  },
+  {
+    "en": "Whiteboard",
+    "zh_cn": "白板"
+  },
+  {
+    "en": "Wicked Witch",
+    "zh_cn": "邪恶女巫"
+  },
+  {
+    "en": "Wig",
+    "zh_cn": "假发"
+  },
+  {
+    "en": "Wind",
+    "zh_cn": "风"
+  },
+  {
+    "en": "Windmill",
+    "zh_cn": "风车"
+  },
+  {
+    "en": "Window",
+    "zh_cn": "窗户"
+  },
+  {
+    "en": "Wings",
+    "zh_cn": "翅膀"
+  },
+  {
+    "en": "Wink",
+    "zh_cn": "眨眼"
+  },
+  {
+    "en": "Winter",
+    "zh_cn": "冬天"
+  },
+  {
+    "en": "Winter Suit",
+    "zh_cn": "冬装"
+  },
+  {
+    "en": "Wire",
+    "zh_cn": "电线"
+  },
+  {
+    "en": "Wisemen",
+    "zh_cn": "智者"
+  },
+  {
+    "en": "Wish",
+    "zh_cn": "许愿"
+  },
+  {
+    "en": "Wishing well",
+    "zh_cn": "许愿井"
+  },
+  {
+    "en": "Witch",
+    "zh_cn": "女巫"
+  },
+  {
+    "en": "Witch Hut",
+    "zh_cn": "女巫小屋"
+  },
+  {
+    "en": "Witchcraft",
+    "zh_cn": "巫术"
+  },
+  {
+    "en": "Witches Hat",
+    "zh_cn": "女巫帽"
+  },
+  {
+    "en": "Wither",
+    "zh_cn": "凋灵"
+  },
+  {
+    "en": "Wizard",
+    "zh_cn": "巫师"
+  },
+  {
+    "en": "Wolf",
+    "zh_cn": "狼"
+  },
+  {
+    "en": "Wolves",
+    "zh_cn": "狼"
+  },
+  {
+    "en": "Wool",
+    "zh_cn": "羊毛"
+  },
+  {
+    "en": "Workshop",
+    "zh_cn": "工作室"
+  },
+  {
+    "en": "Worm",
+    "zh_cn": "蠕虫"
+  },
+  {
+    "en": "Wreath",
+    "zh_cn": "花环"
+  },
+  {
+    "en": "Wrecking Ball",
+    "zh_cn": "破坏球"
+  },
+  {
+    "en": "Wrench",
+    "zh_cn": "扳手"
+  },
+  {
+    "en": "Wrestling",
+    "zh_cn": "摔跤"
+  },
+  {
+    "en": "Xylophone",
+    "zh_cn": "木琴"
+  },
+  {
+    "en": "Yacht",
+    "zh_cn": "游艇"
+  },
+  {
+    "en": "Yeti",
+    "zh_cn": "雪人"
+  },
+  {
+    "en": "Yogurt",
+    "zh_cn": "酸奶"
+  },
+  {
+    "en": "YouTube",
+    "zh_cn": "YouTube"
+  },
+  {
+    "en": "Yule Log",
+    "zh_cn": "圣诞巧克力蛋糕"
+  },
+  {
+    "en": "Zebra",
+    "zh_cn": "斑马"
+  },
+  {
+    "en": "Zeus",
+    "zh_cn": "宙斯"
+  },
+  {
+    "en": "Zip Line",
+    "zh_cn": "滑索"
+  },
+  {
+    "en": "Zipper",
+    "zh_cn": "拉链"
+  },
+  {
+    "en": "Zombie Apocalypse",
+    "zh_cn": "僵尸末日"
+  },
+  {
+    "en": "Zombie Pigman",
+    "zh_cn": "僵尸猪人"
+  },
+  {
+    "en": "Zombies",
+    "zh_cn": "僵尸"
+  },
+  {
+    "en": "Zoo",
+    "zh_cn": "动物园"
+  }
+]
