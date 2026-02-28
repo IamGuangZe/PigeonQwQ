@@ -22,18 +22,7 @@ public class ClickGui extends Module {
     public EnableSetting background = setting("background", true, v -> true);
 
     @Override
-    public void onEnable() {
-        if (mc.currentScreen == null) {
-            mc.setScreen(Pigeon.clickGuiScreen);
-        } else {
-            this.disable();
-        }
-    }
-
-    @Override
-    public void onDisable() {
-        if (mc.currentScreen == Pigeon.clickGuiScreen) {
-            mc.setScreen(null);
-        }
+    public void enable() {
+        if (mc.currentScreen == null) mc.setScreen(Pigeon.clickGuiScreen);
     }
 }

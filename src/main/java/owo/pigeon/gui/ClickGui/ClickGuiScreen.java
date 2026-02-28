@@ -152,10 +152,4 @@ public class ClickGuiScreen extends Screen {
 
         return super.keyPressed(input);
     }
-
-    @Override
-    public void close() {
-        ModuleUtil.disableModule(ClickGui.class);
-        super.close();
-    }
 }
