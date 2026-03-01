@@ -37,9 +37,7 @@ public class PixelHelper extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        if (!HypixelUtil.isInGame(HypixelUtil.Game.PIXELPARTY)) {
-            return;
-        }
+        if (!HypixelUtil.isInGame(HypixelUtil.Game.PIXELPARTY)) return;
 
         MatrixStack matrixStack = event.getMatrix();
 
