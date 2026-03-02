@@ -76,6 +76,7 @@ public class ModuleManager {
 
         modules.add(new BedESP());
         modules.add(new BlockESP());
+        modules.add(new FreeLook());
         modules.add(new FullBright());
         modules.add(new ModifyCamera());
         modules.add(new PlayerESP());
