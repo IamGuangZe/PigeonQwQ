@@ -20,10 +20,18 @@ public class KeybindUtil {
     }
 
     public static boolean isPressed(KeyBinding key) {
-        if (mc.currentScreen != null) return false;
         if (mc.getWindow() == null || key.isUnbound()) return false;
+        return isPressed(((IAccessorKeyBinding) key).pigeon$getBoundKey());
+    }
 
-        InputUtil.Key boundKey = ((IAccessorKeyBinding) key).pigeon$getBoundKey();
+    public static boolean isPressed(int keyCode) {
+        if (mc.getWindow() == null || keyCode == InputUtil.UNKNOWN_KEY.getCode()) return false;
+        return InputUtil.isKeyPressed(mc.getWindow(), keyCode);
+    }
+
+    public static boolean isPressed(InputUtil.Key boundKey) {
+        if (mc.getWindow() == null || boundKey == InputUtil.UNKNOWN_KEY) return false;
+
         if (boundKey.getCategory() == InputUtil.Type.MOUSE) {
             return GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), boundKey.getCode()) == GLFW.GLFW_PRESS;
         } else {
