@@ -21,14 +21,16 @@ public class AutoFish extends Module {
     }
 
     public ModeSetting<PlayerUtil.RightClickMode> castMode = setting("cast-mode", PlayerUtil.RightClickMode.MOUSE, v -> true);
-    public EnableSetting slugfishMode = setting("slugfish-mode", false, v -> true);
     public EnableSetting stopInGui = setting("stop-in-gui", true, v -> true);
+    public EnableSetting stopIfFull = setting("stop-if-full", true, v -> true);
     public EnableSetting rethrow = setting("rethrow", true, v -> true);
     public IntSetting rethrowDelay = setting("rethrow-delay", 10, 1, 20, "tick", v -> rethrow.getValue());
     public EnableSetting idleTimeoutCheck = setting("idle-timeout-check", true, v -> rethrow.getValue());
     public IntSetting idleTimeout = setting("idle-timeout", 5, 1, 30, "s", v -> rethrow.getValue() && idleTimeoutCheck.getValue());
     public EnableSetting hookTimeoutCheck = setting("hook-timeout-check", true, v -> rethrow.getValue());
     public IntSetting hookTimeout = setting("hook-timeout", 20, 10, 90, "s", v -> rethrow.getValue() && hookTimeoutCheck.getValue());
+    public EnableSetting slugfishMode = setting("slugfish-mode", false, v -> true);
+    public IntSetting slugfishDelay = setting("slugfish-delay", 22, 5, 35, "s", v -> slugfishMode.getValue());
 
     private int rethrowTick, idleTick;
     private boolean fishIncoming;
@@ -50,6 +52,16 @@ public class AutoFish extends Module {
         int fishHookAge;
         if (mc.player.fishHook != null) fishHookAge = mc.player.fishHook.age;
         else fishHookAge = 0;
+
+        // stop if full
+        if (stopIfFull.getValue() && mc.player.getInventory().getEmptySlot() == -1) {
+            if (fishHookAge != 0 && rethrowTick > rethrowDelay.getValue()) {
+                PlayerUtil.RightClick(castMode.getValue());
+                fishIncoming = false;
+                rethrowTick = 0;
+            }
+            return;
+        }
 
         // Rethrow
         if (fishHookAge == 0 && rethrowTick < rethrowDelay.getMaxValue() + 1) rethrowTick++;
@@ -98,7 +110,7 @@ public class AutoFish extends Module {
                 if (name.equals("!!!") && fishIncoming) {
                     fishIncoming = false;
 
-                    if (!slugfishMode.getValue() || fishHookAge > 22 * 20) {
+                    if (!slugfishMode.getValue() || fishHookAge > slugfishDelay.getValue() * 20) {
                         PlayerUtil.RightClick(castMode.getValue());
                         if (rethrow.getValue()) rethrowTick = 0;
                     }
