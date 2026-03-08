@@ -60,7 +60,7 @@ public class FreeLook extends Module {
         boolean isKeyDown = KeybindUtil.isPressed(freeLookKey.getValue());
 
         if (mode.getValue() == Mode.HOLD) {
-            if (isKeyDown) {
+            if (isKeyDown && mc.currentScreen == null) {
                 if (!freelooking) startFreeLook();
             } else {
                 if (freelooking) stopFreeLook();
