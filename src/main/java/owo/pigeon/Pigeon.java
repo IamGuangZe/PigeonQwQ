@@ -10,6 +10,7 @@ import owo.pigeon.gui.ClickGui.ClickGuiScreen;
 import owo.pigeon.modules.ModuleManager;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.utils.Chat.SafeMessage;
+import owo.pigeon.utils.Export.ExportManager;
 import owo.pigeon.utils.Hypixel.BanTracker;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.Player.InstantUse;
@@ -25,8 +26,9 @@ public class Pigeon implements ModInitializer {
     public static ConfigManager configManager;
 
     public static SafeMessage safeMessage = new SafeMessage();
-    public static BanTracker banTracker = new BanTracker();
+    public static ExportManager exportManager = new ExportManager();
     public static InstantUse instantUse = new InstantUse();
+    public static BanTracker banTracker = new BanTracker();
 
     public static final String MOD_ID = "pigeonqwq";
     public static final String MOD_NAME = "PigeonQwQ";
@@ -36,6 +38,7 @@ public class Pigeon implements ModInitializer {
     @Override
     public void onInitialize() {
         EVENT_BUS.subscribe(safeMessage);
+        EVENT_BUS.subscribe(exportManager);
         EVENT_BUS.subscribe(instantUse);
 
         moduleManager = new ModuleManager();
