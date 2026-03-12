@@ -19,6 +19,7 @@ import owo.pigeon.modules.impl.Movement.Sprint;
 import owo.pigeon.modules.impl.Player.*;
 import owo.pigeon.modules.impl.Render.*;
 import owo.pigeon.modules.impl.Skyblock.Combat.FlaySwitch;
+import owo.pigeon.modules.impl.Skyblock.Dungeon.AutoGFS;
 import owo.pigeon.modules.impl.Skyblock.Dungeon.ChestClose;
 import owo.pigeon.modules.impl.Skyblock.Dungeon.StarMobESP;
 import owo.pigeon.modules.impl.Skyblock.Event.AutoBouncingBall;
@@ -83,6 +84,7 @@ public class ModuleManager {
 
         /* =======*SkyBlock Module*======= */
         modules.add(new FlaySwitch());
+        modules.add(new AutoGFS());
         modules.add(new ChestClose());
         modules.add(new StarMobESP());
         modules.add(new AutoBouncingBall());

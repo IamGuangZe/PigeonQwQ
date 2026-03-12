@@ -4,10 +4,12 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.component.type.ProfileComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 
@@ -87,6 +89,14 @@ public class ItemUtil {
 
         if (loreComponent == null) return Collections.emptyList();
         return loreComponent.lines();
+    }
+
+    public static NbtCompound getItemCustomData(ItemStack stack) {
+        if (stack == null || stack.isEmpty()) return null;
+
+        NbtComponent component = stack.get(DataComponentTypes.CUSTOM_DATA);
+
+        return (component != null) ? component.copyNbt() : null;
     }
 
     public static String getSkullTexture(ItemStack stack) {

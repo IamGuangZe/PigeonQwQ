@@ -6,14 +6,12 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import owo.pigeon.Pigeon;
-import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.*;
 import owo.pigeon.utils.Player.PlayerUtil;
-import owo.pigeon.utils.RegexUtil;
-import owo.pigeon.utils.ScoreBoardUtil;
-import owo.pigeon.utils.WorldUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,27 +62,27 @@ public class SkyblockUtil {
     }
 
     public enum Floor {
-        E("catacombs_floor_entrance",0),
-        F1("catacombs_floor_one",1),
-        F2("catacombs_floor_two",2),
-        F3("catacombs_floor_three",3),
-        F4("catacombs_floor_four",4),
-        F5("catacombs_floor_five",5),
-        F6("catacombs_floor_six",6),
-        F7("catacombs_floor_seven",7),
-        M1("master_catacombs_floor_one",1),
-        M2("master_catacombs_floor_two",2),
-        M3("master_catacombs_floor_three",3),
-        M4("master_catacombs_floor_four",4),
-        M5("master_catacombs_floor_five",5),
-        M6("master_catacombs_floor_six",6),
-        M7("master_catacombs_floor_seven",7),
-        Unknown("",-1);
+        E("catacombs_floor_entrance", 0),
+        F1("catacombs_floor_one", 1),
+        F2("catacombs_floor_two", 2),
+        F3("catacombs_floor_three", 3),
+        F4("catacombs_floor_four", 4),
+        F5("catacombs_floor_five", 5),
+        F6("catacombs_floor_six", 6),
+        F7("catacombs_floor_seven", 7),
+        M1("master_catacombs_floor_one", 1),
+        M2("master_catacombs_floor_two", 2),
+        M3("master_catacombs_floor_three", 3),
+        M4("master_catacombs_floor_four", 4),
+        M5("master_catacombs_floor_five", 5),
+        M6("master_catacombs_floor_six", 6),
+        M7("master_catacombs_floor_seven", 7),
+        Unknown("", -1);
 
         private final String floorID;
         private final int floorNum;
 
-        Floor(String floorID,int floorNum) {
+        Floor(String floorID, int floorNum) {
             this.floorID = floorID;
             this.floorNum = floorNum;
         }
@@ -213,6 +211,13 @@ public class SkyblockUtil {
         return 1;
     }
 
+    public static boolean isGhost() {
+        if (!isInIsland(Island.Dungeon)) return false;
+        if (ItemUtil.getItemStackfromSlot(0).getName().getString().equals("Haunt")) return true;
+        else if (mc.player.getAbilities().allowFlying) return true;
+        else return false;
+    }
+
     public static Entity getSlayer() {
         if (WorldUtil.nullCheck()) return null;
 
@@ -256,5 +261,53 @@ public class SkyblockUtil {
                 .map(matcher -> matcher.group(1).trim())
                 .filter(name -> !name.isEmpty())
                 .collect(Collectors.toSet());
+    }
+
+    public static String getItemCustomData(ItemStack stack, String key) {
+        NbtCompound nbt = ItemUtil.getItemCustomData(stack);
+
+        if (nbt != null && nbt.contains(key)) {
+            return nbt.getString(key).orElse(null);
+        }
+
+        return null;
+    }
+
+    public static int getTotalItemCount(String itemId) {
+        int totalCount = 0;
+        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getStack(i);
+            if (stack.isEmpty()) continue;
+
+            String currentId = getItemCustomData(stack, "id");
+            if (currentId != null && currentId.equalsIgnoreCase(itemId))
+                totalCount += stack.getCount();
+        }
+        return totalCount;
+    }
+
+    public static int getFirstItemCount(String itemId) {
+        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getStack(i);
+
+            if (stack.isEmpty()) continue;
+
+            String currentId = getItemCustomData(stack, "id");
+            if (currentId != null && currentId.equalsIgnoreCase(itemId)) return stack.getCount();
+
+        }
+        return 0;
+    }
+
+    public static boolean fillItemFromSack(int amount, String itemId) {
+        int currentCount = getFirstItemCount(itemId);
+
+        if (currentCount < amount) {
+            int needed = amount - currentCount;
+            mc.player.networkHandler.sendChatMessage("/gfs " + itemId + " " + needed);
+            return true;
+        }
+
+        return false;
     }
 }

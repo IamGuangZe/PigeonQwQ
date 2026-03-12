@@ -49,6 +49,7 @@ public class GetCommand extends Command {
                 ChatUtil.sendDebugMessage("Item", "Name: " + stack.getName().getString());
                 ChatUtil.sendDebugMessage("Item", "Identifier: " + stack.getItem().toString());
                 ChatUtil.sendDebugMessage("Item", "Count: " + stack.getCount());
+                ChatUtil.sendDebugMessage("Item","Customdata: " + ItemUtil.getItemCustomData(stack));
 
                 if (stack.isOf(Items.PLAYER_HEAD)) {
                     String texture = ItemUtil.getSkullTexture(stack);

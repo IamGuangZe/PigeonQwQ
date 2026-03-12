@@ -94,7 +94,7 @@ public class GTBSolver extends Module {
                 List<String> guesses = guess();
 
                 if (!guesses.isEmpty()) {
-                    if (guesses.size() > 50) {
+                    if (guesses.size() > 75) {
                         ChatUtil.sendCustomPrefixMessage(this.name, "&aPossible Words: &6" + guesses.size() + " &7(Too many to display)");
                     } else {
                         String output = String.join("&r, &6", guesses);
@@ -155,7 +155,6 @@ public class GTBSolver extends Module {
         }
 
         for (GTBWord data : wordDatabase) {
-            // 同时尝试匹配英文和中文结构，增加兼容性
             if (check(data.enParts, data.enLengths, themeParts, themeLengths) ||
                     check(data.zh_cnParts, data.zh_cnLengths, themeParts, themeLengths)) {
                 result.add(data.getFormatted(language.getValue(), secondaryDisplay.getValue(), secondaryLanguage.getValue()));
