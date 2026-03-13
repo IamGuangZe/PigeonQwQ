@@ -31,6 +31,7 @@
     "mixins.MixinMinecraftClient",
     "mixins.MixinRebuildTask",
     "mixins.MixinSimpleOption",
+    "mixins.MixinStatusEffectFogModifier",
     "mixins.MixinWorldRenderer"
   ]
 }

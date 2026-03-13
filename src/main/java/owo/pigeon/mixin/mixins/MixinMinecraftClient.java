@@ -79,8 +79,6 @@ public class MixinMinecraftClient {
     private Perspective onCyclePerspective(Perspective instance) {
         Perspective next = instance.next();
 
-
-
         if (ModuleUtil.getModule(FreeLook.class).freelooking && next == Perspective.FIRST_PERSON) {
             return next.next();
         }
