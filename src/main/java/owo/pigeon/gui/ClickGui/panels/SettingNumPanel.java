@@ -144,7 +144,7 @@ public class SettingNumPanel extends SettingPanel {
             double max = numberSetting.getMaxValue().doubleValue();
             double value = numberSetting.getValue().doubleValue();
 
-            double scrollAmount = verticalAmount < 0 ? 1 : -1;
+            double scrollAmount = verticalAmount > 0 ? 1 : -1;
 
             if (numberSetting instanceof FloatSetting floatSetting) {
                 double baseStep = 0.01;

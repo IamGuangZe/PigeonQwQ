@@ -119,7 +119,7 @@ public class ClickGuiScreen extends Screen {
             }
         } else {
             for (CategoryPanel categoryPanel : categoryPanels) {
-                categoryPanel.y -= moveAmount;
+                categoryPanel.y += moveAmount;
             }
         }
 

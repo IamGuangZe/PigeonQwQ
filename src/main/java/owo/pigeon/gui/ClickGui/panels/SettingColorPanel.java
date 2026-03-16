@@ -150,7 +150,7 @@ public class SettingColorPanel extends SettingPanel {
 
         for (int i = 0; i < 4; i++) {
             if (sliderHovered[i]) {
-                int scrollAmount = verticalAmount < 0 ? 1 : -1;
+                int scrollAmount = verticalAmount > 0 ? 1 : -1;
 
                 int currentValue = getColorValue(i);
                 int newValue = currentValue + scrollAmount;
