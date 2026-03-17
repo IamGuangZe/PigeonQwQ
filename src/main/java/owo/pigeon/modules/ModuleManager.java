@@ -80,6 +80,7 @@ public class ModuleManager {
         modules.add(new FreeLook());
         modules.add(new FullBright());
         modules.add(new ModifyCamera());
+        modules.add(new ParticlesHalo());
         modules.add(new PlayerESP());
 
         /* =======*SkyBlock Module*======= */

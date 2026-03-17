@@ -33,7 +33,7 @@ public class AutoExperiments extends Module {
         MAX_XP, MAX_CLICK, CUSTOM
     }
 
-    public IntSetting clickDelay = setting("click-delay", 4, 1, 20, v -> true);
+    public IntSetting clickDelay = setting("click-delay", 4, 1, 20, "tick", v -> true);
     public EnableSetting autoClaim = setting("auto-claim", true, v -> true);
     public EnableSetting autoClose = setting("auto-close", true, v -> true);
     public ModeSetting<AutoCloseMode> autoCloseMode = setting("auto-close-mode", AutoCloseMode.MAX_XP, v -> autoClose.getValue());
@@ -200,7 +200,7 @@ public class AutoExperiments extends Module {
 
                 if (autoClaim.getValue() && title.startsWith("Experiment Over")) {
                     List<Text> lore = ItemUtil.getItemLore(containerScreen.getSlot(11).getStack());
-                    List<String> target = List.of("You closed the game!","Game closed");
+                    List<String> target = List.of("You closed the game!", "Game closed");
                     boolean isMatched = lore.stream()
                             .map(Text::getString)
                             .anyMatch(target::contains);
