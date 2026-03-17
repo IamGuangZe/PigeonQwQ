@@ -3,16 +3,16 @@ package owo.pigeon.modules.impl.Combat;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.IntSetting;
+import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.RandomUtil;
-import owo.pigeon.utils.WorldUtil;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -31,26 +31,26 @@ public class AutoClicker extends Module {
 
     private boolean firstLeftClick = true;
     private boolean firstRightClick = true;
-    private long lastLeftClickTime = 0;
-    private long lastRightClickTime = 0;
+    private long nextLeftClickTime = 0;
+    private long nextRightClickTime = 0;
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
-        if (WorldUtil.nullCheck()) return;
-
-        long clickInterval = 1000 / RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());
+    public void onRender3D(RenderEvent.Render3DEvent event) {
         long currentTime = System.currentTimeMillis();
 
         if (KeybindUtil.isPressed(mc.options.attackKey) && leftClick.getValue()) {
             if (breakBlocksCheck()) {
-                if (canClick() && onlySwordCheck() && currentTime - lastLeftClickTime >= clickInterval) {
+                if (canClick() && onlySwordCheck()) {
                     if (firstLeftClick) {
                         firstLeftClick = false;
-                    } else {
-                        KeybindUtil.setPressed(mc.options.attackKey,false);
+                        nextLeftClickTime = currentTime + (1000 / RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue()));
+                    } else if (currentTime >= nextLeftClickTime) {
+                        KeybindUtil.setPressed(mc.options.attackKey, false);
                         PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+                        int randomCPS = RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());
+                        nextLeftClickTime = currentTime + (1000 / randomCPS);
+                        ChatUtil.sendDebugMessage(this.name, "Left Click Random CPS: " + randomCPS);
                     }
-                    lastLeftClickTime = currentTime;
                 }
             } else {
                 KeybindUtil.setPressed(mc.options.attackKey, true);
@@ -60,13 +60,16 @@ public class AutoClicker extends Module {
         }
 
         if (KeybindUtil.isPressed(mc.options.useKey) && rightClick.getValue()) {
-            if (canClick() && onlyBlocksCheck() && currentTime - lastRightClickTime >= clickInterval) {
+            if (canClick() && onlyBlocksCheck()) {
                 if (firstRightClick) {
                     firstRightClick = false;
-                } else {
+                    nextRightClickTime = currentTime + (1000 / RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue()));
+                } else if (currentTime >= nextRightClickTime) {
                     PlayerUtil.RightClick(PlayerUtil.RightClickMode.MOUSE);
+                    int randomCPS = RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());
+                    nextRightClickTime = currentTime + (1000 / randomCPS);
+                    ChatUtil.sendDebugMessage(this.name, "Right Click Random CPS: " + randomCPS);
                 }
-                lastRightClickTime = currentTime;
             }
         } else {
             firstRightClick = true;
@@ -78,6 +81,7 @@ public class AutoClicker extends Module {
     }
 
     private boolean breakBlocksCheck() {
+        // ChatUtil.sendDebugMessage(this.name,"isBreakingBlock: " + mc.interactionManager.isBreakingBlock());
         return !(breakBlocks.getValue() && PlayerUtil.isBreakingBlock());
     }
 
