@@ -4,10 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.modules.impl.Client.ClickGui;
-import owo.pigeon.modules.impl.Client.Debug.ClickSlotTest;
-import owo.pigeon.modules.impl.Client.Debug.RenderTest;
-import owo.pigeon.modules.impl.Client.Debug.SettingTest;
-import owo.pigeon.modules.impl.Client.Debug.SlayerESP;
+import owo.pigeon.modules.impl.Client.Debug.*;
 import owo.pigeon.modules.impl.Client.PigeonQwQ;
 import owo.pigeon.modules.impl.Combat.AutoBow;
 import owo.pigeon.modules.impl.Combat.AutoClicker;
@@ -48,6 +45,7 @@ public class ModuleManager {
         Pigeon.EVENT_BUS.subscribe(this);
 
         modules.add(new ClickSlotTest());
+        modules.add(new ExportButton());
         modules.add(new SettingTest());
         modules.add(new RenderTest());
         modules.add(new SlayerESP());

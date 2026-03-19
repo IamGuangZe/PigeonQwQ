@@ -15,14 +15,17 @@
     "requireAnnotations": true
   },
   "client": [
+    "accessors.IAccessorHandledScreen",
     "accessors.IAccessorInGameHud",
     "accessors.IAccessorKeyBinding",
     "accessors.IAccessorMinecraftClient",
     "accessors.IAccessorPlayerListHud",
+    "accessors.IAccessorScreen",
     "mixins.MixinCamera",
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",
     "mixins.MixinGameRenderer",
+    "mixins.MixinHandledScreen",
     "mixins.MixinInGameHud",
     "mixins.MixinInGameOverlayRenderer",
     "mixins.MixinKeyboard",
