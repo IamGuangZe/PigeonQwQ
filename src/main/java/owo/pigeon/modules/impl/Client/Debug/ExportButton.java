@@ -24,6 +24,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ExportButton extends Module {
     private ButtonWidget exportButton;
+    private GenericContainerScreen lastScreen;
 
     public ExportButton() {
         super("ExportButton", Category.CLIENT);
@@ -33,7 +34,13 @@ public class ExportButton extends Module {
     public void onRenderContainer(RenderEvent.RenderContainerEvent event) {
         if (!(event.getScreen() instanceof GenericContainerScreen screen)) {
             exportButton = null;
+            lastScreen = null;
             return;
+        }
+
+        if (lastScreen != screen) {
+            exportButton = null;
+            lastScreen = screen;
         }
 
         GenericContainerScreenHandler container = event.getContainer();
@@ -46,7 +53,10 @@ public class ExportButton extends Module {
         int buttonY = guiAccessor.pigeon$getY();
 
         if (exportButton == null) {
-            exportButton = ButtonWidget.builder(Text.of("Export JSON"), button -> exportToJson(container))
+            exportButton = ButtonWidget.builder(Text.of("Export JSON"), button -> {
+                        exportToJson(container);
+                        button.setFocused(false);
+                    })
                     .dimensions(buttonX, buttonY, 85, 20)
                     .build();
 
@@ -57,6 +67,10 @@ public class ExportButton extends Module {
 
         exportButton.setX(buttonX);
         exportButton.setY(buttonY);
+
+        if (exportButton.isFocused()) {
+            exportButton.setFocused(false);
+        }
 
         exportButton.render(event.getContext(), event.getMouseX(), event.getMouseY(), event.getDelta());
     }
