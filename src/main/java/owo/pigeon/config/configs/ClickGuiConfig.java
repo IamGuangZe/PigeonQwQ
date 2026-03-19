@@ -10,7 +10,7 @@ import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static owo.pigeon.commands.Command.GSON;
+import static owo.pigeon.Pigeon.GSON;
 
 public class ClickGuiConfig extends Config {
     public ClickGuiConfig() {

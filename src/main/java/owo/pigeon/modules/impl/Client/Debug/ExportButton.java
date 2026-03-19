@@ -1,7 +1,5 @@
 package owo.pigeon.modules.impl.Client.Debug;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.engio.mbassy.listener.Handler;
@@ -21,11 +19,11 @@ import owo.pigeon.utils.ItemUtil;
 
 import java.util.List;
 
+import static owo.pigeon.Pigeon.GSON;
 import static owo.pigeon.Pigeon.mc;
 
 public class ExportButton extends Module {
     private ButtonWidget exportButton;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public ExportButton() {
         super("ExportButton", Category.CLIENT);
@@ -92,7 +90,7 @@ public class ExportButton extends Module {
             return;
         }
 
-        String finalJson = gson.toJson(itemsArray);
+        String finalJson = GSON.toJson(itemsArray);
         mc.keyboard.setClipboard(finalJson);
         ChatUtil.sendCustomPrefixMessage("ExportButton", "§aJSON copied to clipboard! (" + itemsArray.size() + " items)");
     }

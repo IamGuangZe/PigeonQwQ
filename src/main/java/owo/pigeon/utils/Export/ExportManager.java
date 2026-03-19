@@ -1,7 +1,5 @@
 package owo.pigeon.utils.Export;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.ItemStack;
@@ -21,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static owo.pigeon.Pigeon.GSON;
 import static owo.pigeon.Pigeon.mc;
 
 public class ExportManager {
@@ -49,8 +48,6 @@ public class ExportManager {
             return o1.compareTo(o2);
         }
     });
-
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static void startExport(ExportTask task) {
         switch (task) {

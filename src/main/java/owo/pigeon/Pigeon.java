@@ -1,5 +1,7 @@
 package owo.pigeon;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.engio.mbassy.bus.MBassador;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
@@ -19,6 +21,7 @@ public class Pigeon implements ModInitializer {
 
     // public static final NyaEventBus EVENT_BUS = new NyaEventBus();
     public static final MBassador<Event> EVENT_BUS = new MBassador<>();
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     public static MinecraftClient mc = MinecraftClient.getInstance();
     public static ModuleManager moduleManager;
     public static CommandManager commandManager;

@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import static owo.pigeon.commands.Command.GSON;
+import static owo.pigeon.Pigeon.GSON;
 
 public class SettingConfig extends Config {
 
