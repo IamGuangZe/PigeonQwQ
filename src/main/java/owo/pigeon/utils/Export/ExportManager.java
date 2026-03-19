@@ -1,5 +1,8 @@
 package owo.pigeon.utils.Export;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -13,7 +16,10 @@ import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.RegexUtil;
 import owo.pigeon.utils.WorldUtil;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -24,7 +30,27 @@ public class ExportManager {
 
     private static int lastProcessedSyncId = -1;
     private static ExportTask currentTask = ExportTask.NONE;
-    private static final Map<String, Integer> shardData = new HashMap<>();
+    private static final Map<String, Integer> shardData = new TreeMap<>((o1, o2) -> {
+        String s1 = o1.replaceAll("\\d", "");
+        String s2 = o2.replaceAll("\\d", "");
+
+        List<String> ORDER = Arrays.asList("C", "U", "R", "E", "L");
+        int p1 = ORDER.indexOf(s1);
+        int p2 = ORDER.indexOf(s2);
+
+        int res = Integer.compare(p1, p2);
+        if (res != 0) return res;
+
+        try {
+            int n1 = Integer.parseInt(o1.replaceAll("\\D", ""));
+            int n2 = Integer.parseInt(o2.replaceAll("\\D", ""));
+            return Integer.compare(n1, n2);
+        } catch (Exception e) {
+            return o1.compareTo(o2);
+        }
+    });
+
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static void startExport(ExportTask task) {
         switch (task) {
@@ -88,19 +114,9 @@ public class ExportManager {
                         if (shardData.isEmpty()) {
                             ChatUtil.sendCustomPrefixMessage("Export","Failed to get shards!");
                         } else {
-                            StringBuilder sb = new StringBuilder("{\n  \"hunting_box\": {\n");
-                            List<String> keys = new ArrayList<>(shardData.keySet());
-                            Collections.sort(keys);
-
-                            for (int i = 0; i < keys.size(); i++) {
-                                String key = keys.get(i);
-                                sb.append("    \"").append(key).append("\": ").append(shardData.get(key));
-                                if (i < keys.size() - 1) sb.append(",");
-                                sb.append("\n");
-                            }
-                            sb.append("  }\n}");
-
-                            mc.keyboard.setClipboard(sb.toString());
+                            JsonObject root = new JsonObject();
+                            root.add("hunting_box", GSON.toJsonTree(shardData));
+                            mc.keyboard.setClipboard(GSON.toJson(root));
                             ChatUtil.sendCustomPrefixMessage("Export","Hunting box data has been exported to the clipboard!");
                         }
 
