@@ -9,6 +9,7 @@ import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.Hypixel.DungeonUtil;
 import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.WorldUtil;
 
@@ -65,8 +66,8 @@ public class AutoGFS extends Module {
     }
 
     private void refill() {
-        if (WorldUtil.nullCheck() || SkyblockUtil.isGhost() || mc.currentScreen != null) return;
-        if (inDungeon.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.Dungeon)) return;
+        if (WorldUtil.nullCheck() || DungeonUtil.isGhost() || mc.currentScreen != null) return;
+        if (inDungeon.getValue() && !DungeonUtil.isInDungeon()) return;
 
         if (refillEnderPearl.getValue() && SkyblockUtil.getTotalItemCount("ENDER_PEARL") != 0) {
             if (SkyblockUtil.fillItemFromSack(16, "ENDER_PEARL")) return;

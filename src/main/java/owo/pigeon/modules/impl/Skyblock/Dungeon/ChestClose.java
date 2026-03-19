@@ -11,7 +11,7 @@ import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
+import owo.pigeon.utils.Hypixel.DungeonUtil;
 import owo.pigeon.utils.WorldUtil;
 
 import static owo.pigeon.Pigeon.mc;
@@ -32,7 +32,7 @@ public class ChestClose extends Module {
     @Handler
     public void onTick(TickEvent.ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
-        if (closeMode.getValue() != Mode.TICK || !SkyblockUtil.isInIsland(SkyblockUtil.Island.Dungeon)) return;
+        if (closeMode.getValue() != Mode.TICK || !DungeonUtil.isInDungeon()) return;
 
         if (event instanceof TickEvent.ClientTickEvent.Pre) {
             if (mc.currentScreen instanceof GenericContainerScreen screen) {
@@ -58,7 +58,7 @@ public class ChestClose extends Module {
             // 1.8.9 -> 疾跑时开箱
             // 1.21.10 -> 移动与疾跑时开箱
 
-            if (closeMode.getValue() != Mode.PACKET || !SkyblockUtil.isInIsland(SkyblockUtil.Island.Dungeon)) return;
+            if (closeMode.getValue() != Mode.PACKET || !DungeonUtil.isInDungeon()) return;
             String title = packet.getName().getString();
 
             if (title.equals("Chest") || title.equals("Large Chest")) {
@@ -71,7 +71,7 @@ public class ChestClose extends Module {
 
     @Handler
     public void onKeyInput(KeyInputEvent event) {
-        if (closeMode.getValue() != Mode.INPUT || !SkyblockUtil.isInIsland(SkyblockUtil.Island.Dungeon)) return;
+        if (closeMode.getValue() != Mode.INPUT || !DungeonUtil.isInDungeon()) return;
         if (mc.currentScreen instanceof GenericContainerScreen screen) {
             String title = screen.getTitle().getString();
 
@@ -83,7 +83,7 @@ public class ChestClose extends Module {
 
     @Handler
     public void onClickSlot(ClickSlotEvent event) {
-        if (closeMode.getValue() != Mode.INPUT || !SkyblockUtil.isInIsland(SkyblockUtil.Island.Dungeon)) return;
+        if (closeMode.getValue() != Mode.INPUT || !DungeonUtil.isInDungeon()) return;
         if (mc.currentScreen instanceof GenericContainerScreen screen) {
             String title = screen.getTitle().getString();
 

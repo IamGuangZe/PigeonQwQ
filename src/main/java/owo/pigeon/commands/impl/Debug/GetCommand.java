@@ -8,6 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import owo.pigeon.commands.Command;
 import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.utils.Hypixel.DungeonUtil;
 import owo.pigeon.utils.Hypixel.HypixelUtil;
 import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.ItemUtil;
@@ -117,11 +118,11 @@ public class GetCommand extends Command {
 
                 if (SkyblockUtil.isInSkyblock()) {
                     ChatUtil.sendDebugMessage("Skyblock", "island: " + SkyblockUtil.getIsland().getDisplayName());
-                    if (SkyblockUtil.isInIsland(SkyblockUtil.Island.Dungeon)) {
-                        ChatUtil.sendDebugMessage("Skyblock","Floor: " + SkyblockUtil.getFloor());
-                        ChatUtil.sendDebugMessage("Skyblock","isInBoss: " + SkyblockUtil.isInBoss());
-                        if (SkyblockUtil.isInFloor(7) && SkyblockUtil.isInBoss(7)) {
-                            ChatUtil.sendDebugMessage("Skyblock","Floor 7 Stage: " + SkyblockUtil.getFloor7Stage());
+                    if (DungeonUtil.isInDungeon()) {
+                        ChatUtil.sendDebugMessage("Skyblock","Floor: " + DungeonUtil.getFloor());
+                        ChatUtil.sendDebugMessage("Skyblock","isInBoss: " + DungeonUtil.isInBoss());
+                        if (DungeonUtil.isInFloor(7) && DungeonUtil.isInBoss(7)) {
+                            ChatUtil.sendDebugMessage("Skyblock","Floor 7 Stage: " + DungeonUtil.getFloor7Stage());
                         }
                     }
                 }
