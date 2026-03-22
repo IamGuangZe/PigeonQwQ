@@ -87,6 +87,8 @@ public class ChocolateFactory extends Module {
             if (autoUpgrade.getValue() && upgradeTick >= upgradeDelay.getValue()) {
                 long balance = getBalance(container);
                 double baseProd = getBaseProduction(container);
+                double multiplier = getMultiplier(container);
+
                 int bestSlot = -1;
                 double minCostPerUnit = Double.MAX_VALUE;
                 long targetCost = 0;
@@ -101,7 +103,7 @@ public class ChocolateFactory extends Module {
 
                     String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
                     long cost = parseCost(lore);
-                    double delta = calculateDelta(slot, stack, baseProd);
+                    double delta = calculateDelta(slot, stack, baseProd, multiplier);
 
                     if (cost <= 0 || delta <= 0) continue;
                     double efficiency = (double) cost / delta;
@@ -143,11 +145,13 @@ public class ChocolateFactory extends Module {
 
         long balance = getBalance(container);
         double baseProd = getBaseProduction(container);
+        double multiplier = getMultiplier(container);
 
         List<String> debugLines = new ArrayList<>();
         debugLines.add("&6&lChocolate Factory");
         debugLines.add("&7Balance: &f" + String.format("%,d", balance));
         debugLines.add("&7Base Prod: &f" + String.format("%.1f", baseProd));
+        debugLines.add("&7Multiplier: &b" + String.format("%.3fx", multiplier));
         debugLines.add("&7Catch Progress: &e" + catchTick + "/" + catchDelay.getValue());
         debugLines.add("&7Upgrade Progress: &e" + upgradeTick + "/" + upgradeDelay.getValue());
         debugLines.add("&8--------------------");
@@ -163,7 +167,7 @@ public class ChocolateFactory extends Module {
 
             String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
             long cost = parseCost(lore);
-            double delta = calculateDelta(slot, stack, baseProd);
+            double delta = calculateDelta(slot, stack, baseProd, multiplier);
 
             if (cost <= 0 || delta <= 0) continue;
             double efficiency = (double) cost / delta;
@@ -217,10 +221,18 @@ public class ChocolateFactory extends Module {
 
     private double getBaseProduction(GenericContainerScreenHandler container) {
         ItemStack stack = container.getSlot(45).getStack();
-        if (stack.isEmpty() || stack.isOf(Items.BLACK_STAINED_GLASS_PANE)) return 0;
+        if (isInvalid(stack)) return 0;
         String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
         String res = RegexUtil.regexGetPart("Base Chocolate: ([\\d,.]+)", lore, 1);
         return res != null ? Double.parseDouble(res.replace(",", "")) : 0;
+    }
+
+    private double getMultiplier(GenericContainerScreenHandler container) {
+        ItemStack stack = container.getSlot(45).getStack();
+        if (isInvalid(stack)) return 1.0;
+        String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
+        String res = RegexUtil.regexGetPart("Total Multiplier: ([\\d,.]+)x", lore, 1);
+        return res != null ? Double.parseDouble(res.replace(",", "")) : 1.0;
     }
 
     private long parseCost(String lore) {
@@ -230,8 +242,8 @@ public class ChocolateFactory extends Module {
         return res != null ? Long.parseLong(res.replace(",", "")) : -1;
     }
 
-    private double calculateDelta(int slot, ItemStack stack, double baseProd) {
-        if (slot >= 28 && slot <= 34) return (slot - 27);
+    private double calculateDelta(int slot, ItemStack stack, double baseProd, double multiplier) {
+        if (slot >= 28 && slot <= 34) return (slot - 27) * multiplier;
         if (stack.isOf(Items.CLOCK)) return baseProd * 0.1;
         if (slot == 42) return baseProd * 0.01;
         return 0;
