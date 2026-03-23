@@ -44,7 +44,7 @@ public class BanTracker {
 
                     if (diff != 0 && ModuleUtil.isEnable(BannedStats.class)) {
                         String personText = diff == 1 ? "person" : "people";
-                        ChatUtil.sendCustomPrefixMessage("BannedStats", "Staff has banned " + diff + " " + personText + " in last 1 minute");
+                        ChatUtil.sendMessage("BannedStats", "Staff has banned " + diff + " " + personText + " in last 1 minute");
                     }
 
                     ChatUtil.sendDebugMessage("BanTracker", "Fetched Staff Total: " + currentTotal + " (+" + diff + ")");

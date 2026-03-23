@@ -58,7 +58,7 @@ public class AutoEquipment extends Module {
             if (itemName != null) {
                 int slot = ItemUtil.getSlotFromItemName(itemName, false);
                 if (slot == -1) {
-                    ChatUtil.sendCustomPrefixMessage(this.name, "Specified item not found: " + itemName);
+                    ChatUtil.sendMessage(this.name, "Specified item not found: " + itemName);
                     return;
                 }
 

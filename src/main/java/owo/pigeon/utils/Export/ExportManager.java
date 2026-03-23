@@ -109,12 +109,12 @@ public class ExportManager {
                     } else {
                         ChatUtil.sendDebugMessage("ExportManager","Hunting box: done");
                         if (shardData.isEmpty()) {
-                            ChatUtil.sendCustomPrefixMessage("Export","Failed to get shards!");
+                            ChatUtil.sendMessage("Export","Failed to get shards!");
                         } else {
                             JsonObject root = new JsonObject();
                             root.add("hunting_box", GSON.toJsonTree(shardData));
                             mc.keyboard.setClipboard(GSON.toJson(root));
-                            ChatUtil.sendCustomPrefixMessage("Export","Hunting box data has been exported to the clipboard!");
+                            ChatUtil.sendMessage("Export","Hunting box data has been exported to the clipboard!");
                         }
 
                         lastProcessedSyncId = -1;

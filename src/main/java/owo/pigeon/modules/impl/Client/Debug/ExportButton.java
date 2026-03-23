@@ -100,12 +100,12 @@ public class ExportButton extends Module {
         }
 
         if (itemsArray.isEmpty()) {
-            ChatUtil.sendCustomPrefixMessage("ExportButton", "§cContainer is empty!");
+            ChatUtil.sendMessage("ExportButton", "§cContainer is empty!");
             return;
         }
 
         String finalJson = GSON.toJson(itemsArray);
         mc.keyboard.setClipboard(finalJson);
-        ChatUtil.sendCustomPrefixMessage("ExportButton", "§aJSON copied to clipboard! (" + itemsArray.size() + " items)");
+        ChatUtil.sendMessage("ExportButton", "§aJSON copied to clipboard! (" + itemsArray.size() + " items)");
     }
 }

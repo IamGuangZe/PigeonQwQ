@@ -100,7 +100,7 @@ public class MurderHelper extends Module {
             ItemStack stack = player.getStackInHand(Hand.MAIN_HAND);
 
             if (isKnife(stack) && !murdererNames.contains(playerName)) {
-                ChatUtil.sendCustomPrefixMessage(this.name, "&c" + playerName + " &ris Murderer!");
+                ChatUtil.sendMessage(this.name, "&c" + playerName + " &ris Murderer!");
                 murdererNames.add(playerName);
                 playersWithBow.remove(playerName);
             }
@@ -114,7 +114,7 @@ public class MurderHelper extends Module {
 
         for (String deadName : deadThisTick) {
             String color = murdererNames.contains(deadName) ? "&c" : (playersWithBow.contains(deadName) ? "&a" : "&7");
-            ChatUtil.sendCustomPrefixMessage(this.name, color + deadName + " &rhas died.");
+            ChatUtil.sendMessage(this.name, color + deadName + " &rhas died.");
             playerDied(deadName);
         }
 

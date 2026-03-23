@@ -42,7 +42,7 @@ public class PartyDetector extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         if (detectionMode.getValue() == DetectionMode.CHAT) {
             if (newPlayersOnTick.size() >= 2) {
-                ChatUtil.sendCustomPrefixMessage(this.name, "Suspected Party Join (" + newPlayersOnTick.size() + "): " + String.join(", ", newPlayersOnTick));
+                ChatUtil.sendMessage(this.name, "Suspected Party Join (" + newPlayersOnTick.size() + "): " + String.join(", ", newPlayersOnTick));
             }
 
             newPlayersOnTick.clear();
@@ -67,7 +67,7 @@ public class PartyDetector extends Module {
             newPlayers.removeAll(previousPlayers);
 
             if (newPlayers.size() >= 2) {
-                ChatUtil.sendCustomPrefixMessage(this.name, "Suspected Party Join (" + newPlayers.size() + "): " + String.join(", ", newPlayers));
+                ChatUtil.sendMessage(this.name, "Suspected Party Join (" + newPlayers.size() + "): " + String.join(", ", newPlayers));
             }
 
             previousPlayers.clear();

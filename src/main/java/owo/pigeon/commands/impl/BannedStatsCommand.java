@@ -25,7 +25,7 @@ public class BannedStatsCommand extends Command {
             int requestedMinutes = Integer.parseInt(args[0]);
 
             if (requestedMinutes <= 0) {
-                ChatUtil.sendCustomPrefixMessage("BannedStats", "Please enter a positive integer.");
+                ChatUtil.sendMessage("BannedStats", "Please enter a positive integer.");
                 return;
             }
 
@@ -35,14 +35,14 @@ public class BannedStatsCommand extends Command {
             int actualMinutes = Math.min(requestedMinutes, trackedMinutes);
 
             if (actualMinutes == 0) {
-                ChatUtil.sendCustomPrefixMessage("BannedStats", "No stats recorded yet. Please wait at least a minute.");
+                ChatUtil.sendMessage("BannedStats", "No stats recorded yet. Please wait at least a minute.");
             } else {
                 String personText = banCount == 1 ? "person" : "people";
                 String minuteText = actualMinutes == 1 ? "minute" : "minutes";
-                ChatUtil.sendCustomPrefixMessage("BannedStats", "Staff has banned " + banCount + " " + personText + " in last " + actualMinutes + " " + minuteText);
+                ChatUtil.sendMessage("BannedStats", "Staff has banned " + banCount + " " + personText + " in last " + actualMinutes + " " + minuteText);
 
                 if (requestedMinutes > trackedMinutes) {
-                    ChatUtil.sendCustomPrefixMessage("BannedStats", "(Only " + trackedMinutes + " min of data available since startup)");
+                    ChatUtil.sendMessage("BannedStats", "(Only " + trackedMinutes + " min of data available since startup)");
                 }
             }
 

@@ -95,13 +95,13 @@ public class GTBSolver extends Module {
 
                 if (!guesses.isEmpty()) {
                     if (guesses.size() > 75) {
-                        ChatUtil.sendCustomPrefixMessage(this.name, "&aPossible Words: &6" + guesses.size() + " &7(Too many to display)");
+                        ChatUtil.sendMessage(this.name, "&aPossible Words: &6" + guesses.size() + " &7(Too many to display)");
                     } else {
                         String output = String.join("&r, &6", guesses);
-                        ChatUtil.sendCustomPrefixMessage(this.name, "&aPossible Words (" + guesses.size() + "): &6" + output);
+                        ChatUtil.sendMessage(this.name, "&aPossible Words (" + guesses.size() + "): &6" + output);
                     }
                 } else {
-                    ChatUtil.sendCustomPrefixMessage(this.name, "&cNo words match this theme.");
+                    ChatUtil.sendMessage(this.name, "&cNo words match this theme.");
                 }
             }
         } else {

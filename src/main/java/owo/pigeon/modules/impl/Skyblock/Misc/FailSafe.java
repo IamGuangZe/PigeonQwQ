@@ -48,7 +48,7 @@ public class FailSafe extends Module {
 
     @Override
     public void onEnable() {
-        ChatUtil.sendCustomPrefixMessage(this.name,"This module is still under development and may trigger false positives!");
+        ChatUtil.sendMessage(this.name,"This module is still under development and may trigger false positives!");
     }
 
     @Handler
@@ -68,12 +68,12 @@ public class FailSafe extends Module {
             }
 
 
-            ChatUtil.sendCustomPrefixMessage(this.name, "Teleportation detected!");
+            ChatUtil.sendMessage(this.name, "Teleportation detected!");
             handleFailSafe();
         }
 
         if (slotChangeDetection.getValue() && event.getPacket() instanceof UpdateSelectedSlotS2CPacket) {
-            ChatUtil.sendCustomPrefixMessage(this.name, "Selected slot has been modified!");
+            ChatUtil.sendMessage(this.name, "Selected slot has been modified!");
             handleFailSafe();
         }
     }
@@ -81,7 +81,7 @@ public class FailSafe extends Module {
     @Handler
     public void onWorldChange(WorldChangeEvent event) {
         if (worldChangeDetection.getValue()) {
-            ChatUtil.sendCustomPrefixMessage(this.name, "World change detected!");
+            ChatUtil.sendMessage(this.name, "World change detected!");
             handleFailSafe();
         }
     }
