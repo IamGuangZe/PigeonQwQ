@@ -4,7 +4,6 @@ import net.minecraft.client.util.InputUtil;
 import owo.pigeon.Pigeon;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.ModeSetting;
 
 import static owo.pigeon.Pigeon.mc;
@@ -15,11 +14,15 @@ public class ClickGui extends Module {
     }
 
     public enum Style {
-        OLD, NEW
+        OLD, NEW;
+    }
+
+    public enum Background {
+        INGAME, PANORAMA, BLUR, DARKENING, NONE;
     }
 
     public ModeSetting<Style> style = setting("style", Style.NEW, v -> true);
-    public EnableSetting background = setting("background", true, v -> true);
+    public ModeSetting<Background> background = setting("background",Background.BLUR,v->true);
 
     @Override
     public void enable() {

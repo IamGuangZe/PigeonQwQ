@@ -66,7 +66,12 @@ public class ClickGuiScreen extends Screen {
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         ClickGui clickGui = ModuleUtil.getModule(ClickGui.class);
 
-        if (clickGui.background.getValue()) super.renderBackground(context, mouseX, mouseY, deltaTicks);
+        switch (clickGui.background.getValue()) {
+            case INGAME -> this.renderInGameBackground(context);
+            case PANORAMA -> this.renderPanoramaBackground(context, deltaTicks);
+            case BLUR -> this.applyBlur(context);
+            case DARKENING -> this.renderDarkening(context);
+        }
     }
 
     @Override
