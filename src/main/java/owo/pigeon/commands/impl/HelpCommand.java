@@ -1,8 +1,13 @@
 package owo.pigeon.commands.impl;
 
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.HoverEvent;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import owo.pigeon.commands.Command;
 import owo.pigeon.commands.CommandManager;
 import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.CommandUtil;
 
 public class HelpCommand extends Command {
@@ -46,7 +51,16 @@ public class HelpCommand extends Command {
 
         for (int i = start; i < end; i++) {
             if (i > CommandManager.commands.size() - 1) break;
-            ChatUtil.sendMessage("&7" + CommandUtil.getCommandPrefix() + " " + CommandManager.commands.get(i).getCommand().toLowerCase());
+
+            String cmdName = CommandManager.commands.get(i).getCommand().toLowerCase();
+            String fullCommand = CommandUtil.getCommandPrefix() + cmdName;
+
+            MutableText commandText = Text.literal(ColorUtil.parseColor("&7" + fullCommand))
+                    .styled(style -> style
+                            .withClickEvent(new ClickEvent.SuggestCommand(fullCommand + " "))
+                            .withHoverEvent(new HoverEvent.ShowText(Text.literal(ColorUtil.parseColor("&bClick to suggest to chat\n&7" + fullCommand))))
+                    );
+            ChatUtil.sendMessage(commandText);
         }
 
         ChatUtil.sendMessage("&8Use \"" + CommandUtil.getCommandPrefix() + " help <page>\" to view other commands.");
