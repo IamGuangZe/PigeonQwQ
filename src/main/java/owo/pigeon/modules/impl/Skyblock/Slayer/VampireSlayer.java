@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Slayer;
+package owo.pigeon.modules.impl.skyblock.slayer;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.entity.Entity;
@@ -11,13 +11,13 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.FloatSetting;
 import owo.pigeon.settings.IntSetting;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.KeybindUtil;
-import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.player.PlayerUtil;
 
 import static owo.pigeon.Pigeon.mc;
 

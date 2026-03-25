@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Rift;
+package owo.pigeon.modules.impl.skyblock.rift;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.block.BlockState;
@@ -12,9 +12,9 @@ import owo.pigeon.event.events.PacketEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.Chat.ChatUtil;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.hypixel.SkyblockUtil;
 
 import java.util.function.Supplier;
 

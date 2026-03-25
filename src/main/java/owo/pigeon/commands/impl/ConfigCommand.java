@@ -2,8 +2,8 @@ package owo.pigeon.commands.impl;
 
 import owo.pigeon.commands.Command;
 import owo.pigeon.config.configs.SettingConfig;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 import java.awt.*;
 import java.io.File;

@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Client.Debug;
+package owo.pigeon.modules.impl.client.debug;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.DrawContext;
@@ -7,9 +7,9 @@ import net.minecraft.entity.Entity;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.utils.Chat.ChatUtil;
-import owo.pigeon.utils.Render.RenderUtil;
-import owo.pigeon.utils.Render.TextRendererUtil;
+import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.render.RenderUtil;
+import owo.pigeon.utils.render.TextRendererUtil;
 
 import java.awt.*;
 import java.util.ArrayList;

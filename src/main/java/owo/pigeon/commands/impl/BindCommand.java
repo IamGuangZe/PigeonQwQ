@@ -4,9 +4,9 @@ import net.minecraft.client.util.InputUtil;
 import owo.pigeon.commands.Command;
 import owo.pigeon.modules.Module;
 import owo.pigeon.modules.ModuleManager;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 import java.util.Map;
 import java.util.TreeMap;

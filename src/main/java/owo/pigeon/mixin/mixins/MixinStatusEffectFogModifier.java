@@ -8,7 +8,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import owo.pigeon.modules.impl.Render.ModifyCamera;
+import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(StatusEffectFogModifier.class)

@@ -1,11 +1,11 @@
 package owo.pigeon.interfaces;
 
 public interface ICameraOverriddenEntity {
-    public float pigeon$getCameraPitch();
+    float pigeon$getCameraPitch();
 
-    public float pigeon$getCameraYaw();
+    float pigeon$getCameraYaw();
 
-    public void pigeon$setCameraPitch(float pitch);
+    void pigeon$setCameraPitch(float pitch);
 
-    public void pigeon$setCameraYaw(float yaw);
+    void pigeon$setCameraYaw(float yaw);
 }

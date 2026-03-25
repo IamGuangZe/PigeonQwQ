@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.interfaces.ICameraOverriddenEntity;
-import owo.pigeon.modules.impl.Render.FreeLook;
-import owo.pigeon.modules.impl.Render.ModifyCamera;
+import owo.pigeon.modules.impl.render.FreeLook;
+import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(Camera.class)

@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.interfaces.ICameraOverriddenEntity;
-import owo.pigeon.modules.impl.Combat.HitBox;
-import owo.pigeon.modules.impl.Render.FreeLook;
+import owo.pigeon.modules.impl.combat.HitBox;
+import owo.pigeon.modules.impl.render.FreeLook;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(Entity.class)

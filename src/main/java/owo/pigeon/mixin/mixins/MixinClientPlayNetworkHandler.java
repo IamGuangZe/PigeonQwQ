@@ -13,7 +13,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.commands.CommandManager;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.event.events.WorldChangeEvent;
-import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class MixinClientPlayNetworkHandler {

@@ -1,7 +1,7 @@
 package owo.pigeon.commands;
 
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 public abstract class Command {
     private final String command;

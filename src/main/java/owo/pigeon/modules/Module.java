@@ -2,7 +2,7 @@ package owo.pigeon.modules;
 
 import owo.pigeon.Pigeon;
 import owo.pigeon.settings.SettingDesigner;
-import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 public class Module extends SettingDesigner {
     public final String name;

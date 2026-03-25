@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Misc;
+package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.screen.GenericContainerScreenHandler;
@@ -10,10 +10,10 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.KeySetting;
 import owo.pigeon.settings.StringSetting;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ItemUtil;
-import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.player.PlayerUtil;
 
 import static owo.pigeon.Pigeon.mc;
 

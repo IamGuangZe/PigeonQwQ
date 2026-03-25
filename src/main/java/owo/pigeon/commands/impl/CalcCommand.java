@@ -3,8 +3,8 @@ package owo.pigeon.commands.impl;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import owo.pigeon.commands.Command;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 
 public class CalcCommand extends Command {

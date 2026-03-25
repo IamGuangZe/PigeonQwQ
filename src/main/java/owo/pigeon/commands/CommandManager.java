@@ -3,10 +3,10 @@ package owo.pigeon.commands;
 import net.engio.mbassy.listener.Handler;
 import owo.pigeon.Pigeon;
 import owo.pigeon.commands.impl.*;
-import owo.pigeon.commands.impl.Debug.GetCommand;
+import owo.pigeon.commands.impl.debug.GetCommand;
 import owo.pigeon.event.events.MessageEvent;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

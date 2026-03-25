@@ -6,9 +6,9 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import owo.pigeon.commands.Command;
 import owo.pigeon.commands.CommandManager;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.CommandUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 public class HelpCommand extends Command {
     public HelpCommand() {

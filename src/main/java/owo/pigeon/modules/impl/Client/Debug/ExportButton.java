@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Client.Debug;
+package owo.pigeon.modules.impl.client.debug;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -14,8 +14,8 @@ import owo.pigeon.mixin.accessors.IAccessorHandledScreen;
 import owo.pigeon.mixin.accessors.IAccessorScreen;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ItemUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 import java.util.List;
 

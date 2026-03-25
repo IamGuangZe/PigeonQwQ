@@ -8,14 +8,14 @@ import net.minecraft.client.MinecraftClient;
 import owo.pigeon.commands.CommandManager;
 import owo.pigeon.config.ConfigManager;
 import owo.pigeon.event.Event;
-import owo.pigeon.gui.ClickGui.ClickGuiScreen;
+import owo.pigeon.gui.clickgui.ClickGuiScreen;
 import owo.pigeon.modules.ModuleManager;
-import owo.pigeon.modules.impl.Client.PigeonQwQ;
-import owo.pigeon.utils.Chat.SafeMessage;
-import owo.pigeon.utils.Export.ExportManager;
-import owo.pigeon.utils.Hypixel.BanTracker;
+import owo.pigeon.modules.impl.client.PigeonQwQ;
 import owo.pigeon.utils.ModuleUtil;
-import owo.pigeon.utils.Player.InstantUse;
+import owo.pigeon.utils.chat.SafeMessage;
+import owo.pigeon.utils.export.ExportManager;
+import owo.pigeon.utils.hypixel.BanTracker;
+import owo.pigeon.utils.player.InstantUse;
 
 public class Pigeon implements ModInitializer {
 

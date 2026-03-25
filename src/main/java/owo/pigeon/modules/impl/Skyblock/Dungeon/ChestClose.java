@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Dungeon;
+package owo.pigeon.modules.impl.skyblock.dungeon;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
@@ -11,8 +11,8 @@ import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.Hypixel.DungeonUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.hypixel.DungeonUtil;
 
 import static owo.pigeon.Pigeon.mc;
 

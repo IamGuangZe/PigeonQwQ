@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import owo.pigeon.modules.impl.Render.FullBright;
+import owo.pigeon.modules.impl.render.FullBright;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(LightmapTextureManager.class)

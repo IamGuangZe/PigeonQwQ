@@ -2,8 +2,8 @@ package owo.pigeon.utils;
 
 import net.minecraft.util.StringHelper;
 import org.apache.commons.lang3.StringUtils;
-import owo.pigeon.modules.impl.Client.PigeonQwQ;
-import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.modules.impl.client.PigeonQwQ;
+import owo.pigeon.utils.chat.ChatUtil;
 
 public class CommandUtil {
     public enum errorReason {

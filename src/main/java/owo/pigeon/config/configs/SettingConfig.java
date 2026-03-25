@@ -8,10 +8,10 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.config.Config;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.modules.impl.Client.ClickGui;
+import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.settings.*;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 import java.io.File;
 import java.io.FileReader;

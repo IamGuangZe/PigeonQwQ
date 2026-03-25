@@ -70,7 +70,7 @@ public abstract class SettingDesigner {
     }
 
     public <T extends Enum<T>> ModeSetting<T> setting(String name, T value, Predicate<Boolean> visible) {
-        ModeSetting<T> setting = new ModeSetting<T>(name, value, visible);
+        ModeSetting<T> setting = new ModeSetting<>(name, value, visible);
         settings.add(setting);
         return setting;
     }

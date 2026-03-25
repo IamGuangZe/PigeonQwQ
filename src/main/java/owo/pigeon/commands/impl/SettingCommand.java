@@ -7,10 +7,10 @@ import net.minecraft.util.Identifier;
 import owo.pigeon.commands.Command;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.*;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 import java.awt.*;
 

@@ -15,10 +15,10 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.DoItemUseEvent;
 import owo.pigeon.event.events.TickEvent;
-import owo.pigeon.modules.impl.Combat.AutoClicker;
-import owo.pigeon.modules.impl.Combat.NoHitDelay;
-import owo.pigeon.modules.impl.Player.FastPlace;
-import owo.pigeon.modules.impl.Render.FreeLook;
+import owo.pigeon.modules.impl.combat.AutoClicker;
+import owo.pigeon.modules.impl.combat.NoHitDelay;
+import owo.pigeon.modules.impl.player.FastPlace;
+import owo.pigeon.modules.impl.render.FreeLook;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(MinecraftClient.class)

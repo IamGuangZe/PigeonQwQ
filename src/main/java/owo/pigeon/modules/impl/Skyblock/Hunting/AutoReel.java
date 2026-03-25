@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Hunting;
+package owo.pigeon.modules.impl.skyblock.hunting;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.util.math.MatrixStack;
@@ -12,9 +12,9 @@ import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.Player.PlayerUtil;
-import owo.pigeon.utils.Render.RenderUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.player.PlayerUtil;
+import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
 
@@ -77,8 +77,7 @@ public class AutoReel extends Module {
 
     private Entity getLeashedEntity(PlayerEntity player) {
         for (Entity entity : mc.world.getEntities()) {
-            if (entity instanceof MobEntity) {
-                MobEntity mob = (MobEntity) entity;
+            if (entity instanceof MobEntity mob) {
                 if (mob.isLeashed() && mob.getLeashHolder() == player) {
                     return mob;
                 }

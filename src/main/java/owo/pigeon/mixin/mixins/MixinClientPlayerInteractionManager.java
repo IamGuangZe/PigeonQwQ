@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClickSlotEvent;
-import owo.pigeon.modules.impl.Player.NoBreakDelay;
-import owo.pigeon.utils.Chat.ChatUtil;
+import owo.pigeon.modules.impl.player.NoBreakDelay;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class MixinClientPlayerInteractionManager {

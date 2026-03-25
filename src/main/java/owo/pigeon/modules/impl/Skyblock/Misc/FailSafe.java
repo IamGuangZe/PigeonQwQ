@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Misc;
+package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
@@ -11,16 +11,16 @@ import owo.pigeon.event.events.PacketEvent;
 import owo.pigeon.event.events.WorldChangeEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.modules.impl.Player.AutoFish;
-import owo.pigeon.modules.impl.Skyblock.Event.AutoBouncingBall;
-import owo.pigeon.modules.impl.Skyblock.Slayer.VampireSlayer;
+import owo.pigeon.modules.impl.player.AutoFish;
+import owo.pigeon.modules.impl.skyblock.event.AutoBouncingBall;
+import owo.pigeon.modules.impl.skyblock.slayer.VampireSlayer;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.StringSetting;
-import owo.pigeon.utils.Chat.ChatUtil;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.hypixel.SkyblockUtil;
 
 import java.util.List;
 import java.util.Set;

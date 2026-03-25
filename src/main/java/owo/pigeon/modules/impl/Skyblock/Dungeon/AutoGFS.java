@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Dungeon;
+package owo.pigeon.modules.impl.skyblock.dungeon;
 
 import net.engio.mbassy.listener.Handler;
 import owo.pigeon.event.events.MessageEvent;
@@ -7,11 +7,11 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.IntSetting;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
-import owo.pigeon.utils.Hypixel.DungeonUtil;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.hypixel.DungeonUtil;
+import owo.pigeon.utils.hypixel.SkyblockUtil;
 
 import static owo.pigeon.Pigeon.mc;
 

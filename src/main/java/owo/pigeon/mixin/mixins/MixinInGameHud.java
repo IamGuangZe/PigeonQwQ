@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.modules.impl.Render.ModifyCamera;
+import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(InGameHud.class)

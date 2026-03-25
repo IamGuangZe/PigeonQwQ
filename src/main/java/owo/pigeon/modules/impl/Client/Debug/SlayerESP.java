@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Client.Debug;
+package owo.pigeon.modules.impl.client.debug;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.entity.Entity;
@@ -9,9 +9,9 @@ import net.minecraft.util.math.Box;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
-import owo.pigeon.utils.Player.PlayerUtil;
-import owo.pigeon.utils.Render.RenderUtil;
+import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.player.PlayerUtil;
+import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
 

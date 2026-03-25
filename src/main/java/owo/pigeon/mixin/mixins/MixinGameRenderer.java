@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import owo.pigeon.modules.impl.Player.GhostHand;
-import owo.pigeon.modules.impl.Render.ModifyCamera;
+import owo.pigeon.modules.impl.player.GhostHand;
+import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(GameRenderer.class)

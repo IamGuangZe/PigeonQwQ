@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Rift;
+package owo.pigeon.modules.impl.skyblock.rift;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.block.Block;
@@ -9,9 +9,9 @@ import net.minecraft.util.math.BlockPos;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
-import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.player.PlayerUtil;
 
 import static owo.pigeon.Pigeon.mc;
 

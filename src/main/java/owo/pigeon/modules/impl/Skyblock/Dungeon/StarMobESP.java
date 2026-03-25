@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Dungeon;
+package owo.pigeon.modules.impl.skyblock.dungeon;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,8 +13,8 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.Player.PlayerUtil;
-import owo.pigeon.utils.Render.RenderUtil;
+import owo.pigeon.utils.player.PlayerUtil;
+import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
 

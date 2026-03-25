@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Client.Debug;
+package owo.pigeon.modules.impl.client.debug;
 
 import net.minecraft.block.Blocks;
 import owo.pigeon.modules.Category;

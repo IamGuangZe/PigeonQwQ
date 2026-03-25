@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Farming;
+package owo.pigeon.modules.impl.skyblock.farming;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.entity.Entity;
@@ -15,10 +15,10 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.ColorUtil;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
-import owo.pigeon.utils.Render.RenderUtil;
+import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
 

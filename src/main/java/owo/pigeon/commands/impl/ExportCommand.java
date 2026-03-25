@@ -1,10 +1,10 @@
 package owo.pigeon.commands.impl;
 
 import owo.pigeon.commands.Command;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
-import owo.pigeon.utils.Export.ExportManager;
-import owo.pigeon.utils.Hypixel.SkyblockUtil;
+import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.export.ExportManager;
+import owo.pigeon.utils.hypixel.SkyblockUtil;
 
 public class ExportCommand extends Command {
     public ExportCommand() {

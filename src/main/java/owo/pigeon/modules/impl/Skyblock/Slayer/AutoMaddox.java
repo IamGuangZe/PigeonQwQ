@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.Skyblock.Slayer;
+package owo.pigeon.modules.impl.skyblock.slayer;
 
 import net.engio.mbassy.listener.Handler;
 import owo.pigeon.event.events.MessageEvent;
@@ -8,8 +8,8 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.ItemUtil;
-import owo.pigeon.utils.Player.PlayerUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.player.PlayerUtil;
 
 import static owo.pigeon.Pigeon.mc;
 

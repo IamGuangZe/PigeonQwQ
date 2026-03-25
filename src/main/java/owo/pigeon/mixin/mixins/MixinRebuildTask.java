@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import owo.pigeon.modules.impl.Render.BedESP;
-import owo.pigeon.modules.impl.Render.BlockESP;
+import owo.pigeon.modules.impl.render.BedESP;
+import owo.pigeon.modules.impl.render.BlockESP;
 import owo.pigeon.utils.ModuleUtil;
 
 import java.util.concurrent.CompletableFuture;

@@ -1,8 +1,8 @@
 package owo.pigeon.commands.impl;
 
 import owo.pigeon.commands.Command;
-import owo.pigeon.utils.Chat.ChatUtil;
 import owo.pigeon.utils.CommandUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 import static owo.pigeon.Pigeon.mc;
 
