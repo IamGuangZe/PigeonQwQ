@@ -29,12 +29,12 @@ public class GTBSolver extends Module {
     }
 
     public enum LANGUAGE {
-        en, zh_cn
+        EN, ZH_CN
     }
 
-    public ModeSetting<LANGUAGE> language = setting("language", LANGUAGE.en, v -> true);
+    public ModeSetting<LANGUAGE> language = setting("language", LANGUAGE.EN, v -> true);
     public EnableSetting secondaryDisplay = setting("secondary-display", false, v -> true);
-    public ModeSetting<LANGUAGE> secondaryLanguage = setting("secondary-language", LANGUAGE.zh_cn, v -> secondaryDisplay.getValue());
+    public ModeSetting<LANGUAGE> secondaryLanguage = setting("secondary-language", LANGUAGE.ZH_CN, v -> secondaryDisplay.getValue());
 
     private static class GTBWord {
         String enName, zh_cnName;
@@ -55,9 +55,9 @@ public class GTBSolver extends Module {
         }
 
         String getFormatted(LANGUAGE primary, boolean showSecondary, LANGUAGE secondary) {
-            String pStr = (primary == LANGUAGE.en) ? enName : zh_cnName;
+            String pStr = (primary == LANGUAGE.EN) ? enName : zh_cnName;
             if (showSecondary) {
-                String sStr = (secondary == LANGUAGE.en) ? enName : zh_cnName;
+                String sStr = (secondary == LANGUAGE.EN) ? enName : zh_cnName;
                 return String.format("%s(%s)", pStr, sStr);
             }
             return pStr;
