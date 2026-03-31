@@ -33,6 +33,7 @@ import owo.pigeon.modules.impl.skyblock.rift.SnakingHelper;
 import owo.pigeon.modules.impl.skyblock.rift.TimiteMiner;
 import owo.pigeon.modules.impl.skyblock.slayer.AutoMaddox;
 import owo.pigeon.modules.impl.skyblock.slayer.VampireSlayer;
+import owo.pigeon.modules.impl.world.Environment;
 
 import java.util.ArrayList;
 
@@ -81,6 +82,8 @@ public class ModuleManager {
         modules.add(new ModifyCamera());
         modules.add(new ParticlesHalo());
         modules.add(new PlayerESP());
+
+        modules.add(new Environment());
 
         /* =======*SkyBlock Module*======= */
         modules.add(new FlaySwitch());

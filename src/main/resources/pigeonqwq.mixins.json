@@ -24,6 +24,7 @@
     "mixins.MixinCamera",
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",
+    "mixins.MixinClientWorldProperties",
     "mixins.MixinGameRenderer",
     "mixins.MixinHandledScreen",
     "mixins.MixinInGameHud",
@@ -35,6 +36,7 @@
     "mixins.MixinRebuildTask",
     "mixins.MixinSimpleOption",
     "mixins.MixinStatusEffectFogModifier",
+    "mixins.MixinWeatherRendering",
     "mixins.MixinWorldRenderer"
   ]
 }
