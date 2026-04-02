@@ -25,13 +25,18 @@ public class PestESP extends Module {
         super("PestESP", Category.SKYBLOCK);
     }
 
+    public EnableSetting hubRat = setting("hub-rat", true, v -> true);
     public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public EnableSetting tracer = setting("tracer", false, v -> true);
     public ColorSetting color = setting("color", new Color(0xAAFF4400, true), v -> true);
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Garden)) return;
+        boolean inGarden = SkyblockUtil.isInIsland(SkyblockUtil.Island.Garden);
+        boolean inHub = SkyblockUtil.isInIsland(SkyblockUtil.Island.Hub);
+
+        if (!inGarden && !(hubRat.getValue() && inHub)) return;
+
         for (Entity entity : mc.world.getEntities()) {
             if (!(entity instanceof ArmorStandEntity stand)) continue;
 
@@ -39,8 +44,9 @@ public class PestESP extends Module {
             if (helmet.isEmpty() || !helmet.isOf(Items.PLAYER_HEAD)) continue;
 
             String texture = ItemUtil.getSkullTexture(helmet);
-
             if (texture == null || !SkyblockUtil.PESTS.contains(texture)) continue;
+            if (!texture.equals(SkyblockUtil.RAT) && inHub) continue;
+
             boolean shouldTracer = tracer.getValue() && !SkyblockUtil.EARTHWORM_TAIL.equals(texture);
 
             RenderUtil.drawESP(event.getMatrix(), entity, color.getValue(), mode.getValue(), shouldTracer);
