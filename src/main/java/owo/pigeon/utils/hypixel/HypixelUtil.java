@@ -1,5 +1,6 @@
 package owo.pigeon.utils.hypixel;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import net.minecraft.client.network.ServerInfo;
 import owo.pigeon.Pigeon;
@@ -15,7 +16,7 @@ public class HypixelUtil {
         MURDERMYSTERY(Sets.newHashSet("MURDER MYSTERY", "密室杀手")),
         PIXELPARTY(Sets.newHashSet("PIXEL PARTY", "像素派对", "跳色舞會")),
         REPLAY(Sets.newHashSet("REPLAY", "回放系统")),
-        SKYBLOCK(Sets.newHashSet("SKYBLOCK", "SKYBLOCK CO-OP", "空岛生存", "空島生存", "SKIBLOCK"));
+        SKYBLOCK(Sets.newHashSet("SKYBLOCK", "空岛生存", "空島生存", "SKIBLOCK"));
 
         private final Set<String> displayNames;
 
@@ -46,6 +47,6 @@ public class HypixelUtil {
         if (!isInHypixel()) return false;
 
         String sidebarTitle = ColorUtil.removeColor(ScoreBoardUtil.getSidebarTitle());
-        return sidebarTitle != null && game.getDisplayNames().contains(sidebarTitle);
+        return sidebarTitle != null && Iterables.any(game.getDisplayNames(), s -> s != null && sidebarTitle.contains(s));
     }
 }
