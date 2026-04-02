@@ -60,6 +60,7 @@ public class ModuleManager {
         modules.add(new HitBox());
         modules.add(new NoHitDelay());
 
+        modules.add(new AutoTipall());
         modules.add(new BannedStats());
         modules.add(new GTBSolver());
         modules.add(new MurderHelper());
