@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "owo.pigeon.mixin.sodium",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "MixinChunkBuilderMeshingTask"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

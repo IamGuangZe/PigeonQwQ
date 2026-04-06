@@ -15,7 +15,11 @@
     ]
   },
   "mixins": [
-    "pigeonqwq.mixins.json"
+    "pigeonqwq.mixins.json",
+    {
+      "config": "pigeonqwq_sodium.mixins.json",
+      "environment": "client"
+    }
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

@@ -47,7 +47,7 @@ public abstract class MixinRebuildTask {
             Block block = state.getBlock();
 
             if (state.isAir()) continue;
-            // ChatUtil.sendDebugMessage("MixinRebuildTask", String.valueOf(state.getBlock()));
+            // ChatUtil.sendDebugMessage("MixinRebuildTask", String.valueOf(block));
 
             if (ModuleUtil.isEnable(BedESP.class) && block instanceof BedBlock) {
                 BedESP.beds.add(tempPos.toImmutable());
