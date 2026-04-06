@@ -17,6 +17,8 @@ repositories {
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
     mavenCentral()
+
+    maven { url = "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -27,6 +29,9 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modLocalRuntime("net.litetex.mcm:dev-auth-neo:1.0.1")
+
+    modCompileOnly "maven.modrinth:sodium:mc1.21.10-0.7.3-fabric"
+    modRuntimeOnly "maven.modrinth:sodium:mc1.21.10-0.7.3-fabric"
 
     implementation "net.objecthunter:exp4j:0.4.8"
     include "net.objecthunter:exp4j:0.4.8"
