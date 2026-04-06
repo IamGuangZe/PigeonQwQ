@@ -26,7 +26,7 @@ public class AutoOption extends Module {
         if (message.startsWith("Select an option:")) {
             for (Text sibling : messageText.getSiblings()) {
                 // ChatUtil.sendDebugMessage(this.name, sibling.toString());
-                if (sibling.getString().contains("§a[")) {
+                if (sibling.getString().contains("§a[") || sibling.getString().contains("§a§l[")) {
                     if (sibling.getStyle() != null && sibling.getStyle().getClickEvent() != null) {
                         ClickEvent clickEvent = sibling.getStyle().getClickEvent();
 
