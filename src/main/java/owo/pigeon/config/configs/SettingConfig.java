@@ -24,7 +24,7 @@ import static owo.pigeon.Pigeon.GSON;
 
 public class SettingConfig extends Config {
 
-    private String settingName;
+    private final String settingName;
 
     public SettingConfig(String fileName) {
         super(fileName + ".json");
@@ -32,8 +32,7 @@ public class SettingConfig extends Config {
     }
 
     public SettingConfig() {
-        super("default.json");
-        this.settingName = "default";
+        this("default");
     }
 
     @Override
@@ -57,56 +56,84 @@ public class SettingConfig extends Config {
                 return;
             }
 
-            for (Category category : Category.values()) {
-                Object categoryObj = root.get(category.name());
-                if (!(categoryObj instanceof Map<?, ?> categoryMap)) continue;
+            boolean isLegacyFormat = false;
+            for (String key : root.keySet()) {
+                try {
+                    Category.valueOf(key);
+                    isLegacyFormat = true;
+                    break;
+                } catch (IllegalArgumentException ignored) {
+                }
+            }
 
-                for (Module module : ModuleUtil.getAllModule(category)) {
-                    Object moduleObj = categoryMap.get(module.name);
-                    if (!(moduleObj instanceof Map<?, ?> moduleMap)) continue;
+            if (isLegacyFormat) {
+                ChatUtil.sendMessage("&eDetected legacy config format, converting...");
+                Map<String, Object> newRoot = new HashMap<>();
+                for (Object categoryObj : root.values()) {
+                    if (!(categoryObj instanceof Map<?, ?> categoryMap)) continue;
 
-                    /* enable */
-                    Object enableObj = moduleMap.get("enable");
-                    if (enableObj instanceof Boolean enable) {
-                        if (enable != module.isEnable() && !(module instanceof ClickGui)) {
-                            if (enable) ModuleUtil.enableModule(module.getClass());
-                            else ModuleUtil.disableModule(module.getClass());
+                    for (Map.Entry<?, ?> entry : categoryMap.entrySet()) {
+                        String moduleName = entry.getKey().toString();
+                        Object moduleObj = entry.getValue();
+                        if (moduleObj instanceof Map<?, ?> moduleMap) {
+                            newRoot.put(moduleName, moduleMap);
                         }
-                    } else {
-                        ModuleUtil.disableModule(module.getClass());
                     }
+                }
+                root = newRoot;
+                try (FileWriter writer = new FileWriter(this.getFile())) {
+                    GSON.toJson(root, writer);
+                    ChatUtil.sendMessage("&aConfig has been converted to new format and saved.");
+                } catch (Exception e) {
+                    ChatUtil.sendMessage("&cFailed to save converted config: " + e.getMessage());
+                }
+            }
 
-                    /* hide */
-                    Object hideObj = moduleMap.get("hide");
-                    if (hideObj instanceof Boolean hide) {
-                        module.setHide(hide);
-                    } else {
-                        module.setHide(false);
+            for (Module module : ModuleUtil.getAllModule()) {
+                Object moduleObj = root.get(module.name);
+                if (!(moduleObj instanceof Map<?, ?> moduleMap)) continue;
+
+                /* enable */
+                Object enableObj = moduleMap.get("enable");
+                if (enableObj instanceof Boolean enable) {
+                    if (enable != module.isEnable() && !(module instanceof ClickGui)) {
+                        if (enable) ModuleUtil.enableModule(module.getClass());
+                        else ModuleUtil.disableModule(module.getClass());
                     }
+                } else {
+                    ModuleUtil.disableModule(module.getClass());
+                }
 
-                    /* key */
-                    Object keyObj = moduleMap.get("key");
-                    if (keyObj instanceof Number num) {
-                        module.setKey(num.intValue());
-                    } else {
-                        module.setKey(-1);
-                    }
+                /* hide */
+                Object hideObj = moduleMap.get("hide");
+                if (hideObj instanceof Boolean hide) {
+                    module.setHide(hide);
+                } else {
+                    module.setHide(false);
+                }
 
-                    /* settings */
-                    for (AbstractSetting<?> setting : module.getSettings()) {
-                        if (!moduleMap.containsKey(setting.getName())) continue;
+                /* key */
+                Object keyObj = moduleMap.get("key");
+                if (keyObj instanceof Number num) {
+                    module.setKey(num.intValue());
+                } else {
+                    module.setKey(-1);
+                }
 
-                        Object value = moduleMap.get(setting.getName());
-                        try {
-                            applySetting(setting, value);
-                        } catch (Exception e) {
-                            setting.resetValue();
-                            ChatUtil.sendMessage(
-                                    "&cSetting &l" + setting.getName() +
-                                            "&r&c in &l" + module.name +
-                                            "&r&c was invalid and reset."
-                            );
-                        }
+                /* settings */
+                for (AbstractSetting<?> setting : module.getSettings()) {
+                    if (!moduleMap.containsKey(setting.getName())) continue;
+
+                    Object value = moduleMap.get(setting.getName());
+                    try {
+                        applySetting(setting, value);
+                    } catch (Exception e) {
+                        setting.resetValue();
+                        ChatUtil.sendMessage(
+                                "&cSetting &l" + setting.getName() +
+                                        "&r&c in &l" + module.name +
+                                        "&r&c was invalid and reset."
+                        );
                     }
                 }
             }
@@ -114,7 +141,7 @@ public class SettingConfig extends Config {
             ChatUtil.sendMessage("&aConfig &o" + settingName + ".json &r&ahas been loaded.");
         } catch (Exception e) {
             ChatUtil.sendMessage("&cFailed to load config: " + e.getMessage());
-            e.printStackTrace();
+            ChatUtil.sendDebugMessage("&cFailed to load config: " + e);
         }
     }
 
@@ -122,32 +149,26 @@ public class SettingConfig extends Config {
     public void save() {
         Map<String, Object> root = new HashMap<>();
 
-        for (Category category : Category.values()) {
-            Map<String, Object> categoryMap= new HashMap<>();
+        for (Module module : ModuleUtil.getAllModule()) {
+            Map<String, Object> moduleMap = new HashMap<>();
 
-            for (Module module : ModuleUtil.getAllModule(category)) {
-                Map<String, Object> moduleMap = new HashMap<>();
+            moduleMap.put("enable", module.isEnable());
+            moduleMap.put("hide", module.isHide());
+            moduleMap.put("key", module.getKey());
 
-                moduleMap.put("enable", module.isEnable());
-                moduleMap.put("hide", module.isHide());
-                moduleMap.put("key", module.getKey());
-
-                for (AbstractSetting<?> setting : module.getSettings()) {
-                    if (setting instanceof BlockSetting blockSetting) {
-                        Block block = blockSetting.getValue();
-                        Identifier id = Registries.BLOCK.getId(block);
-                        moduleMap.put(setting.getName(), id.toString());
-                    } else if (setting instanceof ColorSetting colorSetting) {
-                        moduleMap.put(setting.getName(), colorSetting.getRGB());
-                    } else {
-                        moduleMap.put(setting.getName(), setting.getValue());
-                    }
+            for (AbstractSetting<?> setting : module.getSettings()) {
+                if (setting instanceof BlockSetting blockSetting) {
+                    Block block = blockSetting.getValue();
+                    Identifier id = Registries.BLOCK.getId(block);
+                    moduleMap.put(setting.getName(), id.toString());
+                } else if (setting instanceof ColorSetting colorSetting) {
+                    moduleMap.put(setting.getName(), colorSetting.getRGB());
+                } else {
+                    moduleMap.put(setting.getName(), setting.getValue());
                 }
-
-                categoryMap.put(module.name, moduleMap);
             }
 
-            root.put(category.name(), categoryMap);
+            root.put(module.name, moduleMap);
         }
 
         try (FileWriter writer = new FileWriter(this.getFile())) {
@@ -155,7 +176,7 @@ public class SettingConfig extends Config {
             ChatUtil.sendMessage("&aConfig &o" + settingName + ".json &r&ahas been saved.");
         } catch (Exception e) {
             ChatUtil.sendMessage("&cFailed to save config: " + e.getMessage());
-            e.printStackTrace();
+            ChatUtil.sendDebugMessage("&cFailed to load config: " + e);
         }
     }
 
