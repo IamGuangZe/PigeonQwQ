@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.client.debug;
+package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.entity.Entity;
@@ -19,7 +19,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class SlayerESP extends Module {
     public SlayerESP() {
-        super("SlayerESP",Category.SKYBLOCK);
+        super("SlayerESP",Category.DEBUG);
     }
 
     @Handler

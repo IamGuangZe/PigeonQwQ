@@ -23,7 +23,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class VampireSlayer extends Module {
     public VampireSlayer() {
-        super("VampireSlayer", Category.SKYBLOCK);
+        super("VampireSlayer", Category.SLAYER);
     }
 
     public EnableSetting changeGamemode = setting("change-gamemode", true, v -> true);

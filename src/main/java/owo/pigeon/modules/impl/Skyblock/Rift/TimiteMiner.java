@@ -25,7 +25,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class TimiteMiner extends Module {
     public TimiteMiner() {
-        super("TimiteMiner", Category.SKYBLOCK);
+        super("TimiteMiner", Category.RIFT);
     }
 
     public enum TimiteStage {

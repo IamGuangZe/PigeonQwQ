@@ -22,7 +22,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class AutoBouncingBall extends Module {
     public AutoBouncingBall() {
-        super("AutoBouncingBall", Category.SKYBLOCK);
+        super("AutoBouncingBall", Category.EVENT);
     }
 
     public IntSetting bounces = setting("bounces", 40, 1, 80, v -> true);

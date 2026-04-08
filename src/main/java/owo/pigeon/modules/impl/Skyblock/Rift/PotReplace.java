@@ -22,7 +22,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class PotReplace extends Module {
     public PotReplace() {
-        super("PotReplace", Category.SKYBLOCK);
+        super("PotReplace", Category.RIFT);
     }
 
     public enum ReplaceBlock {

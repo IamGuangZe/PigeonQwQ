@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.client.debug;
+package owo.pigeon.modules.impl.debug;
 
 import net.minecraft.block.Blocks;
 import owo.pigeon.modules.Category;
@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class SettingTest extends owo.pigeon.modules.Module {
     public SettingTest() {
-        super("SettingTest", Category.CLIENT);
+        super("SettingTest", Category.DEBUG);
     }
 
     public enum mode {

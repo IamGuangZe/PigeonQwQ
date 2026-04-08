@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.client.debug;
+package owo.pigeon.modules.impl.debug;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -27,7 +27,7 @@ public class ExportButton extends Module {
     private GenericContainerScreen lastScreen;
 
     public ExportButton() {
-        super("ExportButton", Category.CLIENT);
+        super("ExportButton", Category.DEBUG);
     }
 
     @Handler

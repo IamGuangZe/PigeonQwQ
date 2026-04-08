@@ -13,7 +13,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class AutoOption extends Module {
     public AutoOption() {
-        super("AutoOption", Category.SKYBLOCK);
+        super("AutoOption", Category.MISC);
     }
 
     @Handler

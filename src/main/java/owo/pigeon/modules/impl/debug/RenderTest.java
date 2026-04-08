@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.client.debug;
+package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.DrawContext;
@@ -19,7 +19,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class RenderTest extends Module {
     public RenderTest() {
-        super("RenderTest", Category.CLIENT);
+        super("RenderTest", Category.DEBUG);
     }
 
     @Handler

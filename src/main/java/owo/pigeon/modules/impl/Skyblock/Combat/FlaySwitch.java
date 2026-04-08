@@ -20,7 +20,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class FlaySwitch extends Module {
     public FlaySwitch() {
-        super("FlaySwitch", Category.SKYBLOCK);
+        super("FlaySwitch", Category.COMBAT);
     }
 
     public StringSetting weaponName = setting("weapon-name","Figstone Splitter",v -> true);

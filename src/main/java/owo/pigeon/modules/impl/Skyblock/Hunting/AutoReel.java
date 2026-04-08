@@ -22,7 +22,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class AutoReel extends Module {
     public AutoReel() {
-        super("AutoReel",Category.SKYBLOCK);
+        super("AutoReel",Category.HUNTING);
     }
 
     public ModeSetting<PlayerUtil.RightClickMode> clickMode = setting("click-mode", PlayerUtil.RightClickMode.MOUSE, v -> true);

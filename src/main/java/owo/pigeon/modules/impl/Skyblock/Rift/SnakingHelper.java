@@ -20,7 +20,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class SnakingHelper extends Module {
     public SnakingHelper() {
-        super("SnakingHelper", Category.SKYBLOCK);
+        super("SnakingHelper", Category.RIFT);
     }
 
     private static final String PICKAXE = " Pickaxe";

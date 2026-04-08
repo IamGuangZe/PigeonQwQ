@@ -17,7 +17,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class AgaricusMiner extends Module {
     public AgaricusMiner() {
-        super("AgaricusMiner", Category.SKYBLOCK);
+        super("AgaricusMiner", Category.RIFT);
     }
 
 

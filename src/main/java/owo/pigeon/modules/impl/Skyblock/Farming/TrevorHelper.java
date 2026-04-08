@@ -26,7 +26,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class TrevorHelper extends Module {
     public TrevorHelper() {
-        super("TrevorHelper", Category.SKYBLOCK);
+        super("TrevorHelper", Category.FARMING);
     }
 
     public EnableSetting autoWarp = setting("auto-warp", true, v -> true);

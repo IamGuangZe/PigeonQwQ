@@ -19,7 +19,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class AutoEquipment extends Module {
     public AutoEquipment() {
-        super("AutoEquipment", Category.SKYBLOCK);
+        super("AutoEquipment", Category.MISC);
     }
 
     public KeySetting bonzoMask = setting("bonzo-mask", -1, v -> true);

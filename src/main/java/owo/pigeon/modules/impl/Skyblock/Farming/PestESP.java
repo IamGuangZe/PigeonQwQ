@@ -22,7 +22,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class PestESP extends Module {
     public PestESP() {
-        super("PestESP", Category.SKYBLOCK);
+        super("PestESP", Category.FARMING);
     }
 
     public EnableSetting hubRat = setting("hub-rat", true, v -> true);

@@ -1,4 +1,4 @@
-package owo.pigeon.modules.impl.client.debug;
+package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.screen.GenericContainerScreenHandler;
@@ -17,7 +17,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ClickSlotTest extends Module {
     public ClickSlotTest() {
-        super("ClickSlotTest",Category.CLIENT);
+        super("ClickSlotTest",Category.DEBUG);
     }
 
     public IntSetting minDelay = setting("min-delay", 2, 0, 20, v -> true);

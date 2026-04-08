@@ -26,7 +26,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class AutoExperiments extends Module {
     public AutoExperiments() {
-        super("AutoExperiments", Category.SKYBLOCK);
+        super("AutoExperiments", Category.MISC);
     }
 
     public enum AutoCloseMode {

@@ -18,7 +18,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ChestClose extends Module {
     public ChestClose() {
-        super("ChestClose", Category.SKYBLOCK);
+        super("ChestClose", Category.DUNGEON);
     }
 
     public enum Mode {

@@ -29,7 +29,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class FailSafe extends Module {
     public FailSafe() {
-        super("FailSafe", Category.SKYBLOCK);
+        super("FailSafe", Category.MISC);
     }
 
     public EnableSetting soundAlert = setting("sound-alert", true, v -> true);

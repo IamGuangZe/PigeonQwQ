@@ -22,7 +22,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class StarMobESP extends Module {
     public StarMobESP() {
-        super("StarMobESP", Category.SKYBLOCK);
+        super("StarMobESP", Category.DUNGEON);
     }
 
     public enum Target {

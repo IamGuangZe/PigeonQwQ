@@ -15,7 +15,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class AutoMaddox extends Module {
     public AutoMaddox() {
-        super("AutoMaddox", Category.SKYBLOCK);
+        super("AutoMaddox", Category.SLAYER);
     }
 
     public enum CallMode {

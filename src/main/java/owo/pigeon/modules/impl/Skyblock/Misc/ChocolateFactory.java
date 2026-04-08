@@ -29,7 +29,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ChocolateFactory extends Module {
     public ChocolateFactory() {
-        super("ChocolateFactory", Category.SKYBLOCK);
+        super("ChocolateFactory", Category.MISC);
     }
 
     public EnableSetting autoTower = setting("auto-tower", true, v -> true);

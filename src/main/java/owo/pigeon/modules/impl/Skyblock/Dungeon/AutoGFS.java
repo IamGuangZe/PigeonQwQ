@@ -17,7 +17,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class AutoGFS extends Module {
     public AutoGFS() {
-        super("AutoGFS", Category.SKYBLOCK);
+        super("AutoGFS", Category.DUNGEON);
     }
 
     public EnableSetting inDungeon = setting("in-dungeon", true, v -> true);
