@@ -18,9 +18,7 @@ public class Module extends SettingDesigner {
     }
 
     public Module(String name, Category category) {
-        this.name = name;
-        this.category = category;
-        this.key = -1;
+        this(name, category, -1);
     }
 
     public void enable() {
