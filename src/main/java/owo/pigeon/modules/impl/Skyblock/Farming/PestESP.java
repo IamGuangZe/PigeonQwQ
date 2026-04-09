@@ -12,6 +12,7 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.ModeSetting;
+import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.hypixel.SkyblockUtil;
 import owo.pigeon.utils.render.RenderUtil;
@@ -26,6 +27,7 @@ public class PestESP extends Module {
     }
 
     public EnableSetting hubRat = setting("hub-rat", true, v -> true);
+    public EnableSetting onlyVacuum = setting("only-vacuum", true, v -> true);
     public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public EnableSetting tracer = setting("tracer", false, v -> true);
     public ColorSetting color = setting("color", new Color(0xAAFF4400, true), v -> true);
@@ -36,6 +38,14 @@ public class PestESP extends Module {
         boolean inHub = SkyblockUtil.isInIsland(SkyblockUtil.Island.Hub);
 
         if (!inGarden && !(hubRat.getValue() && inHub)) return;
+
+        if (onlyVacuum.getValue()) {
+            ItemStack heldItem = mc.player.getInventory().getSelectedStack();
+            if (heldItem.isEmpty()) return;
+
+            String name = ColorUtil.removeColor(heldItem.getName().getString());
+            if (!name.contains("Vacuum")) return;
+        }
 
         for (Entity entity : mc.world.getEntities()) {
             if (!(entity instanceof ArmorStandEntity stand)) continue;
