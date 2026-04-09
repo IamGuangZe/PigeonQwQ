@@ -8,6 +8,7 @@ public enum Category {
     FARMING,
     HUNTING,
     HYPIXEL,
+    MINING,
     MISC,
     MOVEMENT,
     PLAYER,
