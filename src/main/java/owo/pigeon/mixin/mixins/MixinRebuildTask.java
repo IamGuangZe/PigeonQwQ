@@ -1,8 +1,6 @@
 package owo.pigeon.mixin.mixins;
 
-import net.minecraft.block.BedBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
 import net.minecraft.client.render.chunk.BlockBufferAllocatorStorage;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import owo.pigeon.modules.impl.render.BedESP;
 import owo.pigeon.modules.impl.render.BlockESP;
+import owo.pigeon.modules.impl.render.ChestESP;
 import owo.pigeon.utils.ModuleUtil;
 
 import java.util.concurrent.CompletableFuture;
@@ -55,6 +54,14 @@ public abstract class MixinRebuildTask {
 
             if (ModuleUtil.isEnable(BlockESP.class) && block == ModuleUtil.getModule(BlockESP.class).block.getValue()) {
                 BlockESP.blocks.add(tempPos.toImmutable());
+            }
+
+            if (ModuleUtil.isEnable(ChestESP.class)) {
+                if (block instanceof ChestBlock) {
+                    ChestESP.chests.add(tempPos.toImmutable());
+                } else if (ModuleUtil.getModule(ChestESP.class).enderChest.getValue() && block instanceof EnderChestBlock) {
+                    ChestESP.chests.add(tempPos.toImmutable());
+                }
             }
         }
     }

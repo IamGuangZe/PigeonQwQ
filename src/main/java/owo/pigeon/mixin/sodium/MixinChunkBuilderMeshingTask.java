@@ -5,9 +5,7 @@ import net.caffeinemc.mods.sodium.client.render.chunk.compile.ChunkBuildContext;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.ChunkBuildOutput;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.tasks.ChunkBuilderMeshingTask;
 import net.caffeinemc.mods.sodium.client.util.task.CancellationToken;
-import net.minecraft.block.BedBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -16,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.modules.impl.render.BedESP;
 import owo.pigeon.modules.impl.render.BlockESP;
+import owo.pigeon.modules.impl.render.ChestESP;
 import owo.pigeon.utils.ModuleUtil;
 
 @Pseudo
@@ -34,6 +33,14 @@ public class MixinChunkBuilderMeshingTask {
 
         if (ModuleUtil.isEnable(BlockESP.class) && block == ModuleUtil.getModule(BlockESP.class).block.getValue()) {
             BlockESP.blocks.add(new BlockPos(x, y, z).toImmutable());
+        }
+
+        if (ModuleUtil.isEnable(ChestESP.class)) {
+            if (block instanceof ChestBlock) {
+                ChestESP.chests.add(new BlockPos(x, y, z).toImmutable());
+            } else if (ModuleUtil.getModule(ChestESP.class).enderChest.getValue() && block instanceof EnderChestBlock) {
+                ChestESP.chests.add(new BlockPos(x, y, z).toImmutable());
+            }
         }
     }
 }
