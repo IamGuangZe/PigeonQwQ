@@ -206,6 +206,9 @@ public class SettingConfig extends Config {
         } else if (setting instanceof EnableSetting enableSetting) {
             enableSetting.setValue((Boolean) value);
 
+        } else if (setting instanceof ExpandSetting expandSetting) {
+            expandSetting.setValue((Boolean) value);
+
         } else if (setting instanceof FloatSetting floatSetting) {
             float f = ((Number) value).floatValue();
             floatSetting.setValue(

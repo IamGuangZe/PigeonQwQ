@@ -75,6 +75,12 @@ public abstract class SettingDesigner {
         return setting;
     }
 
+    public ExpandSetting setting(String name, Predicate<Boolean> visible) {
+        ExpandSetting setting = new ExpandSetting(name, visible);
+        settings.add(setting);
+        return setting;
+    }
+
     public ArrayList<AbstractSetting<?>> getSettings() {
         return settings;
     }

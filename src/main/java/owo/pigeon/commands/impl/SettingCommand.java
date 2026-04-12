@@ -135,6 +135,22 @@ public class SettingCommand extends Command {
                     }
                     enableSetting.setValue(booleanValue);
                     value = String.valueOf(booleanValue);
+                } else if (setting instanceof ExpandSetting expandSetting) {
+                    boolean booleanValue;
+                    if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("enable")) {
+                        booleanValue = true;
+                    } else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("disable")) {
+                        booleanValue = false;
+                    } else {
+                        CommandUtil.sendCommandError(CommandUtil.errorReason.InvalidBoolean,
+                                this.getCommand(),
+                                args,
+                                2
+                        );
+                        return;
+                    }
+                    expandSetting.setValue(booleanValue);
+                    value = String.valueOf(booleanValue);
                 } else if (setting instanceof FloatSetting floatSetting) {
                     try {
                         float floatValue = Float.parseFloat(value);

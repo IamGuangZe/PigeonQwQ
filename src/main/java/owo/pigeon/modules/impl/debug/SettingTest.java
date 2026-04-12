@@ -26,4 +26,8 @@ public class SettingTest extends owo.pigeon.modules.Module {
     public KeySetting keySetting = setting("key", -1, v -> true);
     public ModeSetting<mode> modeSetting = setting("enum", mode.MODEA, v -> true);
     public StringSetting stringSetting = setting("string", "&string&", v -> true);
+    public ExpandSetting expand1Setting = setting("expand1", v -> true);
+    public ExpandSetting expand2Setting = setting("expand2", v -> expand1Setting.getValue());
+    public ExpandSetting expand3Setting = setting("expand3", v -> expand2Setting.isVisible() && expand2Setting.getValue());
+    public ExpandSetting expand4Setting = setting("expand4", v -> expand3Setting.isVisible() && expand3Setting.getValue());
 }

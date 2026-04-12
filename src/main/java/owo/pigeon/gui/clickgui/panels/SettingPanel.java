@@ -141,6 +141,42 @@ public class SettingPanel extends AbstractDisplableItem {
                     (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
+        } else if (setting instanceof ExpandSetting expandSetting) {
+            boolean value = expandSetting.getValue();
+
+            switch (clickGui.style.getValue()) {
+                case OLD:
+                    context.drawTextWithShadow(
+                            textRenderer,
+                            displayName,
+                            (int) ((x + 4) / scale),
+                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                            value ? Color.WHITE.getRGB() : Color.GRAY.getRGB()
+                    );
+                    break;
+
+                case NEW:
+                default:
+                    context.drawTextWithShadow(
+                            textRenderer,
+                            ColorUtil.parseColor(displayName + " :"),
+                            (int) ((x + 4) / scale),
+                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                            Color.LIGHT_GRAY.getRGB()
+                    );
+
+                    String symbol = value ? "-" : "+";
+                    int color = value ? Color.RED.getRGB() : Color.GREEN.getRGB();
+                    context.drawTextWithShadow(
+                            textRenderer,
+                            symbol,
+                            (int) ((x + width - textRenderer.getWidth(symbol) * scale - 4) / scale),
+                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                            color
+                    );
+                    break;
+            }
+
         } else {
             context.drawTextWithShadow(
                     textRenderer,
@@ -160,6 +196,8 @@ public class SettingPanel extends AbstractDisplableItem {
         if (click.button() == 0) {
             if (setting instanceof EnableSetting enableSetting) {
                 enableSetting.setValue(!enableSetting.getValue());
+            } else if (setting instanceof ExpandSetting expandSetting) {
+                expandSetting.setValue(!expandSetting.getValue());
             } else if (setting instanceof KeySetting keySetting) {
                 waitingForKey = !waitingForKey;
             } else if (setting instanceof ModeSetting<?> modeSetting) {
