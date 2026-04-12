@@ -6,6 +6,7 @@ import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
+import owo.pigeon.settings.ExpandSetting;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.WorldUtil;
@@ -22,17 +23,18 @@ public class AutoGFS extends Module {
 
     public EnableSetting inDungeon = setting("in-dungeon", true, v -> true);
     public EnableSetting onDungeonStart = setting("on-dungeon-start", true, v -> true);
-    public EnableSetting refillEnderPearl = setting("refill-ender-pearl", true, v -> true);
-    public EnableSetting refillSpiritLeap = setting("refill-spirit-leap", true, v -> true);
-    public EnableSetting refillSuperboomTNT = setting("refill-superboom-tnt", true, v -> true);
     public EnableSetting refillOnTimer = setting("refill-on-timer", true, v -> true);
     public IntSetting timerInterval = setting("timer-interval", 5, 1, 60, "s", v -> refillOnTimer.getValue());
+    public ExpandSetting refillItems = setting("refill-items", v -> true);
+    public EnableSetting refillEnderPearl = setting("refill-ender-pearl", true, v -> refillItems.getValue());
+    public EnableSetting refillSpiritLeap = setting("refill-spirit-leap", true, v -> refillItems.getValue());
+    public EnableSetting refillSuperboomTNT = setting("refill-superboom-tnt", true, v -> refillItems.getValue());
 
     private int tickCounter = 0;
 
     // ENDER_PEARL
-    // SUPERBOOM_TNT
     // SPIRIT_LEAP
+    // SUPERBOOM_TNT
 
     @Override
     public void onEnable() {
@@ -81,6 +83,6 @@ public class AutoGFS extends Module {
             if (SkyblockUtil.fillItemFromSack(64, "SUPERBOOM_TNT")) return;
         }
 
-        ChatUtil.sendDebugMessage(this.name,"refill");
+        ChatUtil.sendDebugMessage(this.name, "refill");
     }
 }

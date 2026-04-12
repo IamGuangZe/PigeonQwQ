@@ -8,10 +8,7 @@ import net.minecraft.world.GameMode;
 import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.settings.EnableSetting;
-import owo.pigeon.settings.FloatSetting;
-import owo.pigeon.settings.IntSetting;
-import owo.pigeon.settings.ModeSetting;
+import owo.pigeon.settings.*;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.player.PlayerUtil;
@@ -34,10 +31,11 @@ public class AutoHeal extends Module {
     public IntSetting checkDelay = setting("check-delay", 10, 1, 60, "tick", v -> true);
     public EnableSetting absorptionCheck = setting("absorption-check", true, v -> true);
     public EnableSetting regenerationCheck = setting("regeneration-check", true, v -> true);
-    public EnableSetting goldenHead = setting("golden-head", true, v -> true);
-    public EnableSetting ragePotato = setting("rage-potato", true, v -> true);
-    public EnableSetting firstAidEgg = setting("first-aid-egg", true, v -> true);
-    public EnableSetting fracturedSoul = setting("fractured-soul", true, v -> true);
+    public ExpandSetting healingItems = setting("healing-items", v -> true);
+    public EnableSetting goldenHead = setting("golden-head", true, v -> healingItems.getValue());
+    public EnableSetting ragePotato = setting("rage-potato", true, v -> healingItems.getValue());
+    public EnableSetting firstAidEgg = setting("first-aid-egg", true, v -> healingItems.getValue());
+    public EnableSetting fracturedSoul = setting("fractured-soul", true, v -> healingItems.getValue());
 
     private int s_tick;     // switch-tick
     private int d_tick;

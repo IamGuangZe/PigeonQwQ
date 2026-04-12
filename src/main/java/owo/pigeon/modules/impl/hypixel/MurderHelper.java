@@ -20,6 +20,7 @@ import owo.pigeon.event.events.WorldChangeEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
+import owo.pigeon.settings.ExpandSetting;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.RegexUtil;
@@ -42,10 +43,11 @@ public class MurderHelper extends Module {
     }
 
     public EnableSetting hud = setting("hud", true, v -> true);
-    public EnableSetting playerEsp = setting("player-esp", true, v -> true);
-    public ModeSetting<RenderUtil.ESPMode> espMode = setting("esp-mode", RenderUtil.ESPMode.OUTLINE, v -> playerEsp.getValue());
-    public EnableSetting itemEsp = setting("item-esp", true, v -> true);
     public EnableSetting hideSpamCurse = setting("hide-spamcurse", true, v -> true);
+    public ExpandSetting Esp = setting("esp", v -> true);
+    public EnableSetting playerEsp = setting("player-esp", true, v -> Esp.getValue());
+    public EnableSetting itemEsp = setting("item-esp", true, v -> Esp.getValue());
+    public ModeSetting<RenderUtil.ESPMode> espMode = setting("esp-mode", RenderUtil.ESPMode.OUTLINE, v -> Esp.getValue());
 
     private final Set<String> allPlayers = new HashSet<>();
     private final Set<String> alivePlayers = new HashSet<>();
@@ -128,9 +130,9 @@ public class MurderHelper extends Module {
 
         if (!hud.getValue()) return;
         if (!HypixelUtil.isInGame(HypixelUtil.Game.MURDERMYSTERY)) return;
-        TextRendererUtil.drawString(context,"Murder Mystery", 5, 5);
-        TextRendererUtil.drawString(context,"Murders : &c" + String.join("&r, &c", murdererNames), 5, 5 + TextRendererUtil.getLineHeight());
-        TextRendererUtil.drawString(context,"Who has bow : " + String.join(", ", playersWithBow), 5, 5 + TextRendererUtil.getLineHeight() * 2);
+        TextRendererUtil.drawString(context, "Murder Mystery", 5, 5);
+        TextRendererUtil.drawString(context, "Murders : &c" + String.join("&r, &c", murdererNames), 5, 5 + TextRendererUtil.getLineHeight());
+        TextRendererUtil.drawString(context, "Who has bow : " + String.join(", ", playersWithBow), 5, 5 + TextRendererUtil.getLineHeight() * 2);
     }
 
     @Handler
@@ -144,11 +146,11 @@ public class MurderHelper extends Module {
                     if (!PlayerUtil.hasUUID(entity)) continue;
                     String playername = entity.getName().getString();
                     if (murdererNames.contains(playername)) {
-                        RenderUtil.drawESP(stack,entity,new Color(0xFFFF0000,true),espMode.getValue(),false);
+                        RenderUtil.drawESP(stack, entity, new Color(0xFFFF0000, true), espMode.getValue(), false);
                     } else if (playersWithBow.contains(playername)) {
-                        RenderUtil.drawESP(stack,entity,new Color(0xFF00FF00,true),espMode.getValue(),false);
+                        RenderUtil.drawESP(stack, entity, new Color(0xFF00FF00, true), espMode.getValue(), false);
                     } else {
-                        RenderUtil.drawESP(stack,entity,new Color(0xFFFFFFFF,true),espMode.getValue(),false);
+                        RenderUtil.drawESP(stack, entity, new Color(0xFFFFFFFF, true), espMode.getValue(), false);
                     }
                 }
             }

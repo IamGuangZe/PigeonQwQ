@@ -5,6 +5,7 @@ import net.minecraft.item.*;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
+import owo.pigeon.settings.ExpandSetting;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.utils.WorldUtil;
 
@@ -19,13 +20,14 @@ public class FastPlace extends Module {
     public EnableSetting anyItem = setting("any-item", false, v -> true);
 
     public EnableSetting blocks = setting("blocks", true, v -> !anyItem.getValue());
-    public EnableSetting endstone = setting("endstone", false, v -> !anyItem.getValue() && blocks.getValue());
-    public EnableSetting obsidian = setting("obsidian", false, v -> !anyItem.getValue() && blocks.getValue());
-
-    public EnableSetting xpBottle = setting("xp-bottle", true, v -> !anyItem.getValue());
-    public EnableSetting snowAndEgg = setting("snow-and-egg", true, v -> !anyItem.getValue());
-    public EnableSetting enderPearl = setting("ender-pearl", false, v -> !anyItem.getValue());
-    public EnableSetting fishingRod = setting("fishing-rod", false, v -> !anyItem.getValue());
+    public ExpandSetting blocksFilter = setting("blocks-filter", v -> blocks.isVisible() && blocks.getValue());
+    public EnableSetting endstone = setting("endstone", false, v -> blocksFilter.isVisible() && blocksFilter.getValue());
+    public EnableSetting obsidian = setting("obsidian", false, v -> blocksFilter.isVisible() && blocksFilter.getValue());
+    public ExpandSetting itemsFilter = setting("items-filter", v -> !anyItem.getValue());
+    public EnableSetting xpBottle = setting("xp-bottle", true, v -> itemsFilter.isVisible() && itemsFilter.getValue());
+    public EnableSetting snowAndEgg = setting("snow-and-egg", true, v -> itemsFilter.isVisible() && itemsFilter.getValue());
+    public EnableSetting enderPearl = setting("ender-pearl", false, v -> itemsFilter.isVisible() && itemsFilter.getValue());
+    public EnableSetting fishingRod = setting("fishing-rod", false, v -> itemsFilter.isVisible() && itemsFilter.getValue());
     public EnableSetting nothing = setting("nothing", true, v -> !anyItem.getValue());
     public EnableSetting others = setting("others", false, v -> !anyItem.getValue());
 
