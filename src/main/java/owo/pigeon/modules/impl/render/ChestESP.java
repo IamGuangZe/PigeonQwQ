@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.render;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.EnderChestBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
@@ -14,7 +14,8 @@ import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -27,7 +28,7 @@ public class ChestESP extends Module {
     public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public ColorSetting color = setting("color", new Color(0x5F00AAFF, true), v -> true);
 
-    public static CopyOnWriteArraySet<BlockPos> chests = new CopyOnWriteArraySet<>();
+    public static Set<BlockPos> chests = ConcurrentHashMap.newKeySet();
 
     @Override
     public void onEnable() {
@@ -41,9 +42,11 @@ public class ChestESP extends Module {
         if (WorldUtil.nullCheck()) return;
 
         for (BlockPos pos : chests) {
-            if (mc.world.getBlockState(pos).getBlock() instanceof ChestBlock) {
+            BlockState state = mc.world.getBlockState(pos);
+
+            if (state.isOf(Blocks.CHEST) || state.isOf(Blocks.TRAPPED_CHEST)) {
                 RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
-            } else if (enderChest.getValue() && mc.world.getBlockState(pos).getBlock() instanceof EnderChestBlock) {
+            } else if (enderChest.getValue() && state.isOf(Blocks.ENDER_CHEST)) {
                 RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
             } else {
                 chests.remove(pos);

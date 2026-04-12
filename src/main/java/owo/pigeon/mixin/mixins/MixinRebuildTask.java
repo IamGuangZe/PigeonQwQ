@@ -1,8 +1,10 @@
 package owo.pigeon.mixin.mixins;
 
-import net.minecraft.block.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.render.chunk.BlockBufferAllocatorStorage;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import org.spongepowered.asm.mixin.Final;
@@ -43,23 +45,22 @@ public abstract class MixinRebuildTask {
 
         for (BlockPos tempPos : BlockPos.iterate(minX, minY, minZ, maxX, maxY, maxZ)) {
             BlockState state = this.region.getBlockState(tempPos);
-            Block block = state.getBlock();
 
             if (state.isAir()) continue;
             // ChatUtil.sendDebugMessage("MixinRebuildTask", String.valueOf(block));
 
-            if (ModuleUtil.isEnable(BedESP.class) && block instanceof BedBlock) {
+            if (ModuleUtil.isEnable(BedESP.class) && state.isIn(BlockTags.BEDS)) {
                 BedESP.beds.add(tempPos.toImmutable());
             }
 
-            if (ModuleUtil.isEnable(BlockESP.class) && block == ModuleUtil.getModule(BlockESP.class).block.getValue()) {
+            if (ModuleUtil.isEnable(BlockESP.class) && state.isOf(ModuleUtil.getModule(BlockESP.class).block.getValue())) {
                 BlockESP.blocks.add(tempPos.toImmutable());
             }
 
             if (ModuleUtil.isEnable(ChestESP.class)) {
-                if (block instanceof ChestBlock) {
+                if (state.isOf(Blocks.CHEST) || state.isOf(Blocks.TRAPPED_CHEST)) {
                     ChestESP.chests.add(tempPos.toImmutable());
-                } else if (ModuleUtil.getModule(ChestESP.class).enderChest.getValue() && block instanceof EnderChestBlock) {
+                } else if (ModuleUtil.getModule(ChestESP.class).enderChest.getValue() && state.isOf(Blocks.ENDER_CHEST)) {
                     ChestESP.chests.add(tempPos.toImmutable());
                 }
             }

@@ -13,7 +13,8 @@ import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -26,7 +27,7 @@ public class BlockESP extends Module {
     public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public ColorSetting color = setting("color", new Color(0x22FF1111, true), v -> true);
 
-    public static CopyOnWriteArraySet<BlockPos> blocks = new CopyOnWriteArraySet<>();
+    public static Set<BlockPos> blocks = ConcurrentHashMap.newKeySet();
 
     private Block lastBlock;
 
@@ -46,7 +47,7 @@ public class BlockESP extends Module {
         }
 
         for (BlockPos pos : blocks) {
-            if (mc.world.getBlockState(pos).getBlock() == block.getValue()) {
+            if (mc.world.getBlockState(pos).isOf(block.getValue())) {
                 RenderUtil.drawESP(event.getMatrix(),pos,color.getValue(), mode.getValue(),false);
             } else {
                 blocks.remove(pos);
