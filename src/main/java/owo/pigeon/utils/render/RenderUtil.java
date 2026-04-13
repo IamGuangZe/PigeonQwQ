@@ -14,6 +14,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import org.joml.Matrix4f;
 
 import java.awt.*;
@@ -189,13 +190,13 @@ public class RenderUtil {
     public static void drawBox(MatrixStack stack, BlockPos pos, Color c, double lineWidth) {
         BlockState state = mc.world.getBlockState(pos);
         VoxelShape shape = state.getOutlineShape(mc.world, pos);
+        VoxelShape renderShape = shape.isEmpty() ? VoxelShapes.fullCube() : shape;
 
-        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            Box realBox = new Box(
+        renderShape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            drawBox(stack, new Box(
                     pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
                     pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
-            );
-            drawBox(stack, realBox, c,lineWidth);
+            ), c, lineWidth);
         });
     }
 
@@ -261,13 +262,13 @@ public class RenderUtil {
     public static void drawBoxFilled(MatrixStack stack, BlockPos pos, Color c) {
         BlockState state = mc.world.getBlockState(pos);
         VoxelShape shape = state.getOutlineShape(mc.world, pos);
+        VoxelShape renderShape = shape.isEmpty() ? VoxelShapes.fullCube() : shape;
 
-        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            Box realBox = new Box(
+        renderShape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            drawBoxFilled(stack, new Box(
                     pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
                     pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
-            );
-            drawBoxFilled(stack, realBox, c);
+            ), c);
         });
     }
 
@@ -347,12 +348,13 @@ public class RenderUtil {
     public static void drawESP(MatrixStack stack, BlockPos pos, Color c, ESPMode mode, boolean drawTracer) {
         BlockState state = mc.world.getBlockState(pos);
         VoxelShape shape = state.getOutlineShape(mc.world, pos);
-        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            Box realBox = new Box(
+        VoxelShape renderShape = shape.isEmpty() ? VoxelShapes.fullCube() : shape;
+
+        renderShape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            drawESP(stack, new Box(
                     pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
                     pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
-            );
-            drawESP(stack, realBox, c, mode, false);
+            ), c, mode, false);
         });
 
         if (drawTracer) drawTracer(stack, pos, c, 1.5);
