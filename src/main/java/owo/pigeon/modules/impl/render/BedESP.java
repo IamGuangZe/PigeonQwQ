@@ -35,12 +35,10 @@ public class BedESP extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
+        beds.removeIf(pos -> !mc.world.getBlockState(pos).isIn(BlockTags.BEDS));
+
         for (BlockPos pos : beds) {
-            if (mc.world.getBlockState(pos).isIn(BlockTags.BEDS)) {
-                RenderUtil.drawESP(event.getMatrix(),pos,color.getValue(), mode.getValue(),false);
-            } else {
-                beds.remove(pos);
-            }
+            RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
         }
     }
 }

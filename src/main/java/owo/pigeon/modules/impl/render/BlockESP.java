@@ -9,10 +9,14 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.BlockSetting;
 import owo.pigeon.settings.ColorSetting;
+import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,7 +27,8 @@ public class BlockESP extends Module {
         super("BlockESP", Category.RENDER);
     }
 
-    public BlockSetting block = setting("block", Blocks.DRAGON_EGG, v->true);
+    public BlockSetting block = setting("block", Blocks.DRAGON_EGG, v -> true);
+    public IntSetting limit = setting("limit", -1, -1, 100, v -> true);
     public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public ColorSetting color = setting("color", new Color(0x22FF1111, true), v -> true);
 
@@ -33,24 +38,34 @@ public class BlockESP extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.worldRenderer != null) {
-            mc.worldRenderer.reload();
-            lastBlock = block.getValue();
-        }
+        if (mc.worldRenderer == null) return;
+        lastBlock = block.getValue();
+        mc.worldRenderer.reload();
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        if (lastBlock != block.getValue() && mc.worldRenderer != null) {
+        Block targetBlock = block.getValue();
+
+        if (lastBlock != targetBlock && mc.worldRenderer != null) {
+            blocks.clear();
+            lastBlock = targetBlock;
             mc.worldRenderer.reload();
-            lastBlock = block.getValue();
         }
 
-        for (BlockPos pos : blocks) {
-            if (mc.world.getBlockState(pos).isOf(block.getValue())) {
-                RenderUtil.drawESP(event.getMatrix(),pos,color.getValue(), mode.getValue(),false);
-            } else {
-                blocks.remove(pos);
+        blocks.removeIf(pos -> !mc.world.getBlockState(pos).isOf(targetBlock));
+
+        if (limit.getValue() == -1) {
+            for (BlockPos pos : blocks) {
+                RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
+            }
+        } else {
+            List<BlockPos> sorted = new ArrayList<>(blocks);
+            sorted.sort(Comparator.comparingDouble(pos -> pos.getSquaredDistance(mc.player.getX(), mc.player.getY(), mc.player.getZ())));
+
+            int count = Math.min(limit.getValue(), sorted.size());
+            for (int i = 0; i < count; i++) {
+                RenderUtil.drawESP(event.getMatrix(), sorted.get(i), color.getValue(), mode.getValue(), false);
             }
         }
     }

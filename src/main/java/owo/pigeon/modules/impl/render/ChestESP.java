@@ -10,7 +10,6 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.ModeSetting;
-import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
@@ -39,18 +38,15 @@ public class ChestESP extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        if (WorldUtil.nullCheck()) return;
+        chests.removeIf(pos -> {
+            BlockState state = mc.world.getBlockState(pos);
+            boolean valid = state.isOf(Blocks.CHEST) || state.isOf(Blocks.TRAPPED_CHEST)
+                    || (enderChest.getValue() && state.isOf(Blocks.ENDER_CHEST));
+            return !valid;
+        });
 
         for (BlockPos pos : chests) {
-            BlockState state = mc.world.getBlockState(pos);
-
-            if (state.isOf(Blocks.CHEST) || state.isOf(Blocks.TRAPPED_CHEST)) {
-                RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
-            } else if (enderChest.getValue() && state.isOf(Blocks.ENDER_CHEST)) {
-                RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
-            } else {
-                chests.remove(pos);
-            }
+            RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
         }
     }
 }
