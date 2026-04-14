@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.modules.impl.render.BedESP;
 import owo.pigeon.modules.impl.render.BlockESP;
 import owo.pigeon.modules.impl.render.ChestESP;
+import owo.pigeon.modules.impl.skyblock.misc.SkyblockESP;
 import owo.pigeon.utils.ModuleUtil;
 
 @Pseudo
@@ -40,6 +41,30 @@ public class MixinChunkBuilderMeshingTask {
                 ChestESP.chests.add(new BlockPos(x, y, z).toImmutable());
             } else if (ModuleUtil.getModule(ChestESP.class).enderChest.getValue() && blockState.isOf(Blocks.ENDER_CHEST)) {
                 ChestESP.chests.add(new BlockPos(x, y, z).toImmutable());
+            }
+        }
+
+        if (ModuleUtil.isEnable(SkyblockESP.class)) {
+            if (blockState.isOf(Blocks.LAVA) && x > 513 && z > 513 && (x > 559 || z > 559) && y > 64) {
+                SkyblockESP.wormLavas.add(new BlockPos(x,y,z).toImmutable());
+            } else if (blockState.isOf(Blocks.BLUE_STAINED_GLASS)) {
+                SkyblockESP.batcaveBlocks.add(new BlockPos(x, y, z).toImmutable());
+            } else if (blockState.isOf(Blocks.LIME_STAINED_GLASS) || blockState.isOf(Blocks.LIME_STAINED_GLASS_PANE)) {
+                SkyblockESP.jades.add(new BlockPos(x, y, z).toImmutable());
+            } else if (blockState.isOf(Blocks.ORANGE_STAINED_GLASS) || blockState.isOf(Blocks.ORANGE_STAINED_GLASS_PANE)) {
+                SkyblockESP.ambers.add(new BlockPos(x, y, z).toImmutable());
+            } else if (blockState.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS) || blockState.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) {
+                SkyblockESP.sapphires.add(new BlockPos(x, y, z).toImmutable());
+            } else if (blockState.isOf(Blocks.PURPLE_STAINED_GLASS) || blockState.isOf(Blocks.PURPLE_STAINED_GLASS_PANE)) {
+                SkyblockESP.amethysts.add(new BlockPos(x, y, z).toImmutable());
+            } else if (blockState.isOf(Blocks.RED_STAINED_GLASS) || blockState.isOf(Blocks.RED_STAINED_GLASS_PANE)) {
+                SkyblockESP.rubys.add(new BlockPos(x, y, z).toImmutable());
+            } else if (blockState.isOf(Blocks.MAGENTA_STAINED_GLASS) || blockState.isOf(Blocks.MAGENTA_STAINED_GLASS_PANE)) {
+                SkyblockESP.jaspers.add(new BlockPos(x, y, z).toImmutable());
+            } else if (blockState.isOf(Blocks.YELLOW_STAINED_GLASS) || blockState.isOf(Blocks.YELLOW_STAINED_GLASS_PANE)) {
+                SkyblockESP.topazs.add(new BlockPos(x, y, z).toImmutable());
+            } else if (blockState.isOf(Blocks.POLISHED_DIORITE)) {
+                SkyblockESP.titaniums.add(new BlockPos(x, y, z).toImmutable());
             }
         }
     }

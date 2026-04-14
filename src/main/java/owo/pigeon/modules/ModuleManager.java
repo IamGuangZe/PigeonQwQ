@@ -100,6 +100,7 @@ public class ModuleManager {
         modules.add(new AutoOption());
         modules.add(new ChocolateFactory());
         modules.add(new FailSafe());
+        modules.add(new SkyblockESP());
         modules.add(new AgaricusMiner());
         modules.add(new PotReplace());
         modules.add(new SnakingHelper());
