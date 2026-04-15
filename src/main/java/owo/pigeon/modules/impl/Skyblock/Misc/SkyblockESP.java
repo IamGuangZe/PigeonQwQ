@@ -5,9 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.MagmaCubeEntity;
-import net.minecraft.entity.mob.SlimeEntity;
-import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
@@ -56,6 +54,16 @@ public class SkyblockESP extends Module {
 
     public ExpandSetting dwarvenMines = setting("dwarven-mines", v -> true);
     public EnableSetting titaniumEsp = setting("titanium-esp", false, v -> dwarvenMines.getValue());
+    public EnableSetting dragonEggEsp = setting("dragon-egg-esp", false, v -> dwarvenMines.getValue());
+
+    public ExpandSetting galatea = setting("galatea", v -> true);
+    public EnableSetting hideonleafEsp = setting("hideonleaf-esp", false, v -> galatea.getValue());
+    public EnableSetting phanpyreEsp = setting("phanpyre-esp", false, v -> galatea.getValue());
+    public EnableSetting phanflareEsp = setting("phanflare-esp", false, v -> galatea.getValue());
+    public EnableSetting dreadwingEsp = setting("dreadwing-esp", false, v -> galatea.getValue());
+
+    public ExpandSetting theEnd = setting("the-end", v -> true);
+    public EnableSetting enderNodeEsp = setting("ender-node-esp", false, v -> theEnd.getValue());
 
     public static Set<BlockPos> batcaveBlocks = ConcurrentHashMap.newKeySet();
     public static Set<BlockPos> wormLavas = ConcurrentHashMap.newKeySet();
@@ -67,6 +75,8 @@ public class SkyblockESP extends Module {
     public static Set<BlockPos> jaspers = ConcurrentHashMap.newKeySet();
     public static Set<BlockPos> topazs = ConcurrentHashMap.newKeySet();
     public static Set<BlockPos> titaniums = ConcurrentHashMap.newKeySet();
+    public static Set<BlockPos> dragonEggs = ConcurrentHashMap.newKeySet();
+    public static Set<BlockPos> enderNodes = ConcurrentHashMap.newKeySet();
 
     @Override
     public void onEnable() {
@@ -131,12 +141,38 @@ public class SkyblockESP extends Module {
                 jaspers.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.MAGENTA_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.MAGENTA_STAINED_GLASS_PANE));
                 renderBlocks(stack, jaspers, Color.MAGENTA, gemstoneEspLimit.getValue());
             }
-        }
-
-        if (SkyblockUtil.isInIsland(SkyblockUtil.Island.DwarvenMines)) {
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.DwarvenMines)) {
             if (titaniumEsp.getValue()) {
                 titaniums.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.POLISHED_DIORITE));
                 for (BlockPos pos : titaniums) {
+                    RenderUtil.drawESP(event.getMatrix(), pos, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
+                }
+            }
+            if (dragonEggEsp.getValue()) {
+                dragonEggs.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.DRAGON_EGG));
+                for (BlockPos pos : dragonEggs) {
+                    RenderUtil.drawESP(event.getMatrix(), pos, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
+                }
+            }
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.Galatea)) {
+            for (Entity entity : mc.world.getEntities()) {
+                if (entity instanceof ShulkerEntity && hideonleafEsp.getValue()) {
+                    RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
+                } else if (entity instanceof PhantomEntity phantom) {
+                    float scale = phantom.getScale();
+                    if (scale == 0.4f && phanpyreEsp.getValue()) {
+                        RenderUtil.drawESP(stack, entity, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
+                    } else if (scale == 1.0f && phanflareEsp.getValue()) {
+                        RenderUtil.drawESP(stack, entity, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
+                    } else if (scale == 3.0f && dreadwingEsp.getValue()) {
+                        RenderUtil.drawESP(stack, entity, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
+                    }
+                }
+            }
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.TheEnd)) {
+            if (enderNodeEsp.getValue()) {
+                enderNodes.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.PURPLE_TERRACOTTA));
+                for (BlockPos pos : enderNodes) {
                     RenderUtil.drawESP(event.getMatrix(), pos, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                 }
             }
@@ -168,6 +204,10 @@ public class SkyblockESP extends Module {
             topazs.add(pos.toImmutable());
         } else if (state.isOf(Blocks.POLISHED_DIORITE)) {
             titaniums.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.DRAGON_EGG)) {
+            dragonEggs.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.PURPLE_TERRACOTTA) && pos.getX() > -597) {
+            enderNodes.add(pos.toImmutable());
         }
     }
 
