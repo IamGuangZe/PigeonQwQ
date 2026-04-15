@@ -1,6 +1,7 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -139,6 +140,34 @@ public class SkyblockESP extends Module {
                     RenderUtil.drawESP(event.getMatrix(), pos, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                 }
             }
+        }
+    }
+
+    @Handler
+    public void onRenderBlock(RenderEvent.RenderBlockEvent event) {
+        BlockState state = event.getState();
+        BlockPos pos = event.getPos();
+
+        if (state.isOf(Blocks.LAVA) && pos.getX() > 513 && pos.getZ() > 513 && (pos.getX() > 559 || pos.getZ() > 559) && pos.getY() > 64) {
+            wormLavas.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.BLUE_STAINED_GLASS)) {
+            batcaveBlocks.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.LIME_STAINED_GLASS) || state.isOf(Blocks.LIME_STAINED_GLASS_PANE)) {
+            jades.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.ORANGE_STAINED_GLASS) || state.isOf(Blocks.ORANGE_STAINED_GLASS_PANE)) {
+            ambers.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS) || state.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) {
+            sapphires.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.PURPLE_STAINED_GLASS) || state.isOf(Blocks.PURPLE_STAINED_GLASS_PANE)) {
+            amethysts.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.RED_STAINED_GLASS) || state.isOf(Blocks.RED_STAINED_GLASS_PANE)) {
+            rubys.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.MAGENTA_STAINED_GLASS) || state.isOf(Blocks.MAGENTA_STAINED_GLASS_PANE)) {
+            jaspers.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.YELLOW_STAINED_GLASS) || state.isOf(Blocks.YELLOW_STAINED_GLASS_PANE)) {
+            topazs.add(pos.toImmutable());
+        } else if (state.isOf(Blocks.POLISHED_DIORITE)) {
+            titaniums.add(pos.toImmutable());
         }
     }
 

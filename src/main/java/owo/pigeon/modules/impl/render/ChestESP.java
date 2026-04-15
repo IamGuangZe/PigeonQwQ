@@ -49,4 +49,14 @@ public class ChestESP extends Module {
             RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
         }
     }
+
+    @Handler
+    public void onRenderBlock(RenderEvent.RenderBlockEvent event) {
+        BlockState state = event.getState();
+        if (state.isOf(Blocks.CHEST) || state.isOf(Blocks.TRAPPED_CHEST)) {
+            ChestESP.chests.add(event.getPos().toImmutable());
+        } else if (enderChest.getValue() && state.isOf(Blocks.ENDER_CHEST)) {
+            ChestESP.chests.add(event.getPos().toImmutable());
+        }
+    }
 }

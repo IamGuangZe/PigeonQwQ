@@ -41,4 +41,11 @@ public class BedESP extends Module {
             RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
         }
     }
+
+    @Handler
+    public void onRenderBlock(RenderEvent.RenderBlockEvent event) {
+        if (event.getState().isIn(BlockTags.BEDS)) {
+            beds.add(event.getPos().toImmutable());
+        }
+    }
 }

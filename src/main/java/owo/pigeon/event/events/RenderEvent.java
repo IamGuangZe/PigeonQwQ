@@ -1,9 +1,11 @@
 package owo.pigeon.event.events;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.util.math.BlockPos;
 import owo.pigeon.event.Event;
 
 public class RenderEvent extends Event {
@@ -84,4 +86,30 @@ public class RenderEvent extends Event {
         }
     }
 
+    public static class RenderBlockEvent extends RenderEvent {
+        private BlockPos pos;
+        private BlockState state;
+
+        public RenderBlockEvent(BlockPos pos, BlockState state) {
+            this.pos = pos;
+            this.state = state;
+        }
+
+        public RenderBlockEvent() {
+            this(null, null);
+        }
+
+        public void set(BlockPos pos, BlockState state) {
+            this.pos = pos;
+            this.state = state;
+        }
+
+        public BlockPos getPos() {
+            return pos;
+        }
+
+        public BlockState getState() {
+            return state;
+        }
+    }
 }

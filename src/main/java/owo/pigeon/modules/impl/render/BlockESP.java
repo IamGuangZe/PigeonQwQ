@@ -69,4 +69,11 @@ public class BlockESP extends Module {
             }
         }
     }
+
+    @Handler
+    public void onRenderBlock(RenderEvent.RenderBlockEvent event) {
+        if (event.getState().isOf(block.getValue())) {
+            blocks.add(event.getPos().toImmutable());
+        }
+    }
 }
