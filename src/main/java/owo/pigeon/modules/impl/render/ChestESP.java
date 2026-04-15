@@ -27,7 +27,7 @@ public class ChestESP extends Module {
     public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public ColorSetting color = setting("color", new Color(0x5F00AAFF, true), v -> true);
 
-    public static Set<BlockPos> chests = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> chests = ConcurrentHashMap.newKeySet();
 
     @Override
     public void onEnable() {
@@ -54,9 +54,9 @@ public class ChestESP extends Module {
     public void onRenderBlock(RenderEvent.RenderBlockEvent event) {
         BlockState state = event.getState();
         if (state.isOf(Blocks.CHEST) || state.isOf(Blocks.TRAPPED_CHEST)) {
-            ChestESP.chests.add(event.getPos().toImmutable());
+            chests.add(event.getPos().toImmutable());
         } else if (enderChest.getValue() && state.isOf(Blocks.ENDER_CHEST)) {
-            ChestESP.chests.add(event.getPos().toImmutable());
+            chests.add(event.getPos().toImmutable());
         }
     }
 }

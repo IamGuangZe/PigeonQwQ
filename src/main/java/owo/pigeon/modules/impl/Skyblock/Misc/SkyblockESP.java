@@ -65,18 +65,18 @@ public class SkyblockESP extends Module {
     public ExpandSetting theEnd = setting("the-end", v -> true);
     public EnableSetting enderNodeEsp = setting("ender-node-esp", false, v -> theEnd.getValue());
 
-    public static Set<BlockPos> batcaveBlocks = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> wormLavas = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> jades = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> ambers = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> sapphires = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> amethysts = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> rubys = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> jaspers = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> topazs = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> titaniums = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> dragonEggs = ConcurrentHashMap.newKeySet();
-    public static Set<BlockPos> enderNodes = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> batcaveBlocks = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> wormLavas = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> jades = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> ambers = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> sapphires = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> amethysts = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> rubys = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> jaspers = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> topazs = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> titaniums = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> dragonEggs = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> enderNodes = ConcurrentHashMap.newKeySet();
 
     @Override
     public void onEnable() {

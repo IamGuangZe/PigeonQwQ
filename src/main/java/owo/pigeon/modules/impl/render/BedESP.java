@@ -24,7 +24,7 @@ public class BedESP extends Module {
     public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public ColorSetting color = setting("color", new Color(0x22FF1111, true), v -> true);
 
-    public static Set<BlockPos> beds = ConcurrentHashMap.newKeySet();
+    private final Set<BlockPos> beds = ConcurrentHashMap.newKeySet();
 
     @Override
     public void onEnable() {
