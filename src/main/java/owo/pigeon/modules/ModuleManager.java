@@ -82,6 +82,7 @@ public class ModuleManager {
         modules.add(new ModifyCamera());
         modules.add(new ParticlesHalo());
         modules.add(new PlayerESP());
+        modules.add(new TrueSight());
 
         modules.add(new Environment());
 

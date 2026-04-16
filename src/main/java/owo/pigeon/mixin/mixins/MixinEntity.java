@@ -1,5 +1,6 @@
 package owo.pigeon.mixin.mixins;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.interfaces.ICameraOverriddenEntity;
 import owo.pigeon.modules.impl.combat.HitBox;
 import owo.pigeon.modules.impl.render.FreeLook;
+import owo.pigeon.modules.impl.render.TrueSight;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(Entity.class)
@@ -38,6 +40,11 @@ public class MixinEntity implements ICameraOverriddenEntity {
             this.cameraYaw += (float) yawDelta;
             ci.cancel();
         }
+    }
+
+    @ModifyReturnValue(method = "isInvisibleTo", at = @At("RETURN"))
+    private boolean onIsInvisibleTo(boolean original) {
+        return !ModuleUtil.isEnable(TrueSight.class);
     }
 
     @Override
