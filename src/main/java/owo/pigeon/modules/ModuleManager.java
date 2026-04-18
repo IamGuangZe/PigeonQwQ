@@ -11,6 +11,7 @@ import owo.pigeon.modules.impl.combat.HitBox;
 import owo.pigeon.modules.impl.combat.NoHitDelay;
 import owo.pigeon.modules.impl.debug.*;
 import owo.pigeon.modules.impl.hypixel.*;
+import owo.pigeon.modules.impl.misc.Spammer;
 import owo.pigeon.modules.impl.movement.NoJumpDelay;
 import owo.pigeon.modules.impl.movement.Sprint;
 import owo.pigeon.modules.impl.player.*;
@@ -64,6 +65,8 @@ public class ModuleManager {
         modules.add(new MurderHelper());
         modules.add(new PartyDetector());
         modules.add(new PixelHelper());
+
+        modules.add(new Spammer());
 
         modules.add(new NoJumpDelay());
         modules.add(new Sprint());
