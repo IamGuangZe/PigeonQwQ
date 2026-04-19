@@ -5,10 +5,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.modules.impl.client.PigeonQwQ;
-import owo.pigeon.modules.impl.combat.AutoBow;
-import owo.pigeon.modules.impl.combat.AutoClicker;
-import owo.pigeon.modules.impl.combat.HitBox;
-import owo.pigeon.modules.impl.combat.NoHitDelay;
+import owo.pigeon.modules.impl.combat.*;
 import owo.pigeon.modules.impl.debug.*;
 import owo.pigeon.modules.impl.hypixel.*;
 import owo.pigeon.modules.impl.misc.Spammer;
@@ -54,6 +51,7 @@ public class ModuleManager {
         modules.add(new ClickGui());
         modules.add(new PigeonQwQ());
 
+        modules.add(new AimAssist());
         modules.add(new AutoBow());
         modules.add(new AutoClicker());
         modules.add(new HitBox());
