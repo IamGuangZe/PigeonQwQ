@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.GameMode;
 import owo.pigeon.mixin.accessors.IAccessorMinecraftClient;
 import owo.pigeon.utils.KeybindUtil;
@@ -68,5 +69,15 @@ public class PlayerUtil {
             return player.getUuid().version() == 4;
 
         return false;
+    }
+
+
+    public static boolean canMove(double x, double z) {
+        return canMove(x, z, -1.0);
+    }
+
+    public static boolean canMove(double x, double z, double y) {
+        Box boundingBox = mc.player.getBoundingBox().offset(x, y, z);
+        return mc.world.isSpaceEmpty(mc.player, boundingBox);
     }
 }

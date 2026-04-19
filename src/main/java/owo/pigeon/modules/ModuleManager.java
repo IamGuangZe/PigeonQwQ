@@ -9,6 +9,7 @@ import owo.pigeon.modules.impl.combat.*;
 import owo.pigeon.modules.impl.debug.*;
 import owo.pigeon.modules.impl.hypixel.*;
 import owo.pigeon.modules.impl.misc.Spammer;
+import owo.pigeon.modules.impl.movement.Eagle;
 import owo.pigeon.modules.impl.movement.NoJumpDelay;
 import owo.pigeon.modules.impl.movement.Sprint;
 import owo.pigeon.modules.impl.player.*;
@@ -66,6 +67,7 @@ public class ModuleManager {
 
         modules.add(new Spammer());
 
+        modules.add(new Eagle());
         modules.add(new NoJumpDelay());
         modules.add(new Sprint());
 

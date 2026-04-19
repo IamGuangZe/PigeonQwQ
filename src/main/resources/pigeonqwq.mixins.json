@@ -30,6 +30,7 @@
     "mixins.MixinInGameHud",
     "mixins.MixinInGameOverlayRenderer",
     "mixins.MixinKeyboard",
+    "mixins.MixinKeyboardInput",
     "mixins.MixinLightmapTextureManager",
     "mixins.MixinMessageHandler",
     "mixins.MixinMinecraftClient",

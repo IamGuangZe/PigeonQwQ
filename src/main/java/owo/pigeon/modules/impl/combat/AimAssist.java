@@ -29,15 +29,15 @@ public class AimAssist extends Module {
         super("AimAssist", Category.COMBAT);
     }
 
-    // Source: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/module/modules/AimAssist.java
+    // Ported from: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/module/modules/AimAssist.java
 
     public FloatSetting horizontalSpeed = setting("horizontal-speed", 3.0f, 0.0f, 10.0f, v -> true);
-    public FloatSetting verticalSpeed = setting("vertical-speed", 0.0f, 0.0f, 10.0f, v -> true);
+    public FloatSetting verticalSpeed = setting("vertical-speed", 2.5f, 0.0f, 10.0f, v -> true);
     public FloatSetting smoothing = setting("smoothing", 50.0f, 0.0f, 100.0f, v -> true);
     public FloatSetting range = setting("range", 4.5f, 3.0f, 8.0f, v -> true);
     public IntSetting fov = setting("fov", 90, 30, 360, v -> true);
     public ModeSetting<Sort> sort = setting("sort", Sort.DISTANCE, v -> true);
-    public EnableSetting throughWalls = setting("through-walls", true, v -> true);
+    public EnableSetting throughWalls = setting("through-walls", false, v -> true);
     public EnableSetting invisibles = setting("invisibles", false, v -> true);
     public EnableSetting botCheck = setting("bot-check", true, v -> true);
 

@@ -13,7 +13,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class MoveUtil {
 
-    // Source: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/util/MoveUtil.java
+    // Ported from: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/util/MoveUtil.java
 
     public static boolean isMoving() {
         boolean forward = KeybindUtil.isPressed(mc.options.forwardKey);

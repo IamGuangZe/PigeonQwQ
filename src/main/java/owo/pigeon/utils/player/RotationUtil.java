@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RotationUtil {
 
-    // Source: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/util/RotationUtil.java
+    // Ported from: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/util/RotationUtil.java
 
     private static final MinecraftClient mc = MinecraftClient.getInstance();
 
