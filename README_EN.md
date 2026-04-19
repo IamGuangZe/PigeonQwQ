@@ -26,7 +26,7 @@ I sincerely appreciate their contribution to the community and for making their 
 Credits from previous repository: [PigeonOwO - Credits & Acknowledgements](https://github.com/IamGuangZe/PigeonOwO?tab=readme-ov-file#credits--acknowledgements)
 
 ## AI Acknowledgements
-This project was extensively developed with assistance from AI models such as Gemini 3, CodeGeeX, and GPT-5.
+This project was extensively developed with assistance from AI models such as Gemini 3, CodeGeeX, GPT-5, and GLM-5.1.
 
 ## License
 This project is released into the public domain under the **Unlicense**.

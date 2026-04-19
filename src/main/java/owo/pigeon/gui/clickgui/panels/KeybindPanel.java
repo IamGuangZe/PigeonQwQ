@@ -72,7 +72,7 @@ public class KeybindPanel extends AbstractDisplableItem {
                 Color.LIGHT_GRAY.getRGB());
 
         context.getMatrices().popMatrix();
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, Color.GREEN.getRGB());
+        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
     public boolean mouseClicked(Click click, boolean doubled) {

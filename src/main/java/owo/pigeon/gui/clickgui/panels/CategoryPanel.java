@@ -42,7 +42,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         context.fill(x, y, x + width, y + height, Color.BLACK.getRGB());
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, Color.RED.getRGB());
+        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.RED.getRGB());
 
         switch (clickGui.style.getValue()) {
             case OLD:
@@ -86,10 +86,7 @@ public class CategoryPanel extends AbstractDisplableItem {
     }
 
     public boolean mouseClicked(Click click, boolean doubled) {
-        boolean handled = false;
-
         if (hovered) {
-            handled = true;
             if (click.button() == 0) {
                 movepanel = true;
                 mx = (int) (x - click.x());
@@ -97,17 +94,17 @@ public class CategoryPanel extends AbstractDisplableItem {
             } else if (click.button() == 1) {
                 displaymodule = !displaymodule;
             }
+            return true;
         }
 
         for (int i = modulePanels.size() - 1; i >= 0; i--) {
             ModulePanel panel = modulePanels.get(i);
             if (panel.mouseClicked(click,doubled)) {
-                handled = true;
-                break;
+                return true;
             }
         }
 
-        return handled;
+        return false;
     }
 
     public void mouseReleased(Click click) {

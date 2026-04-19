@@ -2,6 +2,7 @@ package owo.pigeon.utils.chat;
 
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 
@@ -9,13 +10,36 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ChatUtil {
 
-
     private static MutableText getClientPrefix() {
-        return Text.literal(ColorUtil.parseColor("&8[&3" + Pigeon.MOD_NAME + "&8]&r "));
+        MutableText bracketLeft = Text.literal("[").styled(style -> style.withColor(Formatting.DARK_GRAY));
+        MutableText bracketRight = Text.literal("]").styled(style -> style.withColor(Formatting.DARK_GRAY));
+
+        ColorUtil.Theme theme = ColorUtil.getTheme();
+        MutableText nameText = theme.isGradient()
+                ? ColorUtil.gradientText(Pigeon.MOD_NAME, theme.getGradient())
+                : Text.literal(Pigeon.MOD_NAME).styled(style -> style.withColor(Formatting.WHITE));
+
+        return Text.empty()
+                .append(bracketLeft)
+                .append(nameText)
+                .append(bracketRight)
+                .append(Text.literal(" ").styled(style -> style.withFormatting(Formatting.RESET)));
     }
 
     private static MutableText getCustomPrefix(String prefix) {
-        return Text.literal(ColorUtil.parseColor("&8[&3" + prefix + "&8]&r "));
+        MutableText bracketLeft = Text.literal("[").styled(style -> style.withColor(Formatting.DARK_GRAY));
+        MutableText bracketRight = Text.literal("]").styled(style -> style.withColor(Formatting.DARK_GRAY));
+
+        ColorUtil.Theme theme = ColorUtil.getTheme();
+        MutableText nameText = theme.isGradient()
+                ? ColorUtil.gradientText(prefix, theme.getGradient())
+                : Text.literal(prefix).styled(style -> style.withColor(Formatting.WHITE));
+
+        return Text.empty()
+                .append(bracketLeft)
+                .append(nameText)
+                .append(bracketRight)
+                .append(Text.literal(" ").styled(style -> style.withFormatting(Formatting.RESET)));
     }
 
     public static void sendRawMessage(String message) {
@@ -27,7 +51,7 @@ public class ChatUtil {
     }
 
     public static void sendMessage(String message) {
-        sendRawMessage(ColorUtil.parseColor("&8[&3" + Pigeon.MOD_NAME + "&8]&r " + message));
+        sendRawMessage(getClientPrefix().append(Text.literal(ColorUtil.parseColor(message))));
     }
 
     public static void sendMessage(Text text) {
@@ -35,16 +59,16 @@ public class ChatUtil {
     }
 
     public static void sendUncoloredMessage(String message) {
-        sendRawMessage(ColorUtil.parseColor("&8[&3" + Pigeon.MOD_NAME + "&8]&r ") + message);
+        MutableText prefix = getClientPrefix();
+        sendRawMessage(prefix.append(Text.literal(message)));
     }
 
     public static void sendUncoloredMessage(Text text) {
         sendRawMessage(getClientPrefix().append(text));
     }
 
-
     public static void sendMessage(String prefix, String message) {
-        sendRawMessage(ColorUtil.parseColor("&8[&3" + prefix + "&8]&r " + message));
+        sendRawMessage(getCustomPrefix(prefix).append(Text.literal(ColorUtil.parseColor(message))));
     }
 
     public static void sendMessage(String prefix, Text text) {
@@ -59,37 +83,38 @@ public class ChatUtil {
         }
     }
 
-    public static void sendDebugMessage(String message) {
+    private static MutableText buildDebugPrefix() {
         int tick = mc.player != null ? mc.player.age : -1;
-        if (Pigeon.isDebug())
-            sendRawMessage(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] &8[&3" + Pigeon.MOD_NAME + "&8]&r " + message));
+        return Text.empty()
+                .append(Text.literal("[DEBUG]").styled(s -> s.withColor(Formatting.RED).withBold(true)))
+                .append(Text.literal(" "))
+                .append(Text.literal("[" + tick + "]").styled(s -> s.withColor(Formatting.RED).withBold(true)))
+                .append(Text.literal(" "));
+    }
+
+    public static void sendDebugMessage(String message) {
+        if (!Pigeon.isDebug()) return;
+        sendRawMessage(buildDebugPrefix().append(getClientPrefix()).append(Text.literal(ColorUtil.parseColor(message))));
     }
 
     public static void sendDebugMessage(Text text) {
         if (!Pigeon.isDebug()) return;
-        int tick = mc.player != null ? mc.player.age : -1;
-        MutableText debugPrefix = Text.literal(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] "))
-                .append(getClientPrefix());
-        sendRawMessage(debugPrefix.append(text));
+        sendRawMessage(buildDebugPrefix().append(getClientPrefix()).append(text));
     }
-    
+
     public static void sendDebugMessage(String prefix, String message) {
-        int tick = mc.player != null ? mc.player.age : -1;
-        if (Pigeon.isDebug())
-            sendRawMessage(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] &8[&3" + prefix + "&8]&r " + message));
+        if (!Pigeon.isDebug()) return;
+        sendRawMessage(buildDebugPrefix().append(getCustomPrefix(prefix)).append(Text.literal(ColorUtil.parseColor(message))));
     }
 
     public static void sendDebugMessage(String prefix, Text text) {
         if (!Pigeon.isDebug()) return;
-        int tick = mc.player != null ? mc.player.age : -1;
-        MutableText debugPrefix = Text.literal(ColorUtil.parseColor("&c&l[DEBUG] [" + tick + "] "))
-                .append(getCustomPrefix(prefix));
-        sendRawMessage(debugPrefix.append(text));
+        sendRawMessage(buildDebugPrefix().append(getCustomPrefix(prefix)).append(text));
     }
-    
+
     public static void sendIfHudReadyMessage(String message) {
         if (mc.inGameHud == null || mc.inGameHud.getChatHud() == null) return;
-        mc.inGameHud.getChatHud().addMessage(Text.literal(ColorUtil.parseColor("&8[&3" + Pigeon.MOD_NAME + "&8]&r " + message)));
+        mc.inGameHud.getChatHud().addMessage(getClientPrefix().append(Text.literal(ColorUtil.parseColor(message))));
     }
 
     public static void sendIfHudReadyMessage(Text text) {

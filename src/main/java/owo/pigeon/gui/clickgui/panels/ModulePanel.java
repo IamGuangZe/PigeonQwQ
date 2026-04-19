@@ -6,9 +6,12 @@ import net.minecraft.client.input.KeyInput;
 import owo.pigeon.gui.clickgui.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
 import owo.pigeon.modules.impl.client.ClickGui;
+import owo.pigeon.modules.impl.client.PigeonQwQ;
 import owo.pigeon.settings.AbstractNumSetting;
 import owo.pigeon.settings.AbstractSetting;
 import owo.pigeon.settings.ColorSetting;
+import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
@@ -49,30 +52,37 @@ public class ModulePanel extends AbstractDisplableItem {
     public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
+        PigeonQwQ pigeonQwQ = ModuleUtil.getModule(PigeonQwQ.class);
+        ColorUtil.Theme theme = pigeonQwQ != null ? pigeonQwQ.theme.getValue() : ColorUtil.Theme.NORMAL;
+
         switch (clickGui.style.getValue()) {
             case OLD:
                 int color_old = module.isEnable() ?
                         new Color(20, 20, 20, 186).getRGB() :
                         new Color(50, 50, 50, 186).getRGB();
                 context.fill(x, y, x + width, y + height, color_old);
+                int textColor_old = module.isEnable() && theme.isGradient()
+                        ? theme.getMidColor() : Color.WHITE.getRGB();
                 context.drawTextWithShadow(textRenderer,
                         module.name,
                         x + width / 2 - textRenderer.getWidth(module.name) / 2,
                         y + height / 2 - textRenderer.fontHeight / 2 + 1,
-                        Color.WHITE.getRGB());
+                        textColor_old);
                 break;
 
             case NEW:
             default:
                 context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
-                int color_new = module.isEnable() ? Color.WHITE.getRGB() : Color.GRAY.getRGB();
+                int textColor_new = module.isEnable()
+                        ? (theme.isGradient() ? theme.getMidColor() : Color.WHITE.getRGB())
+                        : Color.GRAY.getRGB();
                 context.drawTextWithShadow(textRenderer,
                         module.name,
                         x + width / 2 - textRenderer.getWidth(module.name) / 2,
                         y + height / 2 - textRenderer.fontHeight / 2 + 1,
-                        color_new);
+                        textColor_new);
         }
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, Color.BLUE.getRGB());
+        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.BLUE.getRGB());
 
         visiblePanels.clear();
 
@@ -122,30 +132,27 @@ public class ModulePanel extends AbstractDisplableItem {
     }
 
     public boolean mouseClicked(Click click, boolean doubled) {
-        boolean handled = false;
-
         if (hovered) {
-            handled = true;
             if (click.button() == 0) {
                 module.toggle();
             } else if (click.button() == 1) {
                 displaySetting = !displaySetting;
             }
+            return true;
         }
 
         if (displaySetting && keybindPanel.mouseClicked(click, doubled)) {
-            handled = true;
+            return true;
         }
 
         for (int i = visiblePanels.size() - 1; i >= 0; i--) {
             SettingPanel panel = visiblePanels.get(i);
             if (panel.mouseClicked(click, doubled)) {
-                handled = true;
-                break;
+                return true;
             }
         }
 
-        return handled;
+        return false;
     }
 
     public void mouseReleased(Click click) {

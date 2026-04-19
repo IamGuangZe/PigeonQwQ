@@ -111,7 +111,7 @@ public class SettingColorPanel extends SettingPanel {
         int colorCubeY = y;
 
         context.fill(colorCubeX, colorCubeY, colorCubeX + colorCubeSize, colorCubeY + colorCubeSize, colorSetting.getRGB());
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, Color.GREEN.getRGB());
+        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
     @Override
