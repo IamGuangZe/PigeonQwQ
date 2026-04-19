@@ -36,6 +36,7 @@ public class AimAssist extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
+        if (mc.currentScreen != null) return;
 
         boolean attacking = KeybindUtil.isPressed(mc.options.attackKey);
         boolean lookingAtBlock = mc.crosshairTarget != null && mc.crosshairTarget.getType() == HitResult.Type.BLOCK;
@@ -43,13 +44,14 @@ public class AimAssist extends Module {
         if (!attacking && lookingAtBlock) {
             return;
         }
+
         if (!attacking && System.currentTimeMillis() - lastPressTime > 350L) {
             return;
         }
 
         List<PlayerEntity> targets = mc.world.getPlayers()
                 .stream()
-                .filter(player -> isValidTarget(player))
+                .filter(this::isValidTarget)
                 .sorted(Comparator.comparingDouble(RotationUtil::distanceToEntity))
                 .collect(Collectors.toList());
 
@@ -59,7 +61,7 @@ public class AimAssist extends Module {
             targets.removeIf(player -> !isInReach(player));
         }
 
-        PlayerEntity target = targets.get(0);
+        PlayerEntity target = targets.getFirst();
 
         if (RotationUtil.distanceToEntity(target) <= 0.0) return;
 
@@ -83,9 +85,7 @@ public class AimAssist extends Module {
     }
 
     private boolean isValidTarget(PlayerEntity player) {
-        if (player == mc.player) return false;
-        if (player == mc.player.getVehicle()) return false;
-        if (player.isDead()) return false;
+        if (player == mc.player || player == mc.player.getVehicle() || player.isDead()) return false;
         if (RotationUtil.distanceToEntity(player) > this.range.getValue()) return false;
         if (RotationUtil.angleToEntity(player) > this.fov.getValue()) return false;
         if (player.isInvisible() && !this.invisibles.getValue()) return false;
