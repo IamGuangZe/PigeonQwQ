@@ -20,23 +20,30 @@ import java.util.stream.Collectors;
 import static owo.pigeon.Pigeon.mc;
 
 public class AimAssist extends Module {
+    public AimAssist() {
+        super("AimAssist", Category.COMBAT);
+    }
+
+    // Reference: https://github.com/CCBlueX/LiquidBounce (AngleSmooth)
+    // Reference: https://github.com/60124808866/OpenMyau (AimAssist)
 
     public enum Sort {
         DISTANCE, FOV, HEALTH
     }
 
-    public AimAssist() {
-        super("AimAssist", Category.COMBAT);
+    public enum SmoothMode {
+        LINEAR, SIGMOID, INTERPOLATION
     }
 
-    // Ported from: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/module/modules/AimAssist.java
-
-    public FloatSetting horizontalSpeed = setting("horizontal-speed", 3.0f, 0.0f, 10.0f, v -> true);
-    public FloatSetting verticalSpeed = setting("vertical-speed", 2.5f, 0.0f, 10.0f, v -> true);
-    public FloatSetting smoothing = setting("smoothing", 50.0f, 0.0f, 100.0f, v -> true);
+    public ModeSetting<Sort> sort = setting("sort", Sort.DISTANCE, v -> true);
+    public ModeSetting<SmoothMode> smoothMode = setting("smooth-mode", SmoothMode.INTERPOLATION, v -> true);
+    public IntSetting horizontalSpeed = setting("horizontal-speed", 30, 0, 100, "%", v -> true);
+    public IntSetting verticalSpeed = setting("vertical-speed", 20, 0, 100, "%", v -> true);
+    public FloatSetting steepness = setting("steepness", 5.0f, 0.0f, 20.0f, v -> smoothMode.getValue() == SmoothMode.SIGMOID);
+    public FloatSetting midpoint = setting("midpoint", 0.3f, 0.0f, 1.0f, v -> smoothMode.getValue() == SmoothMode.SIGMOID || smoothMode.getValue() == SmoothMode.INTERPOLATION);
+    public IntSetting directionChange = setting("direction-change", 50, 0, 100, "%", v -> smoothMode.getValue() == SmoothMode.INTERPOLATION);
     public FloatSetting range = setting("range", 4.5f, 3.0f, 8.0f, v -> true);
     public IntSetting fov = setting("fov", 90, 30, 360, v -> true);
-    public ModeSetting<Sort> sort = setting("sort", Sort.DISTANCE, v -> true);
     public EnableSetting throughWalls = setting("through-walls", false, v -> true);
     public EnableSetting invisibles = setting("invisibles", false, v -> true);
     public EnableSetting botCheck = setting("bot-check", true, v -> true);
@@ -79,22 +86,36 @@ public class AimAssist extends Module {
         if (RotationUtil.distanceToEntity(target) <= 0.0) return;
 
         float collisionBorderSize = target.getTargetingMargin();
-        float[] rotation = RotationUtil.getRotationsToBox(
+        float[] targetRotation = RotationUtil.getRotationsToBox(
                 target.getBoundingBox().expand(collisionBorderSize),
                 mc.player.getYaw(),
                 mc.player.getPitch(),
                 180.0f,
-                this.smoothing.getValue() / 100.0f
+                0.0f
         );
 
-        float yawSpeed = Math.min(Math.abs(this.horizontalSpeed.getValue()), 10.0f);
-        float pitchSpeed = Math.min(Math.abs(this.verticalSpeed.getValue()), 10.0f);
+        float currentYaw = mc.player.getYaw();
+        float currentPitch = mc.player.getPitch();
+        float hSpeed = (float) horizontalSpeed.getValue();
+        float vSpeed = (float) verticalSpeed.getValue();
 
-        float newYaw = mc.player.getYaw() + (rotation[0] - mc.player.getYaw()) * 0.1f * yawSpeed;
-        float newPitch = mc.player.getPitch() + (rotation[1] - mc.player.getPitch()) * 0.1f * pitchSpeed;
+        float delta = event.getDelta();
+        float newYaw = smoothRotation(currentYaw, targetRotation[0], hSpeed, delta);
+        float newPitch = smoothRotation(currentPitch, targetRotation[1], vSpeed, delta);
+
+        newYaw = RotationUtil.normalizeRotation(currentYaw, newYaw);
+        newPitch = RotationUtil.normalizeRotation(currentPitch, newPitch);
 
         mc.player.setYaw(newYaw);
         mc.player.setPitch(newPitch);
+    }
+
+    private float smoothRotation(float current, float target, float speed, float delta) {
+        return switch (smoothMode.getValue()) {
+            case LINEAR -> RotationUtil.towardsLinear(current, target, speed, delta);
+            case SIGMOID -> RotationUtil.towardsSigmoid(current, target, speed, steepness.getValue(), midpoint.getValue(), delta);
+            case INTERPOLATION -> RotationUtil.towardsInterpolation(current, target, speed, (float) directionChange.getValue(), midpoint.getValue(), delta);
+        };
     }
 
     private boolean isValidTarget(PlayerEntity player) {

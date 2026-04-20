@@ -11,11 +11,16 @@ import net.minecraft.world.RaycastContext;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+// Reference: https://github.com/CCBlueX/LiquidBounce (AngleSmooth)
+// Reference: https://github.com/60124808866/OpenMyau (RotationUtil)
+
 public class RotationUtil {
 
-    // Ported from: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/util/RotationUtil.java
-
     private static final MinecraftClient mc = MinecraftClient.getInstance();
+
+    public static float angleDifference(float a, float b) {
+        return MathHelper.wrapDegrees(a - b);
+    }
 
     public static float wrapAngleDiff(float angle, float target) {
         return target + MathHelper.wrapDegrees(angle - target);
@@ -37,6 +42,62 @@ public class RotationUtil {
 
     public static float quantizeAngle(float angle) {
         return (float) ((double) angle - (double) angle % 0.0096);
+    }
+
+    public static float gcd() {
+        double sensitivity = mc.options.getMouseSensitivity().getValue();
+        double gcdSens = sensitivity * 0.6 + 0.2;
+        return (float) (gcdSens * gcdSens * gcdSens * 8.0 * 0.15);
+    }
+
+    public static float normalizeRotation(float current, float target) {
+        float gcd = gcd();
+        if (gcd <= 0.0f) return target;
+        float diff = target - current;
+        return current + Math.round(diff / gcd) * gcd;
+    }
+
+    public static float towardsLinear(float current, float target, float speed, float delta) {
+        float diff = angleDifference(target, current);
+        if (Math.abs(diff) < 0.01f) return current;
+        float factor = speed / 100.0f;
+        float adjusted = 1.0f - (float) Math.pow(1.0 - factor, delta);
+        return current + diff * adjusted;
+    }
+
+    public static float towardsSigmoid(float current, float target, float turnSpeed, float steepness, float midpoint, float delta) {
+        float diff = angleDifference(target, current);
+        float absDiff = Math.abs(diff);
+        if (absDiff < 0.01f) return current;
+        float scaledDiff = absDiff / 120.0f;
+        float sigmoid = (float) (1.0 / (1.0 + Math.exp(-steepness * (scaledDiff - midpoint))));
+        float factor = Math.min(sigmoid * turnSpeed / 100.0f, 1.0f);
+        float adjusted = 1.0f - (float) Math.pow(1.0 - factor, delta);
+        return current + diff * adjusted;
+    }
+
+    public static float towardsInterpolation(float current, float target, float turnSpeed, float directionChangeFactor, float midpoint, float delta) {
+        float diff = angleDifference(target, current);
+        float absDiff = Math.abs(diff);
+        if (absDiff < 0.01f) return current;
+        float t = Math.min(absDiff / 180.0f, 1.0f);
+        float factor;
+        if (t > midpoint) {
+            float bezier = quadraticBezier(0.05f, 1.0f, 1.0f - t);
+            factor = bezier * turnSpeed / 100.0f;
+        } else {
+            float sigmoid = (float) (1.0 / (1.0 + Math.exp(-0.5 * (t - 0.3))));
+            factor = sigmoid * (turnSpeed + directionChangeFactor) / 100.0f;
+        }
+        factor = Math.min(factor, 1.0f);
+        float adjusted = 1.0f - (float) Math.pow(1.0 - factor, delta);
+        return current + diff * adjusted;
+    }
+
+    private static float quadraticBezier(float start, float end, float t) {
+        float control = 1.0f;
+        float oneMinusT = 1.0f - t;
+        return oneMinusT * oneMinusT * start + 2.0f * oneMinusT * t * control + t * t * end;
     }
 
     public static float[] getRotationsToBox(Box boundingBox, float yaw, float pitch, float maxAngle, float smoothFactor) {
