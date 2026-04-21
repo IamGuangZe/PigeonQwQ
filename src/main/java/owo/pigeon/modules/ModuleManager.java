@@ -22,6 +22,7 @@ import owo.pigeon.modules.impl.skyblock.event.AutoBouncingBall;
 import owo.pigeon.modules.impl.skyblock.farming.PestESP;
 import owo.pigeon.modules.impl.skyblock.farming.TrevorHelper;
 import owo.pigeon.modules.impl.skyblock.hunting.AutoReel;
+import owo.pigeon.modules.impl.skyblock.mining.LegitNuker;
 import owo.pigeon.modules.impl.skyblock.mining.NoNBTUpdate;
 import owo.pigeon.modules.impl.skyblock.misc.*;
 import owo.pigeon.modules.impl.skyblock.rift.AgaricusMiner;
@@ -99,6 +100,7 @@ public class ModuleManager {
         modules.add(new TrevorHelper());
         modules.add(new AutoReel());
         modules.add(new NoNBTUpdate());
+        modules.add(new LegitNuker());
         modules.add(new AutoEquipment());
         modules.add(new AutoExperiments());
         modules.add(new AutoOption());
