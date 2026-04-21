@@ -22,6 +22,7 @@
 - [SkyblockerMod/Skyblocker](https://github.com/SkyblockerMod/Skyblocker)
 - [WhatsYouss/Frosty](https://github.com/WhatsYouss/Frosty)
 - [MeteorDevelopment/meteor-client](https://github.com/MeteorDevelopment/meteor-client/tree/1.21.10)
+- [CCBlueX/LiquidBounce](https://github.com/CCBlueX/LiquidBounce)
 
 旧仓库的致谢列表：[PigeonOwO - Credits & Acknowledgements](https://github.com/IamGuangZe/PigeonOwO?tab=readme-ov-file#credits--acknowledgements)
 
