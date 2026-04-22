@@ -22,9 +22,8 @@ import owo.pigeon.utils.player.RotationUtil;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 import static owo.pigeon.Pigeon.isDebug;
 import static owo.pigeon.Pigeon.mc;
@@ -34,14 +33,18 @@ public class LegitNuker extends Module {
         super("LegitNuker", Category.MINING);
     }
 
+    // 该模块全部代码由 GLM-5-Turbo 模型完成
+
     public enum MithrilSort {
         NONE, HARDNESS_ASC, HARDNESS_DESC
     }
 
     public EnableSetting stopInGui = setting("stop-in-gui", true, v -> true);
     public EnableSetting mineBelowFeet = setting("mine-below-feet", true, v -> true);
+    public EnableSetting keepPress = setting("keep-press", false, v -> true);
     public IntSetting switchDelay = setting("switch-delay", 1, 0, 20, "ticks", v -> true);
-    public FloatSetting boxInset = setting("box-inset", 0.05f, 0.0f, 0.2f, v -> true);
+    public FloatSetting boxInset = setting("box-inset", 0.1f, 0.0f, 0.2f, v -> true);
+    public IntSetting timeout = setting("timeout", 5, 1, 60, "s", v -> true);
     public ExpandSetting rotation = setting("rotation", v -> true);
     public IntSetting horizontalSpeed = setting("horizontal-speed", 45, 1, 100, "%", v -> rotation.getValue());
     public IntSetting verticalSpeed = setting("vertical-speed", 30, 1, 100, "%", v -> rotation.getValue());
@@ -59,11 +62,20 @@ public class LegitNuker extends Module {
     public ModeSetting<MithrilSort> mithrilSort = setting("mithril-sort", MithrilSort.HARDNESS_ASC, v -> mithril.isVisible() && mithril.getValue());
     public EnableSetting prioritizeTitanium = setting("prioritize-titanium", false, v -> titanium.isVisible() && titanium.getValue());
 
-    private static final Block[] MITHRIL_BLOCKS = {
+    private static final Set<Block> MITHRIL_BLOCKS = Set.of(
             Blocks.CYAN_TERRACOTTA, Blocks.GRAY_WOOL, Blocks.DARK_PRISMARINE,
             Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE, Blocks.LIGHT_BLUE_WOOL
-    };
-    private static final Block[] TITANIUM_BLOCKS = {Blocks.POLISHED_DIORITE};
+    );
+    private static final List<Block> MITHRIL_BLOCKS_ORDERED = List.of(
+            Blocks.CYAN_TERRACOTTA, Blocks.GRAY_WOOL, Blocks.DARK_PRISMARINE,
+            Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE, Blocks.LIGHT_BLUE_WOOL
+    );
+    private static final Set<Block> TITANIUM_BLOCKS = Set.of(Blocks.POLISHED_DIORITE);
+    private static final Set<Block> GENERIC_TARGET_BLOCKS = Set.of(
+            Blocks.DIAMOND_BLOCK, Blocks.COAL_BLOCK, Blocks.EMERALD_BLOCK,
+            Blocks.IRON_BLOCK, Blocks.GOLD_BLOCK, Blocks.REDSTONE_BLOCK,
+            Blocks.LAPIS_BLOCK, Blocks.QUARTZ_BLOCK
+    );
 
     private double getReachDistance() {
         return mc.player.getBlockInteractionRange();
@@ -74,6 +86,10 @@ public class LegitNuker extends Module {
     private int switchDelayCounter = 0;
     private Vec3d aimPoint = null;
     private final List<Vec3d> failedAimPoints = new ArrayList<>();
+    private int timeoutTimer = 0;
+    private BlockPos miningStartTarget = null;
+    private final Map<BlockPos, Integer> ignoredPositions = new HashMap<>();
+    private int mineCounter = 0;
 
     @Handler
     public void onTick(TickEvent.ClientTickEvent event) {
@@ -84,22 +100,67 @@ public class LegitNuker extends Module {
                 currentTarget = null;
                 aimPoint = null;
                 failedAimPoints.clear();
-                KeybindUtil.resetPressed(mc.options.attackKey);
+                if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.attackKey);
                 return;
             }
 
-            currentTarget = lookupTarget();
+            cleanupIgnoredPositions();
+
+            if (miningStartTarget != null) {
+                if (!isTargetBlock(mc.world.getBlockState(miningStartTarget))) {
+                    mineCounter++;
+                    evictStaleIgnored();
+                    timeoutTimer = 0;
+                    miningStartTarget = null;
+                    currentTarget = null;
+                } else {
+                    timeoutTimer++;
+                    if (timeoutTimer > timeout.getValue() * 20) {
+                        ChatUtil.sendDebugMessage("LegitNuker",
+                                String.format("Timeout reached for %s, skipping...",
+                                        miningStartTarget.toShortString()));
+                        ignoredPositions.put(miningStartTarget, mineCounter);
+                        timeoutTimer = 0;
+                        miningStartTarget = null;
+                        currentTarget = null;
+                        wasTarget = null;
+                        aimPoint = null;
+                        failedAimPoints.clear();
+                        switchDelayCounter = 0;
+                        if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.attackKey);
+                    }
+                }
+            }
+
+            if (currentTarget == null) {
+                currentTarget = lookupTarget();
+            }
 
             if (currentTarget == null) {
                 wasTarget = null;
                 aimPoint = null;
                 failedAimPoints.clear();
-                KeybindUtil.resetPressed(mc.options.attackKey);
+                if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.attackKey);
                 return;
+            }
+
+            if (!currentTarget.equals(miningStartTarget)) {
+                timeoutTimer = 0;
+                miningStartTarget = currentTarget;
             }
         }
 
         if (event instanceof TickEvent.ClientTickEvent.Post) {
+            if (keepPress.getValue()) {
+                if (currentTarget != null) {
+                    KeybindUtil.setPressed(mc.options.attackKey, true);
+                    wasTarget = currentTarget;
+                } else {
+                    KeybindUtil.resetPressed(mc.options.attackKey);
+                }
+                return;
+            }
+
             if (currentTarget == null) return;
 
             if (wasTarget != null && !currentTarget.equals(wasTarget)) {
@@ -131,7 +192,7 @@ public class LegitNuker extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        if (WorldUtil.nullCheck() || currentTarget == null) return;
+        if (currentTarget == null) return;
 
         RenderUtil.drawESP(event.getMatrix(), currentTarget, new Color(0x44FF4444, true), RenderUtil.ESPMode.BOTH, false);
 
@@ -164,9 +225,29 @@ public class LegitNuker extends Module {
         aimPoint = null;
         failedAimPoints.clear();
         switchDelayCounter = 0;
+        timeoutTimer = 0;
+        miningStartTarget = null;
+        mineCounter = 0;
+        ignoredPositions.clear();
         if (mc.options != null) {
             KeybindUtil.resetPressed(mc.options.attackKey);
         }
+    }
+
+    private void cleanupIgnoredPositions() {
+        Iterator<Map.Entry<BlockPos, Integer>> it = ignoredPositions.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<BlockPos, Integer> entry = it.next();
+            BlockState state = mc.world.getBlockState(entry.getKey());
+            if (!isTargetBlock(state) || mineCounter - entry.getValue() >= 3) {
+                it.remove();
+            }
+        }
+    }
+
+    private void evictStaleIgnored() {
+        if (mineCounter < 3) return;
+        ignoredPositions.entrySet().removeIf(e -> mineCounter - e.getValue() >= 3);
     }
 
     private BlockPos lookupTarget() {
@@ -185,13 +266,15 @@ public class LegitNuker extends Module {
                     BlockState state = mc.world.getBlockState(pos);
 
                     if (state.isAir()) continue;
-                    if (!isTargetBlock(state.getBlock())) continue;
+                    if (!isTargetBlock(state)) continue;
                     if (state.getHardness(mc.world, pos) < 0) continue;
+
+                    if (ignoredPositions.containsKey(pos)) continue;
 
                     Vec3d closestPoint = getClosestPointToShape(pos, state, eyes);
                     if (closestPoint == null || closestPoint.squaredDistanceTo(eyes) > rangeSq) continue;
 
-                    if (!canBeMined(eyes, pos, state)) continue;
+                    if (!canBeMined(eyes, pos, state, reach)) continue;
 
                     if (!mineBelowFeet.getValue() && pos.getY() < playerPos.getY()) continue;
 
@@ -204,7 +287,7 @@ public class LegitNuker extends Module {
 
         sortCandidates(candidates);
 
-        if (wasTarget != null && candidates.contains(wasTarget)) {
+        if (wasTarget != null && candidates.contains(wasTarget) && !ignoredPositions.containsKey(wasTarget)) {
             return wasTarget;
         }
 
@@ -212,45 +295,78 @@ public class LegitNuker extends Module {
     }
 
     private void sortCandidates(List<BlockPos> candidates) {
-        boolean hasTitanium = titanium.getValue();
-        boolean priorTitanium = hasTitanium && prioritizeTitanium.getValue();
+        if (candidates.size() <= 1) return;
+
+        boolean priorTitanium = titanium.getValue() && prioritizeTitanium.getValue();
         boolean hasMithril = mithril.getValue();
-        MithrilSort sort = mithrilSort.getValue();
+        boolean mithrilSortActive = hasMithril && mithrilSort.getValue() != MithrilSort.NONE;
+        Vec3d eyes = mc.player.getEyePos();
         float currentYaw = mc.player.getYaw();
         float currentPitch = mc.player.getPitch();
 
-        candidates.sort((a, b) -> {
-            Block blockA = mc.world.getBlockState(a).getBlock();
-            Block blockB = mc.world.getBlockState(b).getBlock();
+        Map<BlockPos, Float> rotDiffs = new HashMap<>(candidates.size());
+        Map<BlockPos, Block> typeCache = new HashMap<>(candidates.size());
+        for (BlockPos pos : candidates) {
+            BlockState state = mc.world.getBlockState(pos);
+            typeCache.put(pos, state.getBlock());
+            rotDiffs.put(pos, getRotationDiffToBlock(pos, state, eyes, currentYaw, currentPitch));
+        }
 
-            if (priorTitanium) {
-                boolean aIsTitanium = isTitaniumBlock(blockA);
-                boolean bIsTitanium = isTitaniumBlock(blockB);
-                if (aIsTitanium && !bIsTitanium) return -1;
-                if (!aIsTitanium && bIsTitanium) return 1;
+        List<BlockPos> titanium = new ArrayList<>();
+        List<BlockPos> mithril = new ArrayList<>();
+        List<BlockPos> others = new ArrayList<>();
+        for (BlockPos pos : candidates) {
+            Block block = typeCache.get(pos);
+            if (TITANIUM_BLOCKS.contains(block)) {
+                titanium.add(pos);
+            } else if (MITHRIL_BLOCKS.contains(block)) {
+                mithril.add(pos);
+            } else {
+                others.add(pos);
             }
+        }
 
-            if (hasMithril && sort != MithrilSort.NONE) {
-                int indexA = getMithrilIndex(blockA);
-                int indexB = getMithrilIndex(blockB);
-                if (indexA != -1 && indexB != -1) {
-                    return sort == MithrilSort.HARDNESS_ASC
+        Comparator<BlockPos> byRot = Comparator.comparing(rotDiffs::get);
+        titanium.sort(byRot);
+        others.sort(byRot);
+
+        if (mithrilSortActive) {
+            mithril.sort((a, b) -> {
+                int indexA = MITHRIL_BLOCKS_ORDERED.indexOf(typeCache.get(a));
+                int indexB = MITHRIL_BLOCKS_ORDERED.indexOf(typeCache.get(b));
+                if (indexA != indexB) {
+                    return mithrilSort.getValue() == MithrilSort.HARDNESS_ASC
                             ? Integer.compare(indexA, indexB)
                             : Integer.compare(indexB, indexA);
                 }
-                if (indexA != -1) return -1;
-                if (indexB != -1) return 1;
-            }
+                return Float.compare(rotDiffs.get(a), rotDiffs.get(b));
+            });
+        } else {
+            mithril.sort(byRot);
+        }
 
-            float diffA = getRotationDiffToBlock(a, currentYaw, currentPitch);
-            float diffB = getRotationDiffToBlock(b, currentYaw, currentPitch);
-            return Float.compare(diffA, diffB);
-        });
+        candidates.clear();
+
+        if (priorTitanium) {
+            candidates.addAll(titanium);
+            candidates.addAll(mithril);
+        } else {
+            int mi = 0, ti = 0;
+            while (mi < mithril.size() && ti < titanium.size()) {
+                if (rotDiffs.get(mithril.get(mi)) <= rotDiffs.get(titanium.get(ti))) {
+                    candidates.add(mithril.get(mi++));
+                } else {
+                    candidates.add(titanium.get(ti++));
+                }
+            }
+            while (mi < mithril.size()) candidates.add(mithril.get(mi++));
+            while (ti < titanium.size()) candidates.add(titanium.get(ti++));
+        }
+
+        candidates.addAll(others);
     }
 
-    private float getRotationDiffToBlock(BlockPos pos, float currentYaw, float currentPitch) {
-        Vec3d eyes = mc.player.getEyePos();
-        BlockState state = mc.world.getBlockState(pos);
+    private float getRotationDiffToBlock(BlockPos pos, BlockState state, Vec3d eyes, float currentYaw, float currentPitch) {
         Vec3d aimPt = getClosestPointToShape(pos, state, eyes);
         if (aimPt == null) aimPt = pos.toCenterPos();
 
@@ -264,40 +380,22 @@ public class LegitNuker extends Module {
         return yawDiff + pitchDiff;
     }
 
-    private boolean isTargetBlock(Block block) {
-        if (mithril.getValue()) {
-            for (Block m : MITHRIL_BLOCKS) {
-                if (block == m) return true;
-            }
-        }
-        if (titanium.getValue()) {
-            for (Block t : TITANIUM_BLOCKS) {
-                if (block == t) return true;
-            }
-        }
-        if (diamondBlock.getValue() && block == Blocks.DIAMOND_BLOCK) return true;
-        if (coalBlock.getValue() && block == Blocks.COAL_BLOCK) return true;
-        if (emeraldBlock.getValue() && block == Blocks.EMERALD_BLOCK) return true;
-        if (ironBlock.getValue() && block == Blocks.IRON_BLOCK) return true;
-        if (goldBlock.getValue() && block == Blocks.GOLD_BLOCK) return true;
-        if (redstoneBlock.getValue() && block == Blocks.REDSTONE_BLOCK) return true;
-        if (lapisBlock.getValue() && block == Blocks.LAPIS_BLOCK) return true;
-        if (quartzBlock.getValue() && block == Blocks.QUARTZ_BLOCK) return true;
-        return false;
-    }
-
-    private boolean isTitaniumBlock(Block block) {
-        for (Block t : TITANIUM_BLOCKS) {
-            if (block == t) return true;
+    private boolean isTargetBlock(BlockState state) {
+        Block block = state.getBlock();
+        if (mithril.getValue() && MITHRIL_BLOCKS.contains(block)) return true;
+        if (titanium.getValue() && TITANIUM_BLOCKS.contains(block)) return true;
+        if (GENERIC_TARGET_BLOCKS.contains(block)) {
+            if (state.isOf(Blocks.DIAMOND_BLOCK)) return diamondBlock.getValue();
+            if (state.isOf(Blocks.COAL_BLOCK)) return coalBlock.getValue();
+            if (state.isOf(Blocks.EMERALD_BLOCK)) return emeraldBlock.getValue();
+            if (state.isOf(Blocks.IRON_BLOCK)) return ironBlock.getValue();
+            if (state.isOf(Blocks.GOLD_BLOCK)) return goldBlock.getValue();
+            if (state.isOf(Blocks.REDSTONE_BLOCK)) return redstoneBlock.getValue();
+            if (state.isOf(Blocks.LAPIS_BLOCK)) return lapisBlock.getValue();
+            if (state.isOf(Blocks.QUARTZ_BLOCK)) return quartzBlock.getValue();
+            return false;
         }
         return false;
-    }
-
-    private int getMithrilIndex(Block block) {
-        for (int i = 0; i < MITHRIL_BLOCKS.length; i++) {
-            if (MITHRIL_BLOCKS[i] == block) return i;
-        }
-        return -1;
     }
 
     private Vec3d getClosestPointToShape(BlockPos pos, BlockState state, Vec3d eyes) {
@@ -327,7 +425,8 @@ public class LegitNuker extends Module {
         return closest[0];
     }
 
-    private boolean canBeMined(Vec3d eyes, BlockPos pos, BlockState state) {
+    private boolean canBeMined(Vec3d eyes, BlockPos pos, BlockState state, double reach) {
+        double inset = boxInset.getValue();
         for (Direction dir : Direction.values()) {
             BlockPos neighbor = pos.offset(dir);
             BlockState neighborState = mc.world.getBlockState(neighbor);
@@ -338,8 +437,8 @@ public class LegitNuker extends Module {
             double[] offsets = {0.2, 0.5, 0.8};
             for (double u : offsets) {
                 for (double v : offsets) {
-                    Vec3d target = getPointOnFace(pos, dir, u, v, boxInset.getValue());
-                    if (eyes.distanceTo(target) > getReachDistance()) continue;
+                    Vec3d target = getPointOnFace(pos, dir, u, v, inset);
+                    if (eyes.squaredDistanceTo(target) > reach * reach) continue;
                     if (isVisiblePoint(eyes, target, pos)) return true;
                 }
             }
@@ -362,8 +461,11 @@ public class LegitNuker extends Module {
     }
 
     private boolean isFaceFacingPlayer(BlockPos pos, Direction dir, Vec3d eyes) {
-        Vec3d faceCenter = pos.toCenterPos().add(Vec3d.of(dir.getVector()).multiply(0.5));
-        return faceCenter.subtract(eyes).dotProduct(Vec3d.of(dir.getVector())) < 0;
+        double faceX = pos.getX() + 0.5 + dir.getVector().getX() * 0.5;
+        double faceY = pos.getY() + 0.5 + dir.getVector().getY() * 0.5;
+        double faceZ = pos.getZ() + 0.5 + dir.getVector().getZ() * 0.5;
+        double dx = faceX - eyes.x, dy = faceY - eyes.y, dz = faceZ - eyes.z;
+        return dx * dir.getVector().getX() + dy * dir.getVector().getY() + dz * dir.getVector().getZ() < 0;
     }
 
     private boolean isVisiblePoint(Vec3d eyes, Vec3d target, BlockPos expectedBlock) {
@@ -409,15 +511,16 @@ public class LegitNuker extends Module {
         Vec3d bestInvisible = null;
         float bestInvisibleDiff = Float.MAX_VALUE;
 
-        failedAimPoints.clear();
+        if (isDebug()) failedAimPoints.clear();
 
+        double inset = boxInset.getValue();
         final List<Box> boxes = new ArrayList<>();
         shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
             Box box = new Box(
                     pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
                     pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
             );
-            Box contracted = box.contract(boxInset.getValue());
+            Box contracted = box.contract(inset);
             if (contracted.minX >= contracted.maxX
                     || contracted.minY >= contracted.maxY
                     || contracted.minZ >= contracted.maxZ) {
@@ -437,7 +540,7 @@ public class LegitNuker extends Module {
                     if (validateRaytrace(hitPoint, pos, reach)) {
                         return hitPoint;
                     }
-                    failedAimPoints.add(hitPoint);
+                    if (isDebug()) failedAimPoints.add(hitPoint);
                 }
             }
 
@@ -458,16 +561,16 @@ public class LegitNuker extends Module {
                 double[] offsets = {0.1, 0.25, 0.4, 0.5, 0.6, 0.75, 0.9};
                 for (double u : offsets) {
                     for (double v : offsets) {
-                        candidates.add(getPointOnFace(pos, dir, u, v, boxInset.getValue()));
+                        candidates.add(getPointOnFace(pos, dir, u, v, inset));
                     }
                 }
 
                 double[] edgeOffsets = {0.05, 0.5, 0.95};
                 for (double u : edgeOffsets) {
-                    candidates.add(getPointOnFace(pos, dir, u, 0.05, boxInset.getValue()));
-                    candidates.add(getPointOnFace(pos, dir, u, 0.95, boxInset.getValue()));
-                    candidates.add(getPointOnFace(pos, dir, 0.05, u, boxInset.getValue()));
-                    candidates.add(getPointOnFace(pos, dir, 0.95, u, boxInset.getValue()));
+                    candidates.add(getPointOnFace(pos, dir, u, 0.05, inset));
+                    candidates.add(getPointOnFace(pos, dir, u, 0.95, inset));
+                    candidates.add(getPointOnFace(pos, dir, 0.05, u, inset));
+                    candidates.add(getPointOnFace(pos, dir, 0.95, u, inset));
                 }
             }
 
@@ -493,7 +596,7 @@ public class LegitNuker extends Module {
                             bestVisible = hitPoint;
                         }
                     } else {
-                        failedAimPoints.add(hitPoint);
+                        if (isDebug()) failedAimPoints.add(hitPoint);
                     }
                 } else {
                     if (rotDiff < bestInvisibleDiff) {
