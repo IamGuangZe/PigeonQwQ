@@ -78,4 +78,9 @@ public class AutoMaddox extends Module {
             }
         }
     }
+
+    @Override
+    public String getSuffix() {
+        return String.valueOf(callMode.getValue());
+    }
 }

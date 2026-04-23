@@ -57,4 +57,9 @@ public class FastPlace extends Module {
 
         return others.getValue();
     }
+
+    @Override
+    public String getSuffix() {
+        return String.valueOf(delay.getValue());
+    }
 }

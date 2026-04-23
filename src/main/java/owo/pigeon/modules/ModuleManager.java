@@ -50,6 +50,7 @@ public class ModuleManager {
         modules.add(new RenderTest());
         modules.add(new SlayerESP());
 
+        modules.add(new owo.pigeon.modules.impl.client.ArrayList());
         modules.add(new ClickGui());
         modules.add(new PigeonQwQ());
 

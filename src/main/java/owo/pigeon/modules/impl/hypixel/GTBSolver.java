@@ -178,4 +178,9 @@ public class GTBSolver extends Module {
         }
         return true;
     }
+
+    @Override
+    public String getSuffix() {
+        return String.valueOf(language.getValue());
+    }
 }

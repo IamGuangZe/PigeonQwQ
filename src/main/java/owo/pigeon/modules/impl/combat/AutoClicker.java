@@ -96,4 +96,9 @@ public class AutoClicker extends Module {
         ItemStack itemStack = mc.player.getMainHandStack();
         return itemStack != null && itemStack.getItem() instanceof BlockItem;
     }
+
+    @Override
+    public String getSuffix() {
+        return minCPS.getValue() + "-" + maxCPS.getValue();
+    }
 }

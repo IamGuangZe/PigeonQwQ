@@ -167,4 +167,9 @@ public class TimiteMiner extends Module {
             return TimiteStage.OBSOLITE;
         }
     }
+
+    @Override
+    public String getSuffix() {
+        return String.valueOf(timiteStage.getValue());
+    }
 }

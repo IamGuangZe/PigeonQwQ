@@ -89,4 +89,9 @@ public class Eagle extends Module {
     public void onDisable() {
         sneakDelay = 0;
     }
+
+    @Override
+    public String getSuffix() {
+        return minDelay.getValue() + "-" + maxDelay.getValue();
+    }
 }

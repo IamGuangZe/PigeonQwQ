@@ -67,6 +67,10 @@ public class Module extends SettingDesigner {
         this.key = key;
     }
 
+    public String getSuffix() {
+        return "";
+    }
+
     public void onEnable() { }
     public void onDisable() { }
 }
