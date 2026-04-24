@@ -39,8 +39,8 @@ public class AimAssist extends Module {
     public ModeSetting<SmoothMode> smoothMode = setting("smooth-mode", SmoothMode.INTERPOLATION, v -> true);
     public IntSetting horizontalSpeed = setting("horizontal-speed", 30, 0, 100, "%", v -> true);
     public IntSetting verticalSpeed = setting("vertical-speed", 20, 0, 100, "%", v -> true);
-    public FloatSetting steepness = setting("steepness", 5.0f, 0.0f, 20.0f, v -> smoothMode.getValue() == SmoothMode.SIGMOID);
     public FloatSetting midpoint = setting("midpoint", 0.3f, 0.0f, 1.0f, v -> smoothMode.getValue() == SmoothMode.SIGMOID || smoothMode.getValue() == SmoothMode.INTERPOLATION);
+    public FloatSetting steepness = setting("steepness", 5.0f, 0.0f, 20.0f, v -> smoothMode.getValue() == SmoothMode.SIGMOID);
     public IntSetting directionChange = setting("direction-change", 50, 0, 100, "%", v -> smoothMode.getValue() == SmoothMode.INTERPOLATION);
     public FloatSetting range = setting("range", 4.5f, 3.0f, 8.0f, v -> true);
     public IntSetting fov = setting("fov", 90, 30, 360, v -> true);
@@ -119,11 +119,10 @@ public class AimAssist extends Module {
     }
 
     private boolean isValidTarget(PlayerEntity player) {
-        if (player == mc.player || player == mc.player.getVehicle() || player.isDead()) return false;
+        if (player == mc.player || player == mc.player.getVehicle() || player.isDead() || player.isSpectator()) return false;
         if (RotationUtil.distanceToEntity(player) > this.range.getValue()) return false;
         if (RotationUtil.angleToEntity(player) > this.fov.getValue()) return false;
-        if (player.isInvisible() && !this.invisibles.getValue()) return false;
-        if (player.isCreative() || player.isSpectator()) return false;
+        if (!this.invisibles.getValue() && player.isInvisible()) return false;
         if (this.botCheck.getValue() && !PlayerUtil.hasUUID(player)) return false;
         if (!this.throughWalls.getValue() && RotationUtil.rayTrace(player).getType() == HitResult.Type.BLOCK)
             return false;
