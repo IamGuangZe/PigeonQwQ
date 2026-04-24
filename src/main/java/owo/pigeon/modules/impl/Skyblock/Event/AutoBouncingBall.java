@@ -28,6 +28,8 @@ public class AutoBouncingBall extends Module {
     public IntSetting bounces = setting("bounces", 40, 1, 80, v -> true);
     public FloatSetting precision = setting("precision", 0.2F, 0.0F, 1.0F, v -> true);
     public EnableSetting preciseSearch = setting("preciseSearch", true, v -> true);
+    public EnableSetting autoSneak = setting("autoSneak", false, v -> true);
+    public FloatSetting sneakRange = setting("sneakRange", 0.3F, 0.0F, 1.0F, v -> true);
 
     private boolean searching;
     private ArmorStandEntity ballEntity;
@@ -50,6 +52,7 @@ public class AutoBouncingBall extends Module {
         KeybindUtil.resetPressed(mc.options.backKey);
         KeybindUtil.resetPressed(mc.options.leftKey);
         KeybindUtil.resetPressed(mc.options.rightKey);
+        KeybindUtil.resetPressed(mc.options.sneakKey);
 
         if (ballEntity.isRemoved()) {
             ballEntity = null;
@@ -65,6 +68,14 @@ public class AutoBouncingBall extends Module {
         double deltaX = ballX - playerX;
         double deltaZ = ballZ - playerZ;
         double distanceXZ = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+
+        if (autoSneak.getValue()) {
+            if (distanceXZ < sneakRange.getValue()) {
+                KeybindUtil.setPressed(mc.options.sneakKey, true);
+            } else {
+                KeybindUtil.resetPressed(mc.options.sneakKey);
+            }
+        }
 
         if (distanceXZ < precision.getValue()) {
             return;
@@ -96,6 +107,7 @@ public class AutoBouncingBall extends Module {
                         KeybindUtil.resetPressed(mc.options.backKey);
                         KeybindUtil.resetPressed(mc.options.leftKey);
                         KeybindUtil.resetPressed(mc.options.rightKey);
+                        KeybindUtil.resetPressed(mc.options.sneakKey);
                     }
                 } catch (NumberFormatException ignored) {
 
@@ -120,6 +132,7 @@ public class AutoBouncingBall extends Module {
         KeybindUtil.resetPressed(mc.options.backKey);
         KeybindUtil.resetPressed(mc.options.leftKey);
         KeybindUtil.resetPressed(mc.options.rightKey);
+        KeybindUtil.resetPressed(mc.options.sneakKey);
     }
 
     private ArmorStandEntity findBall() {
