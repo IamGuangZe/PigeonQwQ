@@ -35,6 +35,8 @@ public class CommandManager {
         commands.add(new SetBlockCommand());
         commands.add(new SettingCommand());
         commands.add(new ToggleCommand());
+        commands.add(new HideCommand());
+        commands.add(new ShowCommand());
 
         commands.add(new GetCommand());
     }

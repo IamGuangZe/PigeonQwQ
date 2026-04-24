@@ -21,8 +21,6 @@ public class SettingPanel extends AbstractDisplableItem {
     private boolean hovered;
     private boolean waitingForKey;
 
-    public int color_old;
-
     public SettingPanel(AbstractSetting<?> setting, int x, int y, int width, int height) {
         this.setting = setting;
         this.x = x;
@@ -36,14 +34,7 @@ public class SettingPanel extends AbstractDisplableItem {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
         String displayName = setting.getName().replaceAll("-and-", "-&&-").replaceAll("-", " ");
 
-        switch (clickGui.style.getValue()) {
-            case OLD:
-                context.fill(x, y, x + width, y + height, color_old);
-                break;
-            case NEW:
-            default:
-                context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
-        }
+        context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
 
         float scale = 0.5f;
         context.getMatrices().pushMatrix();
@@ -73,28 +64,13 @@ public class SettingPanel extends AbstractDisplableItem {
         } else if (setting instanceof EnableSetting enableSetting) {
             boolean value = enableSetting.getValue();
 
-            switch (clickGui.style.getValue()) {
-                case OLD:
-                    context.drawTextWithShadow(
-                            textRenderer,
-                            displayName,
-                            (int) ((x + 4) / scale),
-                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
-                            value ? Color.WHITE.getRGB() : Color.GRAY.getRGB()
-                    );
-                    break;
-
-                case NEW:
-                default:
-                    String displayValue = value ? "&atrue" : "&cfalse";
-                    context.drawTextWithShadow(
-                            textRenderer,
-                            ColorUtil.parseColor(displayName + " : " + displayValue),
-                            (int) ((x + 4) / scale),
-                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
-                            Color.LIGHT_GRAY.getRGB());
-                    break;
-            }
+            String displayValue = value ? "&atrue" : "&cfalse";
+            context.drawTextWithShadow(
+                    textRenderer,
+                    ColorUtil.parseColor(displayName + " : " + displayValue),
+                    (int) ((x + 4) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof KeySetting keySetting) {
             String displayValue;
@@ -144,38 +120,23 @@ public class SettingPanel extends AbstractDisplableItem {
         } else if (setting instanceof ExpandSetting expandSetting) {
             boolean value = expandSetting.getValue();
 
-            switch (clickGui.style.getValue()) {
-                case OLD:
-                    context.drawTextWithShadow(
-                            textRenderer,
-                            displayName,
-                            (int) ((x + 4) / scale),
-                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
-                            value ? Color.WHITE.getRGB() : Color.GRAY.getRGB()
-                    );
-                    break;
+            context.drawTextWithShadow(
+                    textRenderer,
+                    ColorUtil.parseColor(displayName + " :"),
+                    (int) ((x + 4) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    Color.LIGHT_GRAY.getRGB()
+            );
 
-                case NEW:
-                default:
-                    context.drawTextWithShadow(
-                            textRenderer,
-                            ColorUtil.parseColor(displayName + " :"),
-                            (int) ((x + 4) / scale),
-                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
-                            Color.LIGHT_GRAY.getRGB()
-                    );
-
-                    String symbol = value ? "-" : "+";
-                    int color = value ? Color.RED.getRGB() : Color.GREEN.getRGB();
-                    context.drawTextWithShadow(
-                            textRenderer,
-                            symbol,
-                            (int) ((x + width - textRenderer.getWidth(symbol) * scale - 4) / scale),
-                            (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
-                            color
-                    );
-                    break;
-            }
+            String symbol = value ? "-" : "+";
+            int color = value ? Color.RED.getRGB() : Color.GREEN.getRGB();
+            context.drawTextWithShadow(
+                    textRenderer,
+                    symbol,
+                    (int) ((x + width - textRenderer.getWidth(symbol) * scale - 4) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    color
+            );
 
         } else {
             context.drawTextWithShadow(

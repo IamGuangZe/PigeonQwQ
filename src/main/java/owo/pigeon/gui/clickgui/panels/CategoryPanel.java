@@ -44,33 +44,20 @@ public class CategoryPanel extends AbstractDisplableItem {
         context.fill(x, y, x + width, y + height, Color.BLACK.getRGB());
         if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.RED.getRGB());
 
-        switch (clickGui.style.getValue()) {
-            case OLD:
-                context.drawTextWithShadow(textRenderer,
-                        category.name(),
-                        (int) ((x + ((float) width / 2)) - ((float) textRenderer.getWidth(category.name()) / 2)),
-                        y + height / 2 - textRenderer.fontHeight / 2,
-                        Color.WHITE.getRGB());
-                break;
+        context.drawTextWithShadow(textRenderer,
+                category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(),
+                x + 5,
+                y + height / 2 - textRenderer.fontHeight / 2 + 1,
+                Color.WHITE.getRGB());
 
-            case NEW:
-            default:
-                context.drawTextWithShadow(textRenderer,
-                        category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(),
-                        x + 5,
-                        y + height / 2 - textRenderer.fontHeight / 2 + 1,
-                        Color.WHITE.getRGB());
-
-                String symbol = displaymodule ? "-" : "+";
-                int color = displaymodule ? Color.RED.getRGB() : Color.GREEN.getRGB();
-                context.drawTextWithShadow(textRenderer,
-                        symbol,
-                        x + width - textRenderer.getWidth(symbol) - 4,
-                        y + height / 2 - textRenderer.fontHeight / 2 + 1,
-                        color
-                );
-
-        }
+        String symbol = displaymodule ? "-" : "+";
+        int color = displaymodule ? Color.RED.getRGB() : Color.GREEN.getRGB();
+        context.drawTextWithShadow(textRenderer,
+                symbol,
+                x + width - textRenderer.getWidth(symbol) - 4,
+                y + height / 2 - textRenderer.fontHeight / 2 + 1,
+                color
+        );
 
         if (displaymodule) {
             int startY = y + height;

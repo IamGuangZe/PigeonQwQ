@@ -5,7 +5,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
 import owo.pigeon.gui.clickgui.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
-import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.modules.impl.client.PigeonQwQ;
 import owo.pigeon.settings.AbstractNumSetting;
 import owo.pigeon.settings.AbstractSetting;
@@ -26,6 +25,7 @@ public class ModulePanel extends AbstractDisplableItem {
     private boolean displaySetting;
     public ArrayList<SettingPanel> settingPanels = new ArrayList<>();
     public ArrayList<SettingPanel> visiblePanels = new ArrayList<>();
+    public final HidePanel hidePanel;
     public final KeybindPanel keybindPanel;
 
     public ModulePanel(Module module, int x, int y, int width, int height) {
@@ -45,6 +45,7 @@ public class ModulePanel extends AbstractDisplableItem {
             }
         }
 
+        hidePanel = new HidePanel(module, x, 0, width, height);
         keybindPanel = new KeybindPanel(module, x, 0, width, height);
     }
 
@@ -55,33 +56,15 @@ public class ModulePanel extends AbstractDisplableItem {
         PigeonQwQ pigeonQwQ = ModuleUtil.getModule(PigeonQwQ.class);
         ColorUtil.Theme theme = pigeonQwQ != null ? pigeonQwQ.theme.getValue() : ColorUtil.Theme.NORMAL;
 
-        switch (clickGui.style.getValue()) {
-            case OLD:
-                int color_old = module.isEnable() ?
-                        new Color(20, 20, 20, 186).getRGB() :
-                        new Color(50, 50, 50, 186).getRGB();
-                context.fill(x, y, x + width, y + height, color_old);
-                int textColor_old = module.isEnable() && theme.isGradient()
-                        ? theme.getMidColor() : Color.WHITE.getRGB();
-                context.drawTextWithShadow(textRenderer,
-                        module.name,
-                        x + width / 2 - textRenderer.getWidth(module.name) / 2,
-                        y + height / 2 - textRenderer.fontHeight / 2 + 1,
-                        textColor_old);
-                break;
-
-            case NEW:
-            default:
-                context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
-                int textColor_new = module.isEnable()
-                        ? (theme.isGradient() ? theme.getMidColor() : Color.WHITE.getRGB())
-                        : Color.GRAY.getRGB();
-                context.drawTextWithShadow(textRenderer,
-                        module.name,
-                        x + width / 2 - textRenderer.getWidth(module.name) / 2,
-                        y + height / 2 - textRenderer.fontHeight / 2 + 1,
-                        textColor_new);
-        }
+        context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
+        int textColor = module.isEnable()
+                ? (theme.isGradient() ? theme.getMidColor() : Color.WHITE.getRGB())
+                : Color.GRAY.getRGB();
+        context.drawTextWithShadow(textRenderer,
+                module.name,
+                x + width / 2 - textRenderer.getWidth(module.name) / 2,
+                y + height / 2 - textRenderer.fontHeight / 2 + 1,
+                textColor);
         if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.BLUE.getRGB());
 
         visiblePanels.clear();
@@ -109,25 +92,20 @@ public class ModulePanel extends AbstractDisplableItem {
                 }
                 panel.drawScreen(context, mouseX, mouseY, delta);
                 startY += panel.height;
-
-                if (clickGui.style.getValue() == ClickGui.Style.OLD) {
-                    panel.color_old = module.isEnable() ?
-                            new Color(20, 20, 20, 186).getRGB() :
-                            new Color(50, 50, 50, 186).getRGB();
-                }
             }
+
+            hidePanel.x = this.x;
+            hidePanel.y = startY;
+            hidePanel.width = this.width;
+            hidePanel.height = this.height / 2;
+            hidePanel.drawScreen(context, mouseX, mouseY, delta);
+            startY += hidePanel.height;
 
             keybindPanel.x = this.x;
             keybindPanel.y = startY;
             keybindPanel.width = this.width;
             keybindPanel.height = this.height / 2;
             keybindPanel.drawScreen(context, mouseX, mouseY, delta);
-            
-            if (clickGui.style.getValue() == ClickGui.Style.OLD) {
-                keybindPanel.color_old = module.isEnable() ?
-                        new Color(20, 20, 20, 186).getRGB() :
-                        new Color(50, 50, 50, 186).getRGB();
-            }
         }
     }
 
@@ -142,6 +120,10 @@ public class ModulePanel extends AbstractDisplableItem {
         }
 
         if (displaySetting && keybindPanel.mouseClicked(click, doubled)) {
+            return true;
+        }
+
+        if (displaySetting && hidePanel.mouseClicked(click, doubled)) {
             return true;
         }
 
@@ -179,6 +161,10 @@ public class ModulePanel extends AbstractDisplableItem {
             return true;
         }
 
+        if (hidePanel.mouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount)) {
+            return true;
+        }
+
         return hovered;
     }
 
@@ -198,6 +184,7 @@ public class ModulePanel extends AbstractDisplableItem {
         }
 
         if (displaySetting) {
+            settingHeight += hidePanel.height;
             settingHeight += keybindPanel.height;
         }
 

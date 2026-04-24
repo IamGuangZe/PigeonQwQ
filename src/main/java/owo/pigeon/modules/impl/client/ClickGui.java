@@ -13,15 +13,10 @@ public class ClickGui extends Module {
         super("ClickGui", Category.CLIENT, InputUtil.GLFW_KEY_RIGHT_SHIFT);
     }
 
-    public enum Style {
-        OLD, NEW;
-    }
-
     public enum Background {
         INGAME, PANORAMA, BLUR, DARKENING, NONE;
     }
 
-    public ModeSetting<Style> style = setting("style", Style.NEW, v -> true);
     public ModeSetting<Background> background = setting("background",Background.BLUR,v->true);
 
     @Override

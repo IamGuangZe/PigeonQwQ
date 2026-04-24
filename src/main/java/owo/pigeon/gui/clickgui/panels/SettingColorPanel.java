@@ -70,14 +70,7 @@ public class SettingColorPanel extends SettingPanel {
             sliderHovered[i] = isHovered(mouseX, mouseY, barX, knobY[i], barWidth, knobHeight);
         }
 
-        switch (clickGui.style.getValue()) {
-            case OLD:
-                context.fill(x, y, x + width, y + height, color_old);
-                break;
-            case NEW:
-            default:
-                context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
-        }
+        context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
 
         for (int i = 0; i < 4; i++) {
             // 滑条
@@ -150,7 +143,7 @@ public class SettingColorPanel extends SettingPanel {
 
         for (int i = 0; i < 4; i++) {
             if (sliderHovered[i]) {
-                int scrollAmount = verticalAmount > 0 ? 1 : -1;
+                int scrollAmount = verticalAmount < 0 ? 1 : -1;
 
                 int currentValue = getColorValue(i);
                 int newValue = currentValue + scrollAmount;

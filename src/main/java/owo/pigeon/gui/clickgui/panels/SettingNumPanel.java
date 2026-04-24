@@ -59,15 +59,7 @@ public class SettingNumPanel extends SettingPanel {
 
         sliderHovered = isHovered(mouseX, mouseY, barX, knobY, barWidth, knobHeight);
 
-        // TODO: OLD STYLE使用双色矩形不同占比来替代滑块
-        switch (clickGui.style.getValue()) {
-            case OLD:
-                context.fill(x, y, x + width, y + height, color_old);
-                break;
-            case NEW:
-            default:
-                context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
-        }
+        context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
 
         // 滑条
         context.fill(barX, barY, barX + barWidth, barY + barHeight, Color.GRAY.getRGB());
@@ -144,7 +136,7 @@ public class SettingNumPanel extends SettingPanel {
             double max = numberSetting.getMaxValue().doubleValue();
             double value = numberSetting.getValue().doubleValue();
 
-            double scrollAmount = verticalAmount > 0 ? 1 : -1;
+            double scrollAmount = verticalAmount < 0 ? 1 : -1;
 
             if (numberSetting instanceof FloatSetting floatSetting) {
                 double baseStep = 0.01;

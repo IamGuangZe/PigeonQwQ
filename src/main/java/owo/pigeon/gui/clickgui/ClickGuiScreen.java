@@ -39,19 +39,7 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        ClickGui clickGui = ModuleUtil.getModule(ClickGui.class);
-
         for (CategoryPanel panel : categoryPanels) {
-            switch (clickGui.style.getValue()) {
-                case OLD:
-                    panel.height = 20;
-                    break;
-                case NEW:
-                default:
-                    panel.height = 17;
-                    break;
-            }
-
             panel.drawScreen(context,mouseX,mouseY,delta);
         }
 

@@ -1,10 +1,7 @@
-
 package owo.pigeon.gui.clickgui.panels;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.util.InputUtil;
 import owo.pigeon.gui.clickgui.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ColorUtil;
@@ -14,12 +11,11 @@ import java.awt.*;
 
 import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
 
-public class KeybindPanel extends AbstractDisplableItem {
+public class HidePanel extends AbstractDisplableItem {
     private Module module;
     private boolean hovered;
-    private boolean waitingForKey;
 
-    public KeybindPanel(Module module, int x, int y, int width, int height) {
+    public HidePanel(Module module, int x, int y, int width, int height) {
         this.module = module;
         this.x = x;
         this.y = y;
@@ -37,27 +33,12 @@ public class KeybindPanel extends AbstractDisplableItem {
         context.getMatrices().pushMatrix();
         context.getMatrices().scale(scale, scale);
 
-        String displayValue;
-        String displayName = "bind";
-
-        if (waitingForKey) {
-            displayValue = "Press a key...";
-        } else {
-            if (module.getKey() > 0) {
-                displayValue = InputUtil.Type.KEYSYM
-                        .createFromCode(module.getKey())
-                        .getTranslationKey()
-                        .replace("key.keyboard.", "")
-                        .replace(".", " ")
-                        .toUpperCase();
-            } else {
-                displayValue = "&cNone";
-            }
-        }
+        boolean value = module.isHide();
+        String displayValue = value ? "&atrue" : "&cfalse";
 
         context.drawTextWithShadow(
                 textRenderer,
-                ColorUtil.parseColor(displayName + " : " + displayValue),
+                ColorUtil.parseColor("hide : " + displayValue),
                 (int) ((x + 4) / scale),
                 (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                 Color.LIGHT_GRAY.getRGB());
@@ -70,7 +51,7 @@ public class KeybindPanel extends AbstractDisplableItem {
         if (!hovered) return false;
 
         if (click.button() == 0) {
-            waitingForKey = !waitingForKey;
+            module.setHide(!module.isHide());
         }
 
         return true;
@@ -78,24 +59,5 @@ public class KeybindPanel extends AbstractDisplableItem {
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         return hovered;
-    }
-
-    public void keyPressed(KeyInput input) {
-        if (waitingForKey) {
-            if (input.getKeycode() == InputUtil.GLFW_KEY_ESCAPE) {
-                module.setKey(-1);
-            } else {
-                module.setKey(input.getKeycode());
-            }
-            waitingForKey = false;
-        }
-    }
-
-    public Module getModule() {
-        return module;
-    }
-
-    public boolean isWaitingForKey() {
-        return waitingForKey;
     }
 }
