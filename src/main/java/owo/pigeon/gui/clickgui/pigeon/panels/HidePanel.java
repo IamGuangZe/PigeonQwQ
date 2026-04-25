@@ -1,8 +1,8 @@
-package owo.pigeon.gui.clickgui.panels;
+package owo.pigeon.gui.clickgui.pigeon.panels;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
-import owo.pigeon.gui.clickgui.AbstractDisplableItem;
+import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.render.RenderUtil;

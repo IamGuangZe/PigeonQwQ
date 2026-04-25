@@ -2,8 +2,8 @@ package owo.pigeon.config.configs;
 
 import owo.pigeon.Pigeon;
 import owo.pigeon.config.Config;
-import owo.pigeon.gui.clickgui.panels.CategoryPanel;
-import owo.pigeon.gui.clickgui.panels.ModulePanel;
+import owo.pigeon.gui.clickgui.pigeon.panels.CategoryPanel;
+import owo.pigeon.gui.clickgui.pigeon.panels.ModulePanel;
 
 import java.io.FileReader;
 import java.io.FileWriter;

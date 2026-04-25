@@ -8,7 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import owo.pigeon.commands.CommandManager;
 import owo.pigeon.config.ConfigManager;
 import owo.pigeon.event.Event;
-import owo.pigeon.gui.clickgui.ClickGuiScreen;
+import owo.pigeon.gui.clickgui.pigeon.ClickGuiScreen;
 import owo.pigeon.modules.ModuleManager;
 import owo.pigeon.modules.impl.client.PigeonQwQ;
 import owo.pigeon.utils.ModuleUtil;

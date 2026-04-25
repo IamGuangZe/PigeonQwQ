@@ -1,4 +1,4 @@
-package owo.pigeon.gui.clickgui.panels;
+package owo.pigeon.gui.clickgui.pigeon.panels;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;

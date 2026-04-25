@@ -1,4 +1,4 @@
-package owo.pigeon.gui.clickgui;
+package owo.pigeon.gui.clickgui.pigeon;
 
 import net.minecraft.client.gui.DrawContext;
 import owo.pigeon.modules.impl.client.ClickGui;

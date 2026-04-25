@@ -1,9 +1,9 @@
-package owo.pigeon.gui.clickgui.panels;
+package owo.pigeon.gui.clickgui.pigeon.panels;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
-import owo.pigeon.gui.clickgui.AbstractDisplableItem;
+import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
 import owo.pigeon.modules.impl.client.PigeonQwQ;
 import owo.pigeon.settings.AbstractNumSetting;

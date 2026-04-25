@@ -1,4 +1,4 @@
-package owo.pigeon.gui.clickgui;
+package owo.pigeon.gui.clickgui.pigeon;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -6,9 +6,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 import owo.pigeon.Pigeon;
-import owo.pigeon.gui.clickgui.panels.CategoryPanel;
-import owo.pigeon.gui.clickgui.panels.ModulePanel;
-import owo.pigeon.gui.clickgui.panels.SettingPanel;
+import owo.pigeon.gui.clickgui.pigeon.panels.CategoryPanel;
+import owo.pigeon.gui.clickgui.pigeon.panels.ModulePanel;
+import owo.pigeon.gui.clickgui.pigeon.panels.SettingPanel;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.utils.ModuleUtil;

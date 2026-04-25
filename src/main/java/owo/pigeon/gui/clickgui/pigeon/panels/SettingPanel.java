@@ -1,11 +1,11 @@
-package owo.pigeon.gui.clickgui.panels;
+package owo.pigeon.gui.clickgui.pigeon.panels;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.InputUtil;
-import owo.pigeon.gui.clickgui.AbstractDisplableItem;
-import owo.pigeon.gui.clickgui.SettingEditScreen;
+import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
+import owo.pigeon.gui.clickgui.pigeon.SettingEditScreen;
 import owo.pigeon.settings.*;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.render.RenderUtil;
