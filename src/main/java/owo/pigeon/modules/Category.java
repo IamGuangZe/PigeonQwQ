@@ -11,6 +11,7 @@ public enum Category {
     MINING,
     MISC,
     MOVEMENT,
+    NETHER,
     PLAYER,
     RENDER,
     RIFT,

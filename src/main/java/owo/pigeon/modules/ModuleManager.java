@@ -25,6 +25,7 @@ import owo.pigeon.modules.impl.skyblock.hunting.AutoReel;
 import owo.pigeon.modules.impl.skyblock.mining.LegitNuker;
 import owo.pigeon.modules.impl.skyblock.mining.NoNBTUpdate;
 import owo.pigeon.modules.impl.skyblock.misc.*;
+import owo.pigeon.modules.impl.skyblock.nether.DojoHelper;
 import owo.pigeon.modules.impl.skyblock.rift.AgaricusMiner;
 import owo.pigeon.modules.impl.skyblock.rift.PotReplace;
 import owo.pigeon.modules.impl.skyblock.rift.SnakingHelper;
@@ -108,6 +109,7 @@ public class ModuleManager {
         modules.add(new ChocolateFactory());
         modules.add(new FailSafe());
         modules.add(new SkyblockESP());
+        modules.add(new DojoHelper());
         modules.add(new AgaricusMiner());
         modules.add(new PotReplace());
         modules.add(new SnakingHelper());
