@@ -1,7 +1,6 @@
 package owo.pigeon.utils.world;
 
 import net.minecraft.util.Util;
-import owo.pigeon.utils.chat.ChatUtil;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -39,7 +38,7 @@ public class ServerUtil {
         currentPing = (int) (Util.getMeasuringTimeMs() - startTime);
         if (currentPing < 0) currentPing = 0;
 
-        ChatUtil.sendDebugMessage("ServerUtil", "Ping RTT: " + currentPing + "ms (startTime=" + startTime + ")");
+        // ChatUtil.sendDebugMessage("ServerUtil", "Ping RTT: " + currentPing + "ms (startTime=" + startTime + ")");
 
         var pingLog = mc.getDebugHud().getPingLog();
         int sampleSize = Math.min(pingLog.getLength(), 20);
