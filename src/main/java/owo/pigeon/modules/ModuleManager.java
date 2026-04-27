@@ -47,8 +47,9 @@ public class ModuleManager {
 
         modules.add(new ClickSlotTest());
         modules.add(new ExportButton());
-        modules.add(new SettingTest());
+        modules.add(new Performance());
         modules.add(new RenderTest());
+        modules.add(new SettingTest());
         modules.add(new SlayerESP());
 
         modules.add(new owo.pigeon.modules.impl.client.ArrayList());

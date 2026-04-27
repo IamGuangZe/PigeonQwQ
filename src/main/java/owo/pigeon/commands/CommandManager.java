@@ -35,6 +35,8 @@ public class CommandManager {
         commands.add(new SetBlockCommand());
         commands.add(new SettingCommand());
         commands.add(new ToggleCommand());
+        commands.add(new PingCommand());
+        commands.add(new TpsCommand());
         commands.add(new HideCommand());
         commands.add(new ShowCommand());
 
