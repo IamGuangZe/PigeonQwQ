@@ -20,7 +20,7 @@ import owo.pigeon.settings.StringSetting;
 import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.chat.ChatUtil;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 import java.util.List;
 import java.util.Set;

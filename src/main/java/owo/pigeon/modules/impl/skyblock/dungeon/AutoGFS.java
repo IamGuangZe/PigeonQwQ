@@ -11,8 +11,8 @@ import owo.pigeon.settings.IntSetting;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.chat.ChatUtil;
-import owo.pigeon.utils.hypixel.DungeonUtil;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.DungeonUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 import static owo.pigeon.Pigeon.mc;
 

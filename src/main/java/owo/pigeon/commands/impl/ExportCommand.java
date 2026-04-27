@@ -4,7 +4,7 @@ import owo.pigeon.commands.Command;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 import owo.pigeon.utils.export.ExportManager;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 public class ExportCommand extends Command {
     public ExportCommand() {

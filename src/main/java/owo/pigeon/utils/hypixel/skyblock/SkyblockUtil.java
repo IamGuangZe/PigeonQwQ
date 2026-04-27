@@ -1,4 +1,4 @@
-package owo.pigeon.utils.hypixel;
+package owo.pigeon.utils.hypixel.skyblock;
 
 import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
@@ -13,6 +13,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.hypixel.HypixelUtil;
 import owo.pigeon.utils.player.PlayerUtil;
 
 import java.util.Collections;

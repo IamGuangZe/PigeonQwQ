@@ -9,7 +9,7 @@ import net.minecraft.util.math.Box;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 import owo.pigeon.utils.player.PlayerUtil;
 import owo.pigeon.utils.render.RenderUtil;
 

@@ -10,9 +10,9 @@ import owo.pigeon.commands.Command;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
 import owo.pigeon.utils.chat.ChatUtil;
-import owo.pigeon.utils.hypixel.DungeonUtil;
 import owo.pigeon.utils.hypixel.HypixelUtil;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.DungeonUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 import java.util.List;
 import java.util.Set;

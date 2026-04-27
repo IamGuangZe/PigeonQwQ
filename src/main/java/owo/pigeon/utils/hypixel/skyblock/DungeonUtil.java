@@ -1,4 +1,4 @@
-package owo.pigeon.utils.hypixel;
+package owo.pigeon.utils.hypixel.skyblock;
 
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;

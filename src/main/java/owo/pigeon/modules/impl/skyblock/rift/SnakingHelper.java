@@ -13,7 +13,7 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.chat.ChatUtil;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 import owo.pigeon.utils.player.PlayerUtil;
 
 import static owo.pigeon.Pigeon.mc;

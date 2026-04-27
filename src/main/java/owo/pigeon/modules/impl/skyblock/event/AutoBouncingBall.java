@@ -16,7 +16,7 @@ import owo.pigeon.settings.FloatSetting;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.utils.*;
 import owo.pigeon.utils.chat.ChatUtil;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 import static owo.pigeon.Pigeon.mc;
 

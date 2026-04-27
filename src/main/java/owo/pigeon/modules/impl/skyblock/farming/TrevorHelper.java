@@ -17,7 +17,7 @@ import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.chat.ChatUtil;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;

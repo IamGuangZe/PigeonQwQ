@@ -15,7 +15,7 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.ExpandSetting;
 import owo.pigeon.settings.IntSetting;
-import owo.pigeon.utils.hypixel.SkyblockUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;

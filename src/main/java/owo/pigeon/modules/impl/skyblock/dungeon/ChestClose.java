@@ -12,7 +12,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.WorldUtil;
-import owo.pigeon.utils.hypixel.DungeonUtil;
+import owo.pigeon.utils.hypixel.skyblock.DungeonUtil;
 
 import static owo.pigeon.Pigeon.mc;
 
