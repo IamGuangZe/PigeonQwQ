@@ -1,5 +1,6 @@
 package owo.pigeon.utils.hypixel.skyblock;
 
+import net.minecraft.entity.Entity;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.RegexUtil;
@@ -18,6 +19,13 @@ public class DojoUtil {
         Tenacity
     }
 
+    private static final double DOJO_MIN_X = -229;
+    private static final double DOJO_MAX_X = -185;
+    private static final double DOJO_MIN_Y = 95;
+    private static final double DOJO_MAX_Y = 121;
+    private static final double DOJO_MIN_Z = -620;
+    private static final double DOJO_MAX_Z = -576;
+
     public static boolean isInDojoChallenge() {
         if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.CrimsonIsle)) return false;
@@ -26,9 +34,41 @@ public class DojoUtil {
         double y = mc.player.getY();
         double z = mc.player.getZ();
 
-        return x < -189 && x > -225 &&
-                y < 106 && y > 96 &&
-                z < -580 && z > -616;
+        return x > DOJO_MIN_X && x < DOJO_MAX_X &&
+                y > DOJO_MIN_Y && y < DOJO_MAX_Y &&
+                z > DOJO_MIN_Z && z < DOJO_MAX_Z;
+    }
+
+    /**
+     * Checks if an entity is within the Dojo arena spatial bounds.
+     * Unlike {@link #isInDojoChallenge()}, this method skips the Skyblock island guard
+     * because it is only called after the caller has already confirmed we are in a Dojo
+     * challenge via {@link #isDojoChallenge(Dojo)}. The CrimsonIsle tab-list check is
+     * unreliable for server-spawned entities during arena transitions.
+     */
+    public static boolean isInDojoChallenge(Entity entity) {
+        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+
+        double x = entity.getX();
+        double y = entity.getY();
+        double z = entity.getZ();
+
+        return x > DOJO_MIN_X && x < DOJO_MAX_X &&
+                y > DOJO_MIN_Y && y < DOJO_MAX_Y &&
+                z > DOJO_MIN_Z && z < DOJO_MAX_Z;
+    }
+
+    /**
+     * Returns a human-readable summary of the entity's position relative to the Dojo bounds.
+     * Useful for debug logging.
+     */
+    public static String getDojoBoundsDiagnostic(Entity entity) {
+        double x = entity.getX(), y = entity.getY(), z = entity.getZ();
+        boolean inX = x > DOJO_MIN_X && x < DOJO_MAX_X;
+        boolean inY = y > DOJO_MIN_Y && y < DOJO_MAX_Y;
+        boolean inZ = z > DOJO_MIN_Z && z < DOJO_MAX_Z;
+        return String.format("pos=(%.1f, %.1f, %.1f) inX=%s[%.0f,%.0f] inY=%s[%.0f,%.0f] inZ=%s[%.0f,%.0f]",
+                x, y, z, inX, DOJO_MIN_X, DOJO_MAX_X, inY, DOJO_MIN_Y, DOJO_MAX_Y, inZ, DOJO_MIN_Z, DOJO_MAX_Z);
     }
 
     public static Dojo getDojoChallenge() {
