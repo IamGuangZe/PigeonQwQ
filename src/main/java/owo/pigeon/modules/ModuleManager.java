@@ -19,6 +19,7 @@ import owo.pigeon.modules.impl.skyblock.dungeon.AutoGFS;
 import owo.pigeon.modules.impl.skyblock.dungeon.ChestClose;
 import owo.pigeon.modules.impl.skyblock.dungeon.StarMobESP;
 import owo.pigeon.modules.impl.skyblock.event.AutoBouncingBall;
+import owo.pigeon.modules.impl.skyblock.event.ZombieShootout;
 import owo.pigeon.modules.impl.skyblock.farming.PestESP;
 import owo.pigeon.modules.impl.skyblock.farming.TrevorHelper;
 import owo.pigeon.modules.impl.skyblock.hunting.AutoReel;
@@ -51,6 +52,7 @@ public class ModuleManager {
         modules.add(new RenderTest());
         modules.add(new SettingTest());
         modules.add(new SlayerESP());
+        modules.add(new Performance());
 
         modules.add(new owo.pigeon.modules.impl.client.ArrayList());
         modules.add(new ClickGui());
@@ -99,6 +101,7 @@ public class ModuleManager {
         modules.add(new ChestClose());
         modules.add(new StarMobESP());
         modules.add(new AutoBouncingBall());
+        modules.add(new ZombieShootout());
         modules.add(new PestESP());
         modules.add(new TrevorHelper());
         modules.add(new AutoReel());
