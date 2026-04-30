@@ -244,7 +244,7 @@ public class ZombieShootout extends Module {
     private void updateTargetData(ZombieEntity zombie) {
         UUID uuid = zombie.getUuid();
         TargetData data = targetDataMap.computeIfAbsent(uuid, k -> new TargetData());
-        Vec3d headPos = zombie.getEyePos().add(0, 0.6, 0);
+        Vec3d headPos = zombie.getEyePos().add(0, 0.3, 0);
         long currentTick = mc.world.getTime();
         int interval = sampleInterval.getValue();
 
