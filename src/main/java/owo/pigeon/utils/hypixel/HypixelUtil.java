@@ -38,8 +38,8 @@ public class HypixelUtil {
         String ip = serverInfo.address == null ? "" : serverInfo.address.toLowerCase();
         String name = serverInfo.label == null ? "" : serverInfo.label.getString().toLowerCase();
         String sidebarIp = ScoreBoardUtil.getSidebarLineBottomUp(1) == null ? "" : ScoreBoardUtil.getSidebarLineBottomUp(1);
-
-        return ip.contains("hypixel.net") || name.contains("hypixel") || sidebarIp.contains("hypixel");
+        String tabHeader = ScoreBoardUtil.getTabHeader() == null ? "" : ColorUtil.removeColor(ScoreBoardUtil.getTabHeader());
+        return ip.contains("hypixel.net") || name.contains("hypixel") || sidebarIp.contains("hypixel") || tabHeader.contains("You are playing on MC.HYPIXEL.NET");
     }
 
     public static boolean isInGame(Game game) {
