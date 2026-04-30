@@ -59,7 +59,7 @@ public class FailSafe extends Module {
             if (onlyWhenStop.getValue() && isPlayerMoving()) return;
             if (onlyOnGround.getValue() && !mc.player.isOnGround()) return;
 
-            Set<String> abilities = SkyblockUtil.getItemAbilityNames(mc.player.getInventory().getSelectedStack());
+            Set<String> abilities = SkyblockUtil.getItemAbilityNames(mc.player.getMainHandStack());
             if (abilities.contains("Instant Transmission") ||
                     abilities.contains("Wither Impact") ||
                     abilities.contains("Shadow Warp")

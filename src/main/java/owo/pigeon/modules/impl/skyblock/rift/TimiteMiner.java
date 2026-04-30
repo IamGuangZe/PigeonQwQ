@@ -135,7 +135,7 @@ public class TimiteMiner extends Module {
     }
 
     private boolean isHoldingTimiteTools() {
-        ItemStack stack = mc.player.getInventory().getSelectedStack();
+        ItemStack stack = mc.player.getMainHandStack();
         if (stack.isEmpty()) return false;
 
         String name = ColorUtil.removeColor(stack.getName().getString());

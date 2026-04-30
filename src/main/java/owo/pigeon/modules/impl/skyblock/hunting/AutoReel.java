@@ -37,7 +37,7 @@ public class AutoReel extends Module {
     @Handler
     public void onTickPost(TickEvent.ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
-        if (!mc.player.getInventory().getSelectedStack().getName().getString().contains("Lasso")) return;
+        if (!mc.player.getMainHandStack().getName().getString().contains("Lasso")) return;
 
         Entity entity = getLeashedEntity(mc.player);
         if (entity == null) {

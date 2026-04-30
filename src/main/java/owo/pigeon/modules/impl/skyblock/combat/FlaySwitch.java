@@ -44,7 +44,7 @@ public class FlaySwitch extends Module {
         if (onlyInGalatea.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.Galatea))
             return;
 
-        ItemStack stack = mc.player.getInventory().getSelectedStack();
+        ItemStack stack = mc.player.getMainHandStack();
         if (stack.isEmpty()) return;
 
         String name = ColorUtil.removeColor(stack.getName().getString());

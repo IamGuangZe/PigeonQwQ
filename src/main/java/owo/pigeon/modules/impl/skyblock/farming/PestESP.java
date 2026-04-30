@@ -4,6 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import owo.pigeon.event.events.RenderEvent;
@@ -40,7 +41,7 @@ public class PestESP extends Module {
         if (!inGarden && !(hubRat.getValue() && inHub)) return;
 
         if (onlyVacuum.getValue()) {
-            ItemStack heldItem = mc.player.getInventory().getSelectedStack();
+            ItemStack heldItem = mc.player.getMainHandStack();
             if (heldItem.isEmpty()) return;
 
             String name = ColorUtil.removeColor(heldItem.getName().getString());
@@ -48,18 +49,34 @@ public class PestESP extends Module {
         }
 
         for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof ArmorStandEntity stand)) continue;
+            boolean shouldDraw = false;
+            String currentTexture = null;
 
-            ItemStack helmet = stand.getEquippedStack(EquipmentSlot.HEAD);
-            if (helmet.isEmpty() || !helmet.isOf(Items.PLAYER_HEAD)) continue;
+            if (inHub) {
+                if (!(entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay)) continue;
+                ItemStack stack = itemDisplay.getItemStack();
+                if (stack.isEmpty() || !stack.isOf(Items.PLAYER_HEAD)) continue;
 
-            String texture = ItemUtil.getSkullTexture(helmet);
-            if (texture == null || !SkyblockUtil.PESTS.contains(texture)) continue;
-            if (!texture.equals(SkyblockUtil.RAT) && inHub) continue;
+                currentTexture = ItemUtil.getSkullTexture(stack);
+                if (!currentTexture.equals(SkyblockUtil.RAT)) continue;
 
-            boolean shouldTracer = tracer.getValue() && !SkyblockUtil.EARTHWORM_TAIL.equals(texture);
+                shouldDraw = true;
+            } else if (inGarden) {
+                if (!(entity instanceof ArmorStandEntity stand)) continue;
 
-            RenderUtil.drawESP(event.getMatrix(), entity, color.getValue(), mode.getValue(), shouldTracer);
+                ItemStack helmet = stand.getEquippedStack(EquipmentSlot.HEAD);
+                if (helmet.isEmpty() || !helmet.isOf(Items.PLAYER_HEAD)) continue;
+
+                currentTexture = ItemUtil.getSkullTexture(helmet);
+                if (currentTexture == null || !SkyblockUtil.PESTS.contains(currentTexture)) continue;
+
+                shouldDraw = true;
+            }
+
+            if (shouldDraw) {
+                boolean shouldTracer = tracer.getValue() && !SkyblockUtil.EARTHWORM_TAIL.equals(currentTexture);
+                RenderUtil.drawESP(event.getMatrix(), entity, color.getValue(), mode.getValue(), shouldTracer);
+            }
         }
     }
 }
