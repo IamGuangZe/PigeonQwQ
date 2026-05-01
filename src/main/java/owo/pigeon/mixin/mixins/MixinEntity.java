@@ -44,7 +44,7 @@ public class MixinEntity implements ICameraOverriddenEntity {
 
     @ModifyReturnValue(method = "isInvisibleTo", at = @At("RETURN"))
     private boolean onIsInvisibleTo(boolean original) {
-        return !ModuleUtil.isEnable(TrueSight.class);
+        return ModuleUtil.isEnable(TrueSight.class) ? false : original;
     }
 
     @Override
