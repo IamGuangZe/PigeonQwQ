@@ -6,6 +6,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.*;
+import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
@@ -33,6 +34,9 @@ public class SkyblockESP extends Module {
     }
 
     // 套公式... - 2026/4/13
+
+    public ExpandSetting crimsonIsle = setting("crimson-isle", v -> true);
+    public EnableSetting cinderbatEsp = setting("cinderbat-esp", false, v -> crimsonIsle.getValue());
 
     public ExpandSetting crystalHollows = setting("crystal-hollows", v -> true);
     public EnableSetting keyGuardianEsp = setting("key-guardian-esp", false, v -> crystalHollows.getValue());
@@ -88,7 +92,13 @@ public class SkyblockESP extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         MatrixStack stack = event.getMatrix();
 
-        if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CrystalHollows)) {
+        if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CrimsonIsle)) {
+            for (Entity entity : mc.world.getEntities()) {
+                if (entity instanceof BatEntity) {
+                    RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
+                }
+            }
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CrystalHollows)) {
             for (Entity entity : mc.world.getEntities()) {
                 if (entity instanceof ZombieEntity zombie && zombie.getMainHandStack().isOf(Items.BONE) && keyGuardianEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.YELLOW, RenderUtil.ESPMode.BOTH, false);
