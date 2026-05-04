@@ -6,10 +6,13 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import owo.pigeon.Pigeon;
+import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
 import owo.pigeon.utils.WorldUtil;
@@ -201,6 +204,29 @@ public class SkyblockUtil {
             int needed = amount - currentCount;
             mc.player.networkHandler.sendChatMessage("/gfs " + itemId + " " + needed);
             return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isSellableMenu(GenericContainerScreenHandler containerScreen) {
+        int rows = containerScreen.getRows();
+        int targetSlotIndex = (rows - 1) * 9 + 4;
+        if (targetSlotIndex < 0 || targetSlotIndex >= containerScreen.slots.size()) return false;
+
+        ItemStack stack = containerScreen.getSlot(targetSlotIndex).getStack();
+        if (stack.isEmpty()) return false;
+
+        String displayName = ColorUtil.removeColor(stack.getName().getString());
+        if (stack.isOf(Items.HOPPER) && displayName.equals("Sell Item")) {
+            return true;
+        }
+
+        List<Text> lore = ItemUtil.getItemLore(stack);
+        for (Text line : lore) {
+            if (line.getString().contains("Click to buyback!")) {
+                return true;
+            }
         }
 
         return false;

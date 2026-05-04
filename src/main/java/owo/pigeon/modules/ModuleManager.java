@@ -52,7 +52,6 @@ public class ModuleManager {
         modules.add(new RenderTest());
         modules.add(new SettingTest());
         modules.add(new SlayerESP());
-        modules.add(new Performance());
 
         modules.add(new owo.pigeon.modules.impl.client.ArrayList());
         modules.add(new ClickGui());
