@@ -11,14 +11,14 @@ import java.awt.*;
 
 import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
 
-public class SettingColorPanel extends SettingPanel {
+public class ColorSettingPanel extends SettingPanel {
     public ColorSetting colorSetting;
 
     private boolean hovered;
     private boolean[] sliderHovered = new boolean[4];
     private boolean[] dragging = new boolean[4];
 
-    public SettingColorPanel(AbstractSetting<?> setting, int x, int y, int width, int height) {
+    public ColorSettingPanel(AbstractSetting<?> setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
         colorSetting = (ColorSetting) setting;
     }

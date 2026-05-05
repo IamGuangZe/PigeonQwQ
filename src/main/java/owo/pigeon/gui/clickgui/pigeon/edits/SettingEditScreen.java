@@ -1,4 +1,4 @@
-package owo.pigeon.gui.clickgui.pigeon;
+package owo.pigeon.gui.clickgui.pigeon.edits;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;

@@ -15,14 +15,14 @@ import java.awt.*;
 import static owo.pigeon.Pigeon.mc;
 import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
 
-public class SettingNumPanel extends SettingPanel {
+public class NumSettingPanel extends SettingPanel {
     public AbstractNumSetting<?> numberSetting;
 
     private boolean hovered;
     private boolean sliderHovered;
     private boolean dragging;
 
-    public SettingNumPanel(AbstractSetting<?> setting, int x, int y, int width, int height) {
+    public NumSettingPanel(AbstractSetting<?> setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
         numberSetting = (AbstractNumSetting<?>) setting;
     }

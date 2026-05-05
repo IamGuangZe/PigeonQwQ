@@ -5,6 +5,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.settings.*;
 
 import java.awt.*;
+import java.util.List;
 
 public class SettingTest extends owo.pigeon.modules.Module {
     public SettingTest() {
@@ -26,6 +27,7 @@ public class SettingTest extends owo.pigeon.modules.Module {
     public KeySetting keySetting = setting("key", -1, v -> true);
     public ModeSetting<mode> modeSetting = setting("enum", mode.MODEA, v -> true);
     public StringSetting stringSetting = setting("string", "&string&", v -> true);
+    public ListSetting listSetting = setting("string-list", List.of("default1", "default2"), v -> true);
     public ExpandSetting expand1Setting = setting("expand1", v -> true);
     public ExpandSetting expand2Setting = setting("expand2", v -> expand1Setting.getValue());
     public ExpandSetting expand3Setting = setting("expand3", v -> expand2Setting.isVisible() && expand2Setting.getValue());

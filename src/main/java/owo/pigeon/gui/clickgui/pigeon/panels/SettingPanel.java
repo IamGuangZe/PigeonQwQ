@@ -5,7 +5,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.InputUtil;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
-import owo.pigeon.gui.clickgui.pigeon.SettingEditScreen;
+import owo.pigeon.gui.clickgui.pigeon.edits.ListSettingEditScreen;
+import owo.pigeon.gui.clickgui.pigeon.edits.SettingEditScreen;
 import owo.pigeon.settings.*;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.render.RenderUtil;
@@ -117,6 +118,16 @@ public class SettingPanel extends AbstractDisplableItem {
                     (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
+        } else if (setting instanceof ListSetting listSetting) {
+            String displayValue = "&b[" + listSetting.size() + " items]";
+
+            context.drawTextWithShadow(
+                    textRenderer,
+                    ColorUtil.parseColor(displayName + " : " + displayValue),
+                    (int) ((x + 4) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    Color.LIGHT_GRAY.getRGB());
+
         } else if (setting instanceof ExpandSetting expandSetting) {
             boolean value = expandSetting.getValue();
 
@@ -163,6 +174,8 @@ public class SettingPanel extends AbstractDisplableItem {
                 waitingForKey = !waitingForKey;
             } else if (setting instanceof ModeSetting<?> modeSetting) {
                 switchToNextMode(modeSetting);
+            } else if (setting instanceof ListSetting listSetting) {
+                mc.setScreen(new ListSettingEditScreen(listSetting));
             } else if (setting instanceof BlockSetting || setting instanceof CharSetting || setting instanceof StringSetting) {
                 mc.setScreen(new SettingEditScreen(setting));
             }

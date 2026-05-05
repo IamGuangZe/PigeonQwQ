@@ -17,7 +17,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static owo.pigeon.Pigeon.GSON;
@@ -163,6 +165,8 @@ public class SettingConfig extends Config {
                     moduleMap.put(setting.getName(), id.toString());
                 } else if (setting instanceof ColorSetting colorSetting) {
                     moduleMap.put(setting.getName(), colorSetting.getRGB());
+                } else if (setting instanceof ListSetting listSetting) {
+                    moduleMap.put(setting.getName(), new ArrayList<>(listSetting.getValue()));
                 } else {
                     moduleMap.put(setting.getName(), setting.getValue());
                 }
@@ -235,6 +239,14 @@ public class SettingConfig extends Config {
 
         } else if (setting instanceof StringSetting stringSetting) {
             stringSetting.setValue(value.toString());
+
+        } else if (setting instanceof ListSetting listSetting) {
+            listSetting.setValue(new ArrayList<>());
+            if (value instanceof List<?> list) {
+                for (Object item : list) {
+                    listSetting.add(item.toString());
+                }
+            }
         }
     }
 

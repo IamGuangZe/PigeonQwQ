@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 public abstract class SettingDesigner {
@@ -77,6 +78,12 @@ public abstract class SettingDesigner {
 
     public ExpandSetting setting(String name, Predicate<Boolean> visible) {
         ExpandSetting setting = new ExpandSetting(name, visible);
+        settings.add(setting);
+        return setting;
+    }
+
+    public ListSetting setting(String name, List<String> defaultValue, Predicate<Boolean> visible) {
+        ListSetting setting = new ListSetting(name, defaultValue, visible);
         settings.add(setting);
         return setting;
     }

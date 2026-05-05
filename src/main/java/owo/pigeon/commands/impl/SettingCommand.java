@@ -52,7 +52,54 @@ public class SettingCommand extends Command {
             if (setting.getName().equalsIgnoreCase(settingname)) {
                 found = true;
                 settingname = setting.getName();
-                if (setting instanceof BlockSetting) {
+
+                if (setting instanceof ListSetting listSetting) {
+                    String action = value.toLowerCase();
+                    if (action.equals("add")) {
+                        if (args.length < 4) {
+                            this.sendUsage();
+                            return;
+                        }
+                        String addValue = String.join(" ", java.util.Arrays.copyOfRange(args, 3, args.length));
+                        listSetting.add(addValue);
+                        ChatUtil.sendMessage("&aAdded &7&l" + addValue + "&r&a to &7&l" + settingname + "&r&a.");
+                        return;
+                    } else if (action.equals("remove")) {
+                        if (args.length < 4) {
+                            this.sendUsage();
+                            return;
+                        }
+                        String removeValue = String.join(" ", java.util.Arrays.copyOfRange(args, 3, args.length));
+                        if (listSetting.contains(removeValue)) {
+                            listSetting.remove(removeValue);
+                            ChatUtil.sendMessage("&aRemoved &7&l" + removeValue + "&r&a from &7&l" + settingname + "&r&a.");
+                        } else {
+                            CommandUtil.sendCommandError(CommandUtil.errorReason.ListItemNotFound,
+                                    this.getCommand(),
+                                    args,
+                                    3
+                            );
+                        }
+                        return;
+                    } else if (action.equals("list")) {
+                        if (listSetting.size() == 0) {
+                            ChatUtil.sendMessage("&7List &7&l" + settingname + "&r&7 is empty.");
+                        } else {
+                            ChatUtil.sendMessage("&7List &7&l" + settingname + "&r&7 (" + listSetting.size() + " items):");
+                            for (int i = 0; i < listSetting.size(); i++) {
+                                ChatUtil.sendMessage("&7  " + (i + 1) + ". &f" + listSetting.getValue().get(i));
+                            }
+                        }
+                        return;
+                    } else {
+                        CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownListAction,
+                                this.getCommand(),
+                                args,
+                                2
+                        );
+                        return;
+                    }
+                } else if (setting instanceof BlockSetting) {
                     Identifier id = Identifier.tryParse(value.toLowerCase());
                     if (id == null || !Registries.BLOCK.containsId(id)) {
                         CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownBlock,
@@ -222,7 +269,11 @@ public class SettingCommand extends Command {
                 } else if (setting instanceof StringSetting) {
                     ((StringSetting) setting).setValue(value);
                 } else {
-                    this.sendCommandError("Unknown setting type!");
+                    CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
+                            this.getCommand(),
+                            args,
+                            1
+                    );
                     return;
                 }
 
@@ -240,6 +291,7 @@ public class SettingCommand extends Command {
 
     @Override
     public String getUsage() {
-        return CommandUtil.getCommandPrefix() + "setting <module> <setting> <value>";
+        return CommandUtil.getCommandPrefix() + "setting <module> <setting> <value>\n" +
+                CommandUtil.getCommandPrefix() + "setting <module> <listsetting> (add|remove|list) <value>";
     }
 }

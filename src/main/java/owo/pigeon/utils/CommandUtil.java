@@ -16,6 +16,8 @@ public class CommandUtil {
         UnknownBlock("Unknown block type"),   // 未知方块
         UnknownGamemode("Unknown game mode"),   // 未知游戏模式
         UnknownItem("Unknown item"),    // 未知物品
+        ListItemNotFound("List item not found"),  // 列表中未找到指定值
+        UnknownListAction("Unknown list action"),  // 未知的列表操作
         UnknownModule("Unknown Module"), // 未知模块
         UnknownSetting("Unknown Setting"); // 未知设置
 

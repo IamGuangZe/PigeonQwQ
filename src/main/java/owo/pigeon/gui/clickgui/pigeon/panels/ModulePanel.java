@@ -37,9 +37,9 @@ public class ModulePanel extends AbstractDisplableItem {
 
         for (AbstractSetting<?> setting : module.getSettings()) {
             if (setting instanceof AbstractNumSetting) {
-                settingPanels.add(new SettingNumPanel(setting, x, 0, width, height));
+                settingPanels.add(new NumSettingPanel(setting, x, 0, width, height));
             } else if (setting instanceof ColorSetting) {
-                settingPanels.add(new SettingColorPanel(setting, x, 0, width, height));
+                settingPanels.add(new ColorSettingPanel(setting, x, 0, width, height));
             } else {
                 settingPanels.add(new SettingPanel(setting, x, 0, width, height));
             }
@@ -83,9 +83,9 @@ public class ModulePanel extends AbstractDisplableItem {
                 panel.y = startY;
                 panel.width = this.width;
 
-                if (panel instanceof SettingNumPanel) {
+                if (panel instanceof NumSettingPanel) {
                     panel.height = this.height / 2 + 8;
-                } else if (panel instanceof SettingColorPanel) {
+                } else if (panel instanceof ColorSettingPanel) {
                     panel.height = this.height / 2 + 20;
                 } else {
                     panel.height = this.height / 2;
