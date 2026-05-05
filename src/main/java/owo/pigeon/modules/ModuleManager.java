@@ -109,6 +109,7 @@ public class ModuleManager {
         modules.add(new AutoEquipment());
         modules.add(new AutoExperiments());
         modules.add(new AutoOption());
+        modules.add(new AutoSell());
         modules.add(new ChocolateFactory());
         modules.add(new FailSafe());
         modules.add(new SkyblockESP());
