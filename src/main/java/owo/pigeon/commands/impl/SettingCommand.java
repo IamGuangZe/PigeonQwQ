@@ -87,7 +87,7 @@ public class SettingCommand extends Command {
                         } else {
                             ChatUtil.sendMessage("&7List &7&l" + settingname + "&r&7 (" + listSetting.size() + " items):");
                             for (int i = 0; i < listSetting.size(); i++) {
-                                ChatUtil.sendMessage("&7  " + (i + 1) + ". &f" + listSetting.getValue().get(i));
+                                ChatUtil.sendMessage("&7  " + (i + 1) + ". &f" + listSetting.get(i));
                             }
                         }
                         return;

@@ -55,6 +55,6 @@ public class HideCommand extends Command {
 
     @Override
     public String getUsage() {
-        return CommandUtil.getCommandPrefix() + "hide <module> [true|false]";
+        return CommandUtil.getCommandPrefix() + "hide <module> [(true|false)]";
     }
 }

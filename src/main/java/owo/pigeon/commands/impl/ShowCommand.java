@@ -55,6 +55,6 @@ public class ShowCommand extends Command {
 
     @Override
     public String getUsage() {
-        return CommandUtil.getCommandPrefix() + "show <module> [true|false]";
+        return CommandUtil.getCommandPrefix() + "show <module> [(true|false)]";
     }
 }

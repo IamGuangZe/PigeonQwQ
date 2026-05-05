@@ -7,8 +7,11 @@ import java.util.function.Predicate;
 
 public class ListSetting extends AbstractSetting<List<String>> {
 
+    private final List<String> initialDefaultValue;
+
     protected ListSetting(String name, List<String> defaultValue, Predicate<Boolean> visible) {
         super(name, new ArrayList<>(defaultValue), visible);
+        this.initialDefaultValue = new ArrayList<>(defaultValue);
     }
 
     public void add(String value) {
@@ -25,7 +28,16 @@ public class ListSetting extends AbstractSetting<List<String>> {
         return this.value.contains(value);
     }
 
-    public List<String> getList() {
+    public String get(int index) {
+        return this.value.get(index);
+    }
+
+    public void clear() {
+        this.value.clear();
+    }
+
+    @Override
+    public List<String> getValue() {
         return Collections.unmodifiableList(value);
     }
 
@@ -35,6 +47,6 @@ public class ListSetting extends AbstractSetting<List<String>> {
 
     @Override
     public void resetValue() {
-        setValue(new ArrayList<>());
+        setValue(new ArrayList<>(initialDefaultValue));
     }
 }

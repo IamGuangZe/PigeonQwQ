@@ -57,7 +57,7 @@ public class ListSettingEditScreen extends Screen {
         int buttonY = y + 25;
         int buttonWidth = (fieldWidth - 10) / 2;
         this.addDrawableChild(ButtonWidget.builder(Text.of("Clear All"), (button) -> {
-            setting.getValue().clear();
+            setting.clear();
             scrollOffset = 0;
         }).dimensions(x, buttonY, buttonWidth, 20).build());
 
@@ -84,7 +84,7 @@ public class ListSettingEditScreen extends Screen {
         context.fill(listLeft, listY - 2, listRight, listY + listHeight, new Color(0, 0, 0, 120).getRGB());
 
         for (int i = start; i < end; i++) {
-            String item = setting.getValue().get(i);
+            String item = setting.get(i);
             int itemY = listY + (i - start) * itemHeight;
 
             boolean hovered = mouseX >= listLeft && mouseX <= listRight && mouseY >= itemY && mouseY <= itemY + itemHeight;
@@ -120,7 +120,7 @@ public class ListSettingEditScreen extends Screen {
                 int itemY = listY + (i - scrollOffset) * itemHeight;
                 if (click.x() >= removeX && click.x() <= listRight
                         && click.y() >= itemY && click.y() <= itemY + itemHeight) {
-                    setting.remove(setting.getValue().get(i));
+                    setting.remove(setting.get(i));
                     return true;
                 }
             }
