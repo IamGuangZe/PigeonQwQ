@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.RegexUtil;
 import owo.pigeon.utils.WorldUtil;
@@ -67,7 +67,7 @@ public class ExportManager {
     }
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck() || currentTask == ExportTask.NONE) return;
 
         if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler container) {

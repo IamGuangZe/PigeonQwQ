@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.skyblock.dungeon;
 
 import net.engio.mbassy.listener.Handler;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.MessageEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -42,7 +42,7 @@ public class AutoGFS extends Module {
     }
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
         if (!refillOnTimer.getValue()) return;
 

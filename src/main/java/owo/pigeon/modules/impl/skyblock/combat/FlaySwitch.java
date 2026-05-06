@@ -2,8 +2,8 @@ package owo.pigeon.modules.impl.skyblock.combat;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.ItemStack;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.DoItemUseEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -32,7 +32,7 @@ public class FlaySwitch extends Module {
     private int delay = 21;
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
 
         if (delay <= switchBackDelay.getMaxValue()) delay ++;

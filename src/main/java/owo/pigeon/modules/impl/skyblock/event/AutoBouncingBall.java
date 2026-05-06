@@ -7,8 +7,8 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.MessageEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -35,7 +35,7 @@ public class AutoBouncingBall extends Module {
     private ArmorStandEntity ballEntity;
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
 
         if (searching && ballEntity == null) {

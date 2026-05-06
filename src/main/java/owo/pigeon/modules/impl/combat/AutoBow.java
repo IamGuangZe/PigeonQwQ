@@ -3,7 +3,7 @@ package owo.pigeon.modules.impl.combat;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
@@ -23,10 +23,10 @@ public class AutoBow extends Module {
     private boolean hasRelease;
 
     @Handler
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
 
-        if (event instanceof TickEvent.ClientTickEvent.Pre) {
+        if (event instanceof ClientTickEvent.Pre) {
             ItemStack itemStack = mc.player.getMainHandStack();
             if (itemStack.isEmpty()) return;
             if (itemStack.getItem() != Items.BOW) return;
@@ -42,7 +42,7 @@ public class AutoBow extends Module {
             }
         }
 
-        if (event instanceof TickEvent.ClientTickEvent.Post) {
+        if (event instanceof ClientTickEvent.Post) {
             if (hasRelease) {
                 ChatUtil.sendDebugMessage(this.name, "Resetting use key, hasRelease: " + hasRelease);
                 KeybindUtil.resetPressed(mc.options.useKey);

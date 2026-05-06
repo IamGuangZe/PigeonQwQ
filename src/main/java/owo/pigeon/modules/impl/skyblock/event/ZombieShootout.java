@@ -12,8 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -79,7 +79,7 @@ public class ZombieShootout extends Module {
     }
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (shotCooldown > 0) shotCooldown--;
     }
 

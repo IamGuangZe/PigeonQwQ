@@ -5,9 +5,9 @@ import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket;
 import owo.pigeon.event.events.ClickSlotEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.event.events.PacketEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
@@ -30,11 +30,11 @@ public class ChestClose extends Module {
     private boolean shouldClose;
 
     @Handler
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
         if (closeMode.getValue() != Mode.TICK || !DungeonUtil.isInDungeon()) return;
 
-        if (event instanceof TickEvent.ClientTickEvent.Pre) {
+        if (event instanceof ClientTickEvent.Pre) {
             if (mc.currentScreen instanceof GenericContainerScreen screen) {
                 String title = screen.getTitle().getString();
 
@@ -44,7 +44,7 @@ public class ChestClose extends Module {
             }
         }
 
-        if (event instanceof TickEvent.ClientTickEvent.Post) {
+        if (event instanceof ClientTickEvent.Post) {
             if (shouldClose) mc.player.closeHandledScreen();
             shouldClose = false;
         }

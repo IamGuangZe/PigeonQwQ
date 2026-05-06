@@ -10,8 +10,8 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.RaycastContext;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.*;
@@ -92,10 +92,10 @@ public class LegitNuker extends Module {
     private int mineCounter = 0;
 
     @Handler
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
 
-        if (event instanceof TickEvent.ClientTickEvent.Pre) {
+        if (event instanceof ClientTickEvent.Pre) {
             if (stopInGui.getValue() && mc.currentScreen instanceof HandledScreen) {
                 currentTarget = null;
                 aimPoint = null;
@@ -150,7 +150,7 @@ public class LegitNuker extends Module {
             }
         }
 
-        if (event instanceof TickEvent.ClientTickEvent.Post) {
+        if (event instanceof ClientTickEvent.Post) {
             if (keepPress.getValue()) {
                 if (currentTarget != null) {
                     KeybindUtil.setPressed(mc.options.attackKey, true);

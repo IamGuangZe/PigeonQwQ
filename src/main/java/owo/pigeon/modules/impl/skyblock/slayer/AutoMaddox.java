@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.skyblock.slayer;
 
 import net.engio.mbassy.listener.Handler;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.MessageEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
@@ -35,7 +35,7 @@ public class AutoMaddox extends Module {
     private int rawSlot = -1;
 
     @Handler
-    public void onTick(TickEvent.ClientTickEvent.Post event) {
+    public void onTick(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
 
         if (rawSlot != -1) {

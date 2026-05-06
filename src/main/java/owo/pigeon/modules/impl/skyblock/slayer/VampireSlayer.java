@@ -4,7 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.world.GameMode;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.mixin.accessors.IAccessorInGameHud;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -62,7 +62,7 @@ public class VampireSlayer extends Module {
     }
 
     @Handler
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
 
@@ -73,7 +73,7 @@ public class VampireSlayer extends Module {
 
         if (!subtitle.isEmpty()) ChatUtil.sendDebugMessage(this.name, "subtitle: " + subtitle);
 
-        if (event instanceof TickEvent.ClientTickEvent.Pre) {
+        if (event instanceof ClientTickEvent.Pre) {
             if (autoImpel.getValue()) {
                 if (impelTicks <= 0 && foundTitle && !hasImpel) {
                     if (subtitle.contains("JUMP") && autoImpelJump.getValue()) impelAction = ImpelAction.JUMP;
@@ -181,7 +181,7 @@ public class VampireSlayer extends Module {
             }
         }
 
-        if (event instanceof TickEvent.ClientTickEvent.Post) {
+        if (event instanceof ClientTickEvent.Post) {
             if (autoImpel.getValue()) {
                 if (impelTicks > 0) {
                     impelTicks--;

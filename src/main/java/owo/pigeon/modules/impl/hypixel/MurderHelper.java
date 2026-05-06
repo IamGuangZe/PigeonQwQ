@@ -13,9 +13,9 @@ import net.minecraft.item.Items;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.event.events.WorldChangeEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -77,7 +77,7 @@ public class MurderHelper extends Module {
     }
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
         if (!HypixelUtil.isInGame(HypixelUtil.Game.MURDERMYSTERY)) return;
 

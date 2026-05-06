@@ -4,7 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import owo.pigeon.event.events.ClickSlotEvent;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
@@ -28,7 +28,7 @@ public class ClickSlotTest extends Module {
     private int p_delay = 0;
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
+    public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
         if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler containerScreen) {
 

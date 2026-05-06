@@ -1,7 +1,7 @@
 package owo.pigeon.utils.player;
 
 import net.engio.mbassy.listener.Handler;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.utils.WorldUtil;
 
 import static owo.pigeon.Pigeon.mc;
@@ -19,8 +19,8 @@ public class InstantUse {
     }
 
     @Handler
-    public void onTick(TickEvent.ClientTickEvent event) {
-        if (event instanceof TickEvent.ClientTickEvent.Pre && inputSlot != null && clickMode != null) {
+    public void onTick(ClientTickEvent event) {
+        if (event instanceof ClientTickEvent.Pre && inputSlot != null && clickMode != null) {
             rawSlot = mc.player.getInventory().getSelectedSlot();
             mc.player.getInventory().setSelectedSlot(inputSlot);
 
@@ -30,7 +30,7 @@ public class InstantUse {
             clickMode = null;
         }
 
-        if (event instanceof TickEvent.ClientTickEvent.Post && rawSlot != null) {
+        if (event instanceof ClientTickEvent.Post && rawSlot != null) {
             mc.player.getInventory().setSelectedSlot(rawSlot);
             rawSlot = null;
         }

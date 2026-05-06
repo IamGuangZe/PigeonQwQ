@@ -7,8 +7,8 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import owo.pigeon.Pigeon;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
@@ -35,7 +35,7 @@ public class AutoReel extends Module {
     }
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
+    public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
         if (!mc.player.getMainHandStack().getName().getString().contains("Lasso")) return;
 

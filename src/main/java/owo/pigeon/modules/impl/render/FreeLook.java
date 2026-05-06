@@ -3,7 +3,7 @@ package owo.pigeon.modules.impl.render;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.client.util.InputUtil;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.KeySetting;
@@ -54,7 +54,7 @@ public class FreeLook extends Module {
     }
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
 
         boolean isKeyDown = KeybindUtil.isPressed(freeLookKey.getValue());

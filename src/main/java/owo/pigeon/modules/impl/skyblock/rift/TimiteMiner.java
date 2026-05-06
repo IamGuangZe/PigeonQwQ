@@ -6,9 +6,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.DoItemUseEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -46,7 +46,7 @@ public class TimiteMiner extends Module {
     private static final String GUN = "Time Gun";
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
         if (!autoMine.getValue()) return;

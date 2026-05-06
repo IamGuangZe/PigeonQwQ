@@ -5,8 +5,8 @@ import net.minecraft.client.input.Input;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.PlayerInput;
 import net.minecraft.util.math.Vec2f;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.MoveInputEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -54,7 +54,7 @@ public class Eagle extends Module {
     }
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
 
         if (sneakDelay > 0) {

@@ -5,7 +5,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.world.GameMode;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.*;
@@ -42,7 +42,7 @@ public class AutoHeal extends Module {
     private int rawSlot = -1;
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
+    public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
 
         int healingItemSlot = -1;

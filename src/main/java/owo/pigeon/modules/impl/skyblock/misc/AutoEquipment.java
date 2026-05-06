@@ -3,8 +3,8 @@ package owo.pigeon.modules.impl.skyblock.misc;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.KeyInputEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
@@ -70,10 +70,10 @@ public class AutoEquipment extends Module {
     }
 
     @Handler
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
 
-        if (event instanceof TickEvent.ClientTickEvent.Pre) {
+        if (event instanceof ClientTickEvent.Pre) {
             if (targetSlot == null) return;
             if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler containerScreen) {
                 String title = mc.currentScreen.getTitle().getString();
@@ -98,7 +98,7 @@ public class AutoEquipment extends Module {
             } else ticksOpened = 0;
         }
 
-        if (event instanceof TickEvent.ClientTickEvent.Post) {
+        if (event instanceof ClientTickEvent.Post) {
             if (isWaitingToClose && mc.player.currentScreenHandler instanceof GenericContainerScreenHandler) {
                 mc.player.closeHandledScreen();
                 isWaitingToClose = false;

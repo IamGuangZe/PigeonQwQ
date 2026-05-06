@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.hypixel;
 
 import net.engio.mbassy.listener.Handler;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
@@ -27,7 +27,7 @@ public class AutoTipall extends Module {
     }
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
+    public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck() || !HypixelUtil.isInHypixel()) return;
 
         if (interval.getValue() != previousIntervalValue) {

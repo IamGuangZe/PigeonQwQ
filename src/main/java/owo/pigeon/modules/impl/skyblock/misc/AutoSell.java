@@ -7,8 +7,8 @@ import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClickSlotEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.mixin.accessors.IAccessorHandledScreen;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -36,7 +36,7 @@ public class AutoSell extends Module {
     private int tick;
 
     @Handler
-    public void onTickPre(TickEvent.ClientTickEvent.Pre event) {
+    public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
 
         if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler container) {

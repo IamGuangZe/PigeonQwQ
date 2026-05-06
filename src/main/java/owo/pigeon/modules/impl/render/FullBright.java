@@ -4,7 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.registry.Registries;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.ModeSetting;
@@ -26,7 +26,7 @@ public class FullBright extends Module {
     private Mode lastMode;
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
+    public void onTickPost(ClientTickEvent.Post event) {
         if (lastMode != null && lastMode != mode.getValue()) reset(lastMode);
         lastMode = mode.getValue();
 

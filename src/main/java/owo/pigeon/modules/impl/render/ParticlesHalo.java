@@ -7,7 +7,7 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -47,7 +47,7 @@ public class ParticlesHalo extends Module {
     }
 
     @Handler
-    public void onTick(TickEvent.ClientTickEvent.Pre event) {
+    public void onTick(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
         if (mc.isPaused()) return;
 

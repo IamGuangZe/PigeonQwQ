@@ -12,9 +12,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.Pigeon;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.DoItemUseEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.impl.combat.AutoClicker;
 import owo.pigeon.modules.impl.combat.NoHitDelay;
 import owo.pigeon.modules.impl.player.FastPlace;
@@ -35,12 +35,12 @@ public class MixinMinecraftClient {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void onClientTickPre(CallbackInfo ci) {
-        Pigeon.EVENT_BUS.post(new TickEvent.ClientTickEvent.Pre()).now();
+        Pigeon.EVENT_BUS.post(new ClientTickEvent.Pre()).now();
     }
 
     @Inject(method = "tick",at = @At("RETURN"))
     private void onClientTickPost(CallbackInfo ci) {
-        Pigeon.EVENT_BUS.post(new TickEvent.ClientTickEvent.Post()).now();
+        Pigeon.EVENT_BUS.post(new ClientTickEvent.Post()).now();
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)

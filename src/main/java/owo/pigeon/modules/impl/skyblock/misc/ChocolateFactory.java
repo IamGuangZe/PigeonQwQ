@@ -9,8 +9,8 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClickSlotEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.mixin.accessors.IAccessorHandledScreen;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -45,7 +45,7 @@ public class ChocolateFactory extends Module {
     private int upgradeTick = 0;
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
+    public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
 
         if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler container) {

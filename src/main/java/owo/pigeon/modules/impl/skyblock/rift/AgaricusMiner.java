@@ -6,7 +6,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-import owo.pigeon.event.events.TickEvent;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.WorldUtil;
@@ -25,7 +25,7 @@ public class AgaricusMiner extends Module {
     private boolean waitingRed;
 
     @Handler
-    public void onTickPost(TickEvent.ClientTickEvent.Post event) {
+    public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
 

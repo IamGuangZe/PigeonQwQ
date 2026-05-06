@@ -16,9 +16,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import owo.pigeon.Pigeon;
+import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.event.events.TickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -77,10 +77,10 @@ public class DojoHelper extends Module {
     }
 
     @Handler
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick(ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
 
-        if (event instanceof TickEvent.ClientTickEvent.Pre) {
+        if (event instanceof ClientTickEvent.Pre) {
             if (mastery.getValue() && DojoUtil.isDojoChallenge(DojoUtil.Dojo.Mastery)) {
                 if (mc.player.isUsingItem()) {
                     BlockPos releaseTarget = lockedTarget != null ? lockedTarget : currentTarget;
@@ -100,7 +100,7 @@ public class DojoHelper extends Module {
             }
         }
 
-        if (event instanceof TickEvent.ClientTickEvent.Post) {
+        if (event instanceof ClientTickEvent.Post) {
             if (mastery.getValue() && DojoUtil.isDojoChallenge(DojoUtil.Dojo.Mastery)) {
                 if (hasRelease) {
                     KeybindUtil.resetPressed(mc.options.useKey);
