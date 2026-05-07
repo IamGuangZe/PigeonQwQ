@@ -54,7 +54,7 @@ public class ExportButton extends Module {
 
         if (exportButton == null) {
             exportButton = ButtonWidget.builder(Text.of("Export JSON"), button -> {
-                        exportToJson(container);
+                        exportToJson(screen, container);
                         button.setFocused(false);
                     })
                     .dimensions(buttonX, buttonY, 85, 20)
@@ -75,7 +75,11 @@ public class ExportButton extends Module {
         exportButton.render(event.getContext(), event.getMouseX(), event.getMouseY(), event.getDelta());
     }
 
-    private void exportToJson(GenericContainerScreenHandler container) {
+    private void exportToJson(GenericContainerScreen screen, GenericContainerScreenHandler container) {
+        JsonObject result = new JsonObject();
+        result.addProperty("title", screen.getTitle().getString());
+        result.addProperty("slots", container.getInventory().size());
+
         JsonArray itemsArray = new JsonArray();
 
         for (int i = 0; i < container.slots.size(); i++) {
@@ -104,7 +108,8 @@ public class ExportButton extends Module {
             return;
         }
 
-        String finalJson = GSON.toJson(itemsArray);
+        result.add("items", itemsArray);
+        String finalJson = GSON.toJson(result);
         mc.keyboard.setClipboard(finalJson);
         ChatUtil.sendMessage("ExportButton", "§aJSON copied to clipboard! (" + itemsArray.size() + " items)");
     }
