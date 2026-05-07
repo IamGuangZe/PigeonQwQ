@@ -126,7 +126,6 @@ public class AutoSellCommand extends Command {
     }
 
     private String getHeldItemInfo(boolean isId) {
-        if (mc.player == null) return null;
         ItemStack heldStack = mc.player.getMainHandStack();
         if (heldStack.isEmpty()) return null;
 

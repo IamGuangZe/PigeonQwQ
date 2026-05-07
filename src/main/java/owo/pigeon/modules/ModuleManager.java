@@ -106,6 +106,7 @@ public class ModuleManager {
         modules.add(new AutoReel());
         modules.add(new NoNBTUpdate());
         modules.add(new LegitNuker());
+        modules.add(new AutoCombine());
         modules.add(new AutoEquipment());
         modules.add(new AutoExperiments());
         modules.add(new AutoOption());
