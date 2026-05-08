@@ -1,5 +1,6 @@
 package owo.pigeon.modules.impl.player;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
 import owo.pigeon.modules.Category;
@@ -43,7 +44,7 @@ public class FastPlace extends Module {
         if (item instanceof BlockItem blockItem) {
             if (!blocks.getValue()) return false;
 
-            var block = blockItem.getBlock();
+            Block block = blockItem.getBlock();
             if (block == Blocks.END_STONE) return endstone.getValue();
             if (block == Blocks.OBSIDIAN) return obsidian.getValue();
 

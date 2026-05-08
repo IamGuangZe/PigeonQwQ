@@ -88,7 +88,7 @@ public class AutoClicker extends Module {
     private boolean onlySwordCheck() {
         if (!onlySword.getValue()) return true;
         ItemStack itemStack = mc.player.getMainHandStack();
-        return itemStack != null && ItemUtil.isSword(itemStack.getItem());
+        return itemStack != null && ItemUtil.isSword(itemStack);
     }
 
     private boolean onlyBlocksCheck() {

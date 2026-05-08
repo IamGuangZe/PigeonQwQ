@@ -71,7 +71,7 @@ public class AutoExperiments extends Module {
                 }
 
 
-                if (containerScreen.getSlot(49).getStack().getItem() == Items.GLOWSTONE) {
+                if (containerScreen.getSlot(49).getStack().isOf(Items.GLOWSTONE)) {
                     ChatUtil.sendDebugMessage(this.name, "Chronomatron: GLOWSTONE");
 
                     addedThisRound = false;
@@ -90,7 +90,7 @@ public class AutoExperiments extends Module {
                     }
                 }
 
-                if (containerScreen.getSlot(49).getStack().getItem() == Items.CLOCK) {
+                if (containerScreen.getSlot(49).getStack().isOf(Items.CLOCK)) {
                     ChatUtil.sendDebugMessage(this.name, "Chronomatron: CLOCK");
 
                     if (clickCooldown > 0) clickCooldown--;
@@ -139,7 +139,7 @@ public class AutoExperiments extends Module {
                     }
                 }
 
-                if (containerScreen.getSlot(49).getStack().getItem() == Items.GLOWSTONE) {
+                if (containerScreen.getSlot(49).getStack().isOf(Items.GLOWSTONE)) {
                     ChatUtil.sendDebugMessage(this.name, "Ultrasequencer: GLOWSTONE");
 
                     clickCooldown = clickDelay.getValue();
@@ -172,7 +172,7 @@ public class AutoExperiments extends Module {
                     }
                 }
 
-                if (containerScreen.getSlot(49).getStack().getItem() == Items.CLOCK) {
+                if (containerScreen.getSlot(49).getStack().isOf(Items.CLOCK)) {
                     ChatUtil.sendDebugMessage(this.name, "Ultrasequencer: CLOCK");
 
                     if (clickCooldown > 0) clickCooldown--;

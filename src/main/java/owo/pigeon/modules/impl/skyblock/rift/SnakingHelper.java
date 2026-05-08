@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.skyblock.rift;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
@@ -48,7 +48,7 @@ public class SnakingHelper extends Module {
             return;
         }
 
-        int slot = ItemUtil.getSlotFromItemName(itemName,true);
+        int slot = ItemUtil.getSlotFromItemName(itemName, true);
         ChatUtil.sendDebugMessage(this.name, "search item: " + itemName + ", slot=" + slot);
 
         if (slot != -1) {
@@ -60,13 +60,13 @@ public class SnakingHelper extends Module {
     private boolean isAimSnake() {
         if (mc.crosshairTarget == null || mc.crosshairTarget.getType() != HitResult.Type.BLOCK) return false;
 
-        Block block = mc.world
-                .getBlockState(((BlockHitResult) mc.crosshairTarget).getBlockPos())
-                .getBlock();
+        BlockState state = mc.world.getBlockState(((BlockHitResult) mc.crosshairTarget).getBlockPos());
 
-        ChatUtil.sendDebugMessage(this.name, "aim block: " + block);
+        ChatUtil.sendDebugMessage(this.name, "aim block: " + state);
 
-        return block == Blocks.LAPIS_BLOCK || block == Blocks.LIGHT_BLUE_STAINED_GLASS || block == Blocks.BLUE_STAINED_GLASS;
+        return state.isOf(Blocks.LAPIS_BLOCK)
+                || state.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS)
+                || state.isOf(Blocks.BLUE_STAINED_GLASS);
     }
 
     private boolean isHoldingTargetItem() {

@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.skyblock.rift;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
@@ -123,13 +123,11 @@ public class TimiteMiner extends Module {
     private TimiteStage getTargetBlockStage() {
         if (mc.crosshairTarget == null || mc.crosshairTarget.getType() != HitResult.Type.BLOCK) return null;
 
-        Block block = mc.world
-                .getBlockState(((BlockHitResult) mc.crosshairTarget).getBlockPos())
-                .getBlock();
+        BlockState state = mc.world.getBlockState(((BlockHitResult) mc.crosshairTarget).getBlockPos());
 
-        if (block == Blocks.LIGHT_BLUE_STAINED_GLASS_PANE) return TimiteStage.YOUNGITE;
-        if (block == Blocks.BLUE_STAINED_GLASS_PANE) return TimiteStage.TIMITE;
-        if (block == Blocks.PURPLE_STAINED_GLASS_PANE) return TimiteStage.OBSOLITE;
+        if (state.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) return TimiteStage.YOUNGITE;
+        if (state.isOf(Blocks.BLUE_STAINED_GLASS_PANE)) return TimiteStage.TIMITE;
+        if (state.isOf(Blocks.PURPLE_STAINED_GLASS_PANE)) return TimiteStage.OBSOLITE;
 
         return null;
     }

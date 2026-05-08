@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.skyblock.rift;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -37,19 +37,19 @@ public class AgaricusMiner extends Module {
 
         BlockHitResult hit = (BlockHitResult) mc.crosshairTarget;
         BlockPos pos = hit.getBlockPos();
-        Block block = mc.world.getBlockState(pos).getBlock();
+        BlockState state = mc.world.getBlockState(pos);
 
         if (targetPos == null || !targetPos.equals(pos)) {
             targetPos = pos;
             waitingRed = false;
         }
 
-        if (block == Blocks.BROWN_MUSHROOM) {
+        if (state.isOf(Blocks.BROWN_MUSHROOM)) {
             waitingRed = true;
             return;
         }
 
-        if (waitingRed && block == Blocks.RED_MUSHROOM) {
+        if (waitingRed && state.isOf(Blocks.RED_MUSHROOM)) {
             PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
             waitingRed = false;
         }

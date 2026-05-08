@@ -20,14 +20,15 @@ import java.util.List;
 import static owo.pigeon.Pigeon.mc;
 
 public class ItemUtil {
-    public static boolean isSword(Item item) {
-        return item == Items.WOODEN_SWORD
-                || item == Items.STONE_SWORD
-                || item == Items.IRON_SWORD
-                || item == Items.GOLDEN_SWORD
-                || item == Items.DIAMOND_SWORD
-                || item == Items.NETHERITE_SWORD;
+    public static boolean isSword(ItemStack stack) {
+        return stack.isOf(Items.WOODEN_SWORD)
+                || stack.isOf(Items.STONE_SWORD)
+                || stack.isOf(Items.IRON_SWORD)
+                || stack.isOf(Items.GOLDEN_SWORD)
+                || stack.isOf(Items.DIAMOND_SWORD)
+                || stack.isOf(Items.NETHERITE_SWORD);
     }
+
 
     public static int getSlotFromItemName(String itemName, boolean onlyHotbar) {
         if (mc.player == null) return -1;

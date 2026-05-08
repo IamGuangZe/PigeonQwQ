@@ -58,7 +58,7 @@ public class AutoHeal extends Module {
             int slot = ItemUtil.getSlotFromItemName("First-Aid Egg",true);
             if (slot != -1) {
                 ItemStack itemStack = ItemUtil.getItemStackfromSlot(slot);
-                if (itemStack.getItem() == Items.MOOSHROOM_SPAWN_EGG) healingItemSlot = slot;
+                if (itemStack.isOf(Items.MOOSHROOM_SPAWN_EGG)) healingItemSlot = slot;
             }
         }
         if (fracturedSoul.getValue()) {
