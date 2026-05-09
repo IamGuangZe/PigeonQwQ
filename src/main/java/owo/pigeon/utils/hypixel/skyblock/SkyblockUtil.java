@@ -22,6 +22,7 @@ import owo.pigeon.utils.player.PlayerUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -161,13 +162,19 @@ public class SkyblockUtil {
                 .collect(Collectors.toSet());
     }
 
-    public static String getItemCustomData(ItemStack stack, String key) {
+    public static final BiFunction<NbtCompound, String, String> STRING_EXTRACTOR = (nbt, k) -> nbt.getString(k).orElse(null);
+    public static final BiFunction<NbtCompound, String, NbtCompound> COMPOUND_EXTRACTOR = (nbt, k) -> nbt.getCompound(k).orElse(null);
+    public static final BiFunction<NbtCompound, String, Integer> INT_EXTRACTOR = (nbt, k) -> nbt.getInt(k).orElse(null);
+
+    public static <T> T getItemCustomData(ItemStack stack, String key, BiFunction<NbtCompound, String, T> extractor) {
         NbtCompound nbt = ItemUtil.getItemCustomData(stack);
-
         if (nbt != null && nbt.contains(key)) {
-            return nbt.getString(key).orElse(null);
+            try {
+                return extractor.apply(nbt, key);
+            } catch (Exception e) {
+                return null;
+            }
         }
-
         return null;
     }
 
@@ -177,7 +184,7 @@ public class SkyblockUtil {
             ItemStack stack = mc.player.getInventory().getStack(i);
             if (stack.isEmpty()) continue;
 
-            String currentId = getItemCustomData(stack, "id");
+            String currentId = getItemCustomData(stack, "id", STRING_EXTRACTOR);
             if (currentId != null && currentId.equalsIgnoreCase(itemId))
                 totalCount += stack.getCount();
         }
@@ -190,7 +197,7 @@ public class SkyblockUtil {
 
             if (stack.isEmpty()) continue;
 
-            String currentId = getItemCustomData(stack, "id");
+            String currentId = getItemCustomData(stack, "id", STRING_EXTRACTOR);
             if (currentId != null && currentId.equalsIgnoreCase(itemId)) return stack.getCount();
 
         }

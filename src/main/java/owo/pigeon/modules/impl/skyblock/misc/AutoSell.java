@@ -94,7 +94,7 @@ public class AutoSell extends Module {
     }
 
     private boolean matchesItem(ItemStack stack, List<String> names, List<String> ids) {
-        String id = SkyblockUtil.getItemCustomData(stack, "id");
+        String id = SkyblockUtil.getItemCustomData(stack, "id", SkyblockUtil.STRING_EXTRACTOR);
         if (id != null) {
             for (String targetId : ids) {
                 if (id.equals(targetId)) return true;

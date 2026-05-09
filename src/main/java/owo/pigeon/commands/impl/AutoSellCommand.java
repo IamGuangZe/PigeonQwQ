@@ -130,7 +130,7 @@ public class AutoSellCommand extends Command {
         if (heldStack.isEmpty()) return null;
 
         if (isId) {
-            return SkyblockUtil.getItemCustomData(heldStack, "id");
+            return SkyblockUtil.getItemCustomData(heldStack, "id", SkyblockUtil.STRING_EXTRACTOR);
         } else {
             return ColorUtil.removeColor(heldStack.getName().getString());
         }

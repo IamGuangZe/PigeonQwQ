@@ -18,7 +18,6 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.ListSetting;
-import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 import owo.pigeon.utils.player.PlayerUtil;
 
@@ -167,19 +166,12 @@ public class AutoCombine extends Module {
     public boolean isValidBook(ItemStack stack) {
         return !stack.isEmpty()
                 && stack.hasGlint()
-                && "ENCHANTED_BOOK".equals(SkyblockUtil.getItemCustomData(stack, "id"));
+                && "ENCHANTED_BOOK".equals(SkyblockUtil.getItemCustomData(stack, "id", SkyblockUtil.STRING_EXTRACTOR));
     }
 
     public Set<String> getKeys(ItemStack stack) {
-        NbtCompound nbt = ItemUtil.getItemCustomData(stack);
-        if (nbt == null || !nbt.contains("enchantments")) {
-            return Collections.emptySet();
-        }
-        Optional<NbtCompound> enchantsOpt = nbt.getCompound("enchantments");
-        if (enchantsOpt.isEmpty()) {
-            return Collections.emptySet();
-        }
-        NbtCompound enchants = enchantsOpt.get();
+        NbtCompound enchants = SkyblockUtil.getItemCustomData(stack, "enchantments", SkyblockUtil.COMPOUND_EXTRACTOR);
+        if (enchants == null) return Collections.emptySet();
         return enchants.getKeys().stream()
                 .map(key -> enchants.getInt(key)
                         .map(level -> key + ":" + level)
