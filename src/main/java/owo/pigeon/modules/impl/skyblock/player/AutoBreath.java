@@ -1,0 +1,43 @@
+package owo.pigeon.modules.impl.skyblock.player;
+
+import net.engio.mbassy.listener.Handler;
+import net.minecraft.client.input.Input;
+import net.minecraft.util.PlayerInput;
+import owo.pigeon.event.events.MoveInputEvent;
+import owo.pigeon.modules.Category;
+import owo.pigeon.modules.Module;
+import owo.pigeon.settings.EnableSetting;
+import owo.pigeon.settings.FloatSetting;
+
+import static owo.pigeon.Pigeon.mc;
+
+public class AutoBreath extends Module {
+    public AutoBreath() {
+        super("AutoBreath", Category.PLAYER);
+    }
+
+    public FloatSetting air = setting("air", 4.0f, 0.0f, 20.0f, v -> true);
+    public EnableSetting reDive = setting("re-dive", true, v -> true);
+
+    @Handler
+    public void onMoveInput(MoveInputEvent event) {
+        if (mc.currentScreen != null) return;
+
+        Input input = event.getInput();
+        PlayerInput playerInput = input.playerInput;
+
+        boolean shouldJump = mc.player.getAir() / 15.0f <= air.getValue() || playerInput.jump();
+        boolean shouldSneak = reDive.getValue()
+                && mc.player.getAir() / 15.0f > air.getValue()
+                && mc.player.isInFluid()
+                && !mc.player.isOnGround()
+                && !shouldJump
+                || playerInput.sneak();
+
+        input.playerInput = new PlayerInput(
+                playerInput.forward(), playerInput.backward(),
+                playerInput.left(), playerInput.right(),
+                shouldJump, shouldSneak, playerInput.sprint()
+        );
+    }
+}
