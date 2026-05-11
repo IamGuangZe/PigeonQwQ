@@ -1,6 +1,5 @@
 package owo.pigeon.utils.player;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -11,13 +10,12 @@ import net.minecraft.world.RaycastContext;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static owo.pigeon.Pigeon.mc;
+
 // Reference: https://github.com/CCBlueX/LiquidBounce (AngleSmooth)
 // Reference: https://github.com/60124808866/OpenMyau (RotationUtil)
 
 public class RotationUtil {
-
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
-
     public static float angleDifference(float a, float b) {
         return MathHelper.wrapDegrees(a - b);
     }
