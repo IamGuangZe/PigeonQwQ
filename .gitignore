@@ -122,3 +122,5 @@ runs/
 # AI agent conventions (local only)
 CONVENTIONS.md
 Context_Management_Protocol.md
+/.claude/settings.local.json
+/CLAUDE.md
