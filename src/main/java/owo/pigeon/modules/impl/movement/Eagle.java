@@ -1,10 +1,7 @@
 package owo.pigeon.modules.impl.movement;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.input.Input;
 import net.minecraft.item.BlockItem;
-import net.minecraft.util.PlayerInput;
-import net.minecraft.util.math.Vec2f;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.MoveInputEvent;
 import owo.pigeon.modules.Category;
@@ -69,18 +66,9 @@ public class Eagle extends Module {
     public void onMoveInput(MoveInputEvent event) {
         if (mc.currentScreen != null) return;
 
-        Input input = event.getInput();
-        PlayerInput playerInput = input.playerInput;
-
-        if (!playerInput.sneak()) {
+        if (!event.getPlayerInput().sneak()) {
             if (shouldSneak() && (sneakDelay > 0 || canMoveSafely())) {
-                input.playerInput = new PlayerInput(
-                        playerInput.forward(), playerInput.backward(),
-                        playerInput.left(), playerInput.right(),
-                        playerInput.jump(), true, playerInput.sprint()
-                );
-                Vec2f mv = event.getMovementVector();
-                event.setMovementVector(new Vec2f(mv.x * 0.3f, mv.y * 0.3f));
+                event.setSneaking(true);
             }
         }
     }
