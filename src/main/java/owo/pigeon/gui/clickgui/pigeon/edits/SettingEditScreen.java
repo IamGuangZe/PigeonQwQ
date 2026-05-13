@@ -15,6 +15,7 @@ import owo.pigeon.settings.BlockSetting;
 import owo.pigeon.settings.CharSetting;
 import owo.pigeon.settings.StringSetting;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.render.TextRendererUtil;
 
 import java.awt.*;
 
@@ -39,7 +40,7 @@ public class SettingEditScreen extends Screen {
         int x = (this.width - fieldWidth) / 2;
         int y = this.height / 2 - 10;
 
-        this.textField = new TextFieldWidget(this.textRenderer, x, y, fieldWidth, 20, Text.of("Setting Input"));
+        this.textField = new TextFieldWidget(TextRendererUtil.textRenderer, x, y, fieldWidth, 20, Text.of("Setting Input"));
 
         if (currentText != null) {
             textField.setText(currentText);
@@ -68,10 +69,10 @@ public class SettingEditScreen extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         String text = "You are editing: " + setting.getName();
-        int textWidth = this.textRenderer.getWidth(text);
+        int textWidth = TextRendererUtil.textRenderer.getWidth(text);
         int textX = (this.width - textWidth) / 2;
-        int textY = this.textField.getY() - this.textRenderer.fontHeight - 2;
-        context.drawTextWithShadow(textRenderer, text, textX,textY, Color.WHITE.getRGB());
+        int textY = this.textField.getY() - TextRendererUtil.textRenderer.fontHeight - 2;
+        context.drawTextWithShadow(TextRendererUtil.textRenderer, text, textX,textY, Color.WHITE.getRGB());
         
         if (setting instanceof BlockSetting blockSetting) {
             Identifier id = Identifier.tryParse(textField.getText().toLowerCase().trim());

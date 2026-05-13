@@ -21,6 +21,7 @@ class Pipeline {
 
     static final RenderPipeline GLOBAL_LINES_PIPELINE = RenderPipeline.builder(RENDERTYPE_LINES_SNIPPET)
             .withLocation("pipeline/global_lines_pipeline")
+            .withVertexFormat(VertexFormats.POSITION_COLOR_NORMAL_LINE_WIDTH, VertexFormat.DrawMode.LINES)
             .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
             .withBlend(BlendFunction.TRANSLUCENT)
             .withDepthWrite(false)

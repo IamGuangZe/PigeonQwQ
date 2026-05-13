@@ -7,27 +7,21 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import owo.pigeon.modules.impl.player.GhostHand;
 import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
+import static owo.pigeon.Pigeon.mc;
+
 @Mixin(GameRenderer.class)
 public abstract class MixinGameRenderer {
-    @Shadow
-    private static HitResult ensureTargetInRange(HitResult hitResult, Vec3d cameraPos, double interactionRange) {
-        return null;
-    }
-
     @ModifyExpressionValue(method = "renderWorld", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F", ordinal = 0))
     private float applyCameraTransformationsMathHelperLerpProxy(float original) {
         return ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noNausea.getValue() ? 0 : original;
@@ -40,20 +34,32 @@ public abstract class MixinGameRenderer {
         }
     }
 
-    @Inject(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;raycast(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/EntityHitResult;"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
-    private void onFindCrosshairTarget(Entity camera, double blockInteractionRange, double entityInteractionRange, float tickProgress, CallbackInfoReturnable<HitResult> cir, double d, double e, Vec3d vec3d, HitResult hitResult, double f, Vec3d vec3d2, Vec3d vec3d3, float g, Box box) {
-        if (ModuleUtil.isEnable(GhostHand.class)) {
-            EntityHitResult entityHitResult = ProjectileUtil.raycast(
-                    camera, vec3d, vec3d3, box,
-                    entity -> EntityPredicates.CAN_HIT.test(entity) && !ModuleUtil.getModule(GhostHand.class).shouldIgnore(entity),
-                    e
-            );
+    @Inject(method = "updateCrosshairTarget", at = @At("RETURN"))
+    private void afterUpdateCrosshairTarget(float tickProgress, CallbackInfo ci) {
+        if (!ModuleUtil.isEnable(GhostHand.class)) return;
 
-            HitResult finalResult = (entityHitResult != null && entityHitResult.getPos().squaredDistanceTo(vec3d) < f)
-                    ? ensureTargetInRange(entityHitResult, vec3d, entityInteractionRange)
-                    : ensureTargetInRange(hitResult, vec3d, blockInteractionRange);
+        Entity camera = mc.getCameraEntity();
+        if (camera == null) return;
 
-            cir.setReturnValue(finalResult);
+        double entityRange = mc.player.getEntityInteractionRange();
+        Vec3d cameraPos = camera.getCameraPosVec(tickProgress);
+        Vec3d rotationVec = camera.getRotationVec(tickProgress);
+        Vec3d endPos = cameraPos.add(rotationVec.x * entityRange,
+                rotationVec.y * entityRange,
+                rotationVec.z * entityRange);
+        Box box = camera.getBoundingBox()
+                .stretch(rotationVec.multiply(entityRange))
+                .expand(1.0);
+
+        double squaredRange = MathHelper.square(entityRange);
+        EntityHitResult entityHit = ProjectileUtil.raycast(camera, cameraPos, endPos, box,
+                entity -> EntityPredicates.CAN_HIT.test(entity)
+                        && !ModuleUtil.getModule(GhostHand.class).shouldIgnore(entity),
+                squaredRange);
+
+        if (entityHit != null) {
+            mc.crosshairTarget = entityHit;
+            mc.targetedEntity = entityHit.getEntity();
         }
     }
 }

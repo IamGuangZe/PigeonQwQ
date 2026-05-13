@@ -12,6 +12,7 @@ import owo.pigeon.gui.clickgui.pigeon.panels.SettingPanel;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.render.TextRendererUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -43,10 +44,10 @@ public class ClickGuiScreen extends Screen {
             panel.drawScreen(context,mouseX,mouseY,delta);
         }
 
-        context.drawTextWithShadow(textRenderer,
+        context.drawTextWithShadow(TextRendererUtil.textRenderer,
                 Pigeon.WATERMARK,
-                this.width - textRenderer.getWidth(Pigeon.WATERMARK) - 2,
-                this.height - textRenderer.fontHeight - 2,
+                this.width - TextRendererUtil.textRenderer.getWidth(Pigeon.WATERMARK) - 2,
+                this.height - TextRendererUtil.textRenderer.fontHeight - 2,
                 Color.WHITE.getRGB());
     }
 

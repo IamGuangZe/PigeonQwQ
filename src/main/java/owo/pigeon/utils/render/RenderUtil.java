@@ -58,7 +58,7 @@ public class RenderUtil {
     }
 
     public static void draw3DLine(MatrixStack stack, Vec3d start, Vec3d end, Color c, double pixelWidth) {
-        Vec3d camPos = mc.getEntityRenderDispatcher().camera.getPos();
+        Vec3d camPos = mc.getEntityRenderDispatcher().camera.getCameraPos();
 
         float x1 = (float) (start.x - camPos.x);
         float y1 = (float) (start.y - camPos.y);
@@ -167,18 +167,19 @@ public class RenderUtil {
     }
 
     public static void drawBox(MatrixStack stack, Box box, Color c, double lineWidth) {
-        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPos().getX());
-        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getPos().getY());
-        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.getPos().getZ());
-        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.getPos().getX());
-        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.getPos().getY());
-        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.getPos().getZ());
+        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getCameraPos().getX());
+        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getCameraPos().getY());
+        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.getCameraPos().getZ());
+        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.getCameraPos().getX());
+        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.getCameraPos().getY());
+        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.getCameraPos().getZ());
 
         BufferBuilder bufferBuilder = Tessellator.getInstance()
-                .begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
+                .begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL_LINE_WIDTH);
 
-        VertexRendering.drawBox(stack.peek(), bufferBuilder, minX, minY, minZ, maxX, maxY, maxZ,
-                c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
+        VoxelShape shape = VoxelShapes.cuboid(minX, minY, minZ, maxX, maxY, maxZ);
+        VertexRendering.drawOutline(stack, bufferBuilder, shape, 0, 0, 0,
+                c.getRGB(), (float) lineWidth);
 
         Layer.getGlobalLines(lineWidth).draw(bufferBuilder.end());
     }
@@ -213,12 +214,12 @@ public class RenderUtil {
     }
 
     public static void drawBoxFilled(MatrixStack stack, Box box, Color c) {
-        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPos().getX());
-        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getPos().getY());
-        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.getPos().getZ());
-        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.getPos().getX());
-        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.getPos().getY());
-        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.getPos().getZ());
+        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getCameraPos().getX());
+        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getCameraPos().getY());
+        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.getCameraPos().getZ());
+        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.getCameraPos().getX());
+        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.getCameraPos().getY());
+        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.getCameraPos().getZ());
 
         BufferBuilder bufferBuilder = Tessellator.getInstance()
                 .begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -298,7 +299,7 @@ public class RenderUtil {
     }
 
     public static void drawTracer(MatrixStack stack, Vec3d target, Color c, double pixelWidth) {
-        Vec3d cameraPos = mc.getEntityRenderDispatcher().camera.getPos();
+        Vec3d cameraPos = mc.getEntityRenderDispatcher().camera.getCameraPos();
 
         Vec3d rotationVec = mc.player.getRotationVec(mc.getRenderTickCounter().getTickProgress(true));
         Vec3d startPos = cameraPos.add(rotationVec.multiply(0.1));
