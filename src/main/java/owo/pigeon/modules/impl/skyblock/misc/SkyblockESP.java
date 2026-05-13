@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -65,6 +66,7 @@ public class SkyblockESP extends Module {
     public EnableSetting phanpyreEsp = setting("phanpyre-esp", false, v -> galatea.getValue());
     public EnableSetting phanflareEsp = setting("phanflare-esp", false, v -> galatea.getValue());
     public EnableSetting dreadwingEsp = setting("dreadwing-esp", false, v -> galatea.getValue());
+    public EnableSetting mudwormEsp = setting("mudworm-esp", false, v -> galatea.getValue());
 
     public ExpandSetting theEnd = setting("the-end", v -> true);
     public EnableSetting enderNodeEsp = setting("ender-node-esp", false, v -> theEnd.getValue());
@@ -171,12 +173,15 @@ public class SkyblockESP extends Module {
                 } else if (entity instanceof PhantomEntity phantom) {
                     float scale = phantom.getScale();
                     if (scale == 0.4f && phanpyreEsp.getValue()) {
-                        RenderUtil.drawESP(stack, entity, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
+                        RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                     } else if (scale == 1.0f && phanflareEsp.getValue()) {
-                        RenderUtil.drawESP(stack, entity, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
+                        RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                     } else if (scale == 3.0f && dreadwingEsp.getValue()) {
-                        RenderUtil.drawESP(stack, entity, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
+                        RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                     }
+            } else if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay && itemDisplay.getItemStack().isOf(Items.STRING) && mudwormEsp.getValue()) {
+                    RenderUtil.drawESP(stack, entity.getBlockPos(), Color.YELLOW,
+                            RenderUtil.ESPMode.BOTH, false);
                 }
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.TheEnd)) {
