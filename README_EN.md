@@ -2,6 +2,9 @@
 
 English | [简体中文](README.md)
 
+> [!NOTE]
+> Since many mods have been gradually dropping support for Minecraft 1.21.10, development on the 1.21.10 branch has been discontinued. Future development will target 1.21.11 and later versions.
+
 ## About This Project
 This project is created by me as a personal learning experience for developing high-version Minecraft clients. It is intended for entertainment and educational purposes only.
 I only have some basic experience in other programming languages and am not proficient in Java or related technologies. This project was made on a whim.
