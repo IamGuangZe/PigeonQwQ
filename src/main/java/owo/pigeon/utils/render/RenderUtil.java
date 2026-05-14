@@ -3,10 +3,7 @@ package owo.pigeon.utils.render;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.render.VertexRendering;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -290,7 +287,14 @@ public class RenderUtil {
     public static void drawTracer(MatrixStack stack, Vec3d target, Color c, double pixelWidth) {
         Vec3d cameraPos = mc.getEntityRenderDispatcher().camera.getCameraPos();
 
-        Vec3d rotationVec = mc.player.getRotationVec(mc.getRenderTickCounter().getTickProgress(true));
+        Camera cam = mc.gameRenderer.getCamera();
+        float pitch = cam.getPitch() * (float) (Math.PI / 180);
+        float yaw = -cam.getYaw() * (float) (Math.PI / 180);
+        float cosYaw = MathHelper.cos(yaw);
+        float sinYaw = MathHelper.sin(yaw);
+        float cosPitch = MathHelper.cos(pitch);
+        float sinPitch = MathHelper.sin(pitch);
+        Vec3d rotationVec = new Vec3d(sinYaw * cosPitch, -sinPitch, cosYaw * cosPitch);
         Vec3d startPos = cameraPos.add(rotationVec.multiply(0.1));
 
         draw3DLine(stack, startPos, target, c, pixelWidth);
