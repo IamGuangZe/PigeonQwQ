@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.utils.chat.ChatUtil;
 import owo.pigeon.utils.render.RenderUtil;
 import owo.pigeon.utils.render.TextRendererUtil;
 
@@ -33,8 +32,6 @@ public class RenderTest extends Module {
         mutiText.add("line 4: muti lines &a[&&a]");
 
         TextRendererUtil.drawStringList(context, mutiText, 100, 100 + TextRendererUtil.getLineHeight() * 2);
-
-        ChatUtil.sendDebugMessage(this.name, "drawString");
     }
 
     @Handler
@@ -42,9 +39,7 @@ public class RenderTest extends Module {
         MatrixStack stack = event.getMatrix();
         for (Entity entity : mc.world.getEntities()) {
             RenderUtil.drawBox(stack, entity, Color.CYAN, 2.0);
-            RenderUtil.drawTracer(stack,entity,Color.GREEN,1);
+            RenderUtil.drawTracer(stack,entity,Color.GREEN,2.0);
         }
-
-        ChatUtil.sendDebugMessage(this.name, "drawBox");
     }
 }

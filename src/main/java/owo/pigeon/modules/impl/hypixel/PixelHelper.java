@@ -78,7 +78,7 @@ public class PixelHelper extends Module {
         }
 
         if (nearestTracer.getValue() && closestPos != null) {
-            RenderUtil.drawTracer(event.getMatrix(), closestPos, color.getValue(), 1.5);
+            RenderUtil.drawTracer(event.getMatrix(), closestPos, color.getValue(), 2.0);
         }
     }
 }

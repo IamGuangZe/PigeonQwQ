@@ -67,34 +67,23 @@ public class RenderUtil {
         float y2 = (float) (end.y - camPos.y);
         float z2 = (float) (end.z - camPos.z);
 
-        Vec3d dir = end.subtract(start).normalize();
-        Vec3d toCamStart = start.subtract(camPos).normalize();
-        Vec3d toCamEnd = end.subtract(camPos).normalize();
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+        float dz = z2 - z1;
+        double len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (len < 1e-6) return;
+        float nx = (float) (dx / len);
+        float ny = (float) (dy / len);
+        float nz = (float) (dz / len);
 
-        double dist1 = start.distanceTo(camPos);
-        double dist2 = end.distanceTo(camPos);
-
-        double scale1 = (pixelWidth * dist1) / 400.0f;
-        double scale2 = (pixelWidth * dist2) / 400.0f;
-
-        Vec3d perp1 = dir.crossProduct(toCamStart).normalize().multiply(scale1);
-        Vec3d perp2 = dir.crossProduct(toCamEnd).normalize().multiply(scale2);
-
-        float r = c.getRed() / 255f;
-        float g = c.getGreen() / 255f;
-        float b = c.getBlue() / 255f;
-        float a = 1.0f;
-
-        Matrix4f matrix = stack.peek().getPositionMatrix();
+        MatrixStack.Entry entry = stack.peek();
         BufferBuilder bufferBuilder = Tessellator.getInstance()
-                .begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+                .begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL_LINE_WIDTH);
 
-        bufferBuilder.vertex(matrix, (float)(x1 + perp1.x), (float)(y1 + perp1.y), (float)(z1 + perp1.z)).color(r, g, b, a);
-        bufferBuilder.vertex(matrix, (float)(x2 + perp2.x), (float)(y2 + perp2.y), (float)(z2 + perp2.z)).color(r, g, b, a);
-        bufferBuilder.vertex(matrix, (float)(x2 - perp2.x), (float)(y2 - perp2.y), (float)(z2 - perp2.z)).color(r, g, b, a);
-        bufferBuilder.vertex(matrix, (float)(x1 - perp1.x), (float)(y1 - perp1.y), (float)(z1 - perp1.z)).color(r, g, b, a);
+        bufferBuilder.vertex(entry, x1, y1, z1).color(c.getRGB()).normal(entry, nx, ny, nz).lineWidth((float) pixelWidth);
+        bufferBuilder.vertex(entry, x2, y2, z2).color(c.getRGB()).normal(entry, nx, ny, nz).lineWidth((float) pixelWidth);
 
-        Layer.getGlobalQuads().draw(bufferBuilder.end());
+        Layer.getGlobalLines(pixelWidth).draw(bufferBuilder.end());
     }
 
     protected static void drawHorizontalLine(MatrixStack matrices, float x1, float x2, float y, int color) {
@@ -337,13 +326,13 @@ public class RenderUtil {
             drawBox(stack, box, c, 1);
         }
 
-        if (drawTracer) drawTracer(stack, box, c, 1.5);
+        if (drawTracer) drawTracer(stack, box, c, 2.0);
     }
 
     public static void drawESP(MatrixStack stack, Vec3d vec, Color c, ESPMode mode, boolean drawTracer) {
         drawESP(stack, Box.from(vec), c, mode, false);
 
-        if (drawTracer) drawTracer(stack, vec, c, 1.5);
+        if (drawTracer) drawTracer(stack, vec, c, 2.0);
     }
 
     public static void drawESP(MatrixStack stack, BlockPos pos, Color c, ESPMode mode, boolean drawTracer) {
@@ -358,7 +347,7 @@ public class RenderUtil {
             ), c, mode, false);
         });
 
-        if (drawTracer) drawTracer(stack, pos, c, 1.5);
+        if (drawTracer) drawTracer(stack, pos, c, 2.0);
     }
 
     public static void drawESP(MatrixStack stack, Entity entity, Color c, ESPMode mode, boolean drawTracer) {
@@ -366,7 +355,7 @@ public class RenderUtil {
         Box box = entity.getBoundingBox().offset(interpPos.x - entity.getX(), interpPos.y - entity.getY(), interpPos.z - entity.getZ());
         drawESP(stack, box, c, mode, false);
 
-        if (drawTracer) drawTracer(stack, entity, c, 1.5);
+        if (drawTracer) drawTracer(stack, entity, c, 2.0);
     }
 
     public static void drawESP(MatrixStack stack, Entity entity, Box box, Color c, ESPMode mode, boolean drawTracer) {
@@ -374,6 +363,6 @@ public class RenderUtil {
         Box renderedBox = box.offset(vec.x - entity.getX(), vec.y - entity.getY(), vec.z - entity.getZ());
         drawESP(stack, renderedBox, c, mode, false);
 
-        if (drawTracer) drawTracer(stack, entity, c, 1.5);
+        if (drawTracer) drawTracer(stack, entity, c, 2.0);
     }
 }
