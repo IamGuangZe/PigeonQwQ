@@ -17,6 +17,7 @@ import owo.pigeon.modules.impl.render.*;
 import owo.pigeon.modules.impl.skyblock.combat.FlaySwitch;
 import owo.pigeon.modules.impl.skyblock.dungeon.AutoGFS;
 import owo.pigeon.modules.impl.skyblock.dungeon.ChestClose;
+import owo.pigeon.modules.impl.skyblock.dungeon.PillarsReplace;
 import owo.pigeon.modules.impl.skyblock.dungeon.StarMobESP;
 import owo.pigeon.modules.impl.skyblock.event.AutoBouncingBall;
 import owo.pigeon.modules.impl.skyblock.event.ZombieShootout;
@@ -100,6 +101,7 @@ public class ModuleManager {
         modules.add(new FlaySwitch());
         modules.add(new AutoGFS());
         modules.add(new ChestClose());
+        modules.add(new PillarsReplace());
         modules.add(new StarMobESP());
         modules.add(new AutoBouncingBall());
         modules.add(new ZombieShootout());
