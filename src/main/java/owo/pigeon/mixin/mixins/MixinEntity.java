@@ -9,9 +9,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.interfaces.ICameraOverriddenEntity;
-import owo.pigeon.modules.impl.combat.HitBox;
 import owo.pigeon.modules.impl.render.FreeLook;
 import owo.pigeon.modules.impl.render.TrueSight;
 import owo.pigeon.utils.ModuleUtil;
@@ -24,12 +22,6 @@ public class MixinEntity implements ICameraOverriddenEntity {
 
     @Unique
     private float cameraYaw;
-
-    @Inject(method = "getTargetingMargin", at = @At("RETURN"), cancellable = true)
-    private void onGetTargetingMargin(CallbackInfoReturnable<Float> cir) {
-        if (ModuleUtil.isEnable(HitBox.class))
-            cir.setReturnValue(ModuleUtil.getModule(HitBox.class).expand.getValue());
-    }
 
     @Inject(method = "changeLookDirection", at = @At("HEAD"), cancellable = true)
     private void onChangeLookDirection(double xDelta, double yDelta, CallbackInfo ci) {
