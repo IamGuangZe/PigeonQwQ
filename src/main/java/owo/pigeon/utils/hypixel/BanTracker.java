@@ -6,8 +6,10 @@ import owo.pigeon.modules.impl.hypixel.BannedStats;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,11 @@ import java.util.concurrent.TimeUnit;
 public class BanTracker {
     private static final String API_URL = "https://api.plancke.io/hypixel/v1/punishmentStats";
     private final List<Long> staffHistory = new ArrayList<>();
-    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "BanTracker");
+        t.setDaemon(true);
+        return t;
+    });
 
     public void start() {
         scheduler.scheduleAtFixedRate(this::fetchAndProcess, 0, 1, TimeUnit.MINUTES);
@@ -58,21 +64,27 @@ public class BanTracker {
         }
     }
 
-    private long fetchStaffTotal() throws Exception {
-        URL url = new URL(API_URL);
+    private long fetchStaffTotal() throws IOException {
+        URL url = URI.create(API_URL).toURL();
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setConnectTimeout(5000);
         conn.setReadTimeout(5000);
         conn.setRequestMethod("GET");
         conn.setRequestProperty("User-Agent", "Mozilla/5.0");
 
-        if (conn.getResponseCode() == 200) {
-            JsonObject json = JsonParser.parseReader(new InputStreamReader(conn.getInputStream())).getAsJsonObject();
-            if (json.has("success") && json.get("success").getAsBoolean()) {
-                return json.getAsJsonObject("record").get("staff_total").getAsLong();
+        try {
+            if (conn.getResponseCode() == 200) {
+                try (InputStreamReader reader = new InputStreamReader(conn.getInputStream())) {
+                    JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
+                    if (json.has("success") && json.get("success").getAsBoolean()) {
+                        return json.getAsJsonObject("record").get("staff_total").getAsLong();
+                    }
+                }
             }
+            return -1;
+        } finally {
+            conn.disconnect();
         }
-        return -1;
     }
 
     private void handleMissingData() {
