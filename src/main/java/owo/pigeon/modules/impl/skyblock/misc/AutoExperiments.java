@@ -43,8 +43,8 @@ public class AutoExperiments extends Module {
 
     private int clickCooldown, clickIndex;
     private boolean addedThisRound;
-    private List<Integer> chronomatronOrder = new ArrayList<>();
-    private Map<Integer, Integer> ultrasequencerOrder = new HashMap<>();
+    private final List<Integer> chronomatronOrder = new ArrayList<>();
+    private final Map<Integer, Integer> ultrasequencerOrder = new HashMap<>();
 
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {

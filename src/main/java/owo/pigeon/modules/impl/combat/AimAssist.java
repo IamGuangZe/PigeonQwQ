@@ -113,21 +113,21 @@ public class AimAssist extends Module {
     private float smoothRotation(float current, float target, float speed, float delta) {
         return switch (smoothMode.getValue()) {
             case LINEAR -> RotationUtil.towardsLinear(current, target, speed, delta);
-            case SIGMOID -> RotationUtil.towardsSigmoid(current, target, speed, steepness.getValue(), midpoint.getValue(), delta);
-            case INTERPOLATION -> RotationUtil.towardsInterpolation(current, target, speed, (float) directionChange.getValue(), midpoint.getValue(), delta);
+            case SIGMOID ->
+                    RotationUtil.towardsSigmoid(current, target, speed, steepness.getValue(), midpoint.getValue(), delta);
+            case INTERPOLATION ->
+                    RotationUtil.towardsInterpolation(current, target, speed, (float) directionChange.getValue(), midpoint.getValue(), delta);
         };
     }
 
     private boolean isValidTarget(PlayerEntity player) {
-        if (player == mc.player || player == mc.player.getVehicle() || player.isDead() || player.isSpectator()) return false;
+        if (player == mc.player || player == mc.player.getVehicle() || player.isDead() || player.isSpectator())
+            return false;
         if (RotationUtil.distanceToEntity(player) > this.range.getValue()) return false;
         if (RotationUtil.angleToEntity(player) > this.fov.getValue()) return false;
         if (!this.invisibles.getValue() && player.isInvisible()) return false;
         if (this.botCheck.getValue() && !PlayerUtil.hasUUID(player)) return false;
-        if (!this.throughWalls.getValue() && RotationUtil.rayTrace(player).getType() == HitResult.Type.BLOCK)
-            return false;
-
-        return true;
+        return this.throughWalls.getValue() || RotationUtil.rayTrace(player).getType() != HitResult.Type.BLOCK;
     }
 
     private boolean isInReach(PlayerEntity player) {

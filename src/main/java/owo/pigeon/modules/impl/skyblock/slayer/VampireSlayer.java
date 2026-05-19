@@ -107,24 +107,24 @@ public class VampireSlayer extends Module {
                 }
             }
 
-                GameMode targetMode = (changeGamemode.getValue() && slayer != null && mc.player.getPitch() <= 45) ? GameMode.ADVENTURE : GameMode.SURVIVAL;
+            GameMode targetMode = (changeGamemode.getValue() && slayer != null && mc.player.getPitch() <= 45) ? GameMode.ADVENTURE : GameMode.SURVIVAL;
 
-                if (mc.interactionManager != null && mc.interactionManager.getCurrentGameMode() != targetMode) {
+            if (mc.interactionManager != null && mc.interactionManager.getCurrentGameMode() != targetMode) {
 
-                    boolean wasFlying = mc.player.getAbilities().flying;
-                    boolean canFly = mc.player.getAbilities().allowFlying;
+                boolean wasFlying = mc.player.getAbilities().flying;
+                boolean canFly = mc.player.getAbilities().allowFlying;
 
-                    mc.interactionManager.setGameMode(targetMode);
+                mc.interactionManager.setGameMode(targetMode);
 
-                    mc.player.getAbilities().allowFlying = canFly;
-                    mc.player.getAbilities().flying = wasFlying;
+                mc.player.getAbilities().allowFlying = canFly;
+                mc.player.getAbilities().flying = wasFlying;
 
-                    // ChatUtil.sendCustomPrefixMessage(this.name, "Changed gamemode to &6" + targetMode.getId().toUpperCase());
-                    ChatUtil.sendDebugMessage(this.name, "Client Gamemode -> " + targetMode.getId());
-                }
+                // ChatUtil.sendCustomPrefixMessage(this.name, "Changed gamemode to &6" + targetMode.getId().toUpperCase());
+                ChatUtil.sendDebugMessage(this.name, "Client Gamemode -> " + targetMode.getId());
+            }
 
             if (autoHeal.getValue()) {
-                int melon = ItemUtil.getSlotFromItemName(MELON,true);
+                int melon = ItemUtil.getSlotFromItemName(MELON, true);
                 float health = mc.player.getHealth();
 
                 if (melon != -1 && health <= healHealth.getValue() && !hasHeal) {
@@ -138,7 +138,7 @@ public class VampireSlayer extends Module {
             }
 
             if (autoIce.getValue()) {
-                int ice = ItemUtil.getSlotFromItemName(ICE,true);
+                int ice = ItemUtil.getSlotFromItemName(ICE, true);
                 if (ice == -1 || slayer == null) return;
 
                 boolean foundClaws = false;
@@ -170,7 +170,7 @@ public class VampireSlayer extends Module {
             }
 
             if (autoSteak.getValue()) {
-                int steak = ItemUtil.getSlotFromItemName(STEAK,true);
+                int steak = ItemUtil.getSlotFromItemName(STEAK, true);
                 if (steak == -1 || slayer == null) return;
 
                 for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25, 2.5, 0.25), entity -> true)) {

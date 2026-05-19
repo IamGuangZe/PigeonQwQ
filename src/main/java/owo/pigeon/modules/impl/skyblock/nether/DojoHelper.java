@@ -344,9 +344,7 @@ public class DojoHelper extends Module {
         ItemStack helmet = wither.getEquippedStack(EquipmentSlot.HEAD);
         if (helmet.isEmpty()) return false;
         if (!(helmet.getItem() instanceof BlockItem)) return false;
-        if (helmet.isOf(Items.PLAYER_HEAD)) return false;
-
-        return true;
+        return !helmet.isOf(Items.PLAYER_HEAD);
     }
 
     private boolean isInArenaRange(Entity entity) {

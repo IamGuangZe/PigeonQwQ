@@ -27,7 +27,7 @@ public class AutoEquipment extends Module {
     public KeySetting davidCloak = setting("david-cloak", -1, v -> true);
     public StringSetting custom = setting("custom", "Golden Necron Head", v -> true);
     public KeySetting customKey = setting("custom-key", -1, v -> true);
-    public IntSetting delay = setting("delay", 5, 0, 20, "tick",v -> true);
+    public IntSetting delay = setting("delay", 5, 0, 20, "tick", v -> true);
 
     private final String BONZO_MASK = "Bonzo's Mask";
     private final String SPIRIT_MASK = "Spirit Mask";
@@ -90,7 +90,7 @@ public class AutoEquipment extends Module {
                             ? containerSize + 27 + targetSlot
                             : containerSize + (targetSlot - 9);
 
-                    PlayerUtil.clickSlot(containerScreen.syncId, slotId,0, SlotActionType.QUICK_MOVE);
+                    PlayerUtil.clickSlot(containerScreen.syncId, slotId, 0, SlotActionType.QUICK_MOVE);
                     targetSlot = null;
                     isWaitingToClose = true;
                     ticksOpened = 0;

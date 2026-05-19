@@ -22,7 +22,7 @@ public abstract class SettingDesigner {
         return setting;
     }
 
-    public ColorSetting setting(String name, Color value, Predicate<Boolean> visible){
+    public ColorSetting setting(String name, Color value, Predicate<Boolean> visible) {
         ColorSetting setting = new ColorSetting(name, value, visible);
         settings.add(setting);
         return setting;
@@ -47,7 +47,7 @@ public abstract class SettingDesigner {
     }
 
     public IntSetting setting(String name, Integer value, Integer minValue, Integer maxValue, Predicate<Boolean> visible) {
-        IntSetting setting = new IntSetting(name, value, minValue, maxValue, null,visible);
+        IntSetting setting = new IntSetting(name, value, minValue, maxValue, null, visible);
         settings.add(setting);
         return setting;
     }

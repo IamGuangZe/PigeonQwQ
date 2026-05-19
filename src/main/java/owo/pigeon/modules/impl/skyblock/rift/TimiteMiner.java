@@ -112,7 +112,7 @@ public class TimiteMiner extends Module {
         if (!isHoldingTimiteTools()) return;
         if (getTargetBlockStage() == null) return;
 
-        int slot = ItemUtil.getSlotFromItemName(itemName,true);
+        int slot = ItemUtil.getSlotFromItemName(itemName, true);
 
         if (slot != -1) {
             PlayerUtil.switchItemSlot(slot);
@@ -147,8 +147,8 @@ public class TimiteMiner extends Module {
 
         // 计算当前能合成多少个Highlite
         int completedHighlites = Math.min(
-            youngiteCount / 32,
-            Math.min(timiteCount / 32, obsoliteCount / 16)
+                youngiteCount / 32,
+                Math.min(timiteCount / 32, obsoliteCount / 16)
         );
 
         // 计算下一个Highlite需要的数量

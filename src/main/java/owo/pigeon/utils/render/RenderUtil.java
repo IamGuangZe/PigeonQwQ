@@ -322,8 +322,8 @@ public class RenderUtil {
     }
 
     public static void drawESP(MatrixStack stack, Box box, Color c, ESPMode mode, boolean drawTracer) {
-        if (mode == ESPMode.OUTLINE) drawBox(stack,box,c,1);
-        else if (mode == ESPMode.FILL) drawBoxFilled(stack,box,c);
+        if (mode == ESPMode.OUTLINE) drawBox(stack, box, c, 1);
+        else if (mode == ESPMode.FILL) drawBoxFilled(stack, box, c);
         else if (mode == ESPMode.BOTH) {
             Color filledColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (c.getAlpha() * 0.2f));
             drawBoxFilled(stack, box, filledColor);

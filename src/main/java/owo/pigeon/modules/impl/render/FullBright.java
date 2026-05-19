@@ -38,7 +38,7 @@ public class FullBright extends Module {
 
             case NIGHT_VISION -> {
                 if (mc.player != null)
-                    mc.player.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(StatusEffects.NIGHT_VISION.value()), -1, 0,false,false,false));
+                    mc.player.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(StatusEffects.NIGHT_VISION.value()), -1, 0, false, false, false));
             }
         }
     }

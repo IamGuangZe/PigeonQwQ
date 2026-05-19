@@ -12,7 +12,7 @@ import java.awt.*;
 import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
 
 public class HidePanel extends AbstractDisplableItem {
-    private Module module;
+    private final Module module;
     private boolean hovered;
 
     public HidePanel(Module module, int x, int y, int width, int height) {
@@ -44,7 +44,8 @@ public class HidePanel extends AbstractDisplableItem {
                 Color.LIGHT_GRAY.getRGB());
 
         context.getMatrices().popMatrix();
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
+        if (owo.pigeon.Pigeon.isDebug())
+            RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
     public boolean mouseClicked(Click click, boolean doubled) {

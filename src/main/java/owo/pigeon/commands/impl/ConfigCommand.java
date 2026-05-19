@@ -113,7 +113,8 @@ public class ConfigCommand extends Command {
                         int input = Integer.parseInt(args[1]);
                         if (input > 0) page = input;
                     }
-                } catch (NumberFormatException ignored) {}
+                } catch (NumberFormatException ignored) {
+                }
 
                 int maxPage = (int) Math.ceil((double) files.length / perPage);
                 if (page > maxPage) page = maxPage;

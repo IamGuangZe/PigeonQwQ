@@ -179,7 +179,7 @@ public class SkyblockESP extends Module {
                     } else if (scale == 3.0f && dreadwingEsp.getValue()) {
                         RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                     }
-            } else if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay && itemDisplay.getItemStack().isOf(Items.STRING) && mudwormEsp.getValue()) {
+                } else if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay && itemDisplay.getItemStack().isOf(Items.STRING) && mudwormEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity.getBlockPos(), Color.YELLOW,
                             RenderUtil.ESPMode.BOTH, false);
                 }

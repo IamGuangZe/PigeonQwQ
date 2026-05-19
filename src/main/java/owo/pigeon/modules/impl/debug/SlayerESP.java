@@ -19,13 +19,13 @@ import static owo.pigeon.Pigeon.mc;
 
 public class SlayerESP extends Module {
     public SlayerESP() {
-        super("SlayerESP",Category.DEBUG);
+        super("SlayerESP", Category.DEBUG);
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
 
-        RenderUtil.drawESP(event.getMatrix(), SkyblockUtil.getSlayer(),Color.PINK, RenderUtil.ESPMode.BOTH,false);
+        RenderUtil.drawESP(event.getMatrix(), SkyblockUtil.getSlayer(), Color.PINK, RenderUtil.ESPMode.BOTH, false);
 
         /*
         for (Entity entity : mc.world.getEntities()) {

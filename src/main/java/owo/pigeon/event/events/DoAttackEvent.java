@@ -8,10 +8,12 @@ public class DoAttackEvent extends CancellableEvent {
     }
 
     public static class Pre extends DoAttackEvent {
-        public Pre() {}
+        public Pre() {
+        }
     }
 
     public static class Post extends DoAttackEvent {
-        public Post() {}
+        public Post() {
+        }
     }
 }

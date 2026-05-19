@@ -22,7 +22,7 @@ public class ChestClose extends Module {
     }
 
     public enum Mode {
-        TICK, PACKET, INPUT;
+        TICK, PACKET, INPUT
     }
 
     public ModeSetting<Mode> closeMode = setting("close-mode", Mode.TICK, v -> true);

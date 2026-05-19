@@ -26,7 +26,7 @@ public abstract class MixinCamera {
 
     @Shadow
     protected abstract void setRotation(float yaw, float pitch);
-    
+
     @ModifyVariable(method = "clipToSpace", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private float onClipToSpace(float value) {
         return ModuleUtil.isEnable(ModifyCamera.class) ? ModuleUtil.getModule(ModifyCamera.class).distance.getValue() : 4.0f;

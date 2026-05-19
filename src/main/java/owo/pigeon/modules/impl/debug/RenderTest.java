@@ -39,7 +39,7 @@ public class RenderTest extends Module {
         MatrixStack stack = event.getMatrix();
         for (Entity entity : mc.world.getEntities()) {
             RenderUtil.drawBox(stack, entity, Color.CYAN, 2.0);
-            RenderUtil.drawTracer(stack,entity,Color.GREEN,2.0);
+            RenderUtil.drawTracer(stack, entity, Color.GREEN, 2.0);
         }
     }
 }

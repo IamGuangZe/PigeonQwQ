@@ -100,7 +100,7 @@ public class AutoBouncingBall extends Module {
             if (bounceCountStr != null) {
                 try {
                     int currentBounces = Integer.parseInt(bounceCountStr);
-                    ChatUtil.sendDebugMessage(this.name,"current bounces: " + currentBounces);
+                    ChatUtil.sendDebugMessage(this.name, "current bounces: " + currentBounces);
                     if (currentBounces >= bounces.getValue()) {
                         ballEntity = null;
                         KeybindUtil.resetPressed(mc.options.forwardKey);

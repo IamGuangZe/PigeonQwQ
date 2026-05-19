@@ -23,10 +23,10 @@ public class FlaySwitch extends Module {
         super("FlaySwitch", Category.COMBAT);
     }
 
-    public StringSetting weaponName = setting("weapon-name","Figstone Splitter",v -> true);
-    public EnableSetting switchBack = setting("switch-back",false,v->true);
-    public IntSetting switchBackDelay = setting("switch-back-delay",15,1,20, "tick",v-> switchBack.getValue());
-    public EnableSetting onlyInGalatea = setting("only-in-galatea",true,v->true);
+    public StringSetting weaponName = setting("weapon-name", "Figstone Splitter", v -> true);
+    public EnableSetting switchBack = setting("switch-back", false, v -> true);
+    public IntSetting switchBackDelay = setting("switch-back-delay", 15, 1, 20, "tick", v -> switchBack.getValue());
+    public EnableSetting onlyInGalatea = setting("only-in-galatea", true, v -> true);
 
     private int rawSlot = 0;
     private int delay = 21;
@@ -35,7 +35,7 @@ public class FlaySwitch extends Module {
     public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
 
-        if (delay <= switchBackDelay.getMaxValue()) delay ++;
+        if (delay <= switchBackDelay.getMaxValue()) delay++;
         if (delay == switchBackDelay.getValue()) PlayerUtil.switchItemSlot(rawSlot);
     }
 
@@ -52,7 +52,7 @@ public class FlaySwitch extends Module {
         if (!name.contains("Soul Whip") && !name.contains("Flaming Flay")) return;
 
         rawSlot = mc.player.getInventory().getSelectedSlot();
-        int weaponSlot = ItemUtil.getSlotFromItemName(weaponName.getValue(),true);
+        int weaponSlot = ItemUtil.getSlotFromItemName(weaponName.getValue(), true);
 
         ChatUtil.sendDebugMessage(this.name, String.valueOf(weaponSlot));
         if (weaponSlot == -1) return;

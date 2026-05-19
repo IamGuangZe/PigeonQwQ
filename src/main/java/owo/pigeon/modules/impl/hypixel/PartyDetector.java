@@ -24,7 +24,7 @@ public class PartyDetector extends Module {
     }
 
     public enum DetectionMode {
-        CHAT, ENTITYLIST;
+        CHAT, ENTITYLIST
     }
 
     public ModeSetting<DetectionMode> detectionMode = setting("detection-mode", DetectionMode.CHAT, v -> true);

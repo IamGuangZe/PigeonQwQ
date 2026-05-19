@@ -58,13 +58,13 @@ public class StarMobESP extends Module {
                                     entity.getX() + 0.5, entity.getY(), entity.getZ() + 0.5
                             );
 
-                            RenderUtil.drawESP(stack, customBox, color.getValue(), espMode.getValue(),false);
+                            RenderUtil.drawESP(stack, customBox, color.getValue(), espMode.getValue(), false);
                         }
 
                         case MOB -> {
                             Entity starMob = getMobEntity(stand);
                             if (starMob != null)
-                                RenderUtil.drawESP(stack, starMob, color.getValue(), espMode.getValue(),false);
+                                RenderUtil.drawESP(stack, starMob, color.getValue(), espMode.getValue(), false);
                         }
                     }
                 }

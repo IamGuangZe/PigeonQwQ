@@ -22,10 +22,10 @@ public class MixinClientPlayerInteractionManager {
     @Shadow
     private int blockBreakingCooldown;
 
-    @Inject(method = "clickSlot",at = @At("HEAD"))
+    @Inject(method = "clickSlot", at = @At("HEAD"))
     private void onClickSlotPre(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new ClickSlotEvent()).now();
-        ChatUtil.sendDebugMessage("MixinClientPlayerInteractionManager","syanId: " + syncId + ", slotId: " + slotId);
+        ChatUtil.sendDebugMessage("MixinClientPlayerInteractionManager", "syanId: " + syncId + ", slotId: " + slotId);
     }
 
     @Inject(method = "updateBlockBreakingProgress", at = @At("HEAD"))

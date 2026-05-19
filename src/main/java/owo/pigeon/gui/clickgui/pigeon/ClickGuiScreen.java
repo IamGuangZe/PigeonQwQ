@@ -41,7 +41,7 @@ public class ClickGuiScreen extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         for (CategoryPanel panel : categoryPanels) {
-            panel.drawScreen(context,mouseX,mouseY,delta);
+            panel.drawScreen(context, mouseX, mouseY, delta);
         }
 
         context.drawTextWithShadow(TextRendererUtil.textRenderer,
@@ -67,7 +67,7 @@ public class ClickGuiScreen extends Screen {
     public boolean mouseClicked(Click click, boolean doubled) {
         for (int i = categoryPanels.size() - 1; i >= 0; i--) {
             CategoryPanel panel = categoryPanels.get(i);
-            if (panel.mouseClicked(click,doubled)) {
+            if (panel.mouseClicked(click, doubled)) {
                 categoryPanels.remove(panel);
                 categoryPanels.add(panel);
                 return true;
@@ -89,10 +89,10 @@ public class ClickGuiScreen extends Screen {
     @Override
     public boolean mouseDragged(Click click, double offsetX, double offsetY) {
         for (CategoryPanel panel : categoryPanels) {
-            panel.mouseDragged(click,offsetX,offsetY);
+            panel.mouseDragged(click, offsetX, offsetY);
         }
 
-        return super.mouseDragged(click,offsetX,offsetY);
+        return super.mouseDragged(click, offsetX, offsetY);
     }
 
     @Override

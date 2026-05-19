@@ -12,11 +12,11 @@ public class WorldUtil {
     }
 
     public static void setBlock(BlockPos pos, BlockState state) {
-        mc.world.setBlockState(pos,state,Block.NOTIFY_ALL);
+        mc.world.setBlockState(pos, state, Block.NOTIFY_ALL);
     }
 
     public static void setBlock(BlockPos pos, Block block) {
-        setBlock(pos,block.getDefaultState());
+        setBlock(pos, block.getDefaultState());
     }
 
     public static void setBlock(int x, int y, int z, Block block) {

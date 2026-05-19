@@ -50,7 +50,8 @@ public class SettingConfig extends Config {
         }
 
         try (FileReader reader = new FileReader(this.getFile())) {
-            Type type = new TypeToken<Map<String, Object>>() {}.getType();
+            Type type = new TypeToken<Map<String, Object>>() {
+            }.getType();
             Map<String, Object> root = GSON.fromJson(reader, type);
 
             if (root == null) {

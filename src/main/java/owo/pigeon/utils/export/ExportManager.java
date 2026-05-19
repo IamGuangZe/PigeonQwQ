@@ -24,7 +24,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ExportManager {
     public enum ExportTask {
-        NONE, HUNTING_BOX;
+        NONE, HUNTING_BOX
     }
 
     private static int lastProcessedSyncId = -1;
@@ -78,7 +78,7 @@ public class ExportManager {
                     if (!title.contains("Hunting Box")) {
                         lastProcessedSyncId = -1;
                         currentTask = ExportTask.NONE;
-                        ChatUtil.sendDebugMessage("ExportManager","Acquisition terminated.");
+                        ChatUtil.sendDebugMessage("ExportManager", "Acquisition terminated.");
                         return;
                     }
 
@@ -95,7 +95,7 @@ public class ExportManager {
                             String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
                             String amountStr = RegexUtil.regexGetPart("Owned: (\\d+)", lore, 1);
                             String idStr = RegexUtil.regexGetPart("ID ([A-Z]\\d+)", lore, 1);
-                            ChatUtil.sendDebugMessage("ExportManager","slot: " + slotId + ", ID: " + idStr + ", amount: " + amountStr);
+                            ChatUtil.sendDebugMessage("ExportManager", "slot: " + slotId + ", ID: " + idStr + ", amount: " + amountStr);
                             if (amountStr != null && idStr != null)
                                 shardData.put(idStr, shardData.getOrDefault(idStr, 0) + Integer.parseInt(amountStr));
                         }
@@ -104,17 +104,17 @@ public class ExportManager {
                     lastProcessedSyncId = container.syncId;
 
                     if (container.getSlot(53).getStack().isOf(Items.ARROW)) {
-                        ChatUtil.sendDebugMessage("ExportManager","Hunting box: next page");
-                        PlayerUtil.clickSlot(container.syncId, 53,0, SlotActionType.PICKUP);
+                        ChatUtil.sendDebugMessage("ExportManager", "Hunting box: next page");
+                        PlayerUtil.clickSlot(container.syncId, 53, 0, SlotActionType.PICKUP);
                     } else {
-                        ChatUtil.sendDebugMessage("ExportManager","Hunting box: done");
+                        ChatUtil.sendDebugMessage("ExportManager", "Hunting box: done");
                         if (shardData.isEmpty()) {
-                            ChatUtil.sendMessage("Export","Failed to get shards!");
+                            ChatUtil.sendMessage("Export", "Failed to get shards!");
                         } else {
                             JsonObject root = new JsonObject();
                             root.add("hunting_box", GSON.toJsonTree(shardData));
                             mc.keyboard.setClipboard(GSON.toJson(root));
-                            ChatUtil.sendMessage("Export","Hunting box data has been exported to the clipboard!");
+                            ChatUtil.sendMessage("Export", "Hunting box data has been exported to the clipboard!");
                         }
 
                         lastProcessedSyncId = -1;

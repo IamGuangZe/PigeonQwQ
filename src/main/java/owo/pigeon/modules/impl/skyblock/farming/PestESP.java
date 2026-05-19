@@ -77,7 +77,7 @@ public class PestESP extends Module {
             if (shouldDraw) {
                 boolean shouldTracer = tracer.getValue() && !SkyblockUtil.EARTHWORM_TAIL.equals(currentTexture);
                 if (inHub) {
-                    Box box = entity.getBoundingBox().expand(0.4).offset(0.0,0.275,0.0);
+                    Box box = entity.getBoundingBox().expand(0.4).offset(0.0, 0.275, 0.0);
                     RenderUtil.drawESP(event.getMatrix(), entity, box, color.getValue(), mode.getValue(), shouldTracer);
                 } else if (inGarden) {
                     RenderUtil.drawESP(event.getMatrix(), entity, color.getValue(), mode.getValue(), shouldTracer);

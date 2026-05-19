@@ -72,8 +72,8 @@ public class SettingEditScreen extends Screen {
         int textWidth = TextRendererUtil.textRenderer.getWidth(text);
         int textX = (this.width - textWidth) / 2;
         int textY = this.textField.getY() - TextRendererUtil.textRenderer.fontHeight - 2;
-        context.drawTextWithShadow(TextRendererUtil.textRenderer, text, textX,textY, Color.WHITE.getRGB());
-        
+        context.drawTextWithShadow(TextRendererUtil.textRenderer, text, textX, textY, Color.WHITE.getRGB());
+
         if (setting instanceof BlockSetting blockSetting) {
             Identifier id = Identifier.tryParse(textField.getText().toLowerCase().trim());
 
@@ -84,8 +84,7 @@ public class SettingEditScreen extends Screen {
                 int previewY = textField.getY() + (textField.getHeight() - 16) / 2;
 
                 context.drawItem(Registries.BLOCK.get(id).asItem().getDefaultStack(), previewX, previewY);
-            }
-            else {
+            } else {
                 textField.setEditableColor(0xFFFF5555);
             }
 

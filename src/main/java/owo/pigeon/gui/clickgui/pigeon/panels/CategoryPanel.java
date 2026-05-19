@@ -46,7 +46,8 @@ public class CategoryPanel extends AbstractDisplableItem {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         context.fill(x, y, x + width, y + height, Color.BLACK.getRGB());
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.RED.getRGB());
+        if (owo.pigeon.Pigeon.isDebug())
+            RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.RED.getRGB());
 
         context.drawTextWithShadow(textRenderer,
                 category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(),
@@ -105,7 +106,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         if (expandProgress.getValue() > 0.001f) {
             for (int i = modulePanels.size() - 1; i >= 0; i--) {
                 ModulePanel panel = modulePanels.get(i);
-                if (panel.mouseClicked(click,doubled)) {
+                if (panel.mouseClicked(click, doubled)) {
                     return true;
                 }
             }

@@ -25,6 +25,6 @@ public class MixinWeatherRendering {
         if (ModuleUtil.isEnable(Environment.class) && ModuleUtil.getModule(Environment.class).forceSnow.getValue()) {
             return Biome.Precipitation.SNOW;
         }
-        return instance.getPrecipitation(pos,seaLevel);
+        return instance.getPrecipitation(pos, seaLevel);
     }
 }

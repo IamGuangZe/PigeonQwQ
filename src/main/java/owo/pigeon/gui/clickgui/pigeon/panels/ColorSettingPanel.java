@@ -15,8 +15,8 @@ public class ColorSettingPanel extends SettingPanel {
     public ColorSetting colorSetting;
 
     private boolean hovered;
-    private boolean[] sliderHovered = new boolean[4];
-    private boolean[] dragging = new boolean[4];
+    private final boolean[] sliderHovered = new boolean[4];
+    private final boolean[] dragging = new boolean[4];
 
     public ColorSettingPanel(AbstractSetting<?> setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
@@ -99,12 +99,13 @@ public class ColorSettingPanel extends SettingPanel {
         context.getMatrices().popMatrix();
 
         // 颜色预览
-        int colorCubeSize = (int)(textRenderer.fontHeight * scale);
+        int colorCubeSize = (int) (textRenderer.fontHeight * scale);
         int colorCubeX = x + width - 4 - colorCubeSize;
         int colorCubeY = y;
 
         context.fill(colorCubeX, colorCubeY, colorCubeX + colorCubeSize, colorCubeY + colorCubeSize, colorSetting.getRGB());
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
+        if (owo.pigeon.Pigeon.isDebug())
+            RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
     @Override

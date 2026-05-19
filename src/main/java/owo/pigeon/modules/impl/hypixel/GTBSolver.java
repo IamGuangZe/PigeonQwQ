@@ -141,7 +141,8 @@ public class GTBSolver extends Module {
                     ChatUtil.sendDebugMessage(this.name, "&aLoaded " + wordDatabase.size() + " words.");
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     private List<String> guess() {

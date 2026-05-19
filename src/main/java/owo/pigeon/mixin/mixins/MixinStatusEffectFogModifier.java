@@ -18,8 +18,10 @@ public abstract class MixinStatusEffectFogModifier {
 
     @ModifyReturnValue(method = "shouldApply", at = @At("RETURN"))
     private boolean onShouldApply(boolean original) {
-        if (getStatusEffect() == StatusEffects.BLINDNESS) return original && !(ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noBlindness.getValue());
-        if (getStatusEffect() == StatusEffects.DARKNESS) return original && !(ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noDarkness.getValue());
+        if (getStatusEffect() == StatusEffects.BLINDNESS)
+            return original && !(ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noBlindness.getValue());
+        if (getStatusEffect() == StatusEffects.DARKNESS)
+            return original && !(ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noDarkness.getValue());
         return original;
     }
 }

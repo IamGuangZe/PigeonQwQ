@@ -31,7 +31,7 @@ public class NumSettingPanel extends SettingPanel {
     public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
-        String displayName = numberSetting.getName().replaceAll("-and-","-&&-").replaceAll("-", " ");
+        String displayName = numberSetting.getName().replaceAll("-and-", "-&&-").replaceAll("-", " ");
 
         int sliderAreaX = x;
         int sliderAreaY = y + height - 8;
@@ -100,7 +100,8 @@ public class NumSettingPanel extends SettingPanel {
         }
 
         context.getMatrices().popMatrix();
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
+        if (owo.pigeon.Pigeon.isDebug())
+            RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
     @Override

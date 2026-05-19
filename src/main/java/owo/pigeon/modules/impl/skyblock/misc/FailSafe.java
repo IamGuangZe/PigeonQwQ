@@ -37,8 +37,8 @@ public class FailSafe extends Module {
     public StringSetting soundId = setting("sound-id", "block.note_block.pling", v -> soundAlert.getValue());
     public EnableSetting disableModules = setting("disable-modules", true, v -> true);
     public EnableSetting teleportDetection = setting("teleport-detection", true, v -> true);
-    public EnableSetting onlyWhenStop = setting("only-when-stop",true,v-> teleportDetection.getValue());
-    public EnableSetting onlyOnGround = setting("only-on-ground",true,v->teleportDetection.getValue());
+    public EnableSetting onlyWhenStop = setting("only-when-stop", true, v -> teleportDetection.getValue());
+    public EnableSetting onlyOnGround = setting("only-on-ground", true, v -> teleportDetection.getValue());
     public EnableSetting slotChangeDetection = setting("slot-change-detection", true, v -> true);
     public EnableSetting worldChangeDetection = setting("world-change-detection", true, v -> true);
 
@@ -48,7 +48,7 @@ public class FailSafe extends Module {
 
     @Override
     public void onEnable() {
-        ChatUtil.sendMessage(this.name,"This module is still under development and may trigger false positives!");
+        ChatUtil.sendMessage(this.name, "This module is still under development and may trigger false positives!");
     }
 
     @Handler

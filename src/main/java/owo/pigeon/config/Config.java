@@ -11,12 +11,16 @@ public abstract class Config {
         this.fileName = fileName;
     }
 
-    /** 子类可覆盖：决定放在哪个子目录 */
+    /**
+     * 子类可覆盖：决定放在哪个子目录
+     */
     public File getBaseDir() {
         return new File("config/" + Pigeon.MOD_ID);
     }
 
-    /** 最终文件路径 */
+    /**
+     * 最终文件路径
+     */
     public File getFile() {
         File dir = getBaseDir();
         if (!dir.exists()) {
@@ -26,6 +30,7 @@ public abstract class Config {
     }
 
     public abstract void load();
+
     public abstract void save();
 
     public boolean exists() {

@@ -119,7 +119,6 @@ public class DungeonUtil {
     public static boolean isGhost() {
         if (!isInDungeon()) return false;
         if (ItemUtil.getItemStackfromSlot(0).getName().getString().equals("Haunt")) return true;
-        else if (mc.player.getAbilities().allowFlying) return true;
-        else return false;
+        else return mc.player.getAbilities().allowFlying;
     }
 }

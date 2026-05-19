@@ -22,7 +22,7 @@ public class CalcCommand extends Command {
             );
             return;
         }
-        String expr = String.join(" ", args).replaceAll(" ","").replaceAll("x", "*");
+        String expr = String.join(" ", args).replaceAll(" ", "").replaceAll("x", "*");
 
         double answer = 0;
 

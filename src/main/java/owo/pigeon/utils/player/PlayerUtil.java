@@ -23,7 +23,7 @@ public class PlayerUtil {
     }
 
     public static void LeftClick(LeftClickMode mode) {
-        ChatUtil.sendDebugMessage("PlayerUtil","LeftClick, mode: " + mode.name());
+        ChatUtil.sendDebugMessage("PlayerUtil", "LeftClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.attackKey);
             case DOATTACK -> ((IAccessorMinecraftClient) mc).pigeon$invokeDoAttack();
@@ -31,7 +31,7 @@ public class PlayerUtil {
     }
 
     public static void RightClick(RightClickMode mode) {
-        ChatUtil.sendDebugMessage("PlayerUtil","RightClick, mode: " + mode.name());
+        ChatUtil.sendDebugMessage("PlayerUtil", "RightClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.useKey);
             case DOITEMUSE -> ((IAccessorMinecraftClient) mc).pigeon$invokeDoItemUse();
@@ -50,7 +50,7 @@ public class PlayerUtil {
     }
 
     public static void InstantUseItem(int slot, RightClickMode mode) {
-        InstantUse.instantUseItem(slot,mode);
+        InstantUse.instantUseItem(slot, mode);
     }
 
     public static void clickSlot(int syncId, int slotId, int button, SlotActionType actionType) {

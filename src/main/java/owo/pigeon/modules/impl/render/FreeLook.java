@@ -19,7 +19,7 @@ public class FreeLook extends Module {
     }
 
     public enum Mode {
-        TOGGLE, HOLD;
+        TOGGLE, HOLD
     }
 
     public enum PerspectiveMode {

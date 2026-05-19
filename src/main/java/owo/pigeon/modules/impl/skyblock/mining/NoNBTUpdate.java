@@ -21,8 +21,8 @@ public class NoNBTUpdate extends Module {
             String name = ColorUtil.removeColor(stack.getName().getString());
 
             if (name.contains(" Drill ") || stack.isOf(Items.PRISMARINE_SHARD) ||
-            name.contains("Pickonimbus 2000") || stack.isOf(Items.DIAMOND_PICKAXE) ||
-            name.contains("Gemstone Gauntlet"))
+                    name.contains("Pickonimbus 2000") || stack.isOf(Items.DIAMOND_PICKAXE) ||
+                    name.contains("Gemstone Gauntlet"))
                 event.setCancelled(true);
         }
     }

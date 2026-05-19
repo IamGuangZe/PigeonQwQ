@@ -38,7 +38,7 @@ public class ScoreBoardUtil {
                     String owner = entry.owner();
                     Text baseName = entry.name();
                     Team team = scoreboard.getScoreHolderTeam(owner);
-                    Text fullText = (team!= null)? team.decorateName(baseName) : baseName;
+                    Text fullText = (team != null) ? team.decorateName(baseName) : baseName;
                     return fullText.getString();
                 })
                 .toList();
@@ -69,7 +69,8 @@ public class ScoreBoardUtil {
     }
 
     public static List<String> getTabLines() {
-        if (mc.getNetworkHandler() == null || mc.inGameHud == null || mc.inGameHud.getPlayerListHud() == null) return List.of();
+        if (mc.getNetworkHandler() == null || mc.inGameHud == null || mc.inGameHud.getPlayerListHud() == null)
+            return List.of();
 
         PlayerListHud playerListHud = mc.inGameHud.getPlayerListHud();
 

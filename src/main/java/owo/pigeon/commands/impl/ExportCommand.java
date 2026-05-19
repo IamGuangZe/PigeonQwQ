@@ -23,9 +23,9 @@ public class ExportCommand extends Command {
         }
 
         switch (args[0].toLowerCase()) {
-            case "hb","hunting_box" -> {
+            case "hb", "hunting_box" -> {
                 if (!SkyblockUtil.isInSkyblock()) {
-                    ChatUtil.sendMessage("Export","Can only be used in Hypixel Skyblock!");
+                    ChatUtil.sendMessage("Export", "Can only be used in Hypixel Skyblock!");
                     return;
                 }
                 ExportManager.startExport(ExportManager.ExportTask.HUNTING_BOX);
@@ -37,7 +37,6 @@ public class ExportCommand extends Command {
                         args,
                         0
                 );
-                return;
             }
         }
     }

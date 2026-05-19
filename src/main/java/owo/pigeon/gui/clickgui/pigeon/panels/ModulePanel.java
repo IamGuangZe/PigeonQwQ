@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
 
 public class ModulePanel extends AbstractDisplableItem {
-    private Module module;
+    private final Module module;
 
     private boolean hovered;
     private final AnimationValue expandProgress = new AnimationValue(0.0f, 0.3f);
@@ -69,7 +69,8 @@ public class ModulePanel extends AbstractDisplableItem {
                 x + width / 2 - textRenderer.getWidth(module.name) / 2,
                 y + height / 2 - textRenderer.fontHeight / 2 + 1,
                 textColor);
-        if (owo.pigeon.Pigeon.isDebug()) RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.BLUE.getRGB());
+        if (owo.pigeon.Pigeon.isDebug())
+            RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.BLUE.getRGB());
 
         visiblePanels.clear();
 
@@ -192,11 +193,11 @@ public class ModulePanel extends AbstractDisplableItem {
                 }
             }
 
-            if (keybindPanel.mouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount)) {
+            if (keybindPanel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
                 return true;
             }
 
-            if (hidePanel.mouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount)) {
+            if (hidePanel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
                 return true;
             }
         }

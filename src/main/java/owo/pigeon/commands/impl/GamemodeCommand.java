@@ -23,7 +23,7 @@ public class GamemodeCommand extends Command {
             return;
         }
 
-        GameMode gamemode = GameMode.byId(args[0],null);
+        GameMode gamemode = GameMode.byId(args[0], null);
 
         if (gamemode == null) {
             CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownGamemode,

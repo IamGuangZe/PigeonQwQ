@@ -17,7 +17,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ClickSlotTest extends Module {
     public ClickSlotTest() {
-        super("ClickSlotTest",Category.DEBUG);
+        super("ClickSlotTest", Category.DEBUG);
     }
 
     public IntSetting minDelay = setting("min-delay", 2, 0, 20, v -> true);
@@ -46,7 +46,7 @@ public class ClickSlotTest extends Module {
                 for (int i = 0; i < size; i++) {
                     if (containerScreen.getSlot(i).getStack().isEmpty()) continue;
 
-                    PlayerUtil.clickSlot(containerScreen.syncId, i,0, SlotActionType.QUICK_MOVE);
+                    PlayerUtil.clickSlot(containerScreen.syncId, i, 0, SlotActionType.QUICK_MOVE);
 
                     if (p_delay != 0) break;
                 }
@@ -59,7 +59,7 @@ public class ClickSlotTest extends Module {
 
     @Handler
     public void onClickSlot(ClickSlotEvent event) {
-        ChatUtil.sendDebugMessage(this.name,"ClickSlotEvent");
-        p_delay = RandomUtil.intRandom(minDelay.getValue(),maxDelay.getValue());
+        ChatUtil.sendDebugMessage(this.name, "ClickSlotEvent");
+        p_delay = RandomUtil.intRandom(minDelay.getValue(), maxDelay.getValue());
     }
 }

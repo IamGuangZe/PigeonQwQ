@@ -12,11 +12,11 @@ public class Environment extends Module {
     }
 
     public enum WeatherMode {
-        NONE, CLEAR, RAIN;
+        NONE, CLEAR, RAIN
     }
 
     public enum TimeMode {
-        NONE, PRESET, CUSTOM;
+        NONE, PRESET, CUSTOM
     }
 
     public enum TimePreset {
@@ -37,7 +37,7 @@ public class Environment extends Module {
     }
 
     public ModeSetting<WeatherMode> weatherMode = setting("weather-mode", WeatherMode.RAIN, v -> true);
-    public EnableSetting forceSnow = setting("force-snow", true, v->true);
+    public EnableSetting forceSnow = setting("force-snow", true, v -> true);
     public ModeSetting<TimeMode> timeMode = setting("time-mode", TimeMode.PRESET, v -> true);
     public ModeSetting<TimePreset> timePreset = setting("time-preset", TimePreset.NIGHT, v -> timeMode.getValue() == TimeMode.PRESET);
     public IntSetting customTime = setting("custom-time", 13000, 0, 24000, v -> timeMode.getValue() == TimeMode.CUSTOM);

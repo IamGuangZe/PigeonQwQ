@@ -38,7 +38,7 @@ public class MixinMinecraftClient {
         Pigeon.EVENT_BUS.post(new ClientTickEvent.Pre()).now();
     }
 
-    @Inject(method = "tick",at = @At("RETURN"))
+    @Inject(method = "tick", at = @At("RETURN"))
     private void onClientTickPost(CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new ClientTickEvent.Post()).now();
     }
@@ -51,9 +51,9 @@ public class MixinMinecraftClient {
             cir.cancel();
         }
 
-        boolean removeDelay = false;
-        if (ModuleUtil.isEnable(NoHitDelay.class)) removeDelay = true;
-        if (ModuleUtil.isEnable(AutoClicker.class) && ModuleUtil.getModule(AutoClicker.class).leftClick.getValue()) removeDelay = true;
+        boolean removeDelay = ModuleUtil.isEnable(NoHitDelay.class);
+        if (ModuleUtil.isEnable(AutoClicker.class) && ModuleUtil.getModule(AutoClicker.class).leftClick.getValue())
+            removeDelay = true;
         if (removeDelay) this.attackCooldown = 0;
     }
 

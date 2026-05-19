@@ -20,9 +20,7 @@ public class GhostHand extends Module {
 
     public boolean shouldIgnore(Object input) {
         if (input instanceof PlayerEntity player && players.getValue()) {
-            if (!PlayerUtil.hasUUID(player)) return false;
-
-            return true;
+            return PlayerUtil.hasUUID(player);
         }
 
         // TODO: 完善 GhostHand 对方块的处理

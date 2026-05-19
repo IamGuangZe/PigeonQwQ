@@ -16,7 +16,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.RenderEvent;
 
 @Pseudo
-@Mixin(value = ChunkBuilderMeshingTask.class,remap = false)
+@Mixin(value = ChunkBuilderMeshingTask.class, remap = false)
 public class MixinChunkBuilderMeshingTask {
     @Inject(method = "execute(Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildContext;Lnet/caffeinemc/mods/sodium/client/util/task/CancellationToken;)Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildOutput;", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isAir()Z"))
     private void onBlockStep(ChunkBuildContext buildContext, CancellationToken cancellationToken, CallbackInfoReturnable<ChunkBuildOutput> cir, @Local(name = "y") int y, @Local(name = "z") int z, @Local(name = "x") int x, @Local(name = "blockState") BlockState blockState) {

@@ -14,7 +14,7 @@ public class KeyInputEvent extends Event {
         this.keyInput = keyInput;
     }
 
-    public int getKeyCode () {
+    public int getKeyCode() {
         return keyInput.key();
     }
 

@@ -212,7 +212,7 @@ public class ZombieShootout extends Module {
 
             double dist = playerPos.distanceTo(zombie.getEyePos());
 
-            if (assumeHit.getValue() && skippedTargetId != null && zombie.getUuid().equals(skippedTargetId)) {
+            if (assumeHit.getValue() && zombie.getUuid().equals(skippedTargetId)) {
                 if (priority > bestSkippedPriority || (priority == bestSkippedPriority && dist < bestSkippedDist)) {
                     bestSkippedPriority = priority;
                     bestSkippedDist = dist;
@@ -229,8 +229,7 @@ public class ZombieShootout extends Module {
         }
 
         if (best != null) return best;
-        if (bestSkipped != null) return bestSkipped;
-        return null;
+        return bestSkipped;
     }
 
     private int helmetPriority(ItemStack stack) {

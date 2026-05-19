@@ -171,7 +171,7 @@ public class MurderHelper extends Module {
 
         if (RegexUtil.regexGetPart(MURDERERDIDEMESSAGE, message, 1) != null) {
             String playername = RegexUtil.regexGetPart(MURDERERDIDEMESSAGE, message, 1);
-            if (!murdererNames.contains(playername) && !murdererNames.contains("&m" + playername + "&r")) {
+            if (!murdererNames.contains(playername)) {
                 murdererNames.add("&m" + playername + "&r");
             }
         }

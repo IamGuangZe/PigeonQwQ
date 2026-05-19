@@ -71,7 +71,10 @@ public class Module extends SettingDesigner {
         return "";
     }
 
-    public void onEnable() { }
-    public void onDisable() { }
+    public void onEnable() {
+    }
+
+    public void onDisable() {
+    }
 }
 

@@ -8,10 +8,12 @@ public class DoItemUseEvent extends CancellableEvent {
     }
 
     public static class Pre extends DoItemUseEvent {
-        public Pre() {}
+        public Pre() {
+        }
     }
 
     public static class Post extends DoItemUseEvent {
-        public Post() {}
+        public Post() {
+        }
     }
 }

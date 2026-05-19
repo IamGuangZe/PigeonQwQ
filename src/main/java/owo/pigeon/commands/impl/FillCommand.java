@@ -45,12 +45,30 @@ public class FillCommand extends Command {
         Double endY = WorldUtil.parseCoordinate(args[4], mc.player.getY());
         Double endZ = WorldUtil.parseCoordinate(args[5], mc.player.getZ());
 
-        if (startX == null) { CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 0); return; }
-        if (startY == null) { CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 1); return; }
-        if (startZ == null) { CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 2); return; }
-        if (endX == null)   { CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 3); return; }
-        if (endY == null)   { CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 4); return; }
-        if (endZ == null)   { CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 5); return; }
+        if (startX == null) {
+            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 0);
+            return;
+        }
+        if (startY == null) {
+            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 1);
+            return;
+        }
+        if (startZ == null) {
+            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 2);
+            return;
+        }
+        if (endX == null) {
+            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 3);
+            return;
+        }
+        if (endY == null) {
+            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 4);
+            return;
+        }
+        if (endZ == null) {
+            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 5);
+            return;
+        }
 
 
         BlockPos startPos = BlockPos.ofFloored(startX, startY, startZ);
