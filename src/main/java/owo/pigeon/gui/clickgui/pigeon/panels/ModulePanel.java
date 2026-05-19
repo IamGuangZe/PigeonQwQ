@@ -11,6 +11,7 @@ import owo.pigeon.settings.AbstractSetting;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.animation.AnimationValue;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
@@ -22,7 +23,7 @@ public class ModulePanel extends AbstractDisplableItem {
     private Module module;
 
     private boolean hovered;
-    private boolean displaySetting;
+    private final AnimationValue expandProgress = new AnimationValue(0.0f, 0.3f);
     public ArrayList<SettingPanel> settingPanels = new ArrayList<>();
     public ArrayList<SettingPanel> visiblePanels = new ArrayList<>();
     public final HidePanel hidePanel;
@@ -51,6 +52,9 @@ public class ModulePanel extends AbstractDisplableItem {
 
     @Override
     public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+        expandProgress.setDuration(clickGui.animationSpeed.getValue());
+        expandProgress.update(delta);
+
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         PigeonQwQ pigeonQwQ = ModuleUtil.getModule(PigeonQwQ.class);
@@ -69,19 +73,24 @@ public class ModulePanel extends AbstractDisplableItem {
 
         visiblePanels.clear();
 
-        if (displaySetting) {
-
-            for (SettingPanel panel : settingPanels) {
-                if (panel.getSetting().isVisible()) {
-                    visiblePanels.add(panel);
-                }
+        for (SettingPanel panel : settingPanels) {
+            if (panel.getSetting().isVisible()) {
+                visiblePanels.add(panel);
             }
+        }
 
-            int startY = y + height;
+        float progress = expandProgress.getValue();
+
+        if (progress > 0.0f) {
+            int fullSettingsHeight = computeFullSettingsHeight();
+            int animatedSettingsHeight = (int) (fullSettingsHeight * progress);
+
+            context.enableScissor(x, y + height, x + width, y + height + animatedSettingsHeight);
+
+            int currentY = y + height;
             for (SettingPanel panel : visiblePanels) {
                 panel.x = this.x;
-                panel.y = startY;
-                panel.width = this.width;
+                panel.y = currentY;
 
                 if (panel instanceof NumSettingPanel) {
                     panel.height = this.height / 2 + 8;
@@ -90,23 +99,42 @@ public class ModulePanel extends AbstractDisplableItem {
                 } else {
                     panel.height = this.height / 2;
                 }
+                panel.width = this.width;
                 panel.drawScreen(context, mouseX, mouseY, delta);
-                startY += panel.height;
+                currentY += panel.height;
             }
 
             hidePanel.x = this.x;
-            hidePanel.y = startY;
+            hidePanel.y = currentY;
             hidePanel.width = this.width;
             hidePanel.height = this.height / 2;
             hidePanel.drawScreen(context, mouseX, mouseY, delta);
-            startY += hidePanel.height;
+            currentY += hidePanel.height;
 
             keybindPanel.x = this.x;
-            keybindPanel.y = startY;
+            keybindPanel.y = currentY;
             keybindPanel.width = this.width;
             keybindPanel.height = this.height / 2;
             keybindPanel.drawScreen(context, mouseX, mouseY, delta);
+
+            context.disableScissor();
         }
+    }
+
+    private int computeFullSettingsHeight() {
+        int fullHeight = 0;
+        for (SettingPanel panel : visiblePanels) {
+            if (panel instanceof NumSettingPanel) {
+                fullHeight += this.height / 2 + 8;
+            } else if (panel instanceof ColorSettingPanel) {
+                fullHeight += this.height / 2 + 20;
+            } else {
+                fullHeight += this.height / 2;
+            }
+        }
+        fullHeight += this.height / 2; // hidePanel
+        fullHeight += this.height / 2; // keybindPanel
+        return fullHeight;
     }
 
     public boolean mouseClicked(Click click, boolean doubled) {
@@ -114,23 +142,25 @@ public class ModulePanel extends AbstractDisplableItem {
             if (click.button() == 0) {
                 module.toggle();
             } else if (click.button() == 1) {
-                displaySetting = !displaySetting;
+                expandProgress.setTarget(expandProgress.isExpanded() ? 0.0f : 1.0f);
             }
             return true;
         }
 
-        if (displaySetting && keybindPanel.mouseClicked(click, doubled)) {
+        if (expandProgress.isExpanded() && keybindPanel.mouseClicked(click, doubled)) {
             return true;
         }
 
-        if (displaySetting && hidePanel.mouseClicked(click, doubled)) {
+        if (expandProgress.isExpanded() && hidePanel.mouseClicked(click, doubled)) {
             return true;
         }
 
-        for (int i = visiblePanels.size() - 1; i >= 0; i--) {
-            SettingPanel panel = visiblePanels.get(i);
-            if (panel.mouseClicked(click, doubled)) {
-                return true;
+        if (expandProgress.isExpanded()) {
+            for (int i = visiblePanels.size() - 1; i >= 0; i--) {
+                SettingPanel panel = visiblePanels.get(i);
+                if (panel.mouseClicked(click, doubled)) {
+                    return true;
+                }
             }
         }
 
@@ -138,57 +168,68 @@ public class ModulePanel extends AbstractDisplableItem {
     }
 
     public void mouseReleased(Click click) {
-        for (SettingPanel panel : visiblePanels) {
-            panel.mouseReleased(click);
+        if (expandProgress.isExpanded()) {
+            for (SettingPanel panel : visiblePanels) {
+                panel.mouseReleased(click);
+            }
         }
     }
 
     public void mouseDragged(Click click, double offsetX, double offsetY) {
-        for (SettingPanel panel : visiblePanels) {
-            panel.mouseDragged(click, offsetX, offsetY);
+        if (expandProgress.isExpanded()) {
+            for (SettingPanel panel : visiblePanels) {
+                panel.mouseDragged(click, offsetX, offsetY);
+            }
         }
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        for (int i = visiblePanels.size() - 1; i >= 0; i--) {
-            SettingPanel panel = visiblePanels.get(i);
-            if (panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+        if (expandProgress.isExpanded()) {
+            for (int i = visiblePanels.size() - 1; i >= 0; i--) {
+                SettingPanel panel = visiblePanels.get(i);
+                if (panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+                    return true;
+                }
+            }
+
+            if (keybindPanel.mouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount)) {
                 return true;
             }
-        }
 
-        if (keybindPanel.mouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount)) {
-            return true;
-        }
-
-        if (hidePanel.mouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount)) {
-            return true;
+            if (hidePanel.mouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount)) {
+                return true;
+            }
         }
 
         return hovered;
     }
 
     public void keyPressed(KeyInput input) {
-        keybindPanel.keyPressed(input);
+        if (expandProgress.isExpanded()) {
+            keybindPanel.keyPressed(input);
 
-        for (SettingPanel panel : visiblePanels) {
-            panel.keyPressed(input);
+            for (SettingPanel panel : visiblePanels) {
+                panel.keyPressed(input);
+            }
         }
     }
 
     public int getSettingHeight() {
-        int settingHeight = 0;
-
-        for (SettingPanel panel : visiblePanels) {
-            settingHeight += panel.height;
+        int fullHeight = 0;
+        for (SettingPanel panel : settingPanels) {
+            if (panel.getSetting().isVisible()) {
+                if (panel instanceof NumSettingPanel) {
+                    fullHeight += this.height / 2 + 8;
+                } else if (panel instanceof ColorSettingPanel) {
+                    fullHeight += this.height / 2 + 20;
+                } else {
+                    fullHeight += this.height / 2;
+                }
+            }
         }
-
-        if (displaySetting) {
-            settingHeight += hidePanel.height;
-            settingHeight += keybindPanel.height;
-        }
-
-        return settingHeight;
+        fullHeight += this.height / 2; // hidePanel
+        fullHeight += this.height / 2; // keybindPanel
+        return (int) (fullHeight * expandProgress.getValue());
     }
 
     public Module getModule() {
@@ -196,10 +237,10 @@ public class ModulePanel extends AbstractDisplableItem {
     }
 
     public boolean isDisplaySetting() {
-        return displaySetting;
+        return expandProgress.isExpanded();
     }
 
     public void setDisplaySetting(boolean displaySetting) {
-        this.displaySetting = displaySetting;
+        expandProgress.force(displaySetting ? 1.0f : 0.0f);
     }
 }

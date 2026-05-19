@@ -7,6 +7,7 @@ import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ModuleUtil;
+import owo.pigeon.utils.animation.AnimationValue;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class CategoryPanel extends AbstractDisplableItem {
 
     private boolean movepanel;
     private boolean hovered;
-    private boolean displaymodule;
+    private final AnimationValue expandProgress = new AnimationValue(1.0f, 0.3f);
     public ArrayList<ModulePanel> modulePanels = new ArrayList<>();
 
     private int mx;
@@ -39,6 +40,9 @@ public class CategoryPanel extends AbstractDisplableItem {
 
     @Override
     public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+        expandProgress.setDuration(clickGui.animationSpeed.getValue());
+        expandProgress.update(delta);
+
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         context.fill(x, y, x + width, y + height, Color.BLACK.getRGB());
@@ -50,8 +54,9 @@ public class CategoryPanel extends AbstractDisplableItem {
                 y + height / 2 - textRenderer.fontHeight / 2 + 1,
                 Color.WHITE.getRGB());
 
-        String symbol = displaymodule ? "-" : "+";
-        int color = displaymodule ? Color.RED.getRGB() : Color.GREEN.getRGB();
+        boolean expanded = expandProgress.isExpanded();
+        String symbol = expanded ? "-" : "+";
+        int color = expanded ? Color.RED.getRGB() : Color.GREEN.getRGB();
         context.drawTextWithShadow(textRenderer,
                 symbol,
                 x + width - textRenderer.getWidth(symbol) - 4,
@@ -59,7 +64,18 @@ public class CategoryPanel extends AbstractDisplableItem {
                 color
         );
 
-        if (displaymodule) {
+        float progress = expandProgress.getValue();
+
+        int totalExpandedHeight = 0;
+        for (ModulePanel panel : modulePanels) {
+            totalExpandedHeight += this.height + panel.getSettingHeight();
+        }
+
+        int animatedHeight = (int) (totalExpandedHeight * progress);
+
+        if (animatedHeight > 0) {
+            context.enableScissor(x, y + height, x + width, y + height + animatedHeight);
+
             int startY = y + height;
             for (ModulePanel panel : modulePanels) {
                 panel.x = this.x;
@@ -69,6 +85,8 @@ public class CategoryPanel extends AbstractDisplableItem {
                 panel.drawScreen(context, mouseX, mouseY, delta);
                 startY += this.height + panel.getSettingHeight();
             }
+
+            context.disableScissor();
         }
     }
 
@@ -79,15 +97,17 @@ public class CategoryPanel extends AbstractDisplableItem {
                 mx = (int) (x - click.x());
                 my = (int) (y - click.y());
             } else if (click.button() == 1) {
-                displaymodule = !displaymodule;
+                expandProgress.setTarget(expandProgress.isExpanded() ? 0.0f : 1.0f);
             }
             return true;
         }
 
-        for (int i = modulePanels.size() - 1; i >= 0; i--) {
-            ModulePanel panel = modulePanels.get(i);
-            if (panel.mouseClicked(click,doubled)) {
-                return true;
+        if (expandProgress.getValue() > 0.001f) {
+            for (int i = modulePanels.size() - 1; i >= 0; i--) {
+                ModulePanel panel = modulePanels.get(i);
+                if (panel.mouseClicked(click,doubled)) {
+                    return true;
+                }
             }
         }
 
@@ -99,8 +119,10 @@ public class CategoryPanel extends AbstractDisplableItem {
             movepanel = false;
         }
 
-        for (ModulePanel panel : modulePanels) {
-            panel.mouseReleased(click);
+        if (expandProgress.getValue() > 0.001f) {
+            for (ModulePanel panel : modulePanels) {
+                panel.mouseReleased(click);
+            }
         }
     }
 
@@ -110,23 +132,29 @@ public class CategoryPanel extends AbstractDisplableItem {
             y = (int) (my + click.y());
         }
 
-        for (ModulePanel panel : modulePanels) {
-            panel.mouseDragged(click, offsetX, offsetY);
+        if (expandProgress.getValue() > 0.001f) {
+            for (ModulePanel panel : modulePanels) {
+                panel.mouseDragged(click, offsetX, offsetY);
+            }
         }
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        for (ModulePanel panel : modulePanels) {
-            if (panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
-                return true;
+        if (expandProgress.getValue() > 0.001f) {
+            for (ModulePanel panel : modulePanels) {
+                if (panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+                    return true;
+                }
             }
         }
         return hovered;
     }
 
     public void keyPressed(KeyInput input) {
-        for (ModulePanel panel : modulePanels) {
-            panel.keyPressed(input);
+        if (expandProgress.getValue() > 0.001f) {
+            for (ModulePanel panel : modulePanels) {
+                panel.keyPressed(input);
+            }
         }
     }
 
@@ -135,10 +163,10 @@ public class CategoryPanel extends AbstractDisplableItem {
     }
 
     public boolean getDisplayModule() {
-        return displaymodule;
+        return expandProgress.isExpanded();
     }
 
     public void setDisplayModule(boolean value) {
-        displaymodule = value;
+        expandProgress.force(value ? 1.0f : 0.0f);
     }
 }
