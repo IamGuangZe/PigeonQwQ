@@ -59,6 +59,10 @@ public class AnimationValue {
         return !animating;
     }
 
+    public boolean isCollapsed() {
+        return current <= 0.0f && !animating;
+    }
+
     public boolean isExpanded() {
         return target > 0.5f;
     }

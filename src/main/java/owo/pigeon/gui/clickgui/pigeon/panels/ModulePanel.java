@@ -23,6 +23,7 @@ public class ModulePanel extends AbstractDisplableItem {
     private final Module module;
 
     private boolean hovered;
+    private int clipBottom;
     private final AnimationValue expandProgress = new AnimationValue(0.0f, 0.3f);
     public ArrayList<SettingPanel> settingPanels = new ArrayList<>();
     public ArrayList<SettingPanel> visiblePanels = new ArrayList<>();
@@ -85,6 +86,7 @@ public class ModulePanel extends AbstractDisplableItem {
         if (progress > 0.0f) {
             int fullSettingsHeight = computeFullSettingsHeight();
             int animatedSettingsHeight = (int) (fullSettingsHeight * progress);
+            clipBottom = y + height + animatedSettingsHeight;
 
             context.enableScissor(x, y + height, x + width, y + height + animatedSettingsHeight);
 
@@ -148,18 +150,18 @@ public class ModulePanel extends AbstractDisplableItem {
             return true;
         }
 
-        if (expandProgress.isExpanded() && keybindPanel.mouseClicked(click, doubled)) {
+        if (!expandProgress.isCollapsed() && keybindPanel.y < clipBottom && keybindPanel.mouseClicked(click, doubled)) {
             return true;
         }
 
-        if (expandProgress.isExpanded() && hidePanel.mouseClicked(click, doubled)) {
+        if (!expandProgress.isCollapsed() && hidePanel.y < clipBottom && hidePanel.mouseClicked(click, doubled)) {
             return true;
         }
 
-        if (expandProgress.isExpanded()) {
+        if (!expandProgress.isCollapsed()) {
             for (int i = visiblePanels.size() - 1; i >= 0; i--) {
                 SettingPanel panel = visiblePanels.get(i);
-                if (panel.mouseClicked(click, doubled)) {
+                if (panel.y < clipBottom && panel.mouseClicked(click, doubled)) {
                     return true;
                 }
             }
@@ -169,35 +171,35 @@ public class ModulePanel extends AbstractDisplableItem {
     }
 
     public void mouseReleased(Click click) {
-        if (expandProgress.isExpanded()) {
+        if (!expandProgress.isCollapsed()) {
             for (SettingPanel panel : visiblePanels) {
-                panel.mouseReleased(click);
+                if (panel.y < clipBottom) panel.mouseReleased(click);
             }
         }
     }
 
     public void mouseDragged(Click click, double offsetX, double offsetY) {
-        if (expandProgress.isExpanded()) {
+        if (!expandProgress.isCollapsed()) {
             for (SettingPanel panel : visiblePanels) {
-                panel.mouseDragged(click, offsetX, offsetY);
+                if (panel.y < clipBottom) panel.mouseDragged(click, offsetX, offsetY);
             }
         }
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        if (expandProgress.isExpanded()) {
+        if (!expandProgress.isCollapsed()) {
             for (int i = visiblePanels.size() - 1; i >= 0; i--) {
                 SettingPanel panel = visiblePanels.get(i);
-                if (panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+                if (panel.y < clipBottom && panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
                     return true;
                 }
             }
 
-            if (keybindPanel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+            if (keybindPanel.y < clipBottom && keybindPanel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
                 return true;
             }
 
-            if (hidePanel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+            if (hidePanel.y < clipBottom && hidePanel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
                 return true;
             }
         }
@@ -206,11 +208,11 @@ public class ModulePanel extends AbstractDisplableItem {
     }
 
     public void keyPressed(KeyInput input) {
-        if (expandProgress.isExpanded()) {
-            keybindPanel.keyPressed(input);
+        if (!expandProgress.isCollapsed()) {
+            if (keybindPanel.y < clipBottom) keybindPanel.keyPressed(input);
 
             for (SettingPanel panel : visiblePanels) {
-                panel.keyPressed(input);
+                if (panel.y < clipBottom) panel.keyPressed(input);
             }
         }
     }

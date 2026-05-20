@@ -25,6 +25,7 @@ public class CategoryPanel extends AbstractDisplableItem {
 
     private int mx;
     private int my;
+    private int clipBottom;
 
     public CategoryPanel(Category category, int x, int y, int width, int height) {
         this.category = category;
@@ -73,6 +74,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         }
 
         int animatedHeight = (int) (totalExpandedHeight * progress);
+        clipBottom = y + height + animatedHeight;
 
         if (animatedHeight > 0) {
             context.enableScissor(x, y + height, x + width, y + height + animatedHeight);
@@ -103,10 +105,10 @@ public class CategoryPanel extends AbstractDisplableItem {
             return true;
         }
 
-        if (expandProgress.getValue() > 0.001f) {
+        if (!expandProgress.isCollapsed()) {
             for (int i = modulePanels.size() - 1; i >= 0; i--) {
                 ModulePanel panel = modulePanels.get(i);
-                if (panel.mouseClicked(click, doubled)) {
+                if (panel.y < clipBottom && panel.mouseClicked(click, doubled)) {
                     return true;
                 }
             }
@@ -120,9 +122,9 @@ public class CategoryPanel extends AbstractDisplableItem {
             movepanel = false;
         }
 
-        if (expandProgress.getValue() > 0.001f) {
+        if (!expandProgress.isCollapsed()) {
             for (ModulePanel panel : modulePanels) {
-                panel.mouseReleased(click);
+                if (panel.y < clipBottom) panel.mouseReleased(click);
             }
         }
     }
@@ -133,17 +135,17 @@ public class CategoryPanel extends AbstractDisplableItem {
             y = (int) (my + click.y());
         }
 
-        if (expandProgress.getValue() > 0.001f) {
+        if (!expandProgress.isCollapsed()) {
             for (ModulePanel panel : modulePanels) {
-                panel.mouseDragged(click, offsetX, offsetY);
+                if (panel.y < clipBottom) panel.mouseDragged(click, offsetX, offsetY);
             }
         }
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        if (expandProgress.getValue() > 0.001f) {
+        if (!expandProgress.isCollapsed()) {
             for (ModulePanel panel : modulePanels) {
-                if (panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+                if (panel.y < clipBottom && panel.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
                     return true;
                 }
             }
@@ -152,9 +154,9 @@ public class CategoryPanel extends AbstractDisplableItem {
     }
 
     public void keyPressed(KeyInput input) {
-        if (expandProgress.getValue() > 0.001f) {
+        if (!expandProgress.isCollapsed()) {
             for (ModulePanel panel : modulePanels) {
-                panel.keyPressed(input);
+                if (panel.y < clipBottom) panel.keyPressed(input);
             }
         }
     }
