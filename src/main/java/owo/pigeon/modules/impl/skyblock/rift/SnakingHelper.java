@@ -28,13 +28,13 @@ public class SnakingHelper extends Module {
 
     @Handler
     public void onDoAttackPre(DoAttackEvent.Pre event) {
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         switchTo(PICKAXE);
     }
 
     @Handler
     public void onDoItemUse(DoItemUseEvent.Pre event) {
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         switchTo(PUNGI);
     }
 

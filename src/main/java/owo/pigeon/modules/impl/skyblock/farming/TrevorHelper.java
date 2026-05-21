@@ -38,7 +38,7 @@ public class TrevorHelper extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.FarmingIsland)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.FARMING_ISLAND)) return;
 
         for (Entity entity : mc.world.getEntities()) {
             if (!(entity instanceof ArmorStandEntity stand)) continue;
@@ -80,7 +80,7 @@ public class TrevorHelper extends Module {
     @Handler
     public void onChatReceive(MessageEvent.ReceiveMessageEvent event) {
         if (event.isOverlay()) return;
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.FarmingIsland)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.FARMING_ISLAND)) return;
 
         Text messageText = event.getMessage();
         String message = ColorUtil.removeColor(messageText.getString());

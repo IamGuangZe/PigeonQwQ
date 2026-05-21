@@ -36,8 +36,8 @@ public class PestESP extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        boolean inGarden = SkyblockUtil.isInIsland(SkyblockUtil.Island.Garden);
-        boolean inHub = SkyblockUtil.isInIsland(SkyblockUtil.Island.Hub);
+        boolean inGarden = SkyblockUtil.isInIsland(SkyblockUtil.Island.GARDEN);
+        boolean inHub = SkyblockUtil.isInIsland(SkyblockUtil.Island.HUB);
 
         if (!inGarden && !(hubRat.getValue() && inHub)) return;
 

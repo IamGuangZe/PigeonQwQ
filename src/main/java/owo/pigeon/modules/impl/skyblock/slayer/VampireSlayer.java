@@ -64,7 +64,7 @@ public class VampireSlayer extends Module {
     @Handler
     public void onTick(ClientTickEvent event) {
         if (WorldUtil.nullCheck()) return;
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
 
         String subtitle = ((IAccessorInGameHud) mc.inGameHud).pigeon$getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorInGameHud) mc.inGameHud).pigeon$getSubtitle().getString());
         boolean foundTitle = subtitle.startsWith("Impel: ");
@@ -224,7 +224,7 @@ public class VampireSlayer extends Module {
         KeybindUtil.resetPressed(mc.options.jumpKey);
         KeybindUtil.resetPressed(mc.options.sneakKey);
 
-        if (changeGamemode.getValue() && SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) {
+        if (changeGamemode.getValue() && SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) {
             boolean wasFlying = mc.player.getAbilities().flying;
             boolean canFly = mc.player.getAbilities().allowFlying;
             mc.interactionManager.setGameMode(GameMode.SURVIVAL);

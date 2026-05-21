@@ -27,7 +27,7 @@ public class AgaricusMiner extends Module {
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
 
         if (mc.crosshairTarget == null || mc.crosshairTarget.getType() != HitResult.Type.BLOCK) {
             targetPos = null;

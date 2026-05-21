@@ -28,7 +28,7 @@ public class DojoUtil {
 
     public static boolean isInDojoChallenge() {
         if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.CrimsonIsle)) return false;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.CRIMSON_ISLE)) return false;
 
         double x = mc.player.getX();
         double y = mc.player.getY();

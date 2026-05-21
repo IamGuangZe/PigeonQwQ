@@ -94,13 +94,13 @@ public class SkyblockESP extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         MatrixStack stack = event.getMatrix();
 
-        if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CrimsonIsle)) {
+        if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CRIMSON_ISLE)) {
             for (Entity entity : mc.world.getEntities()) {
                 if (entity instanceof BatEntity) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
                 }
             }
-        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CrystalHollows)) {
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CRYSTAL_HOLLOWS)) {
             for (Entity entity : mc.world.getEntities()) {
                 if (entity instanceof ZombieEntity zombie && zombie.getMainHandStack().isOf(Items.BONE) && keyGuardianEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.YELLOW, RenderUtil.ESPMode.BOTH, false);
@@ -153,7 +153,7 @@ public class SkyblockESP extends Module {
                 jaspers.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.MAGENTA_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.MAGENTA_STAINED_GLASS_PANE));
                 renderBlocks(stack, jaspers, Color.MAGENTA, gemstoneEspLimit.getValue());
             }
-        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.DwarvenMines)) {
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.DWARVEN_MINES)) {
             if (titaniumEsp.getValue()) {
                 titaniums.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.POLISHED_DIORITE));
                 for (BlockPos pos : titaniums) {
@@ -166,7 +166,7 @@ public class SkyblockESP extends Module {
                     RenderUtil.drawESP(event.getMatrix(), pos, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
                 }
             }
-        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.Galatea)) {
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.GALATEA)) {
             for (Entity entity : mc.world.getEntities()) {
                 if (entity instanceof ShulkerEntity && hideonleafEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
@@ -184,7 +184,7 @@ public class SkyblockESP extends Module {
                             RenderUtil.ESPMode.BOTH, false);
                 }
             }
-        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.TheEnd)) {
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_END)) {
             if (enderNodeEsp.getValue()) {
                 enderNodes.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.PURPLE_TERRACOTTA));
                 for (BlockPos pos : enderNodes) {

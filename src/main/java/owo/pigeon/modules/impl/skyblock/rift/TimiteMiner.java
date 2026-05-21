@@ -48,7 +48,7 @@ public class TimiteMiner extends Module {
     @Handler
     public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         if (!autoMine.getValue()) return;
 
         if (!isHoldingTimiteTools()) {
@@ -90,13 +90,13 @@ public class TimiteMiner extends Module {
 
     @Handler
     public void onDoAttackPre(DoAttackEvent.Pre event) {
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         switchTo(PICKAXE);
     }
 
     @Handler
     public void onDoItemUse(DoItemUseEvent.Pre event) {
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         switchTo(GUN);
     }
 

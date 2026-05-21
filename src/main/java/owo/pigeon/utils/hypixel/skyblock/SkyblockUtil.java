@@ -32,29 +32,30 @@ import static owo.pigeon.utils.ItemUtil.getItemLore;
 
 public class SkyblockUtil {
     public enum Island {
-        SinglePlayer("Singleplayer"),
-        PrivateIsland("Private Island"),
-        Garden("Garden"),
-        SpiderDen("Spider's Den"),
-        CrimsonIsle("Crimson Isle"),
-        TheEnd("The End"),
-        GoldMine("Gold Mine"),
-        DeepCaverns("Deep Caverns"),
-        DwarvenMines("Dwarven Mines"),
-        CrystalHollows("Crystal Hollows"),
-        FarmingIsland("The Farming Islands"),
-        ThePark("The Park"),
-        Dungeon("Catacombs"),
-        DungeonHub("Dungeon Hub"),
-        Hub("Hub"),
-        DarkAuction("Dark Auction"),
-        JerryWorkshop("Jerry's Workshop"),
-        Kuudra("Kuudra"),
-        Mineshaft("Mineshaft"),
-        Rift("The Rift"),
-        BackwaterBayou("Backwater Bayou"),
-        Galatea("Galatea"),
-        Unknown("(Unknown)");
+        BACKWATER_BAYOU("Backwater Bayou"),
+        CRIMSON_ISLE("Crimson Isle"),
+        CRYSTAL_HOLLOWS("Crystal Hollows"),
+        DARK_AUCTION("Dark Auction"),
+        DEEP_CAVERNS("Deep Caverns"),
+        DUNGEON("Catacombs"),
+        DUNGEON_HUB("Dungeon Hub"),
+        DWARVEN_MINES("Dwarven Mines"),
+        FARMING_ISLAND("The Farming Islands"),
+        GALATEA("Galatea"),
+        GARDEN("Garden"),
+        GOLD_MINE("Gold Mine"),
+        HUB("Hub"),
+        JERRY_WORKSHOP("Jerry's Workshop"),
+        KUUDRA("Kuudra"),
+        LOTUS_ATOLL("Lotus Atoll"),
+        MINESHAFT("Mineshaft"),
+        PRIVATE_ISLAND("Private Island"),
+        SPIDER_DEN("Spider's Den"),
+        THE_END("The End"),
+        THE_PARK("The Park"),
+        THE_RIFT("The Rift"),
+        SINGLE_PLAYER("Singleplayer"),
+        UNKNOWN("(Unknown)");
 
         private final String displayName;
 
@@ -95,8 +96,8 @@ public class SkyblockUtil {
 
     public static Island getIsland() {
         List<String> tabLines = ScoreBoardUtil.getTabLines();
-        if (mc.isInSingleplayer()) return Island.SinglePlayer;
-        if (!isInSkyblock() || tabLines.isEmpty()) return Island.Unknown;
+        if (mc.isInSingleplayer()) return Island.SINGLE_PLAYER;
+        if (!isInSkyblock() || tabLines.isEmpty()) return Island.UNKNOWN;
 
         for (String line : tabLines) {
             if (line.startsWith("Area: ") || line.startsWith("Dungeon: ")) {
@@ -109,7 +110,7 @@ public class SkyblockUtil {
             }
         }
 
-        return Island.Unknown;
+        return Island.UNKNOWN;
     }
 
     public static boolean isInIsland(Island island) {

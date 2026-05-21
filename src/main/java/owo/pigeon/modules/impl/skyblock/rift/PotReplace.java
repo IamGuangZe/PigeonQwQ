@@ -44,7 +44,7 @@ public class PotReplace extends Module {
 
     @Handler
     public void onReceivePacketPost(PacketEvent.ReceivePacketEvent.Post event) {
-        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.Rift)) return;
+        if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
 
         if (event.getPacket() instanceof BlockUpdateS2CPacket packet) {
             if (packet.getState().isIn(BlockTags.FLOWER_POTS)) {

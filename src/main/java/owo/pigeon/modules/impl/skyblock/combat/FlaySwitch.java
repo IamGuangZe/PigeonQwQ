@@ -41,7 +41,7 @@ public class FlaySwitch extends Module {
 
     @Handler
     public void onDoItemUsePost(DoItemUseEvent.Post event) {
-        if (onlyInGalatea.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.Galatea))
+        if (onlyInGalatea.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.GALATEA))
             return;
 
         ItemStack stack = mc.player.getMainHandStack();

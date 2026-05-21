@@ -48,7 +48,7 @@ public class DungeonUtil {
     }
 
     public static boolean isInDungeon() {
-        return SkyblockUtil.isInIsland(SkyblockUtil.Island.Dungeon);
+        return SkyblockUtil.isInIsland(SkyblockUtil.Island.DUNGEON);
     }
 
     public static Floor getFloor() {
