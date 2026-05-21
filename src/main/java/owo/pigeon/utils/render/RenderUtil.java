@@ -13,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import org.joml.Matrix4f;
+import owo.pigeon.utils.ColorUtil;
 
 import java.awt.*;
 
@@ -52,6 +53,40 @@ public class RenderUtil {
         context.fill(x, y, x + 1, y + height, color);
 
         context.fill(x + width - 1, y, x + width, y + height, color);
+    }
+
+    public static void drawGradientBorder(DrawContext context, int x, int y, int width, int height, int[] gradient) {
+        if (gradient == null) {
+            drawBorder(context, x, y, width, height, Color.WHITE.getRGB());
+            return;
+        }
+        int stepsH = Math.max(2, width / 20);
+        int stepsV = Math.max(2, height / 20);
+
+        // top: left(0.0) → right(0.5)
+        for (int i = 0; i < width; i += stepsH) {
+            int w = Math.min(stepsH, width - i);
+            float r = (float) i / (2.0f * width);
+            context.fill(x + i, y, x + i + w, y + 1, ColorUtil.interpolateGradient(gradient, r));
+        }
+        // right: top(0.5) → bottom(1.0)
+        for (int i = 0; i < height; i += stepsV) {
+            int h = Math.min(stepsV, height - i);
+            float r = 0.5f + (float) i / (2.0f * height);
+            context.fill(x + width - 1, y + i, x + width, y + i + h, ColorUtil.interpolateGradient(gradient, r));
+        }
+        // bottom: right(1.0) → left(0.5)
+        for (int i = 0; i < width; i += stepsH) {
+            int w = Math.min(stepsH, width - i);
+            float r = 1.0f - (float) i / (2.0f * width);
+            context.fill(x + width - i - w, y + height - 1, x + width - i, y + height, ColorUtil.interpolateGradient(gradient, r));
+        }
+        // left: bottom(0.5) → top(0.0)
+        for (int i = 0; i < height; i += stepsV) {
+            int h = Math.min(stepsV, height - i);
+            float r = 0.5f - (float) i / (2.0f * height);
+            context.fill(x, y + height - i - h, x + 1, y + height - i, ColorUtil.interpolateGradient(gradient, r));
+        }
     }
 
     public static void draw3DLine(MatrixStack stack, Vec3d start, Vec3d end, Color c, double pixelWidth) {

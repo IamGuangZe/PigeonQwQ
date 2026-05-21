@@ -6,6 +6,7 @@ import net.minecraft.client.input.KeyInput;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
+import owo.pigeon.modules.impl.client.PigeonQwQ;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.animation.AnimationValue;
 import owo.pigeon.utils.render.RenderUtil;
@@ -90,6 +91,12 @@ public class CategoryPanel extends AbstractDisplableItem {
             }
 
             context.disableScissor();
+        }
+
+        if (!owo.pigeon.Pigeon.isDebug()) {
+            PigeonQwQ pigeonQwQ = ModuleUtil.getModule(PigeonQwQ.class);
+            int[] gradient = pigeonQwQ != null ? pigeonQwQ.theme.getValue().getGradient() : null;
+            RenderUtil.drawGradientBorder(context, x, y, width, height + animatedHeight, gradient);
         }
     }
 
