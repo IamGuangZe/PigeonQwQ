@@ -6,7 +6,8 @@
   "mixins": [
     "mixins.MixinClientConnection",
     "mixins.MixinEntity",
-    "mixins.MixinLivingEntity"
+    "mixins.MixinLivingEntity",
+    "mixins.MixinLivingEntityRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

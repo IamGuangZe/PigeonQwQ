@@ -18,10 +18,7 @@ import owo.pigeon.modules.impl.movement.Sprint;
 import owo.pigeon.modules.impl.player.*;
 import owo.pigeon.modules.impl.render.*;
 import owo.pigeon.modules.impl.skyblock.combat.FlaySwitch;
-import owo.pigeon.modules.impl.skyblock.dungeon.AutoGFS;
-import owo.pigeon.modules.impl.skyblock.dungeon.ChestClose;
-import owo.pigeon.modules.impl.skyblock.dungeon.PillarsReplace;
-import owo.pigeon.modules.impl.skyblock.dungeon.StarMobESP;
+import owo.pigeon.modules.impl.skyblock.dungeon.*;
 import owo.pigeon.modules.impl.skyblock.event.AutoBouncingBall;
 import owo.pigeon.modules.impl.skyblock.event.ZombieShootout;
 import owo.pigeon.modules.impl.skyblock.farming.PestESP;
@@ -102,17 +99,24 @@ public class ModuleManager {
 
         /* =======*SkyBlock Module*======= */
         modules.add(new FlaySwitch());
+
         modules.add(new AutoGFS());
         modules.add(new ChestClose());
+        modules.add(new GiantBat());
         modules.add(new PillarsReplace());
         modules.add(new StarMobESP());
+
         modules.add(new AutoBouncingBall());
         modules.add(new ZombieShootout());
+
         modules.add(new PestESP());
         modules.add(new TrevorHelper());
+
         modules.add(new AutoReel());
+
         modules.add(new NoNBTUpdate());
         modules.add(new LegitNuker());
+
         modules.add(new AutoCombine());
         modules.add(new AutoEquipment());
         modules.add(new AutoExperiments());
@@ -121,12 +125,16 @@ public class ModuleManager {
         modules.add(new ChocolateFactory());
         modules.add(new FailSafe());
         modules.add(new SkyblockESP());
+
         modules.add(new DojoHelper());
+
         modules.add(new AutoBreath());
+
         modules.add(new AgaricusMiner());
         modules.add(new PotReplace());
         modules.add(new SnakingHelper());
         modules.add(new TimiteMiner());
+
         modules.add(new AutoMaddox());
         modules.add(new VampireSlayer());
     }
