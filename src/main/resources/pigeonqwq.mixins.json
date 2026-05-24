@@ -26,6 +26,8 @@
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",
     "mixins.MixinClientWorldProperties",
+    "mixins.MixinConnectScreen",
+    "mixins.MixinDisconnectedScreen",
     "mixins.MixinGameRenderer",
     "mixins.MixinHandledScreen",
     "mixins.MixinInGameHud",
