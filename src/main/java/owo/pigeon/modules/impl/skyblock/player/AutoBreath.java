@@ -8,6 +8,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.FloatSetting;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -18,10 +19,13 @@ public class AutoBreath extends Module {
 
     public FloatSetting air = setting("air", 4.0f, 0.0f, 20.0f, v -> true);
     public EnableSetting reDive = setting("re-dive", true, v -> true);
+    public EnableSetting onlyInGalatea = setting("only-in-galatea", true, v -> true);
 
     @Handler
     public void onMoveInput(MoveInputEvent event) {
         if (mc.currentScreen != null) return;
+        if (onlyInGalatea.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.GALATEA))
+            return;
 
         Input input = event.getInput();
         PlayerInput playerInput = input.playerInput;
