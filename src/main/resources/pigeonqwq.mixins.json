@@ -28,6 +28,7 @@
     "mixins.MixinClientWorldProperties",
     "mixins.MixinConnectScreen",
     "mixins.MixinDisconnectedScreen",
+    "mixins.MixinDyedColorComponent",
     "mixins.MixinGameRenderer",
     "mixins.MixinHandledScreen",
     "mixins.MixinInGameHud",
@@ -40,6 +41,7 @@
     "mixins.MixinRebuildTask",
     "mixins.MixinSimpleOption",
     "mixins.MixinStatusEffectFogModifier",
+    "mixins.MixinTooltipDisplayComponent",
     "mixins.MixinWeatherRendering",
     "mixins.MixinWorldRenderer"
   ]

@@ -119,6 +119,7 @@ public class ModuleManager {
         modules.add(new NoNBTUpdate());
         modules.add(new LegitNuker());
 
+        modules.add(new ArmorColor());
         modules.add(new AutoCombine());
         modules.add(new AutoEquipment());
         modules.add(new AutoExperiments());
