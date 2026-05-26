@@ -7,8 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.entity.mob.*;
-import net.minecraft.entity.passive.BatEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.passive.*;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import owo.pigeon.event.events.RenderEvent;
@@ -67,6 +66,11 @@ public class SkyblockESP extends Module {
     public EnableSetting phanflareEsp = setting("phanflare-esp", false, v -> galatea.getValue());
     public EnableSetting dreadwingEsp = setting("dreadwing-esp", false, v -> galatea.getValue());
     public EnableSetting mudwormEsp = setting("mudworm-esp", false, v -> galatea.getValue());
+
+    public ExpandSetting lotusAtoll = setting("lotus-atoll", v -> true);
+    public EnableSetting tewtil = setting("tewtil", false, v -> lotusAtoll.getValue());
+    public EnableSetting flipflopper = setting("flipflopper", false, v -> lotusAtoll.getValue());
+    public EnableSetting seashine = setting("seashine", false, v -> lotusAtoll.getValue());
 
     public ExpandSetting theEnd = setting("the-end", v -> true);
     public EnableSetting enderNodeEsp = setting("ender-node-esp", false, v -> theEnd.getValue());
@@ -182,6 +186,16 @@ public class SkyblockESP extends Module {
                 } else if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay && itemDisplay.getItemStack().isOf(Items.STRING) && mudwormEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity.getBlockPos(), Color.YELLOW,
                             RenderUtil.ESPMode.BOTH, false);
+                }
+            }
+        } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.LOTUS_ATOLL)) {
+            for (Entity entity : mc.world.getEntities()) {
+                if (entity instanceof TurtleEntity && tewtil.getValue()) {
+                    RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
+                } else if (entity instanceof DolphinEntity && flipflopper.getValue()) {
+                    RenderUtil.drawESP(stack, entity, Color.CYAN, RenderUtil.ESPMode.BOTH, false);
+                } else if (entity instanceof GlowSquidEntity && seashine.getValue()) {
+                    RenderUtil.drawESP(stack, entity, Color.BLUE, RenderUtil.ESPMode.BOTH, false);
                 }
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_END)) {
