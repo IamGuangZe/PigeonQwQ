@@ -100,7 +100,7 @@ public class SkyblockESP extends Module {
 
         if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CRIMSON_ISLE)) {
             for (Entity entity : mc.world.getEntities()) {
-                if (entity instanceof BatEntity) {
+                if (entity instanceof BatEntity && !entity.isInvisible() && cinderbatEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
                 }
             }
