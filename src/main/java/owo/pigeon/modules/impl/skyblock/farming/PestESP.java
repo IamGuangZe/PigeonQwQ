@@ -3,6 +3,7 @@ package owo.pigeon.modules.impl.skyblock.farming;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.item.ItemStack;
@@ -50,39 +51,71 @@ public class PestESP extends Module {
         }
 
         for (Entity entity : mc.world.getEntities()) {
-            boolean shouldDraw = false;
-            String currentTexture = null;
-
             if (inHub) {
                 if (!(entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay)) continue;
-                ItemStack stack = itemDisplay.getItemStack();
-                if (stack.isEmpty() || !stack.isOf(Items.PLAYER_HEAD)) continue;
+                if (!SkyblockUtil.RAT.equals(getSkullTexture(itemDisplay))) continue;
 
-                currentTexture = ItemUtil.getSkullTexture(stack);
-                if (!currentTexture.equals(SkyblockUtil.RAT)) continue;
-
-                shouldDraw = true;
             } else if (inGarden) {
                 if (!(entity instanceof ArmorStandEntity stand)) continue;
 
-                ItemStack helmet = stand.getEquippedStack(EquipmentSlot.HEAD);
-                if (helmet.isEmpty() || !helmet.isOf(Items.PLAYER_HEAD)) continue;
+                String texture = getSkullTexture(stand);
+                if (texture == null || !SkyblockUtil.PESTS.contains(texture)) continue;
 
-                currentTexture = ItemUtil.getSkullTexture(helmet);
-                if (currentTexture == null || !SkyblockUtil.PESTS.contains(currentTexture)) continue;
-
-                shouldDraw = true;
-            }
-
-            if (shouldDraw) {
-                boolean shouldTracer = tracer.getValue() && !SkyblockUtil.EARTHWORM_TAIL.equals(currentTexture);
-                if (inHub) {
-                    Box box = entity.getBoundingBox().expand(0.4).offset(0.0, 0.275, 0.0);
-                    RenderUtil.drawESP(event.getMatrix(), entity, box, color.getValue(), mode.getValue(), shouldTracer);
-                } else if (inGarden) {
-                    RenderUtil.drawESP(event.getMatrix(), entity, color.getValue(), mode.getValue(), shouldTracer);
+                // middle earthworm
+                if (SkyblockUtil.EARTHWORM_TAIL.equals(texture)) continue;
+                if (SkyblockUtil.EARTHWORM.equals(texture)) {
+                    Entity middlePart = findClosestTail(stand);
+                    if (middlePart != null) entity = middlePart;
                 }
             }
+
+            Box box = entity.getBoundingBox();
+            if (inHub) box = box.expand(0.4).offset(0.0, 0.275, 0.0);
+            else if (inGarden) box = getGardenPestBox(box);
+
+            RenderUtil.drawESP(event.getMatrix(), entity, box, color.getValue(), mode.getValue(), tracer.getValue());
         }
+    }
+
+    private Box getGardenPestBox(Box box) {
+        double size = 0.8d;
+        double x = (box.minX + box.maxX) / 2.0;
+        double y = box.maxY - size / 2;
+        double z = (box.minZ + box.maxZ) / 2.0;
+
+        return new Box(x, y, z, x, y, z).expand(size / 2).offset(0.0, 0.175, 0.0);
+    }
+
+    private String getSkullTexture(Entity entity) {
+        ItemStack stack;
+        if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay) {
+            stack = itemDisplay.getItemStack();
+        } else if (entity instanceof LivingEntity livingEntity) {
+            stack = livingEntity.getEquippedStack(EquipmentSlot.HEAD);
+        } else {
+            return null;
+        }
+
+        if (stack.isEmpty() || !stack.isOf(Items.PLAYER_HEAD)) return null;
+        return ItemUtil.getSkullTexture(stack);
+    }
+
+    private Entity findClosestTail(Entity entity) {
+        Entity closest = null;
+        double closestDistance = Double.MAX_VALUE;
+        Box box = entity.getBoundingBox().expand(0.5);
+
+        for (Entity nearbyEntity : mc.world.getOtherEntities(entity, box)) {
+            if (!(nearbyEntity instanceof ArmorStandEntity)) continue;
+            if (!SkyblockUtil.EARTHWORM_TAIL.equals(getSkullTexture(nearbyEntity))) continue;
+
+            double dist = entity.distanceTo(nearbyEntity);
+            if (dist < closestDistance) {
+                closestDistance = dist;
+                closest = nearbyEntity;
+            }
+        }
+
+        return closest;
     }
 }
