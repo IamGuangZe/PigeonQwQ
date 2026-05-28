@@ -68,9 +68,11 @@ public class SkyblockESP extends Module {
     public EnableSetting mudwormEsp = setting("mudworm-esp", false, v -> galatea.getValue());
 
     public ExpandSetting lotusAtoll = setting("lotus-atoll", v -> true);
-    public EnableSetting tewtil = setting("tewtil", false, v -> lotusAtoll.getValue());
-    public EnableSetting flipflopper = setting("flipflopper", false, v -> lotusAtoll.getValue());
-    public EnableSetting seashine = setting("seashine", false, v -> lotusAtoll.getValue());
+    public EnableSetting lotumEsp = setting("lotum-esp", false, v -> lotusAtoll.getValue());
+    public EnableSetting puddleJumperEsp = setting("puddle-jumper-esp", false, v -> lotusAtoll.getValue());
+    public EnableSetting tewtilEsp = setting("tewtil-esp", false, v -> lotusAtoll.getValue());
+    public EnableSetting flipflopperEsp = setting("flipflopper-esp", false, v -> lotusAtoll.getValue());
+    public EnableSetting seashineEsp = setting("seashine-esp", false, v -> lotusAtoll.getValue());
 
     public ExpandSetting theEnd = setting("the-end", v -> true);
     public EnableSetting enderNodeEsp = setting("ender-node-esp", false, v -> theEnd.getValue());
@@ -139,11 +141,11 @@ public class SkyblockESP extends Module {
             }
             if (sapphireEsp.getValue()) {
                 sapphires.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.LIGHT_BLUE_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE));
-                renderBlocks(stack, sapphires, new Color(173, 216, 255), gemstoneEspLimit.getValue());
+                renderBlocks(stack, sapphires, new Color(0xADD8FF, true), gemstoneEspLimit.getValue());
             }
             if (amethystEsp.getValue()) {
                 amethysts.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.PURPLE_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.PURPLE_STAINED_GLASS_PANE));
-                renderBlocks(stack, amethysts, new Color(153, 50, 204), gemstoneEspLimit.getValue());
+                renderBlocks(stack, amethysts, new Color(0x9932CC, true), gemstoneEspLimit.getValue());
             }
             if (rubyEsp.getValue()) {
                 rubys.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.RED_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.RED_STAINED_GLASS_PANE));
@@ -184,17 +186,23 @@ public class SkyblockESP extends Module {
                         RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                     }
                 } else if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay && itemDisplay.getItemStack().isOf(Items.STRING) && mudwormEsp.getValue()) {
-                    RenderUtil.drawESP(stack, entity.getBlockPos(), Color.YELLOW,
-                            RenderUtil.ESPMode.BOTH, false);
+                    RenderUtil.drawESP(stack, entity.getBlockPos(), Color.YELLOW, RenderUtil.ESPMode.BOTH, false);
                 }
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.LOTUS_ATOLL)) {
             for (Entity entity : mc.world.getEntities()) {
-                if (entity instanceof TurtleEntity && tewtil.getValue()) {
+                if (entity instanceof FrogEntity frog && frog.getVariant().matchesKey(FrogVariants.TEMPERATE)) {
+                    float scale = frog.getScale();
+                    if (scale == 1.0f && lotumEsp.getValue()) {
+                        RenderUtil.drawESP(stack, entity, new Color(0xFFCD853F, true), RenderUtil.ESPMode.BOTH, false);
+                    } else if (scale == 4.0f && puddleJumperEsp.getValue()) {
+                        RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
+                    }
+                } else if (entity instanceof TurtleEntity && tewtilEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
-                } else if (entity instanceof DolphinEntity && flipflopper.getValue()) {
+                } else if (entity instanceof DolphinEntity && flipflopperEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.CYAN, RenderUtil.ESPMode.BOTH, false);
-                } else if (entity instanceof GlowSquidEntity && seashine.getValue()) {
+                } else if (entity instanceof GlowSquidEntity && seashineEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.BLUE, RenderUtil.ESPMode.BOTH, false);
                 }
             }
