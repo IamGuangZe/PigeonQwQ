@@ -29,13 +29,13 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-    modLocalRuntime("net.litetex.mcm:dev-auth-neo:1.0.1")
+    modLocalRuntime("net.litetex.mcm:dev-auth-neo:${project.devauth_version}")
 
-    modCompileOnly "maven.modrinth:sodium:mc1.21.11-0.8.11-fabric"
-    modRuntimeOnly "maven.modrinth:sodium:mc1.21.11-0.8.11-fabric"
+    modCompileOnly "maven.modrinth:sodium:${project.sodium_version}"
+    modLocalRuntime "maven.modrinth:sodium:${project.sodium_version}"
 
-    modCompileOnly "com.terraformersmc:modmenu:17.0.0"
-    modRuntimeOnly "com.terraformersmc:modmenu:17.0.0"
+    modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modLocalRuntime "com.terraformersmc:modmenu:${project.modmenu_version}"
 
     implementation "net.objecthunter:exp4j:0.4.8"
     include "net.objecthunter:exp4j:0.4.8"
