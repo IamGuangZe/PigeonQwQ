@@ -24,6 +24,7 @@ public class AutoFish extends Module {
     public ModeSetting<PlayerUtil.RightClickMode> castMode = setting("cast-mode", PlayerUtil.RightClickMode.MOUSE, v -> true);
     public EnableSetting stopInGui = setting("stop-in-gui", true, v -> true);
     public EnableSetting stopIfFull = setting("stop-if-full", true, v -> true);
+    public IntSetting catchDelay = setting("catch-delay", 0, 0, 20, "tick", v -> true);
     public ExpandSetting rethrowAndTimeout = setting("rethrow-and-timeout", v -> true);
     public EnableSetting rethrow = setting("rethrow", true, v -> rethrowAndTimeout.getValue());
     public IntSetting rethrowDelay = setting("rethrow-delay", 10, 1, 20, "tick", v -> rethrow.isVisible() && rethrow.getValue());
@@ -34,7 +35,7 @@ public class AutoFish extends Module {
     public EnableSetting slugfishMode = setting("slugfish-mode", false, v -> true);
     public IntSetting slugfishDelay = setting("slugfish-delay", 22, 5, 35, "s", v -> slugfishMode.getValue());
 
-    private int rethrowTick, idleTick;
+    private int delayTick, rethrowTick, idleTick;
     private boolean fishIncoming;
     private boolean wasHoldingRod;
 
@@ -102,30 +103,25 @@ public class AutoFish extends Module {
 
         // Catch Fish
         for (Entity entity : mc.world.getEntities()) {
-            if (entity instanceof ArmorStandEntity armorStand) {
-                String name = armorStand.getDisplayName().getString();
+            if (!(entity instanceof ArmorStandEntity armorStand)) continue;
+            String name = armorStand.getDisplayName().getString();
 
-                if (name.equals("?") || name.matches("\\d\\.\\d")) {
-                    fishIncoming = true;
-                }
-
-                if (name.equals("!!!") && fishIncoming) {
-                    fishIncoming = false;
-
-                    if (!slugfishMode.getValue() || fishHookAge > slugfishDelay.getValue() * 20) {
-                        PlayerUtil.RightClick(castMode.getValue());
-                        if (rethrow.getValue()) rethrowTick = 0;
-                    }
+            if (name.equals("?") || name.matches("\\d\\.\\d")) {
+                fishIncoming = true;
+                delayTick = catchDelay.getValue();
+                break;
+            } else if (name.equals("!!!") && fishIncoming && delayTick == 0) {
+                fishIncoming = false;
+                if (!slugfishMode.getValue() || fishHookAge > slugfishDelay.getValue() * 20) {
+                    PlayerUtil.RightClick(castMode.getValue());
+                    if (rethrow.getValue()) rethrowTick = 0;
+                    break;
                 }
             }
+
         }
 
-        /*
-        if (!isHeldRod()) return;
-        if (mc.player.fishHook == null) ChatUtil.sendDebugMessage(this.name, "Player's bobber not found.");
-        else if (!fishIncoming) ChatUtil.sendDebugMessage(this.name, "Fish not incoming.");
-        else ChatUtil.sendDebugMessage(this.name, "Waiting to catch.");
-        */
+        if (delayTick > 0) delayTick--;
     }
 
     private boolean isHeldRod() {
