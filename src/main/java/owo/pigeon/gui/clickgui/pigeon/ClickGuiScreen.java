@@ -22,6 +22,7 @@ import static owo.pigeon.Pigeon.mc;
 public class ClickGuiScreen extends Screen {
 
     public final ArrayList<CategoryPanel> categoryPanels = new ArrayList<>();
+    private Screen parentScreen = null;
 
     public ClickGuiScreen() {
         super(Text.literal("ClickGui"));
@@ -146,5 +147,14 @@ public class ClickGuiScreen extends Screen {
         }
 
         return super.keyPressed(input);
+    }
+
+    @Override
+    public void close() {
+        mc.setScreen(this.parentScreen);
+    }
+
+    public void setParentScreen(Screen parent) {
+        this.parentScreen = parent;
     }
 }

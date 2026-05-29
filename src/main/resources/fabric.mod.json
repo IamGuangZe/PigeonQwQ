@@ -12,6 +12,9 @@
   "entrypoints": {
     "main": [
       "owo.pigeon.Pigeon"
+    ],
+    "modmenu": [
+      "owo.pigeon.integration.ModMenuIntegration"
     ]
   },
   "mixins": [

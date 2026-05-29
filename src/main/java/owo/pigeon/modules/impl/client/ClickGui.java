@@ -23,6 +23,9 @@ public class ClickGui extends Module {
 
     @Override
     public void enable() {
-        if (mc.currentScreen == null) mc.setScreen(Pigeon.clickGuiScreen);
+        if (mc.currentScreen == null) {
+            Pigeon.clickGuiScreen.setParentScreen(null);
+            mc.setScreen(Pigeon.clickGuiScreen);
+        }
     }
 }
