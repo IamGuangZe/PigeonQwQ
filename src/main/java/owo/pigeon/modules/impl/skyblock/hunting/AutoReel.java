@@ -45,7 +45,7 @@ public class AutoReel extends Module {
         } else {
             boolean foundStand = false;
 
-            for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, entity.getBoundingBox().expand(1.0).offset(0.0, 3.0, 0.0), stand -> true)) {
+            for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, entity.getBoundingBox().expand(0.5, 2, 0.5).offset(0.0, 2.0, 0.0), stand -> true)) {
                 if (stand.getName().getString().contains("REEL")) {
                     foundStand = true;
                     break;
@@ -71,7 +71,7 @@ public class AutoReel extends Module {
             if (entity == null) return;
 
             RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
-            RenderUtil.drawESP(stack, entity, entity.getBoundingBox().expand(1.0).offset(0.0, 3.0, 0.0), Color.BLUE, RenderUtil.ESPMode.BOTH, false);
+            RenderUtil.drawESP(stack, entity, entity.getBoundingBox().expand(0.5, 2, 0.5).offset(0.0, 2.0, 0.0), Color.BLUE, RenderUtil.ESPMode.BOTH, false);
         }
     }
 
