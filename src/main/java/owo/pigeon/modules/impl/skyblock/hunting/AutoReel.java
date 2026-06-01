@@ -4,8 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.passive.BatEntity;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
@@ -28,10 +27,13 @@ public class AutoReel extends Module {
     public ModeSetting<PlayerUtil.RightClickMode> clickMode = setting("click-mode", PlayerUtil.RightClickMode.MOUSE, v -> true);
 
     private boolean isReeled;
+    private BatEntity lassoEntity;
+    private ArmorStandEntity reelEntity;
 
     @Override
     public void onEnable() {
         isReeled = false;
+        reelEntity = null;
     }
 
     @Handler
@@ -39,48 +41,41 @@ public class AutoReel extends Module {
         if (WorldUtil.nullCheck()) return;
         if (!mc.player.getMainHandStack().getName().getString().contains("Lasso")) return;
 
-        Entity entity = getLeashedEntity(mc.player);
-        if (entity == null) {
+        lassoEntity = getLassoEntity();
+
+        if (lassoEntity == null) {
             isReeled = false;
-        } else {
-            boolean foundStand = false;
-
-            for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, entity.getBoundingBox().expand(0.5, 2, 0.5).offset(0.0, 2.0, 0.0), stand -> true)) {
-                if (stand.getName().getString().contains("REEL")) {
-                    foundStand = true;
-                    break;
-                }
-            }
-
-            if (foundStand) {
-                if (!isReeled) {
-                    isReeled = true;
-                    PlayerUtil.RightClick(clickMode.getValue());
-                }
-            } else {
-                isReeled = false;
-            }
+            reelEntity = null;
+            return;
         }
+
+        if (reelEntity == null || reelEntity.isRemoved())
+            reelEntity = mc.world.getEntitiesByClass(
+                    ArmorStandEntity.class,
+                    lassoEntity.getBoundingBox().expand(0.5, 2, 0.5).offset(0.0, 2.0, 0.0),
+                    stand -> stand.getName().getString().contains("REEL")
+            ).stream().findFirst().orElse(null);
+
+
+        if (reelEntity != null && !isReeled) {
+            PlayerUtil.RightClick(clickMode.getValue());
+        }
+
+        isReeled = reelEntity != null;
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
         MatrixStack stack = event.getMatrix();
-        if (Pigeon.isDebug()) {
-            Entity entity = getLeashedEntity(mc.player);
-            if (entity == null) return;
-
-            RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
-            RenderUtil.drawESP(stack, entity, entity.getBoundingBox().expand(0.5, 2, 0.5).offset(0.0, 2.0, 0.0), Color.BLUE, RenderUtil.ESPMode.BOTH, false);
-        }
+        if (!Pigeon.isDebug()) return;
+        RenderUtil.drawESP(stack, lassoEntity, lassoEntity.getBoundingBox().expand(0.5, 2, 0.5).offset(0.0, 2.0, 0.0), Color.BLUE, RenderUtil.ESPMode.BOTH, false);
+        RenderUtil.drawESP(stack, reelEntity, reelEntity.getBoundingBox().expand(0.1), Color.YELLOW, RenderUtil.ESPMode.BOTH, false);
     }
 
-    private Entity getLeashedEntity(PlayerEntity player) {
+    private BatEntity getLassoEntity() {
         for (Entity entity : mc.world.getEntities()) {
-            if (entity instanceof MobEntity mob) {
-                if (mob.isLeashed() && mob.getLeashHolder() == player) {
-                    return mob;
-                }
+            if (entity instanceof BatEntity bat && bat.isLeashed() && bat.getLeashHolder() == mc.player) {
+                return bat;
             }
         }
         return null;
