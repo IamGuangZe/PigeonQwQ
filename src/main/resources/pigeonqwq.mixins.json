@@ -6,8 +6,7 @@
   "mixins": [
     "mixins.MixinClientConnection",
     "mixins.MixinEntity",
-    "mixins.MixinLivingEntity",
-    "mixins.MixinLivingEntityRenderer"
+    "mixins.MixinLivingEntity"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -22,6 +21,7 @@
     "accessors.IAccessorMinecraftClient",
     "accessors.IAccessorPlayerListHud",
     "accessors.IAccessorScreen",
+    "mixins.MixinBatEntityRenderer",
     "mixins.MixinCamera",
     "mixins.MixinClientPlayerInteractionManager",
     "mixins.MixinClientPlayNetworkHandler",

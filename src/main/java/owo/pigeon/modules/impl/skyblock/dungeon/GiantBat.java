@@ -32,9 +32,9 @@ public class GiantBat extends Module {
         if (!showHitbox.getValue()) return;
         if (!DungeonUtil.isInDungeon()) return;
         for (Entity entity : mc.world.getEntities()) {
-            if (entity instanceof BatEntity && !entity.isInvisible()) {
-                RenderUtil.drawESP(event.getMatrix(), entity, color.getValue(), mode.getValue(), false);
-            }
+            if (!(entity instanceof BatEntity bat)) continue;
+            if (bat.getMaxHealth() != 100f && bat.getMaxHealth() != 200f) continue;
+            RenderUtil.drawESP(event.getMatrix(), entity, color.getValue(), mode.getValue(), false);
         }
     }
 }
