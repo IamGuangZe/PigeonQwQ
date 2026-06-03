@@ -30,7 +30,7 @@ public class PestESP extends Module {
     }
 
     public EnableSetting hubRat = setting("hub-rat", true, v -> true);
-    public EnableSetting onlyVacuum = setting("only-vacuum", true, v -> true);
+    public EnableSetting onlyHoldVacuum = setting("only-hold-vacuum", true, v -> true);
     public ModeSetting<RenderUtil.ESPMode> mode = setting("mode", RenderUtil.ESPMode.BOTH, v -> true);
     public EnableSetting tracer = setting("tracer", false, v -> true);
     public ColorSetting color = setting("color", new Color(0xAAFF4400, true), v -> true);
@@ -42,7 +42,7 @@ public class PestESP extends Module {
 
         if (!inGarden && !(hubRat.getValue() && inHub)) return;
 
-        if (onlyVacuum.getValue()) {
+        if (onlyHoldVacuum.getValue()) {
             ItemStack heldItem = mc.player.getMainHandStack();
             if (heldItem.isEmpty()) return;
 

@@ -23,6 +23,7 @@ import owo.pigeon.modules.impl.skyblock.dungeon.*;
 import owo.pigeon.modules.impl.skyblock.event.AutoBouncingBall;
 import owo.pigeon.modules.impl.skyblock.event.ZombieShootout;
 import owo.pigeon.modules.impl.skyblock.farming.PestESP;
+import owo.pigeon.modules.impl.skyblock.farming.RotationLock;
 import owo.pigeon.modules.impl.skyblock.farming.TrevorHelper;
 import owo.pigeon.modules.impl.skyblock.hunting.AutoReel;
 import owo.pigeon.modules.impl.skyblock.mining.LegitNuker;
@@ -112,6 +113,7 @@ public class ModuleManager {
         modules.add(new ZombieShootout());
 
         modules.add(new PestESP());
+        modules.add(new RotationLock());
         modules.add(new TrevorHelper());
 
         modules.add(new AutoReel());

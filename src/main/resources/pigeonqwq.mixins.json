@@ -38,6 +38,7 @@
     "mixins.MixinLightmapTextureManager",
     "mixins.MixinMessageHandler",
     "mixins.MixinMinecraftClient",
+    "mixins.MixinMouse",
     "mixins.MixinRebuildTask",
     "mixins.MixinSimpleOption",
     "mixins.MixinStatusEffectFogModifier",
