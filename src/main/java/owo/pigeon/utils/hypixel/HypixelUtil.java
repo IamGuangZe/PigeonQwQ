@@ -37,7 +37,8 @@ public class HypixelUtil {
 
         String ip = serverInfo.address == null ? "" : serverInfo.address.toLowerCase();
         String name = serverInfo.label == null ? "" : serverInfo.label.getString().toLowerCase();
-        String sidebarIp = ScoreBoardUtil.getSidebarLineBottomUp(1) == null ? "" : ScoreBoardUtil.getSidebarLineBottomUp(1);
+        String sidebarLine = ScoreBoardUtil.getSidebarLineBottomUp(1);
+        String sidebarIp = sidebarLine == null ? "" : sidebarLine;
         String tabHeader = ScoreBoardUtil.getTabHeader() == null ? "" : ColorUtil.removeColor(ScoreBoardUtil.getTabHeader());
         return ip.contains("hypixel.net") || name.contains("hypixel") || sidebarIp.contains("hypixel") || tabHeader.contains("You are playing on MC.HYPIXEL.NET");
     }

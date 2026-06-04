@@ -24,7 +24,7 @@ public class InstantUse {
             rawSlot = mc.player.getInventory().getSelectedSlot();
             mc.player.getInventory().setSelectedSlot(inputSlot);
 
-            PlayerUtil.RightClick(clickMode);
+            PlayerUtil.rightClick(clickMode);
 
             inputSlot = null;
             clickMode = null;

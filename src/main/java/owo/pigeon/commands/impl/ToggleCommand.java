@@ -12,7 +12,7 @@ public class ToggleCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length
@@ -39,7 +39,7 @@ public class ToggleCommand extends Command {
             }
 
         } else {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownModule,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownModule,
                     this.getCommand(),
                     args,
                     0

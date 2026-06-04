@@ -21,14 +21,14 @@ public class AutoSellCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 2) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(), args, args.length);
             return;
         }
 
         String type = args[0].toLowerCase();
         if (!type.equals("id") && !type.equals("name")) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.IncorrectArgument,
                     this.getCommand(), args, 0);
             return;
         }
@@ -81,7 +81,7 @@ public class AutoSellCommand extends Command {
 
                 if (isId) {
                     if (!autoSell.itemId.contains(value)) {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.ListItemNotFound,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.ListItemNotFound,
                                 this.getCommand(), args, args.length >= 3 ? 2 : args.length);
                         return;
                     }
@@ -89,7 +89,7 @@ public class AutoSellCommand extends Command {
                     ChatUtil.sendMessage("AutoSell", "&aRemoved ID &7&l" + value + " &r&afrom auto-sell list.");
                 } else {
                     if (!autoSell.itemName.contains(value)) {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.ListItemNotFound,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.ListItemNotFound,
                                 this.getCommand(), args, args.length >= 3 ? 2 : args.length);
                         return;
                     }
@@ -119,7 +119,7 @@ public class AutoSellCommand extends Command {
                 }
             }
             default -> {
-                CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownListAction,
+                CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownListAction,
                         this.getCommand(), args, 1);
             }
         }

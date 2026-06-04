@@ -74,7 +74,7 @@ public class MoveUtil {
         return baseSpeed;
     }
 
-    public static double getBaseJumpHigh(int speedLevel) {
+    public static double getBaseJumpHeight(int speedLevel) {
         double jumpHeight = 0.452;
         if (speedLevel == 1) {
             jumpHeight = 0.4972;
@@ -89,7 +89,7 @@ public class MoveUtil {
         if (getSpeedTime() > 0) {
             speedLevel = getSpeedLevel();
         }
-        return getBaseJumpHigh(speedLevel);
+        return getBaseJumpHeight(speedLevel);
     }
 
     public static double getSpeed() {

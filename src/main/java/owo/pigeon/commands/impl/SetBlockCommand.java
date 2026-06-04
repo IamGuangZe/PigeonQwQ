@@ -18,7 +18,7 @@ public class SetBlockCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 4) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length
@@ -29,7 +29,7 @@ public class SetBlockCommand extends Command {
         Identifier id = Identifier.tryParse(args[3]);
         if (id == null || !Registries.BLOCK.containsId(id)) {
             CommandUtil.sendCommandError(
-                    CommandUtil.errorReason.UnknownBlock,
+                    CommandUtil.ErrorReason.UnknownBlock,
                     getCommand(),
                     args,
                     3
@@ -41,7 +41,7 @@ public class SetBlockCommand extends Command {
         Double x = WorldUtil.parseCoordinate(args[0], mc.player.getX());
         if (x == null) {
             CommandUtil.sendCommandError(
-                    CommandUtil.errorReason.ExpectedInteger,
+                    CommandUtil.ErrorReason.ExpectedInteger,
                     getCommand(),
                     args,
                     0
@@ -52,7 +52,7 @@ public class SetBlockCommand extends Command {
         Double y = WorldUtil.parseCoordinate(args[1], mc.player.getY());
         if (y == null) {
             CommandUtil.sendCommandError(
-                    CommandUtil.errorReason.ExpectedInteger,
+                    CommandUtil.ErrorReason.ExpectedInteger,
                     getCommand(),
                     args,
                     1
@@ -63,7 +63,7 @@ public class SetBlockCommand extends Command {
         Double z = WorldUtil.parseCoordinate(args[2], mc.player.getZ());
         if (z == null) {
             CommandUtil.sendCommandError(
-                    CommandUtil.errorReason.ExpectedInteger,
+                    CommandUtil.ErrorReason.ExpectedInteger,
                     getCommand(),
                     args,
                     2

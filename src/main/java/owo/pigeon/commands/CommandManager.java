@@ -47,44 +47,36 @@ public class CommandManager {
 
     @Handler
     public void onSendMessage(MessageEvent.SendMessageEvent event) {
-
         ChatUtil.sendDebugMessage("CommandManager", "handle SendMessageEvent");
 
         String input = CommandUtil.normalize(event.getMessage().getString());
-
-        if (!input.startsWith(
-                String.valueOf(
-                        CommandUtil.getCommandPrefix()
-                )
-        )) return;
-
+        if (!input.startsWith(String.valueOf(CommandUtil.getCommandPrefix()))) return;
         event.setCancelled(true);
 
         ChatUtil.sendDebugMessage("CommandManager", "client command: " + input);
 
         mc.inGameHud.getChatHud().addToMessageHistory(input);
+        String inputCommand = input.substring(1);
 
-        String command = input.substring(1);
-
-        if (command.isEmpty()) {
+        if (inputCommand.isEmpty()) {
             ChatUtil.sendDebugMessage("CommandManager", "empty command");
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand, "", "");
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand, "", "");
             return;
         }
 
-        String[] parts = command.split(" ");
+        String[] parts = inputCommand.split(" ");
         String commandName = parts[0];
         boolean executed = false;
 
-        for (Command Command : commands) {
-            if (Command.getCommand().equalsIgnoreCase(commandName)) {
-                Command.execute(Arrays.copyOfRange(parts, 1, parts.length));
+        for (Command command : commands) {
+            if (command.getCommand().equalsIgnoreCase(commandName)) {
+                command.execute(Arrays.copyOfRange(parts, 1, parts.length));
                 executed = true;
             }
         }
 
         if (!executed) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand, "", parts[0]);
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand, "", parts[0]);
         }
     }
 }

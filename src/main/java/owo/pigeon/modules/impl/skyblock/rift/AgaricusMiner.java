@@ -50,7 +50,7 @@ public class AgaricusMiner extends Module {
         }
 
         if (waitingRed && state.isOf(Blocks.RED_MUSHROOM)) {
-            PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+            PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
             waitingRed = false;
         }
     }

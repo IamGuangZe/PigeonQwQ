@@ -59,7 +59,7 @@ public class AutoFish extends Module {
         // stop if full
         if (stopIfFull.getValue() && mc.player.getInventory().getEmptySlot() == -1) {
             if (fishHookAge != 0 && rethrowTick > rethrowDelay.getValue()) {
-                PlayerUtil.RightClick(castMode.getValue());
+                PlayerUtil.rightClick(castMode.getValue());
                 fishIncoming = false;
                 rethrowTick = 0;
             }
@@ -68,7 +68,7 @@ public class AutoFish extends Module {
 
         // Rethrow
         if (fishHookAge == 0 && rethrowTick < rethrowDelay.getMaxValue() + 1) rethrowTick++;
-        if (isHeldRod() && rethrowTick == rethrowDelay.getValue()) PlayerUtil.RightClick(castMode.getValue());
+        if (isHeldRod() && rethrowTick == rethrowDelay.getValue()) PlayerUtil.rightClick(castMode.getValue());
 
         // Idle Timeout
         if (rethrow.getValue() && idleTimeoutCheck.getValue() && isHeldRod()) {
@@ -80,7 +80,7 @@ public class AutoFish extends Module {
             if (fishHookAge == 0 && rethrowTick > rethrowDelay.getValue()) {
                 idleTick++;
                 if (idleTick >= idleTimeout.getValue() * 20) {
-                    PlayerUtil.RightClick(castMode.getValue());
+                    PlayerUtil.rightClick(castMode.getValue());
                     idleTick = 0;
                 }
             } else {
@@ -94,7 +94,7 @@ public class AutoFish extends Module {
         if (rethrow.getValue() && hookTimeoutCheck.getValue() && fishHookAge != 0) {
             // ChatUtil.sendDebugMessage(this.name,"fishHookAge: " + fishHookAge);
             if (fishHookAge >= hookTimeout.getValue() * 20 && rethrowTick > rethrowDelay.getValue()) {
-                PlayerUtil.RightClick(castMode.getValue());
+                PlayerUtil.rightClick(castMode.getValue());
                 fishIncoming = false;
                 rethrowTick = 0;
                 return;
@@ -113,7 +113,7 @@ public class AutoFish extends Module {
             } else if (name.equals("!!!") && fishIncoming && delayTick == 0) {
                 fishIncoming = false;
                 if (!slugfishMode.getValue() || fishHookAge > slugfishDelay.getValue() * 20) {
-                    PlayerUtil.RightClick(castMode.getValue());
+                    PlayerUtil.rightClick(castMode.getValue());
                     if (rethrow.getValue()) rethrowTick = 0;
                     break;
                 }

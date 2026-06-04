@@ -8,7 +8,7 @@ import owo.pigeon.utils.player.PlayerUtil;
 
 public class GhostHand extends Module {
     public GhostHand() {
-        super("GhostHand", Category.RENDER);
+        super("GhostHand", Category.PLAYER);
     }
 
     public EnableSetting players = setting("players", true, v -> true);

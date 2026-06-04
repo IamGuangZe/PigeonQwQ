@@ -19,7 +19,7 @@ public class BindCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 1) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length
@@ -33,7 +33,7 @@ public class BindCommand extends Command {
 
             if (args.length < 2) {
                 CommandUtil.sendCommandError(
-                        CommandUtil.errorReason.UnknownOrIncompleteCommand,
+                        CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                         this.getCommand(),
                         args,
                         args.length
@@ -95,7 +95,7 @@ public class BindCommand extends Command {
         }
 
         CommandUtil.sendCommandError(
-                CommandUtil.errorReason.IncorrectArgument,
+                CommandUtil.ErrorReason.IncorrectArgument,
                 this.getCommand(),
                 args,
                 0

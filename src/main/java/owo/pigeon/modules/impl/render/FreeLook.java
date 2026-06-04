@@ -81,6 +81,10 @@ public class FreeLook extends Module {
         if (freelooking) {
             stopFreeLook();
         }
+
+        freelooking = false;
+        toggleState = false;
+        lastKeyState = false;
     }
 
     private void startFreeLook() {

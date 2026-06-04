@@ -18,7 +18,7 @@ public class FillCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 7) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length
@@ -29,7 +29,7 @@ public class FillCommand extends Command {
         Identifier id = Identifier.tryParse(args[6]);
         if (id == null || !Registries.BLOCK.containsId(id)) {
             CommandUtil.sendCommandError(
-                    CommandUtil.errorReason.UnknownBlock,
+                    CommandUtil.ErrorReason.UnknownBlock,
                     getCommand(),
                     args,
                     6
@@ -46,27 +46,27 @@ public class FillCommand extends Command {
         Double endZ = WorldUtil.parseCoordinate(args[5], mc.player.getZ());
 
         if (startX == null) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 0);
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger, getCommand(), args, 0);
             return;
         }
         if (startY == null) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 1);
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger, getCommand(), args, 1);
             return;
         }
         if (startZ == null) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 2);
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger, getCommand(), args, 2);
             return;
         }
         if (endX == null) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 3);
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger, getCommand(), args, 3);
             return;
         }
         if (endY == null) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 4);
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger, getCommand(), args, 4);
             return;
         }
         if (endZ == null) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger, getCommand(), args, 5);
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger, getCommand(), args, 5);
             return;
         }
 

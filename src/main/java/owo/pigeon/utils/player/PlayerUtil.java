@@ -22,7 +22,7 @@ public class PlayerUtil {
         MOUSE, DOITEMUSE, INTERACTITEM
     }
 
-    public static void LeftClick(LeftClickMode mode) {
+    public static void leftClick(LeftClickMode mode) {
         ChatUtil.sendDebugMessage("PlayerUtil", "LeftClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.attackKey);
@@ -30,7 +30,7 @@ public class PlayerUtil {
         }
     }
 
-    public static void RightClick(RightClickMode mode) {
+    public static void rightClick(RightClickMode mode) {
         ChatUtil.sendDebugMessage("PlayerUtil", "RightClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.useKey);
@@ -46,7 +46,7 @@ public class PlayerUtil {
 
     public static void switchUseItem(int slot, RightClickMode mode) {
         switchItemSlot(slot);
-        RightClick(mode);
+        rightClick(mode);
     }
 
     public static void InstantUseItem(int slot, RightClickMode mode) {

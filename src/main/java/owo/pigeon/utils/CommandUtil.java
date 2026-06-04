@@ -6,8 +6,7 @@ import owo.pigeon.modules.impl.client.PigeonQwQ;
 import owo.pigeon.utils.chat.ChatUtil;
 
 public class CommandUtil {
-    public enum errorReason {
-
+    public enum ErrorReason {
         ExpectedFloat("Expected float"),  // 不为浮点
         ExpectedInteger("Expected integer"),    // 不为整数
         UnknownOrIncompleteCommand("Unknown or incomplete command. See below for error"), // 未知指令/参数不完整
@@ -23,7 +22,7 @@ public class CommandUtil {
 
         private final String message;
 
-        errorReason(String message) {
+        ErrorReason(String message) {
             this.message = message;
         }
 
@@ -32,11 +31,11 @@ public class CommandUtil {
         }
     }
 
-    public static void sendCommandError(errorReason reason, String correctPart, String errorPart) {
+    public static void sendCommandError(ErrorReason reason, String correctPart, String errorPart) {
         sendCommandError(reason.getMessage(), correctPart, errorPart);
     }
 
-    public static void sendCommandError(errorReason reason, String command, String[] args, int errorIndex) {
+    public static void sendCommandError(ErrorReason reason, String command, String[] args, int errorIndex) {
         StringBuilder correctPartBuilder = new StringBuilder(command);
         StringBuilder errorPartBuilder = new StringBuilder();
 

@@ -14,7 +14,7 @@ public class SayCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length

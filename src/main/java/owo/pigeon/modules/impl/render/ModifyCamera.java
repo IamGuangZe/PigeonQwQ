@@ -18,7 +18,7 @@ public class ModifyCamera extends Module {
     public EnableSetting noBlindness = setting("no-blindness", true, v -> debuffs.getValue());
     public ExpandSetting overlays = setting("overlays", v -> true);
     public EnableSetting noFireOverlay = setting("no-fire-overlay", true, v -> overlays.getValue());
-    public EnableSetting noPortalOverlay = setting("no-protal-overlay", true, v -> overlays.getValue());
+    public EnableSetting noPortalOverlay = setting("no-portal-overlay", true, v -> overlays.getValue());
     public EnableSetting noInWallOverlay = setting("no-inwall-overlay", true, v -> overlays.getValue());
     public EnableSetting noPumpkinOverlay = setting("no-pumpkin-overlay", true, v -> overlays.getValue());
     public EnableSetting noUnderwaterOverlay = setting("no-underwater-overlay", true, v -> overlays.getValue());

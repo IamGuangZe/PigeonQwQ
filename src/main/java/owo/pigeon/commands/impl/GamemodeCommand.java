@@ -15,7 +15,7 @@ public class GamemodeCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length
@@ -26,7 +26,7 @@ public class GamemodeCommand extends Command {
         GameMode gamemode = GameMode.byId(args[0], null);
 
         if (gamemode == null) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownGamemode,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownGamemode,
                     this.getCommand(),
                     args,
                     0

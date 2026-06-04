@@ -14,7 +14,7 @@ public class HideCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length
@@ -25,7 +25,7 @@ public class HideCommand extends Command {
         String moduleName = args[0];
 
         if (!ModuleUtil.isModuleExist(moduleName)) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownModule,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownModule,
                     this.getCommand(),
                     args,
                     0
@@ -37,7 +37,7 @@ public class HideCommand extends Command {
         if (args.length > 1) {
             String boolStr = args[1].toLowerCase();
             if (!boolStr.equals("true") && !boolStr.equals("false")) {
-                CommandUtil.sendCommandError(CommandUtil.errorReason.InvalidBoolean,
+                CommandUtil.sendCommandError(CommandUtil.ErrorReason.InvalidBoolean,
                         this.getCommand(),
                         args,
                         1

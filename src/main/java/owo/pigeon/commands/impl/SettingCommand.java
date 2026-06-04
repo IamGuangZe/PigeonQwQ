@@ -28,7 +28,7 @@ public class SettingCommand extends Command {
         if (args.length == 1) {
             String modulename = args[0];
             if (!ModuleUtil.isModuleExist(modulename)) {
-                CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownModule,
+                CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownModule,
                         this.getCommand(),
                         args,
                         0
@@ -41,7 +41,7 @@ public class SettingCommand extends Command {
         }
 
         if (args.length < 3) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length
@@ -54,7 +54,7 @@ public class SettingCommand extends Command {
         String value = args[2];
 
         if (!ModuleUtil.isModuleExist(modulename)) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownModule,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownModule,
                     this.getCommand(),
                     args,
                     0
@@ -92,7 +92,7 @@ public class SettingCommand extends Command {
                             listSetting.remove(removeValue);
                             ChatUtil.sendMessage("&aRemoved &7&l" + removeValue + "&r&a from &7&l" + settingname + "&r&a.");
                         } else {
-                            CommandUtil.sendCommandError(CommandUtil.errorReason.ListItemNotFound,
+                            CommandUtil.sendCommandError(CommandUtil.ErrorReason.ListItemNotFound,
                                     this.getCommand(),
                                     args,
                                     3
@@ -110,7 +110,7 @@ public class SettingCommand extends Command {
                         }
                         return;
                     } else {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownListAction,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownListAction,
                                 this.getCommand(),
                                 args,
                                 2
@@ -120,7 +120,7 @@ public class SettingCommand extends Command {
                 } else if (setting instanceof BlockSetting) {
                     Identifier id = Identifier.tryParse(value.toLowerCase());
                     if (id == null || !Registries.BLOCK.containsId(id)) {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownBlock,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownBlock,
                                 this.getCommand(),
                                 args,
                                 2
@@ -158,7 +158,7 @@ public class SettingCommand extends Command {
                                 colorValue = ColorUtil.parseDecimalColor(longValue);
                             }
                         } else {
-                            CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
+                            CommandUtil.sendCommandError(CommandUtil.ErrorReason.IncorrectArgument,
                                     this.getCommand(),
                                     args,
                                     2
@@ -170,14 +170,14 @@ public class SettingCommand extends Command {
                         value = String.format("R:%d G:%d B:%d A:%d",
                                 colorValue.getRed(), colorValue.getGreen(), colorValue.getBlue(), colorValue.getAlpha());
                     } catch (NumberFormatException e) {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger,
                                 this.getCommand(),
                                 args,
                                 2
                         );
                         return;
                     } catch (IllegalArgumentException e) {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.IncorrectArgument,
                                 this.getCommand(),
                                 args,
                                 2
@@ -191,7 +191,7 @@ public class SettingCommand extends Command {
                     } else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("disable")) {
                         booleanValue = false;
                     } else {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.InvalidBoolean,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.InvalidBoolean,
                                 this.getCommand(),
                                 args,
                                 2
@@ -207,7 +207,7 @@ public class SettingCommand extends Command {
                     } else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("disable")) {
                         booleanValue = false;
                     } else {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.InvalidBoolean,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.InvalidBoolean,
                                 this.getCommand(),
                                 args,
                                 2
@@ -229,7 +229,7 @@ public class SettingCommand extends Command {
                         floatSetting.setValue(floatValue);
                         value = String.valueOf(floatValue);
                     } catch (NumberFormatException e) {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedFloat,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedFloat,
                                 this.getCommand(),
                                 args,
                                 2
@@ -249,7 +249,7 @@ public class SettingCommand extends Command {
                         intSetting.setValue(intValue);
                         value = String.valueOf(intValue);
                     } catch (NumberFormatException e) {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger,
                                 this.getCommand(),
                                 args,
                                 2
@@ -277,7 +277,7 @@ public class SettingCommand extends Command {
                         ((ModeSetting) setting).setValue(enumValue);
                         value = enumValue.toString().toUpperCase();
                     } catch (IllegalArgumentException e) {
-                        CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
+                        CommandUtil.sendCommandError(CommandUtil.ErrorReason.IncorrectArgument,
                                 this.getCommand(),
                                 args,
                                 2
@@ -287,7 +287,7 @@ public class SettingCommand extends Command {
                 } else if (setting instanceof StringSetting) {
                     ((StringSetting) setting).setValue(value);
                 } else {
-                    CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
+                    CommandUtil.sendCommandError(CommandUtil.ErrorReason.IncorrectArgument,
                             this.getCommand(),
                             args,
                             1
@@ -299,7 +299,7 @@ public class SettingCommand extends Command {
             }
         }
         if (!found) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownSetting,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownSetting,
                     this.getCommand(),
                     args,
                     1

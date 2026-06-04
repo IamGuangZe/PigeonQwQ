@@ -17,7 +17,7 @@ public class ConfigCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 1) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     getCommand(),
                     args,
                     args.length
@@ -30,7 +30,7 @@ public class ConfigCommand extends Command {
         switch (action) {
             case "save": {
                 if (args.length < 2) {
-                    CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+                    CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                             getCommand(), args, args.length);
                     return;
                 }
@@ -40,7 +40,7 @@ public class ConfigCommand extends Command {
 
             case "load": {
                 if (args.length < 2) {
-                    CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+                    CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                             getCommand(), args, args.length);
                     return;
                 }
@@ -50,7 +50,7 @@ public class ConfigCommand extends Command {
 
             case "rename": {
                 if (args.length < 3) {
-                    CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+                    CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                             getCommand(), args, args.length);
                     return;
                 }
@@ -76,7 +76,7 @@ public class ConfigCommand extends Command {
 
             case "delete": {
                 if (args.length < 2) {
-                    CommandUtil.sendCommandError(CommandUtil.errorReason.UnknownOrIncompleteCommand,
+                    CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                             getCommand(), args, args.length);
                     return;
                 }
@@ -147,7 +147,7 @@ public class ConfigCommand extends Command {
             }
 
             default: {
-                CommandUtil.sendCommandError(CommandUtil.errorReason.IncorrectArgument,
+                CommandUtil.sendCommandError(CommandUtil.ErrorReason.IncorrectArgument,
                         getCommand(),
                         args,
                         0

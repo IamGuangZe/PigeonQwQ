@@ -96,12 +96,12 @@ public class VampireSlayer extends Module {
                         case UP -> {
                             mc.player.setPitch(-90f);
                             if (impelTicks % 2 != 0)
-                                PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+                                PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
                         }
                         case DOWN -> {
                             mc.player.setPitch(90f);
                             if (impelTicks % 2 != 0)
-                                PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+                                PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
                         }
                     }
                 }

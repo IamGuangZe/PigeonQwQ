@@ -46,7 +46,7 @@ public class AutoClicker extends Module {
                         nextLeftClickTime = currentTime + (1000 / RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue()));
                     } else if (currentTime >= nextLeftClickTime) {
                         KeybindUtil.setPressed(mc.options.attackKey, false);
-                        PlayerUtil.LeftClick(PlayerUtil.LeftClickMode.MOUSE);
+                        PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
                         int randomCPS = RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());
                         nextLeftClickTime = currentTime + (1000 / randomCPS);
                         ChatUtil.sendDebugMessage(this.name, "Left Click Random CPS: " + randomCPS);
@@ -65,7 +65,7 @@ public class AutoClicker extends Module {
                     firstRightClick = false;
                     nextRightClickTime = currentTime + (1000 / RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue()));
                 } else if (currentTime >= nextRightClickTime) {
-                    PlayerUtil.RightClick(PlayerUtil.RightClickMode.MOUSE);
+                    PlayerUtil.rightClick(PlayerUtil.RightClickMode.MOUSE);
                     int randomCPS = RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());
                     nextRightClickTime = currentTime + (1000 / randomCPS);
                     ChatUtil.sendDebugMessage(this.name, "Right Click Random CPS: " + randomCPS);

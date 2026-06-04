@@ -13,7 +13,7 @@ public class BannedStatsCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
                     args.length
@@ -47,7 +47,7 @@ public class BannedStatsCommand extends Command {
             }
 
         } catch (NumberFormatException e) {
-            CommandUtil.sendCommandError(CommandUtil.errorReason.ExpectedInteger,
+            CommandUtil.sendCommandError(CommandUtil.ErrorReason.ExpectedInteger,
                     this.getCommand(),
                     args,
                     0
@@ -58,6 +58,6 @@ public class BannedStatsCommand extends Command {
 
     @Override
     public String getUsage() {
-        return CommandUtil.getCommandPrefix() + "bantracker <minute>";
+        return CommandUtil.getCommandPrefix() + "bannedstats <minute>";
     }
 }

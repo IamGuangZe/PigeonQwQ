@@ -58,7 +58,7 @@ public class AutoReel extends Module {
 
 
         if (reelEntity != null && !isReeled) {
-            PlayerUtil.RightClick(clickMode.getValue());
+            PlayerUtil.rightClick(clickMode.getValue());
         }
 
         isReeled = reelEntity != null;
