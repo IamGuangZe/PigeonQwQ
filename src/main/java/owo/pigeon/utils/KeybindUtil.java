@@ -43,4 +43,13 @@ public class KeybindUtil {
         if (mc.currentScreen != null) return;
         setPressed(key, isPressed(key));
     }
+
+    public static String getKeyDisplayName(int keyCode) {
+        if (keyCode == -1) return "NONE";
+        return InputUtil.Type.KEYSYM
+                .createFromCode(keyCode)
+                .getTranslationKey()
+                .replace("key.keyboard.", "")
+                .toUpperCase();
+    }
 }
