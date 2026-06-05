@@ -58,15 +58,16 @@ public class FreeLook extends Module {
         if (WorldUtil.nullCheck()) return;
 
         boolean isKeyDown = KeybindUtil.isPressed(freeLookKey.getValue());
+        boolean isInScreen = mc.currentScreen != null;
 
         if (mode.getValue() == Mode.HOLD) {
-            if (isKeyDown && mc.currentScreen == null) {
+            if (isKeyDown && !isInScreen) {
                 if (!freelooking) startFreeLook();
             } else {
                 if (freelooking) stopFreeLook();
             }
         } else {
-            if (isKeyDown && !lastKeyState) {
+            if (isKeyDown && !lastKeyState && !isInScreen) {
                 toggleState = !toggleState;
                 if (toggleState) startFreeLook();
                 else stopFreeLook();
