@@ -5,9 +5,10 @@ import owo.pigeon.config.configs.SettingConfig;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ConfigCommand extends Command {
     public ConfigCommand() {
@@ -34,6 +35,10 @@ public class ConfigCommand extends Command {
                             getCommand(), args, args.length);
                     return;
                 }
+                if (isInvalidConfigName(args[1])) {
+                    sendCommandError("Invalid config name! Cannot contain path separators.");
+                    return;
+                }
                 new SettingConfig(args[1]).save();
                 break;
             }
@@ -42,6 +47,10 @@ public class ConfigCommand extends Command {
                 if (args.length < 2) {
                     CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                             getCommand(), args, args.length);
+                    return;
+                }
+                if (isInvalidConfigName(args[1])) {
+                    sendCommandError("Invalid config name! Cannot contain path separators.");
                     return;
                 }
                 new SettingConfig(args[1]).load();
@@ -54,22 +63,39 @@ public class ConfigCommand extends Command {
                             getCommand(), args, args.length);
                     return;
                 }
+                if (isInvalidConfigName(args[1]) || isInvalidConfigName(args[2])) {
+                    sendCommandError("Invalid config name! Cannot contain path separators.");
+                    return;
+                }
+
                 File dir = new SettingConfig().getBaseDir();
                 File oldFile = new File(dir, args[1] + ".json");
                 File newFile = new File(dir, args[2] + ".json");
 
-                if (!oldFile.exists()) {
-                    sendCommandError("Unknown config &o" + args[1]);
-                    return;
-                }
-                if (newFile.exists()) {
-                    sendCommandError("Config &o" + args[2] + " already exists!");
-                    return;
-                }
-                if (oldFile.renameTo(newFile)) {
+                try {
+                    Path oldPath = oldFile.toPath().normalize();
+                    Path newPath = newFile.toPath().normalize();
+                    Path dirPath = dir.toPath().normalize();
+
+                    if (!oldPath.startsWith(dirPath) || !newPath.startsWith(dirPath)) {
+                        sendCommandError("Access denied: Cannot operate outside config directory!");
+                        return;
+                    }
+
+                    if (!Files.exists(oldPath)) {
+                        sendCommandError("Unknown config &o" + args[1]);
+                        return;
+                    }
+                    if (Files.exists(newPath)) {
+                        sendCommandError("Config &o" + args[2] + " already exists!");
+                        return;
+                    }
+
+                    Files.move(oldPath, newPath);
                     ChatUtil.sendMessage("&aConfig &o" + args[1] + ".json &ahas been renamed to &o" + args[2] + ".json");
-                } else {
-                    sendCommandError("Failed to rename config!");
+
+                } catch (IOException e) {
+                    sendCommandError("Failed to rename config: " + e.getMessage());
                 }
                 break;
             }
@@ -80,15 +106,32 @@ public class ConfigCommand extends Command {
                             getCommand(), args, args.length);
                     return;
                 }
-                File file = new File(new SettingConfig().getBaseDir(), args[1] + ".json");
-                if (!file.exists()) {
-                    sendCommandError("Unknown config &o" + args[1]);
+                if (isInvalidConfigName(args[1])) {
+                    sendCommandError("Invalid config name! Cannot contain path separators.");
                     return;
                 }
-                if (file.delete()) {
+
+                File file = new File(new SettingConfig().getBaseDir(), args[1] + ".json");
+
+                try {
+                    Path filePath = file.toPath().normalize();
+                    Path dirPath = new SettingConfig().getBaseDir().toPath().normalize();
+
+                    if (!filePath.startsWith(dirPath)) {
+                        sendCommandError("Access denied: Cannot operate outside config directory!");
+                        return;
+                    }
+
+                    if (!Files.exists(filePath)) {
+                        sendCommandError("Unknown config &o" + args[1]);
+                        return;
+                    }
+
+                    Files.delete(filePath);
                     ChatUtil.sendMessage("&aConfig &o" + args[1] + ".json &r&ahas been deleted.");
-                } else {
-                    sendCommandError("Failed to delete config!");
+
+                } catch (IOException e) {
+                    sendCommandError("Failed to delete config: " + e.getMessage());
                 }
                 break;
             }
@@ -133,19 +176,31 @@ public class ConfigCommand extends Command {
             case "dir": {
                 File dir = new SettingConfig().getBaseDir();
                 if (!dir.exists()) dir.mkdirs();
+
                 try {
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().open(dir);
-                        ChatUtil.sendMessage("&aOpened config folder: &7" + dir.getAbsolutePath());
+                    String os = System.getProperty("os.name").toLowerCase(java.util.Locale.ROOT);
+                    ChatUtil.sendDebugMessage("Config", "Operating system: " + os);
+                    ProcessBuilder processBuilder;
+
+                    if (os.contains("win")) {
+                        // Windows: 使用 explorer 命令
+                        processBuilder = new ProcessBuilder("explorer", dir.getAbsolutePath());
+                    } else if (os.contains("mac")) {
+                        // macOS: 使用 open 命令
+                        processBuilder = new ProcessBuilder("open", dir.getAbsolutePath());
                     } else {
-                        sendCommandError("Desktop is not supported on this system!");
+                        // Linux/Unix: 使用 xdg-open 命令
+                        processBuilder = new ProcessBuilder("xdg-open", dir.getAbsolutePath());
                     }
+
+                    processBuilder.start();
+                    ChatUtil.sendMessage("&aOpened config folder: &7" + dir.getAbsolutePath());
+
                 } catch (IOException e) {
                     sendCommandError("Failed to open config folder: " + e.getMessage());
                 }
                 break;
             }
-
             default: {
                 CommandUtil.sendCommandError(CommandUtil.ErrorReason.IncorrectArgument,
                         getCommand(),
@@ -155,6 +210,11 @@ public class ConfigCommand extends Command {
                 break;
             }
         }
+    }
+
+    private boolean isInvalidConfigName(String name) {
+        if (name == null || name.isEmpty()) return true;
+        return name.contains("/") || name.contains("\\") || name.contains("..") || name.contains(File.separator);
     }
 
     @Override
