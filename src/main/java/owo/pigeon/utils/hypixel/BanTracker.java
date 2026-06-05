@@ -35,10 +35,10 @@ public class BanTracker {
             long currentTotal = fetchStaffTotal();
             synchronized (staffHistory) {
                 if (currentTotal == -1) {
-                    staffHistory.add(-1L);
+                    addRecord(-1L);
                     ChatUtil.sendDebugMessage("BanTracker", "Failed to fetch API data. Added placeholder (-1).");
                 } else {
-                    staffHistory.add(currentTotal);
+                    addRecord(currentTotal);
 
                     long diff = 0;
                     if (staffHistory.size() >= 2) {
@@ -58,7 +58,7 @@ public class BanTracker {
             }
         } catch (Exception e) {
             synchronized (staffHistory) {
-                staffHistory.add(-1L);
+                addRecord(-1L);
             }
             ChatUtil.sendDebugMessage("BanTracker", "Error in fetch thread: " + e.getMessage());
         }
@@ -113,6 +113,13 @@ public class BanTracker {
             for (int i = 0; i < lastIndex; i++) {
                 if (staffHistory.get(i) == -1) staffHistory.set(i, staffHistory.get(lastIndex));
             }
+        }
+    }
+
+    private void addRecord(long value) {
+        staffHistory.add(value);
+        if (staffHistory.size() > 1440) {
+            staffHistory.removeFirst();
         }
     }
 

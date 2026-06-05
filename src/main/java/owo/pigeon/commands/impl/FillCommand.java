@@ -15,6 +15,8 @@ public class FillCommand extends Command {
         super("fill");
     }
 
+    private static final long MAX_FILL_VOLUME = 32768;
+
     @Override
     public void execute(String[] args) {
         if (args.length < 7) {
@@ -70,9 +72,19 @@ public class FillCommand extends Command {
             return;
         }
 
-
         BlockPos startPos = BlockPos.ofFloored(startX, startY, startZ);
         BlockPos endPos = BlockPos.ofFloored(endX, endY, endZ);
+
+        int lengthX = Math.abs(startPos.getX() - endPos.getX()) + 1;
+        int lengthY = Math.abs(startPos.getY() - endPos.getY()) + 1;
+        int lengthZ = Math.abs(startPos.getZ() - endPos.getZ()) + 1;
+
+        long volume = (long) lengthX * lengthY * lengthZ;
+
+        if (volume > MAX_FILL_VOLUME) {
+            this.sendCommandError("Too many blocks in the specified area (maximum " + MAX_FILL_VOLUME + ", but specified " + volume + ")");
+            return;
+        }
 
         WorldUtil.fillBlock(startPos, endPos, block);
     }
