@@ -20,10 +20,8 @@ import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static owo.pigeon.Pigeon.mc;
@@ -173,6 +171,8 @@ public class SkyblockESP extends Module {
                 }
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.GALATEA)) {
+            Set<BlockPos> renderedMudworms = new HashSet<>();
+
             for (Entity entity : mc.world.getEntities()) {
                 if (entity instanceof ShulkerEntity && hideonleafEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
@@ -186,7 +186,11 @@ public class SkyblockESP extends Module {
                         RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                     }
                 } else if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay && itemDisplay.getItemStack().isOf(Items.STRING) && mudwormEsp.getValue()) {
-                    RenderUtil.drawESP(stack, entity.getBlockPos(), Color.YELLOW, RenderUtil.ESPMode.BOTH, false);
+                    BlockPos blockPos = entity.getBlockPos();
+                    if (!renderedMudworms.contains(blockPos)) {
+                        renderedMudworms.add(blockPos);
+                        RenderUtil.drawESP(stack, blockPos, Color.YELLOW, RenderUtil.ESPMode.BOTH, false);
+                    }
                 }
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.LOTUS_ATOLL)) {
