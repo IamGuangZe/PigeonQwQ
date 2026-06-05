@@ -68,7 +68,7 @@ public class ModulePanel extends AbstractDisplableItem {
         context.drawTextWithShadow(textRenderer,
                 module.name,
                 x + width / 2 - textRenderer.getWidth(module.name) / 2,
-                y + height / 2 - textRenderer.fontHeight / 2 + 1,
+                y + height / 2 - textRenderer.fontHeight / 2,
                 textColor);
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.BLUE.getRGB());

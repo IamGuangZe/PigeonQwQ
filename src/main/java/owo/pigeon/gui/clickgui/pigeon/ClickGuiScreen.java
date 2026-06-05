@@ -29,8 +29,8 @@ public class ClickGuiScreen extends Screen {
 
         int x = 5;
         int y = 5;
-        int width = 90;
-        int height = 17;
+        int width = 100;
+        int height = 16;
 
         for (Category category : Category.values()) {
             categoryPanels.add(new CategoryPanel(category, x, y, width, height));

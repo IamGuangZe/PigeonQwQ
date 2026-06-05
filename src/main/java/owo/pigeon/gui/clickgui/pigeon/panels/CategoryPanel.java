@@ -7,6 +7,7 @@ import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.modules.impl.client.PigeonQwQ;
+import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.animation.AnimationValue;
 import owo.pigeon.utils.render.RenderUtil;
@@ -54,17 +55,17 @@ public class CategoryPanel extends AbstractDisplableItem {
         context.drawTextWithShadow(textRenderer,
                 category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(),
                 x + 5,
-                y + height / 2 - textRenderer.fontHeight / 2 + 1,
+                y + height / 2 - textRenderer.fontHeight / 2,
                 Color.WHITE.getRGB());
 
         boolean expanded = expandProgress.isExpanded();
         String symbol = expanded ? "-" : "+";
-        int color = expanded ? Color.RED.getRGB() : Color.GREEN.getRGB();
+        String color = expanded ? "&c" : "&a";
         context.drawTextWithShadow(textRenderer,
-                symbol,
+                ColorUtil.parseColor(color + symbol),
                 x + width - textRenderer.getWidth(symbol) - 4,
-                y + height / 2 - textRenderer.fontHeight / 2 + 1,
-                color
+                y + height / 2 - textRenderer.fontHeight / 2,
+                Color.WHITE.getRGB()
         );
 
         float progress = expandProgress.getValue();
@@ -96,7 +97,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         if (!owo.pigeon.Pigeon.isDebug()) {
             PigeonQwQ pigeonQwQ = ModuleUtil.getModule(PigeonQwQ.class);
             int[] gradient = pigeonQwQ != null ? pigeonQwQ.theme.getValue().getGradient() : null;
-            RenderUtil.drawGradientBorder(context, x, y, width, height + animatedHeight, gradient);
+            RenderUtil.drawGradientBorder(context, x - 1, y - 1, width + 1, height + animatedHeight + 1, gradient);
         }
     }
 

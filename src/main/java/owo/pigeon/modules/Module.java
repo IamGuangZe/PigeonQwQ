@@ -35,7 +35,7 @@ public class Module extends SettingDesigner {
             enable = false;
             onDisable();
             Pigeon.EVENT_BUS.unsubscribe(this);
-            ChatUtil.sendIfHudReadyMessage(this.name + " has &4Disabled!");
+            ChatUtil.sendIfHudReadyMessage(this.name + " has &cDisabled!");
         }
     }
 
