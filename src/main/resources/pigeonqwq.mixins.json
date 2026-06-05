@@ -17,6 +17,7 @@
   "client": [
     "accessors.IAccessorHandledScreen",
     "accessors.IAccessorInGameHud",
+    "accessors.IAccessorInput",
     "accessors.IAccessorKeyBinding",
     "accessors.IAccessorMinecraftClient",
     "accessors.IAccessorPlayerListHud",
