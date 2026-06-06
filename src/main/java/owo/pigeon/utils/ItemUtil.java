@@ -1,11 +1,14 @@
 package owo.pigeon.utils;
 
+import com.google.common.collect.LinkedListMultimap;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.component.type.ProfileComponent;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -16,6 +19,7 @@ import net.minecraft.text.Text;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -113,5 +117,38 @@ public class ItemUtil {
         if (textures.isEmpty()) return null;
 
         return textures.iterator().next().value();
+    }
+
+    public static ItemStack getSkullFromPlayer(PlayerEntity player) {
+        if (player == null) return new ItemStack(Items.PLAYER_HEAD);
+
+        ItemStack headStack = new ItemStack(Items.PLAYER_HEAD);
+        headStack.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(player.getGameProfile()));
+        return headStack;
+    }
+
+    public static ItemStack getSkullFromTexture(String textureValue) {
+        return getSkullFromTexture(textureValue, null);
+    }
+
+    public static ItemStack getSkullFromTexture(String textureValue, String textureSignature) {
+        if (textureValue == null || textureValue.isEmpty()) return new ItemStack(Items.PLAYER_HEAD);
+
+        ItemStack headStack = new ItemStack(Items.PLAYER_HEAD);
+
+        // Build a GameProfile with the texture property
+        // Use a random UUID and empty name since we only need the texture data
+        UUID uuid = UUID.randomUUID();
+        LinkedListMultimap<String, Property> multimap = LinkedListMultimap.create();
+        if (textureSignature != null && !textureSignature.isEmpty()) {
+            multimap.put("textures", new Property("textures", textureValue, textureSignature));
+        } else {
+            multimap.put("textures", new Property("textures", textureValue));
+        }
+        PropertyMap properties = new PropertyMap(multimap);
+        GameProfile profile = new GameProfile(uuid, "", properties);
+
+        headStack.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(profile));
+        return headStack;
     }
 }

@@ -6,6 +6,7 @@ import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.text.Text;
@@ -16,6 +17,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 import java.util.List;
 
@@ -93,24 +95,38 @@ public class ExportButton extends Module {
             itemJson.addProperty("name", stack.getName().getString());
             itemJson.addProperty("id", Registries.ITEM.getId(stack.getItem()).toString());
 
-            JsonArray loreArray = new JsonArray();
-            List<Text> loreLines = ItemUtil.getItemLore(stack);
-            for (Text line : loreLines) {
-                loreArray.add(line.getString());
+            if (stack.isOf(Items.PLAYER_HEAD)) {
+                String texture = ItemUtil.getSkullTexture(stack);
+                if (texture != null) {
+                    itemJson.addProperty("texture", texture);
+                }
             }
-            itemJson.add("lore", loreArray);
+
+            String skyblockId = SkyblockUtil.getItemCustomData(stack, "id", SkyblockUtil.STRING_EXTRACTOR);
+            if (skyblockId != null) {
+                itemJson.addProperty("skyblockId", skyblockId);
+            }
+
+            List<Text> loreLines = ItemUtil.getItemLore(stack);
+            if (!loreLines.isEmpty()) {
+                JsonArray loreArray = new JsonArray();
+                for (Text line : loreLines) {
+                    loreArray.add(line.getString());
+                }
+                itemJson.add("lore", loreArray);
+            }
 
             itemsArray.add(itemJson);
         }
 
         if (itemsArray.isEmpty()) {
-            ChatUtil.sendMessage("ExportButton", "§cContainer is empty!");
+            ChatUtil.sendMessage("ExportButton", "&cContainer is empty!");
             return;
         }
 
         result.add("items", itemsArray);
         String finalJson = GSON.toJson(result);
         mc.keyboard.setClipboard(finalJson);
-        ChatUtil.sendMessage("ExportButton", "§aJSON copied to clipboard! (" + itemsArray.size() + " items)");
+        ChatUtil.sendMessage("ExportButton", "&aJSON copied to clipboard! (" + itemsArray.size() + " items)");
     }
 }
