@@ -52,9 +52,22 @@ public class CategoryPanel extends AbstractDisplableItem {
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.RED.getRGB());
 
+        // Draw category item icon (16x16 pixels)
+        float scale = 0.75f;
+        int iconSize = (int) (scale * 16);
+        int iconX = x + 2;
+        int iconY = y + height / 2 - iconSize / 2;
+
+        context.getMatrices().pushMatrix();
+        context.getMatrices().translate(iconX, iconY);
+        context.getMatrices().scale(scale, scale);
+        context.drawItem(category.getIcon(), 0, 0);
+        context.getMatrices().popMatrix();
+
+        int textOffset = iconSize + 4; // icon width + gap
         context.drawTextWithShadow(textRenderer,
                 category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(),
-                x + 5,
+                x + textOffset,
                 y + height / 2 - textRenderer.fontHeight / 2,
                 Color.WHITE.getRGB());
 
