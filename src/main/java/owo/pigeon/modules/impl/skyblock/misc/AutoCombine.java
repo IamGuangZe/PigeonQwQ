@@ -18,7 +18,7 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.ListSetting;
-import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
+import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.player.PlayerUtil;
 
 import java.util.*;
@@ -259,16 +259,16 @@ public class AutoCombine extends Module {
     public boolean isValidBook(ItemStack stack) {
         return !stack.isEmpty()
                 && stack.hasGlint()
-                && "ENCHANTED_BOOK".equals(SkyblockUtil.getItemCustomData(stack, "id", SkyblockUtil.STRING_EXTRACTOR));
+                && "ENCHANTED_BOOK".equals(ItemUtil.getCustomDataValue(stack, "id", ItemUtil.STRING_EXTRACTOR));
     }
 
     public boolean isValidRune(ItemStack stack) {
         return !stack.isEmpty()
-                && "RUNE".equals(SkyblockUtil.getItemCustomData(stack, "id", SkyblockUtil.STRING_EXTRACTOR));
+                && "RUNE".equals(ItemUtil.getCustomDataValue(stack, "id", ItemUtil.STRING_EXTRACTOR));
     }
 
     public Set<String> getEnchantKeys(ItemStack stack) {
-        NbtCompound enchants = SkyblockUtil.getItemCustomData(stack, "enchantments", SkyblockUtil.COMPOUND_EXTRACTOR);
+        NbtCompound enchants = ItemUtil.getCustomDataValue(stack, "enchantments", ItemUtil.COMPOUND_EXTRACTOR);
         if (enchants == null) return Collections.emptySet();
         return enchants.getKeys().stream()
                 .map(key -> enchants.getInt(key)
@@ -279,7 +279,7 @@ public class AutoCombine extends Module {
     }
 
     public Set<String> getRuneKeys(ItemStack stack) {
-        NbtCompound runes = SkyblockUtil.getItemCustomData(stack, "runes", SkyblockUtil.COMPOUND_EXTRACTOR);
+        NbtCompound runes = ItemUtil.getCustomDataValue(stack, "runes", ItemUtil.COMPOUND_EXTRACTOR);
         if (runes == null) return Collections.emptySet();
         return runes.getKeys().stream()
                 .map(key -> runes.getInt(key)

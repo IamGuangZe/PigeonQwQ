@@ -15,6 +15,7 @@ import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
 import owo.pigeon.settings.ListSetting;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 import owo.pigeon.utils.player.PlayerUtil;
@@ -94,7 +95,7 @@ public class AutoSell extends Module {
     }
 
     private boolean matchesItem(ItemStack stack, List<String> names, List<String> ids) {
-        String id = SkyblockUtil.getItemCustomData(stack, "id", SkyblockUtil.STRING_EXTRACTOR);
+        String id = ItemUtil.getCustomDataValue(stack, "id", ItemUtil.STRING_EXTRACTOR);
         if (id != null) {
             for (String targetId : ids) {
                 if (id.equals(targetId)) return true;

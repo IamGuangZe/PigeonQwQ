@@ -17,7 +17,6 @@ import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.chat.ChatUtil;
-import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 import java.util.List;
 
@@ -102,7 +101,7 @@ public class ExportButton extends Module {
                 }
             }
 
-            String skyblockId = SkyblockUtil.getItemCustomData(stack, "id", SkyblockUtil.STRING_EXTRACTOR);
+            String skyblockId = ItemUtil.getCustomDataValue(stack, "id", ItemUtil.STRING_EXTRACTOR);
             if (skyblockId != null) {
                 itemJson.addProperty("skyblockId", skyblockId);
             }

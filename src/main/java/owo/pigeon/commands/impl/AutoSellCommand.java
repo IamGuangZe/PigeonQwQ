@@ -5,9 +5,9 @@ import owo.pigeon.commands.Command;
 import owo.pigeon.modules.impl.skyblock.misc.AutoSell;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.CommandUtil;
+import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.chat.ChatUtil;
-import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
 import java.util.Arrays;
 
@@ -130,7 +130,7 @@ public class AutoSellCommand extends Command {
         if (heldStack.isEmpty()) return null;
 
         if (isId) {
-            return SkyblockUtil.getItemCustomData(heldStack, "id", SkyblockUtil.STRING_EXTRACTOR);
+            return ItemUtil.getCustomDataValue(heldStack, "id", ItemUtil.STRING_EXTRACTOR);
         } else {
             return ColorUtil.removeColor(heldStack.getName().getString());
         }

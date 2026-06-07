@@ -20,10 +20,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 import static owo.pigeon.Pigeon.mc;
 
 public class ItemUtil {
+    public static final BiFunction<NbtCompound, String, String> STRING_EXTRACTOR = (nbt, k) -> nbt.getString(k).orElse(null);
+    public static final BiFunction<NbtCompound, String, NbtCompound> COMPOUND_EXTRACTOR = (nbt, k) -> nbt.getCompound(k).orElse(null);
+    public static final BiFunction<NbtCompound, String, Integer> INT_EXTRACTOR = (nbt, k) -> nbt.getInt(k).orElse(null);
+
     public static boolean isSword(ItemStack stack) {
         return stack.isOf(Items.WOODEN_SWORD)
                 || stack.isOf(Items.STONE_SWORD)
@@ -150,5 +156,25 @@ public class ItemUtil {
 
         headStack.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(profile));
         return headStack;
+    }
+
+    public static <T> T getCustomDataValue(ItemStack stack, String key, BiFunction<NbtCompound, String, T> extractor) {
+        NbtCompound nbt = getItemCustomData(stack);
+        if (nbt != null && nbt.contains(key)) {
+            try {
+                return extractor.apply(nbt, key);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public static ItemStack setCustomDataValue(ItemStack stack, String key, BiConsumer<NbtCompound, String> inserter) {
+        if (stack == null || stack.isEmpty()) return stack;
+        NbtComponent.set(DataComponentTypes.CUSTOM_DATA, stack, nbt -> {
+            inserter.accept(nbt, key);
+        });
+        return stack;
     }
 }
