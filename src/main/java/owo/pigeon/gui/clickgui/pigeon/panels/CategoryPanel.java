@@ -3,11 +3,13 @@ package owo.pigeon.gui.clickgui.pigeon.panels;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
+import net.minecraft.item.ItemStack;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.modules.impl.client.PigeonQwQ;
 import owo.pigeon.utils.ColorUtil;
+import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.animation.AnimationValue;
 import owo.pigeon.utils.render.RenderUtil;
@@ -15,6 +17,7 @@ import owo.pigeon.utils.render.RenderUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static owo.pigeon.Pigeon.mc;
 import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
 
 public class CategoryPanel extends AbstractDisplableItem {
@@ -52,7 +55,19 @@ public class CategoryPanel extends AbstractDisplableItem {
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.RED.getRGB());
 
-        // Draw category item icon (16x16 pixels)
+        // Draw category item icon
+        if (category.equals(Category.PLAYER)) {
+            ItemStack iconSkull = category.getIcon();
+            ItemStack playerSkull = ItemUtil.getSkullFromPlayer(mc.player);
+
+            String iconSkullTexture = ItemUtil.getSkullTexture(iconSkull);
+            String playerSkullTexture = ItemUtil.getSkullTexture(playerSkull);
+            if (playerSkullTexture != null && !playerSkullTexture.equals(iconSkullTexture)) {
+                category.setIcon(playerSkull);
+            }
+        }
+
+
         float scale = 0.75f;
         int iconSize = (int) (scale * 16);
         int iconX = x + 2;
