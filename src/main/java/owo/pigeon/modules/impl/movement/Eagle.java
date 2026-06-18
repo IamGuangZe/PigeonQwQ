@@ -2,8 +2,8 @@ package owo.pigeon.modules.impl.movement;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.item.BlockItem;
+import net.minecraft.util.math.BlockPos;
 import owo.pigeon.event.events.ClientTickEvent;
-import owo.pigeon.event.events.MoveInputEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -11,8 +11,6 @@ import owo.pigeon.settings.IntSetting;
 import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.RandomUtil;
 import owo.pigeon.utils.WorldUtil;
-import owo.pigeon.utils.player.MoveUtil;
-import owo.pigeon.utils.player.PlayerUtil;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -21,8 +19,6 @@ public class Eagle extends Module {
     public Eagle() {
         super("Eagle", Category.MOVEMENT);
     }
-
-    // Ported from: https://github.com/60124808866/OpenMyau/blob/main/src/main/java/myau/module/modules/Eagle.java
 
     public final IntSetting minDelay = setting("min-delay", 2, 0, 10, v -> true);
     public final IntSetting maxDelay = setting("max-delay", 3, 0, 10, v -> true);
@@ -33,9 +29,25 @@ public class Eagle extends Module {
 
     private int sneakDelay = 0;
 
-    private boolean canMoveSafely() {
-        double[] offset = MoveUtil.predictMovement();
-        return PlayerUtil.canMove(mc.player.getVelocity().x + offset[0], mc.player.getVelocity().z + offset[1]);
+    @Handler
+    public void onTickPre(ClientTickEvent.Pre event) {
+        if (WorldUtil.nullCheck()) return;
+
+        if (sneakDelay > 0) sneakDelay--;
+        if (sneakDelay == 0 && isAtEdge()) sneakDelay = RandomUtil.intRandom(minDelay.getValue(), maxDelay.getValue());
+
+        if (KeybindUtil.isPressed(mc.options.sneakKey)) return;
+
+        if (shouldSneak() && (sneakDelay > 0 || isAtEdge())) {
+            KeybindUtil.setPressed(mc.options.sneakKey, true);
+        } else {
+            KeybindUtil.resetPressed(mc.options.sneakKey);
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        KeybindUtil.resetPressed(mc.options.sneakKey);
     }
 
     private boolean shouldSneak() {
@@ -46,36 +58,13 @@ public class Eagle extends Module {
         } else if (pitchCheck.getValue() && mc.player.getPitch() < 67.0F) {
             return false;
         } else {
-            return (!blocksOnly.getValue() || mc.player.getMainHandStack().getItem() instanceof BlockItem) && mc.player.isOnGround();
+            return !blocksOnly.getValue() || mc.player.getMainHandStack().getItem() instanceof BlockItem;
         }
     }
 
-    @Handler
-    public void onTickPre(ClientTickEvent.Pre event) {
-        if (WorldUtil.nullCheck()) return;
-
-        if (sneakDelay > 0) {
-            sneakDelay--;
-        }
-        if (sneakDelay == 0 && canMoveSafely()) {
-            sneakDelay = RandomUtil.intRandom(minDelay.getValue(), maxDelay.getValue());
-        }
-    }
-
-    @Handler
-    public void onMoveInput(MoveInputEvent event) {
-        if (mc.currentScreen != null) return;
-
-        if (!event.getPlayerInput().sneak()) {
-            if (shouldSneak() && (sneakDelay > 0 || canMoveSafely())) {
-                event.setSneaking(true);
-            }
-        }
-    }
-
-    @Override
-    public void onDisable() {
-        sneakDelay = 0;
+    private boolean isAtEdge() {
+        BlockPos pos = BlockPos.ofFloored(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ());
+        return mc.player.isOnGround() && mc.world.getBlockState(pos).isAir();
     }
 
     @Override
