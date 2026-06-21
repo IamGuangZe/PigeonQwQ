@@ -26,11 +26,16 @@ public class ArrayList extends Module {
     }
 
     public enum ColorMode {
-        NONE, GRADIENT, INDIVIDUAL
+        NONE, ROW_GRADIENT, CHAR_GRADIENT
     }
 
-    public ModeSetting<ColorMode> colorMode = setting("color-mode", ColorMode.GRADIENT, v -> true);
+    public enum SuffixStyle {
+        NONE, BRACKET, PARENTHESIS, ANGLE
+    }
+
+    public ModeSetting<ColorMode> colorMode = setting("color-mode", ColorMode.ROW_GRADIENT, v -> true);
     public FloatSetting colorSpeed = setting("color-speed", 0.25f, 0.1f, 1.0f, v -> colorMode.getValue() != ColorMode.NONE);
+    public ModeSetting<SuffixStyle> suffixStyle = setting("suffix-style", SuffixStyle.BRACKET, v -> true);
     public EnableSetting background = setting("background", true, v -> true);
     public ColorSetting backgroundColor = setting("background-color", new Color(0x50000000, true), v -> background.getValue());
     public EnableSetting bar = setting("bar", true, v -> true);
@@ -72,7 +77,7 @@ public class ArrayList extends Module {
 
         for (int i = 0; i < sorted.size(); i++) {
             Module module = sorted.get(i);
-            String suffix = module.getSuffix();
+            String suffix = formatSuffix(module.getSuffix());
             String displayText = suffix.isEmpty() ? module.name : module.name + " " + suffix;
             int textWidth = TextRendererUtil.getStringWidth(displayText);
             int x = scaledWidth - textWidth - PADDING - barWidth;
@@ -85,8 +90,8 @@ public class ArrayList extends Module {
 
             int nameWidth = TextRendererUtil.getStringWidth(module.name);
 
-            if (hasGradient && mode == ColorMode.INDIVIDUAL) {
-                float spread = 0.1f;
+            if (hasGradient && mode == ColorMode.CHAR_GRADIENT) {
+                float spread = Math.max(0.05f, 1.0f / Math.max(1, sorted.size()));
                 float rowOffset = (float) i * spread;
                 int totalChars = module.name.length();
                 for (int ci = 0; ci < totalChars; ci++) {
@@ -122,7 +127,7 @@ public class ArrayList extends Module {
 
     private int getRowColor(boolean hasGradient, int[] gradient, ColorMode mode, float globalRatio, int index, int total, int staticColor) {
         if (!hasGradient) return staticColor;
-        if (mode == ColorMode.INDIVIDUAL) {
+        if (mode == ColorMode.CHAR_GRADIENT) {
             return ColorUtil.interpolateGradient(gradient, pingPong(globalRatio));
         }
         float rowRatio = total > 1 ? (float) index / (total - 1) : 0f;
@@ -130,8 +135,18 @@ public class ArrayList extends Module {
         return ColorUtil.interpolateGradient(gradient, pingPong(raw));
     }
 
+    private String formatSuffix(String suffix) {
+        if (suffix.isEmpty()) return "";
+        return switch (suffixStyle.getValue()) {
+            case BRACKET -> "[" + suffix + "]";
+            case PARENTHESIS -> "(" + suffix + ")";
+            case ANGLE -> "<" + suffix + ">";
+            default -> suffix;
+        };
+    }
+
     private int getDisplayWidth(Module module) {
-        String suffix = module.getSuffix();
+        String suffix = formatSuffix(module.getSuffix());
         String displayText = suffix.isEmpty() ? module.name : module.name + " " + suffix;
         return TextRendererUtil.getStringWidth(displayText);
     }
