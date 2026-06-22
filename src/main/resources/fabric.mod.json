@@ -22,6 +22,10 @@
     {
       "config": "pigeonqwq_sodium.mixins.json",
       "environment": "client"
+    },
+    {
+      "config": "pigeonqwq_skyblocker.mixins.json",
+      "environment": "client"
     }
   ],
   "depends": {

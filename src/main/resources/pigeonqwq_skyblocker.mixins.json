@@ -1,0 +1,16 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "owo.pigeon.mixin.skyblocker",
+  "compatibilityLevel": "JAVA_21",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "IAccessorElementBasedWidget",
+    "IAccessorElementWidth",
+    "IAccessorPlainTextElement",
+    "MixinFarmingHudWidget",
+    "MixinLowerSensitivity"
+  ]
+}
