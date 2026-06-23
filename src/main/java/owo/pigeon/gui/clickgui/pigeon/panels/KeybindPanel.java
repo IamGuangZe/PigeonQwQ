@@ -1,9 +1,9 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.util.InputUtil;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ColorUtil;
@@ -11,7 +11,7 @@ import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
 
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class KeybindPanel extends AbstractDisplableItem {
     private final Module module;
@@ -27,14 +27,14 @@ public class KeybindPanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
 
         float scale = 0.5f;
-        context.getMatrices().pushMatrix();
-        context.getMatrices().scale(scale, scale);
+        context.pose().pushMatrix();
+        context.pose().scale(scale, scale);
 
         String displayValue;
         String displayName = "bind";
@@ -43,9 +43,9 @@ public class KeybindPanel extends AbstractDisplableItem {
             displayValue = "Press a key...";
         } else {
             if (module.getKey() > 0) {
-                displayValue = InputUtil.Type.KEYSYM
-                        .createFromCode(module.getKey())
-                        .getTranslationKey()
+                displayValue = InputConstants.Type.KEYSYM
+                        .getOrCreate(module.getKey())
+                        .getName()
                         .replace("key.keyboard.", "")
                         .replace(".", " ")
                         .toUpperCase();
@@ -54,19 +54,19 @@ public class KeybindPanel extends AbstractDisplableItem {
             }
         }
 
-        context.drawTextWithShadow(
-                textRenderer,
+        context.drawString(
+                font,
                 ColorUtil.parseColor(displayName + " : " + displayValue),
                 (int) ((x + 4) / scale),
-                (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                 Color.LIGHT_GRAY.getRGB());
 
-        context.getMatrices().popMatrix();
+        context.pose().popMatrix();
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (!hovered) return false;
 
         if (click.button() == 0) {
@@ -80,12 +80,12 @@ public class KeybindPanel extends AbstractDisplableItem {
         return hovered;
     }
 
-    public void keyPressed(KeyInput input) {
+    public void keyPressed(KeyEvent input) {
         if (waitingForKey) {
-            if (input.getKeycode() == InputUtil.GLFW_KEY_ESCAPE) {
+            if (input.input() == InputConstants.KEY_ESCAPE) {
                 module.setKey(-1);
             } else {
-                module.setKey(input.getKeycode());
+                module.setKey(input.input());
             }
             waitingForKey = false;
         }

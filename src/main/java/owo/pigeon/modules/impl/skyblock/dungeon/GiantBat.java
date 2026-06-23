@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.skyblock.dungeon;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.BatEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ambient.Bat;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -31,8 +31,8 @@ public class GiantBat extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         if (!showHitbox.getValue()) return;
         if (!DungeonUtil.isInDungeon()) return;
-        for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof BatEntity bat)) continue;
+        for (Entity entity : mc.level.entitiesForRendering()) {
+            if (!(entity instanceof Bat bat)) continue;
             if (bat.getMaxHealth() != 100f && bat.getMaxHealth() != 200f) continue;
             RenderUtil.drawESP(event.getMatrix(), entity, color.getValue(), mode.getValue(), false);
         }

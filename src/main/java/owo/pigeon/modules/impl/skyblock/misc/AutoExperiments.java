@@ -1,10 +1,10 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.item.Items;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -49,8 +49,8 @@ public class AutoExperiments extends Module {
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
-        if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler containerScreen) {
-            String title = mc.currentScreen.getTitle().getString();
+        if (mc.player.containerMenu instanceof ChestMenu containerScreen) {
+            String title = mc.screen.getTitle().getString();
 
             int maxRound = 999;
 
@@ -71,7 +71,7 @@ public class AutoExperiments extends Module {
                 }
 
 
-                if (containerScreen.getSlot(49).getStack().isOf(Items.GLOWSTONE)) {
+                if (containerScreen.getSlot(49).getItem().is(Items.GLOWSTONE)) {
                     ChatUtil.sendDebugMessage(this.name, "Chronomatron: GLOWSTONE");
 
                     addedThisRound = false;
@@ -84,24 +84,24 @@ public class AutoExperiments extends Module {
 
                     if (chronomatronOrder.size() >= maxRound) {
                         // containerScreen.onClosed(mc.player);
-                        mc.player.closeHandledScreen();
+                        mc.player.closeContainer();
                         // mc.player.closeScreen();
                         return;
                     }
                 }
 
-                if (containerScreen.getSlot(49).getStack().isOf(Items.CLOCK)) {
+                if (containerScreen.getSlot(49).getItem().is(Items.CLOCK)) {
                     ChatUtil.sendDebugMessage(this.name, "Chronomatron: CLOCK");
 
                     if (clickCooldown > 0) clickCooldown--;
 
                     if (!addedThisRound) {
-                        for (int i = 0; i < containerScreen.getInventory().size(); i++) {
+                        for (int i = 0; i < containerScreen.getContainer().getContainerSize(); i++) {
 
-                            ChatUtil.sendDebugMessage("Chronomatron: Glint-" + containerScreen.getSlot(i).getStack().hasGlint());
-                            ChatUtil.sendDebugMessage("Chronomatron: Enchantments-" + containerScreen.getSlot(i).getStack().hasEnchantments());
+                            ChatUtil.sendDebugMessage("Chronomatron: Glint-" + containerScreen.getSlot(i).getItem().hasFoil());
+                            ChatUtil.sendDebugMessage("Chronomatron: Enchantments-" + containerScreen.getSlot(i).getItem().isEnchanted());
 
-                            if (containerScreen.getSlot(i).getStack().hasGlint()) {
+                            if (containerScreen.getSlot(i).getItem().hasFoil()) {
                                 ChatUtil.sendDebugMessage(this.name, "Chronomatron: add " + i);
                                 chronomatronOrder.add(i);
                                 addedThisRound = true;
@@ -112,10 +112,10 @@ public class AutoExperiments extends Module {
 
                     if (clickCooldown == 0 && clickIndex < chronomatronOrder.size()) {
                         PlayerUtil.clickSlot(
-                                containerScreen.syncId,
+                                containerScreen.containerId,
                                 chronomatronOrder.get(clickIndex),
                                 0,
-                                SlotActionType.PICKUP
+                                ClickType.PICKUP
                         );
                         clickCooldown = clickDelay.getValue();
                         clickIndex++;
@@ -139,7 +139,7 @@ public class AutoExperiments extends Module {
                     }
                 }
 
-                if (containerScreen.getSlot(49).getStack().isOf(Items.GLOWSTONE)) {
+                if (containerScreen.getSlot(49).getItem().is(Items.GLOWSTONE)) {
                     ChatUtil.sendDebugMessage(this.name, "Ultrasequencer: GLOWSTONE");
 
                     clickCooldown = clickDelay.getValue();
@@ -150,15 +150,15 @@ public class AutoExperiments extends Module {
                     ChatUtil.sendDebugMessage(this.name, "Ultrasequencer: Should close-" + (ultrasequencerOrder.size() > maxRound));
 
                     if (ultrasequencerOrder.size() > maxRound) {
-                        mc.player.closeHandledScreen();
+                        mc.player.closeContainer();
                         return;
                     }
 
                     if (!addedThisRound) {
                         ultrasequencerOrder.clear();
 
-                        for (int i = 0; i < containerScreen.getInventory().size(); i++) {
-                            String itemCustomName = ColorUtil.removeColor(containerScreen.getSlot(i).getStack().getCustomName().getString());
+                        for (int i = 0; i < containerScreen.getContainer().getContainerSize(); i++) {
+                            String itemCustomName = ColorUtil.removeColor(containerScreen.getSlot(i).getItem().getCustomName().getString());
 
                             ChatUtil.sendDebugMessage(this.name, "Ultrasequencer: Item custom name-" + itemCustomName);
 
@@ -172,7 +172,7 @@ public class AutoExperiments extends Module {
                     }
                 }
 
-                if (containerScreen.getSlot(49).getStack().isOf(Items.CLOCK)) {
+                if (containerScreen.getSlot(49).getItem().is(Items.CLOCK)) {
                     ChatUtil.sendDebugMessage(this.name, "Ultrasequencer: CLOCK");
 
                     if (clickCooldown > 0) clickCooldown--;
@@ -180,10 +180,10 @@ public class AutoExperiments extends Module {
 
                     if (clickCooldown == 0 && clickIndex < ultrasequencerOrder.size()) {
                         PlayerUtil.clickSlot(
-                                containerScreen.syncId,
+                                containerScreen.containerId,
                                 ultrasequencerOrder.get(clickIndex),
                                 0,
-                                SlotActionType.PICKUP
+                                ClickType.PICKUP
                         );
                         clickCooldown = clickDelay.getValue();
                         clickIndex++;
@@ -199,13 +199,13 @@ public class AutoExperiments extends Module {
                 ultrasequencerOrder.clear();
 
                 if (autoClaim.getValue() && title.startsWith("Experiment Over")) {
-                    List<Text> lore = ItemUtil.getItemLore(containerScreen.getSlot(11).getStack());
+                    List<Component> lore = ItemUtil.getItemLore(containerScreen.getSlot(11).getItem());
                     List<String> target = List.of("You closed the game!", "Game closed");
                     boolean isMatched = lore.stream()
-                            .map(Text::getString)
+                            .map(Component::getString)
                             .anyMatch(target::contains);
 
-                    if (isMatched) mc.player.closeHandledScreen();
+                    if (isMatched) mc.player.closeContainer();
                 }
             }
         }

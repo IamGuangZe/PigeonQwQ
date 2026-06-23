@@ -1,6 +1,6 @@
 package owo.pigeon.event.events;
 
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.protocol.Packet;
 import owo.pigeon.event.CancellableEvent;
 
 public class PacketEvent extends CancellableEvent {

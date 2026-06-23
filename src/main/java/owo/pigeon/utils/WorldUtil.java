@@ -1,22 +1,22 @@
 package owo.pigeon.utils;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import static owo.pigeon.Pigeon.mc;
 
 public class WorldUtil {
     public static boolean nullCheck() {
-        return mc.world == null || mc.player == null;
+        return mc.level == null || mc.player == null;
     }
 
     public static void setBlock(BlockPos pos, BlockState state) {
-        mc.world.setBlockState(pos, state, Block.NOTIFY_ALL);
+        mc.level.setBlock(pos, state, Block.UPDATE_ALL);
     }
 
     public static void setBlock(BlockPos pos, Block block) {
-        setBlock(pos, block.getDefaultState());
+        setBlock(pos, block.defaultBlockState());
     }
 
     public static void setBlock(int x, int y, int z, Block block) {
@@ -31,20 +31,20 @@ public class WorldUtil {
         int maxY = Math.max(start.getY(), end.getY());
         int maxZ = Math.max(start.getZ(), end.getZ());
 
-        BlockPos.Mutable pos = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
                     pos.set(x, y, z);
-                    mc.world.setBlockState(pos, state, Block.NOTIFY_ALL);
+                    mc.level.setBlock(pos, state, Block.UPDATE_ALL);
                 }
             }
         }
     }
 
     public static void fillBlock(BlockPos start, BlockPos end, Block block) {
-        fillBlock(start, end, block.getDefaultState());
+        fillBlock(start, end, block.defaultBlockState());
     }
 
     public static Double parseCoordinate(String arg, double base) {

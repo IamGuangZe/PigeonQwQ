@@ -46,8 +46,8 @@ public class CommandManager {
     }
 
     @Handler
-    public void onSendMessage(MessageEvent.SendMessageEvent event) {
-        ChatUtil.sendDebugMessage("CommandManager", "handle SendMessageEvent");
+    public void onSendChat(MessageEvent.SendChatEvent event) {
+        ChatUtil.sendDebugMessage("CommandManager", "handle SendChatEvent");
 
         String input = CommandUtil.normalize(event.getMessage().getString());
         if (!input.startsWith(String.valueOf(CommandUtil.getCommandPrefix()))) return;
@@ -55,7 +55,7 @@ public class CommandManager {
 
         ChatUtil.sendDebugMessage("CommandManager", "client command: " + input);
 
-        mc.inGameHud.getChatHud().addToMessageHistory(input);
+        mc.gui.getChat().addRecentChat(input);
         String inputCommand = input.substring(1);
 
         if (inputCommand.isEmpty()) {

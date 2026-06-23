@@ -1,11 +1,11 @@
 package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Box;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -28,7 +28,7 @@ public class SlayerESP extends Module {
         RenderUtil.drawESP(event.getMatrix(), SkyblockUtil.getSlayer(), Color.PINK, RenderUtil.ESPMode.BOTH, false);
 
         /*
-        for (Entity entity : mc.world.getEntities()) {
+        for (Entity entity : mc.level.getEntities()) {
             if (entity instanceof ArmorStandEntity stand) {
                 String name = stand.getName().getString();
                 if (name.startsWith("Spawned by: " + mc.player.getName().getString())) {
@@ -44,16 +44,16 @@ public class SlayerESP extends Module {
         */
     }
 
-    private Entity getMobEntity(ArmorStandEntity stand) {
-        Box box = stand.getBoundingBox().offset(0.0, -1.0, 0.0).expand(0.2);
+    private Entity getMobEntity(ArmorStand stand) {
+        AABB box = stand.getBoundingBox().move(0.0, -1.0, 0.0).inflate(0.2);
 
         Entity closest = null;
         double closestDistance = Double.MAX_VALUE;
 
-        for (Entity entity : mc.world.getOtherEntities(stand, box)) {
-            if (entity instanceof ArmorStandEntity || entity == mc.player) continue;
-            if (entity instanceof WitherEntity && entity.isInvisible()) continue;
-            if (entity instanceof PlayerEntity player && PlayerUtil.hasUUID(player)) continue;
+        for (Entity entity : mc.level.getEntities(stand, box)) {
+            if (entity instanceof ArmorStand || entity == mc.player) continue;
+            if (entity instanceof WitherBoss && entity.isInvisible()) continue;
+            if (entity instanceof Player player && PlayerUtil.hasUUID(player)) continue;
 
             double dist = stand.distanceTo(entity);
             if (dist < closestDistance) {

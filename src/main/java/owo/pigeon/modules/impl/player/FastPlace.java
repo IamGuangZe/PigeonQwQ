@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.player;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -36,7 +36,7 @@ public class FastPlace extends Module {
         if (WorldUtil.nullCheck()) return false;
         if (anyItem.getValue()) return true;
 
-        ItemStack itemStack = mc.player.getMainHandStack();
+        ItemStack itemStack = mc.player.getMainHandItem();
         if (itemStack.isEmpty()) return nothing.getValue();
 
         Item item = itemStack.getItem();
@@ -53,7 +53,7 @@ public class FastPlace extends Module {
 
         if (item instanceof ExperienceBottleItem) return xpBottle.getValue();
         if (item instanceof SnowballItem || item instanceof EggItem) return snowAndEgg.getValue();
-        if (item instanceof EnderPearlItem) return enderPearl.getValue();
+        if (item instanceof EnderpearlItem) return enderPearl.getValue();
         if (item instanceof FishingRodItem) return fishingRod.getValue();
 
         return others.getValue();

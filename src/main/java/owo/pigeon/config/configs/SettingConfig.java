@@ -1,9 +1,9 @@
 package owo.pigeon.config.configs;
 
 import com.google.gson.reflect.TypeToken;
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 import owo.pigeon.Pigeon;
 import owo.pigeon.config.Config;
 import owo.pigeon.modules.Category;
@@ -162,7 +162,7 @@ public class SettingConfig extends Config {
             for (AbstractSetting<?> setting : module.getSettings()) {
                 if (setting instanceof BlockSetting blockSetting) {
                     Block block = blockSetting.getValue();
-                    Identifier id = Registries.BLOCK.getId(block);
+                    Identifier id = BuiltInRegistries.BLOCK.getKey(block);
                     moduleMap.put(setting.getName(), id.toString());
                 } else if (setting instanceof ColorSetting colorSetting) {
                     moduleMap.put(setting.getName(), colorSetting.getRGB());
@@ -203,7 +203,7 @@ public class SettingConfig extends Config {
         if (setting instanceof BlockSetting blockSetting) {
             Identifier id = Identifier.tryParse(value.toString());
             if (id == null) throw new IllegalArgumentException();
-            blockSetting.setValue(Registries.BLOCK.get(id));
+            blockSetting.setValue(BuiltInRegistries.BLOCK.getValue(id));
 
         } else if (setting instanceof ColorSetting colorSetting) {
             colorSetting.setRGB(((Number) value).intValue());

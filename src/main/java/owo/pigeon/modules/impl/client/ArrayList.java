@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.client;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -12,7 +12,7 @@ import owo.pigeon.settings.EnableSetting;
 import owo.pigeon.settings.FloatSetting;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.ColorUtil;
-import owo.pigeon.utils.render.TextRendererUtil;
+import owo.pigeon.utils.render.FontUtil;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -49,13 +49,13 @@ public class ArrayList extends Module {
 
     @Handler
     public void onRender2D(RenderEvent.Render2DEvent event) {
-        if (mc.options.hudHidden) return;
+        if (mc.options.hideGui) return;
 
         ColorMode mode = colorMode.getValue();
         offsetTick += colorSpeed.getValue();
         if (offsetTick > OFFSET_MAX) offsetTick -= OFFSET_MAX;
 
-        DrawContext context = event.getContext();
+        GuiGraphics context = event.getContext();
         List<Module> sorted = ModuleManager.modules.stream()
                 .filter(m -> m.isEnable() && !m.isHide() && m != this)
                 .sorted(Comparator.comparingInt(this::getDisplayWidth).reversed())
@@ -69,8 +69,8 @@ public class ArrayList extends Module {
         float globalRatio = offsetTick / OFFSET_MAX;
         int staticColor = theme.isGradient() ? theme.getMidColor() : Color.WHITE.getRGB();
 
-        int scaledWidth = mc.getWindow().getScaledWidth();
-        int fontHeight = TextRendererUtil.getFontHeight();
+        int scaledWidth = mc.getWindow().getGuiScaledWidth();
+        int fontHeight = FontUtil.getFontHeight();
         int lineHeight = fontHeight + LINE_SPACING;
         int y = PADDING;
         int barWidth = bar.getValue() ? 2 : 0;
@@ -79,7 +79,7 @@ public class ArrayList extends Module {
             Module module = sorted.get(i);
             String suffix = formatSuffix(module.getSuffix());
             String displayText = suffix.isEmpty() ? module.name : module.name + " " + suffix;
-            int textWidth = TextRendererUtil.getStringWidth(displayText);
+            int textWidth = FontUtil.getStringWidth(displayText);
             int x = scaledWidth - textWidth - PADDING - barWidth;
 
             int rowColor = getRowColor(hasGradient, gradient, mode, globalRatio, i, sorted.size(), staticColor);
@@ -88,7 +88,7 @@ public class ArrayList extends Module {
                 context.fill(x - 2, y - 1, scaledWidth - PADDING + 1, y + lineHeight - 1, backgroundColor.getValue().getRGB());
             }
 
-            int nameWidth = TextRendererUtil.getStringWidth(module.name);
+            int nameWidth = FontUtil.getStringWidth(module.name);
 
             if (hasGradient && mode == ColorMode.CHAR_GRADIENT) {
                 float spread = Math.max(0.05f, 1.0f / Math.max(1, sorted.size()));
@@ -98,19 +98,19 @@ public class ArrayList extends Module {
                     float charRatio = totalChars > 1 ? ((float) ci / (totalChars - 1)) * spread : 0f;
                     float raw = (globalRatio + rowOffset + charRatio) % 1.0f;
                     int color = ColorUtil.interpolateGradient(gradient, pingPong(raw));
-                    int charWidth = TextRendererUtil.getStringWidth(String.valueOf(module.name.charAt(ci)));
-                    TextRendererUtil.drawText(context, Text.literal(String.valueOf(module.name.charAt(ci)))
-                            .styled(s -> s.withColor(color)), x, y, color);
+                    int charWidth = FontUtil.getStringWidth(String.valueOf(module.name.charAt(ci)));
+                    FontUtil.drawText(context, Component.literal(String.valueOf(module.name.charAt(ci)))
+                            .withStyle(s -> s.withColor(color)), x, y, color);
                     x += charWidth;
                 }
             } else if (hasGradient) {
-                TextRendererUtil.drawText(context, Text.literal(module.name).styled(s -> s.withColor(rowColor)), x, y, rowColor);
+                FontUtil.drawText(context, Component.literal(module.name).withStyle(s -> s.withColor(rowColor)), x, y, rowColor);
             } else {
-                TextRendererUtil.drawText(context, Text.literal(module.name), x, y, staticColor);
+                FontUtil.drawText(context, Component.literal(module.name), x, y, staticColor);
             }
 
             if (!suffix.isEmpty()) {
-                TextRendererUtil.drawText(context, Text.literal(" " + suffix), scaledWidth - textWidth - PADDING - barWidth + nameWidth, y, SUFFIX_COLOR);
+                FontUtil.drawText(context, Component.literal(" " + suffix), scaledWidth - textWidth - PADDING - barWidth + nameWidth, y, SUFFIX_COLOR);
             }
 
             if (bar.getValue()) {
@@ -148,6 +148,6 @@ public class ArrayList extends Module {
     private int getDisplayWidth(Module module) {
         String suffix = formatSuffix(module.getSuffix());
         String displayText = suffix.isEmpty() ? module.name : module.name + " " + suffix;
-        return TextRendererUtil.getStringWidth(displayText);
+        return FontUtil.getStringWidth(displayText);
     }
 }

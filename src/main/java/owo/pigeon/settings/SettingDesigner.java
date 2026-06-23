@@ -1,6 +1,6 @@
 package owo.pigeon.settings;
 
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 
 import java.awt.*;
 import java.util.ArrayList;

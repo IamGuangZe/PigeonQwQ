@@ -1,24 +1,24 @@
 package owo.pigeon.modules.impl.skyblock.nether;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.mob.WitherSkeletonEntity;
-import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.monster.skeleton.WitherSkeleton;
+import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClientTickEvent;
-import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.RenderEvent;
+import owo.pigeon.event.events.StartAttackEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -64,16 +64,16 @@ public class DojoHelper extends Module {
     private BlockPos lockedTarget;
     private boolean hasRelease;
 
-    private WitherSkeletonEntity controlWither;
-    private Vec3d controlLastPos;
+    private WitherSkeleton controlWither;
+    private Vec3 controlLastPos;
     private long controlLastUpdate;
-    private Vec3d controlPingOffset;
-    private Vec3d controlLastPingOffset;
+    private Vec3 controlPingOffset;
+    private Vec3 controlLastPingOffset;
     private int controlTickCounter;
 
     @Override
     public void onEnable() {
-        if (mc.worldRenderer != null) mc.worldRenderer.reload();
+        if (mc.levelRenderer != null) mc.levelRenderer.allChanged();
     }
 
     @Handler
@@ -88,7 +88,7 @@ public class DojoHelper extends Module {
                     long now = System.currentTimeMillis();
 
                     if (endTime != null && now >= endTime) {
-                        KeybindUtil.setPressed(mc.options.useKey, false);
+                        KeybindUtil.setPressed(mc.options.keyUse, false);
                         hasRelease = true;
                         ChatUtil.sendDebugMessage(this.name, "Releasing bow — endTime reached at " + now);
                     }
@@ -103,7 +103,7 @@ public class DojoHelper extends Module {
         if (event instanceof ClientTickEvent.Post) {
             if (mastery.getValue() && DojoUtil.isDojoChallenge(DojoUtil.Dojo.Mastery)) {
                 if (hasRelease) {
-                    KeybindUtil.resetPressed(mc.options.useKey);
+                    KeybindUtil.resetPressed(mc.options.keyUse);
                     hasRelease = false;
                     lockedTarget = null;
                 }
@@ -116,9 +116,9 @@ public class DojoHelper extends Module {
         if (WorldUtil.nullCheck()) return;
 
         if (force.getValue() && DojoUtil.isDojoChallenge(DojoUtil.Dojo.Force)) {
-            for (Entity entity : mc.world.getEntities()) {
-                if (entity instanceof ZombieEntity zombie &&
-                        zombie.getEquippedStack(EquipmentSlot.HEAD).isOf(Items.LEATHER_HELMET))
+            for (Entity entity : mc.level.entitiesForRendering()) {
+                if (entity instanceof Zombie zombie &&
+                        zombie.getItemBySlot(EquipmentSlot.HEAD).is(Items.LEATHER_HELMET))
                     entity.discard();
             }
         }
@@ -137,26 +137,26 @@ public class DojoHelper extends Module {
         if (!mastery.getValue()) return;
         if (!DojoUtil.isDojoChallenge(DojoUtil.Dojo.Mastery)) return;
 
-        if (event.getState().isOf(Blocks.LIME_WOOL)) {
-            limeWoolBlocks.add(event.getPos().toImmutable());
+        if (event.getState().is(Blocks.LIME_WOOL)) {
+            limeWoolBlocks.add(event.getPos().immutable());
         }
     }
 
     @Handler
-    public void onDoAttack(DoAttackEvent event) {
+    public void onStartAttackEvent(StartAttackEvent event) {
         if (discipline.getValue() && DojoUtil.isDojoChallenge(DojoUtil.Dojo.Discipline)) {
-            if (mc.crosshairTarget != null && mc.crosshairTarget.getType() == HitResult.Type.ENTITY) {
-                Entity target = ((EntityHitResult) mc.crosshairTarget).getEntity();
+            if (mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.ENTITY) {
+                Entity target = ((EntityHitResult) mc.hitResult).getEntity();
 
-                if (target instanceof ZombieEntity zombie) {
-                    ItemStack helmet = zombie.getEquippedStack(EquipmentSlot.HEAD);
-                    if (helmet.isOf(Items.LEATHER_HELMET)) {
+                if (target instanceof Zombie zombie) {
+                    ItemStack helmet = zombie.getItemBySlot(EquipmentSlot.HEAD);
+                    if (helmet.is(Items.LEATHER_HELMET)) {
                         PlayerUtil.switchItemSlot(0);
-                    } else if (helmet.isOf(Items.IRON_HELMET)) {
+                    } else if (helmet.is(Items.IRON_HELMET)) {
                         PlayerUtil.switchItemSlot(1);
-                    } else if (helmet.isOf(Items.GOLDEN_HELMET)) {
+                    } else if (helmet.is(Items.GOLDEN_HELMET)) {
                         PlayerUtil.switchItemSlot(2);
-                    } else if (helmet.isOf(Items.DIAMOND_HELMET)) {
+                    } else if (helmet.is(Items.DIAMOND_HELMET)) {
                         PlayerUtil.switchItemSlot(3);
                     }
                 }
@@ -166,15 +166,15 @@ public class DojoHelper extends Module {
 
     private void handleMastery(RenderEvent.Render3DEvent event) {
         limeWoolBlocks.removeIf(pos ->
-                !mc.world.getBlockState(pos).isOf(Blocks.LIME_WOOL) &&
-                        !mc.world.getBlockState(pos).isOf(Blocks.YELLOW_WOOL) &&
-                        !mc.world.getBlockState(pos).isOf(Blocks.RED_WOOL)
+                !mc.level.getBlockState(pos).is(Blocks.LIME_WOOL) &&
+                        !mc.level.getBlockState(pos).is(Blocks.YELLOW_WOOL) &&
+                        !mc.level.getBlockState(pos).is(Blocks.RED_WOOL)
         );
 
         for (BlockPos pos : limeWoolBlocks) {
             if (!endTimes.containsKey(pos)) {
                 blockOrder.add(pos);
-                long travelTime = (long) (mc.player.getEntityPos().distanceTo(pos.toCenterPos()) * 1000.0 / 60.0);
+                long travelTime = (long) (mc.player.position().distanceTo(pos.getCenter()) * 1000.0 / 60.0);
                 long effectivePing = ServerUtil.getCurrentPing() + pingOffset.getValue();
                 long endTime = System.currentTimeMillis() + BLOCK_LIFE_TIME - effectivePing - travelTime;
                 endTimes.put(pos, endTime);
@@ -214,20 +214,20 @@ public class DojoHelper extends Module {
             currentTarget = blockOrder.isEmpty() ? null : blockOrder.getFirst();
         }
 
-        if (lockedTarget != null && !KeybindUtil.isPressed(mc.options.useKey) && !hasRelease) {
+        if (lockedTarget != null && !KeybindUtil.isPressed(mc.options.keyUse) && !hasRelease) {
             lockedTarget = null;
             currentTarget = blockOrder.isEmpty() ? null : blockOrder.getFirst();
         }
 
         BlockPos aimTarget = lockedTarget != null ? lockedTarget : currentTarget;
-        if (aimTarget != null && isHoldingBow() && KeybindUtil.isPressed(mc.options.useKey)) {
+        if (aimTarget != null && isHoldingBow() && KeybindUtil.isPressed(mc.options.keyUse)) {
             if (lockedTarget == null) {
                 lockedTarget = currentTarget;
                 aimTarget = lockedTarget;
             }
 
-            Vec3d eyes = mc.player.getCameraPosVec(event.getDelta());
-            Vec3d target = aimTarget.toCenterPos();
+            Vec3 eyes = mc.player.getEyePosition(event.getDelta());
+            Vec3 target = aimTarget.getCenter();
             double diffX = target.x - eyes.x;
             double diffZ = target.z - eyes.z;
 
@@ -244,19 +244,19 @@ public class DojoHelper extends Module {
             return;
         }
 
-        Vec3d aimPos = getControlAimPos(event.getDelta());
+        Vec3 aimPos = getControlAimPos(event.getDelta());
         if (aimPos == null) return;
 
         // Debug: render aim position box (1x1x1, matching Skyblocker's target AABB)
         if (Pigeon.isDebug()) {
-            Box debugBox = new Box(
+            AABB debugBox = new AABB(
                     aimPos.x - 0.5, aimPos.y - 0.5, aimPos.z - 0.5,
                     aimPos.x + 0.5, aimPos.y + 0.5, aimPos.z + 0.5
             );
             RenderUtil.drawBox(event.getMatrix(), debugBox, new java.awt.Color(0, 255, 128), 2.0);
         }
 
-        Vec3d eyes = mc.player.getCameraPosVec(event.getDelta());
+        Vec3 eyes = mc.player.getEyePosition(event.getDelta());
         double diffX = aimPos.x - eyes.x;
         double diffY = aimPos.y - eyes.y;
         double diffZ = aimPos.z - eyes.z;
@@ -270,18 +270,18 @@ public class DojoHelper extends Module {
         applyRotation(targetYaw, targetPitch, event.getDelta());
     }
 
-    private Vec3d getControlAimPos(float tickDelta) {
+    private Vec3 getControlAimPos(float tickDelta) {
         if (controlPingOffset == null || controlLastPingOffset == null) {
-            return controlWither.getCameraPosVec(tickDelta);
+            return controlWither.getEyePosition(tickDelta);
         }
 
         double updatePercent = (double) (System.currentTimeMillis() - controlLastUpdate) / CONTROL_UPDATE_INTERVAL;
-        updatePercent = MathHelper.clamp(updatePercent, 0.0, 1.0);
+        updatePercent = Mth.clamp(updatePercent, 0.0, 1.0);
 
-        Vec3d interpolatedOffset = controlPingOffset.multiply(updatePercent)
-                .add(controlLastPingOffset.multiply(1.0 - updatePercent));
+        Vec3 interpolatedOffset = controlPingOffset.scale(updatePercent)
+                .add(controlLastPingOffset.scale(1.0 - updatePercent));
 
-        return controlWither.getCameraPosVec(tickDelta).add(interpolatedOffset);
+        return controlWither.getEyePosition(tickDelta).add(interpolatedOffset);
     }
 
     private void updateControlWither() {
@@ -296,16 +296,16 @@ public class DojoHelper extends Module {
         }
 
         if (controlWither == null) {
-            WitherSkeletonEntity bestWither = null;
+            WitherSkeleton bestWither = null;
             double bestDist = Double.MAX_VALUE;
-            Vec3d playerPos = mc.player.getEntityPos();
+            Vec3 playerPos = mc.player.position();
 
-            for (Entity entity : mc.world.getEntities()) {
+            for (Entity entity : mc.level.entitiesForRendering()) {
                 if (!isControlTarget(entity)) continue;
-                WitherSkeletonEntity wither = (WitherSkeletonEntity) entity;
+                WitherSkeleton wither = (WitherSkeleton) entity;
                 if (!isInArenaRange(wither)) continue;
 
-                double dist = playerPos.squaredDistanceTo(wither.getEntityPos());
+                double dist = playerPos.distanceToSqr(wither.position());
                 if (dist < bestDist) {
                     bestDist = dist;
                     bestWither = wither;
@@ -316,7 +316,7 @@ public class DojoHelper extends Module {
                 controlWither = bestWither;
                 controlTickCounter = 0;
                 ChatUtil.sendDebugMessage(this.name, "Control: Tracking WitherSkeleton at " +
-                        bestWither.getBlockPos().toShortString() +
+                        bestWither.blockPosition().toShortString() +
                         " | hDist=" + String.format("%.1f", horizontalDistFromPlayer(bestWither)));
             }
             return;
@@ -329,22 +329,22 @@ public class DojoHelper extends Module {
             if (controlLastPos != null) {
                 controlLastPingOffset = controlPingOffset;
                 double ping = (ServerUtil.getCurrentPing() + pingOffset.getValue()) / 1000.0;
-                Vec3d currentPos = controlWither.getEntityPos();
-                Vec3d movement = currentPos.subtract(controlLastPos).multiply(1, 0.1, 1);
-                controlPingOffset = movement.multiply(1.0 + (double) CONTROL_PREDICT_TICKS / 20.0 + ping);
+                Vec3 currentPos = controlWither.position();
+                Vec3 movement = currentPos.subtract(controlLastPos).multiply(1, 0.1, 1);
+                controlPingOffset = movement.scale(1.0 + (double) CONTROL_PREDICT_TICKS / 20.0 + ping);
             }
-            controlLastPos = controlWither.getEntityPos();
+            controlLastPos = controlWither.position();
             controlLastUpdate = System.currentTimeMillis();
         }
     }
 
     private boolean isControlTarget(Entity entity) {
-        if (!(entity instanceof WitherSkeletonEntity wither)) return false;
+        if (!(entity instanceof WitherSkeleton wither)) return false;
 
-        ItemStack helmet = wither.getEquippedStack(EquipmentSlot.HEAD);
+        ItemStack helmet = wither.getItemBySlot(EquipmentSlot.HEAD);
         if (helmet.isEmpty()) return false;
         if (!(helmet.getItem() instanceof BlockItem)) return false;
-        return !helmet.isOf(Items.PLAYER_HEAD);
+        return !helmet.is(Items.PLAYER_HEAD);
     }
 
     private boolean isInArenaRange(Entity entity) {
@@ -370,8 +370,8 @@ public class DojoHelper extends Module {
     }
 
     private void applyRotation(float targetYaw, float targetPitch, float delta) {
-        float currentYaw = mc.player.getYaw();
-        float currentPitch = mc.player.getPitch();
+        float currentYaw = mc.player.getYRot();
+        float currentPitch = mc.player.getXRot();
 
         float newYaw = RotationUtil.towardsLinear(currentYaw, targetYaw, H_SPEED, delta);
         float newPitch = RotationUtil.towardsLinear(currentPitch, targetPitch, V_SPEED, delta);
@@ -379,11 +379,11 @@ public class DojoHelper extends Module {
         newYaw = RotationUtil.normalizeRotation(currentYaw, newYaw);
         newPitch = RotationUtil.normalizeRotation(currentPitch, newPitch);
 
-        mc.player.setYaw(newYaw);
-        mc.player.setPitch(MathHelper.clamp(newPitch, -90f, 90f));
+        mc.player.setYRot(newYaw);
+        mc.player.setXRot(Mth.clamp(newPitch, -90f, 90f));
     }
 
-    private float calculateBallisticPitch(Vec3d eyes, Vec3d target, double velocity) {
+    private float calculateBallisticPitch(Vec3 eyes, Vec3 target, double velocity) {
         double dx = target.x - eyes.x;
         double dy = target.y - eyes.y;
         double dz = target.z - eyes.z;
@@ -450,7 +450,7 @@ public class DojoHelper extends Module {
 
     private double getArrowVelocity() {
         if (mc.player.isUsingItem() && isHoldingBow()) {
-            float charge = (float) mc.player.getItemUseTime() / 20.0f;
+            float charge = (float) mc.player.getTicksUsingItem() / 20.0f;
             float f = (charge * charge + charge * 2.0f) / 3.0f;
             return Math.min(f, 1.0f) * MAX_ARROW_VELOCITY;
         }
@@ -458,7 +458,7 @@ public class DojoHelper extends Module {
     }
 
     private boolean isHoldingBow() {
-        return mc.player.getMainHandStack().isOf(Items.BOW);
+        return mc.player.getMainHandItem().is(Items.BOW);
     }
 
     @Override
@@ -472,6 +472,6 @@ public class DojoHelper extends Module {
 
         resetControlState();
 
-        KeybindUtil.resetPressed(mc.options.useKey);
+        KeybindUtil.resetPressed(mc.options.keyUse);
     }
 }

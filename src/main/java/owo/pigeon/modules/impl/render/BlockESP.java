@@ -1,9 +1,9 @@
 package owo.pigeon.modules.impl.render;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -38,22 +38,22 @@ public class BlockESP extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.worldRenderer == null) return;
+        if (mc.levelRenderer == null) return;
         lastBlock = block.getValue();
-        mc.worldRenderer.reload();
+        mc.levelRenderer.allChanged();
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
         Block targetBlock = block.getValue();
 
-        if (lastBlock != targetBlock && mc.worldRenderer != null) {
+        if (lastBlock != targetBlock && mc.levelRenderer != null) {
             blocks.clear();
             lastBlock = targetBlock;
-            mc.worldRenderer.reload();
+            mc.levelRenderer.allChanged();
         }
 
-        blocks.removeIf(pos -> !mc.world.getBlockState(pos).isOf(targetBlock));
+        blocks.removeIf(pos -> !mc.level.getBlockState(pos).is(targetBlock));
 
         if (limit.getValue() == -1) {
             for (BlockPos pos : blocks) {
@@ -61,7 +61,7 @@ public class BlockESP extends Module {
             }
         } else {
             List<BlockPos> sorted = new ArrayList<>(blocks);
-            sorted.sort(Comparator.comparingDouble(pos -> pos.getSquaredDistance(mc.player.getX(), mc.player.getY(), mc.player.getZ())));
+            sorted.sort(Comparator.comparingDouble(pos -> pos.distToLowCornerSqr(mc.player.getX(), mc.player.getY(), mc.player.getZ())));
 
             int count = Math.min(limit.getValue(), sorted.size());
             for (int i = 0; i < count; i++) {
@@ -72,8 +72,8 @@ public class BlockESP extends Module {
 
     @Handler
     public void onRenderBlock(RenderEvent.RenderBlockEvent event) {
-        if (event.getState().isOf(block.getValue())) {
-            blocks.add(event.getPos().toImmutable());
+        if (event.getState().is(block.getValue())) {
+            blocks.add(event.getPos().immutable());
         }
     }
 }

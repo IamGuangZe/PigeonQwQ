@@ -1,13 +1,13 @@
 package owo.pigeon.modules.impl.skyblock.rift;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import owo.pigeon.event.events.DoAttackEvent;
-import owo.pigeon.event.events.DoItemUseEvent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import owo.pigeon.event.events.StartAttackEvent;
+import owo.pigeon.event.events.StartUseItemEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ColorUtil;
@@ -27,13 +27,13 @@ public class SnakingHelper extends Module {
     private static final String PUNGI = "Frozen Water Pungi";
 
     @Handler
-    public void onDoAttackPre(DoAttackEvent.Pre event) {
+    public void onStartAttackEventPre(StartAttackEvent.Pre event) {
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         switchTo(PICKAXE);
     }
 
     @Handler
-    public void onDoItemUse(DoItemUseEvent.Pre event) {
+    public void onStartUseItem(StartUseItemEvent.Pre event) {
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         switchTo(PUNGI);
     }
@@ -58,22 +58,22 @@ public class SnakingHelper extends Module {
     }
 
     private boolean isAimSnake() {
-        if (mc.crosshairTarget == null || mc.crosshairTarget.getType() != HitResult.Type.BLOCK) return false;
+        if (mc.hitResult == null || mc.hitResult.getType() != HitResult.Type.BLOCK) return false;
 
-        BlockState state = mc.world.getBlockState(((BlockHitResult) mc.crosshairTarget).getBlockPos());
+        BlockState state = mc.level.getBlockState(((BlockHitResult) mc.hitResult).getBlockPos());
 
         ChatUtil.sendDebugMessage(this.name, "aim block: " + state);
 
-        return state.isOf(Blocks.LAPIS_BLOCK)
-                || state.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS)
-                || state.isOf(Blocks.BLUE_STAINED_GLASS);
+        return state.is(Blocks.LAPIS_BLOCK)
+                || state.is(Blocks.LIGHT_BLUE_STAINED_GLASS)
+                || state.is(Blocks.BLUE_STAINED_GLASS);
     }
 
     private boolean isHoldingTargetItem() {
-        ItemStack stack = mc.player.getMainHandStack();
+        ItemStack stack = mc.player.getMainHandItem();
         if (stack.isEmpty()) return false;
 
-        String name = ColorUtil.removeColor(stack.getName().getString());
+        String name = ColorUtil.removeColor(stack.getHoverName().getString());
 
         ChatUtil.sendDebugMessage(this.name, "holding: " + name);
 

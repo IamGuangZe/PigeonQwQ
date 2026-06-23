@@ -1,9 +1,9 @@
 package owo.pigeon.commands.impl;
 
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 import owo.pigeon.commands.Command;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.WorldUtil;
@@ -29,7 +29,7 @@ public class FillCommand extends Command {
         }
 
         Identifier id = Identifier.tryParse(args[6]);
-        if (id == null || !Registries.BLOCK.containsId(id)) {
+        if (id == null || !BuiltInRegistries.BLOCK.containsKey(id)) {
             CommandUtil.sendCommandError(
                     CommandUtil.ErrorReason.UnknownBlock,
                     getCommand(),
@@ -38,7 +38,7 @@ public class FillCommand extends Command {
             );
             return;
         }
-        Block block = Registries.BLOCK.get(id);
+        Block block = BuiltInRegistries.BLOCK.getValue(id);
 
         Double startX = WorldUtil.parseCoordinate(args[0], mc.player.getX());
         Double startY = WorldUtil.parseCoordinate(args[1], mc.player.getY());
@@ -72,8 +72,8 @@ public class FillCommand extends Command {
             return;
         }
 
-        BlockPos startPos = BlockPos.ofFloored(startX, startY, startZ);
-        BlockPos endPos = BlockPos.ofFloored(endX, endY, endZ);
+        BlockPos startPos = BlockPos.containing(startX, startY, startZ);
+        BlockPos endPos = BlockPos.containing(endX, endY, endZ);
 
         int lengthX = Math.abs(startPos.getX() - endPos.getX()) + 1;
         int lengthY = Math.abs(startPos.getY() - endPos.getY()) + 1;

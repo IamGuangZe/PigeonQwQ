@@ -1,6 +1,6 @@
 package owo.pigeon.commands.impl;
 
-import net.minecraft.world.GameMode;
+import net.minecraft.world.level.GameType;
 import owo.pigeon.commands.Command;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.chat.ChatUtil;
@@ -23,7 +23,7 @@ public class GamemodeCommand extends Command {
             return;
         }
 
-        GameMode gamemode = GameMode.byId(args[0], null);
+        GameType gamemode = GameType.byName(args[0], null);
 
         if (gamemode == null) {
             CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownGamemode,
@@ -34,7 +34,7 @@ public class GamemodeCommand extends Command {
             return;
         }
 
-        mc.interactionManager.setGameMode(gamemode);
+        mc.gameMode.setLocalMode(gamemode);
         ChatUtil.sendMessage("Set own game mode to " + gamemode.name().toLowerCase() + " mode");
     }
 

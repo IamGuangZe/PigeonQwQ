@@ -1,13 +1,13 @@
 package owo.pigeon.modules.impl.skyblock.rift;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.play.ChunkDeltaUpdateS2CPacket;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.network.protocol.game.ClientboundSectionBlocksUpdatePacket;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import owo.pigeon.event.events.PacketEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -26,8 +26,8 @@ public class PotReplace extends Module {
     }
 
     public enum ReplaceBlock {
-        DAYLIGHT_DETECTOR(() -> Blocks.DAYLIGHT_DETECTOR.getDefaultState().with(Properties.INVERTED, false)),
-        SNOW_LAYERS(() -> Blocks.SNOW.getDefaultState().with(Properties.LAYERS, 4));
+        DAYLIGHT_DETECTOR(() -> Blocks.DAYLIGHT_DETECTOR.defaultBlockState().setValue(BlockStateProperties.INVERTED, false)),
+        SNOW_LAYERS(() -> Blocks.SNOW.defaultBlockState().setValue(BlockStateProperties.LAYERS, 4));
 
         private final Supplier<BlockState> stateSupplier;
 
@@ -46,8 +46,8 @@ public class PotReplace extends Module {
     public void onReceivePacketPost(PacketEvent.ReceivePacketEvent.Post event) {
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
 
-        if (event.getPacket() instanceof BlockUpdateS2CPacket packet) {
-            if (packet.getState().isIn(BlockTags.FLOWER_POTS)) {
+        if (event.getPacket() instanceof ClientboundBlockUpdatePacket packet) {
+            if (packet.getBlockState().is(BlockTags.FLOWER_POTS)) {
                 BlockPos pos = packet.getPos();
                 mc.execute(() -> {
                     WorldUtil.setBlock(pos, replaceBlock.getValue().getState());
@@ -56,9 +56,9 @@ public class PotReplace extends Module {
             }
         }
 
-        if (event.getPacket() instanceof ChunkDeltaUpdateS2CPacket packet) {
-            packet.visitUpdates((pos, state) -> {
-                if (state.isIn(BlockTags.FLOWER_POTS)) {
+        if (event.getPacket() instanceof ClientboundSectionBlocksUpdatePacket packet) {
+            packet.runUpdates((pos, state) -> {
+                if (state.is(BlockTags.FLOWER_POTS)) {
                     mc.execute(() -> {
                         WorldUtil.setBlock(pos, replaceBlock.getValue().getState());
                         ChatUtil.sendDebugMessage(this.name, "Post-Multi-Replace at " + pos);

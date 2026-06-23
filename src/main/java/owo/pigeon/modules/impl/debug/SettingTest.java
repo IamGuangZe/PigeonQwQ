@@ -1,6 +1,6 @@
 package owo.pigeon.modules.impl.debug;
 
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import owo.pigeon.modules.Category;
 import owo.pigeon.settings.*;
 

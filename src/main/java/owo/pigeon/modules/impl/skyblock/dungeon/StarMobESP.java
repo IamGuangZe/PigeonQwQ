@@ -1,12 +1,12 @@
 package owo.pigeon.modules.impl.skyblock.dungeon;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Box;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
@@ -35,16 +35,16 @@ public class StarMobESP extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        MatrixStack stack = event.getMatrix();
-        for (Entity entity : mc.world.getEntities()) {
-            if (entity instanceof ArmorStandEntity stand) {
+        PoseStack stack = event.getMatrix();
+        for (Entity entity : mc.level.entitiesForRendering()) {
+            if (entity instanceof ArmorStand stand) {
                 String name = stand.getName().getString();
 
                 if (name.contains("✯") && name.contains("❤")) {
                     if (Pigeon.isDebug())
                         RenderUtil.drawESP(stack,
                                 stand,
-                                stand.getBoundingBox().offset(0.0, -1.0, 0.0).expand(0.2),
+                                stand.getBoundingBox().move(0.0, -1.0, 0.0).inflate(0.2),
                                 Color.RED,
                                 RenderUtil.ESPMode.BOTH,
                                 false
@@ -53,7 +53,7 @@ public class StarMobESP extends Module {
 
                     switch (target.getValue()) {
                         case STAND -> {
-                            Box customBox = new Box(
+                            AABB customBox = new AABB(
                                     entity.getX() - 0.5, entity.getY() - 2.0, entity.getZ() - 0.5,
                                     entity.getX() + 0.5, entity.getY(), entity.getZ() + 0.5
                             );
@@ -72,16 +72,16 @@ public class StarMobESP extends Module {
         }
     }
 
-    private Entity getMobEntity(ArmorStandEntity stand) {
-        Box box = stand.getBoundingBox().offset(0.0, -1.0, 0.0);
+    private Entity getMobEntity(ArmorStand stand) {
+        AABB box = stand.getBoundingBox().move(0.0, -1.0, 0.0);
 
         Entity closest = null;
         double closestDistance = Double.MAX_VALUE;
 
-        for (Entity entity : mc.world.getOtherEntities(stand, box)) {
-            if (entity instanceof ArmorStandEntity || entity == mc.player) continue;
-            if (entity instanceof WitherEntity && entity.isInvisible()) continue;
-            if (entity instanceof PlayerEntity player && PlayerUtil.hasUUID(player)) continue;
+        for (Entity entity : mc.level.getEntities(stand, box)) {
+            if (entity instanceof ArmorStand || entity == mc.player) continue;
+            if (entity instanceof WitherBoss && entity.isInvisible()) continue;
+            if (entity instanceof Player player && PlayerUtil.hasUUID(player)) continue;
 
             double dist = stand.distanceTo(entity);
             if (dist < closestDistance) {

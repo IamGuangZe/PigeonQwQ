@@ -1,11 +1,11 @@
 package owo.pigeon.mixin.mixins;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.chunk.BlockBufferAllocatorStorage;
-import net.minecraft.client.render.chunk.ChunkRendererRegion;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
+import net.minecraft.client.renderer.SectionBufferBuilderPack;
+import net.minecraft.client.renderer.chunk.RenderSectionRegion;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,23 +17,23 @@ import owo.pigeon.event.events.RenderEvent;
 
 import java.util.concurrent.CompletableFuture;
 
-@Mixin(targets = "net.minecraft.client.render.chunk.ChunkBuilder$BuiltChunk$RebuildTask")
+@Mixin(targets = "net.minecraft.client.renderer.chunk.SectionRenderDispatcher$RenderSection$RebuildTask")
 public abstract class MixinRebuildTask {
     @Shadow
     @Final
-    protected ChunkRendererRegion region;
+    protected RenderSectionRegion region;
 
-    @Inject(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/chunk/SectionBuilder;build(Lnet/minecraft/util/math/ChunkSectionPos;Lnet/minecraft/client/render/chunk/ChunkRendererRegion;Lcom/mojang/blaze3d/systems/VertexSorter;Lnet/minecraft/client/render/chunk/BlockBufferAllocatorStorage;)Lnet/minecraft/client/render/chunk/SectionBuilder$RenderData;"))
-    private void onSectionBuild(BlockBufferAllocatorStorage buffers, CallbackInfoReturnable<CompletableFuture<?>> cir, @Local ChunkSectionPos chunkSectionPos) {
-        int minX = chunkSectionPos.getMinX();
-        int minY = chunkSectionPos.getMinY();
-        int minZ = chunkSectionPos.getMinZ();
-        int maxX = chunkSectionPos.getMaxX();
-        int maxY = chunkSectionPos.getMaxY();
-        int maxZ = chunkSectionPos.getMaxZ();
+    @Inject(method = "doTask", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/chunk/SectionCompiler;compile(Lnet/minecraft/core/SectionPos;Lnet/minecraft/client/renderer/chunk/RenderSectionRegion;Lcom/mojang/blaze3d/vertex/VertexSorting;Lnet/minecraft/client/renderer/SectionBufferBuilderPack;)Lnet/minecraft/client/renderer/chunk/SectionCompiler$Results;"))
+    private void onSectionCompiler(SectionBufferBuilderPack buffers, CallbackInfoReturnable<CompletableFuture<?>> cir, @Local SectionPos chunkSectionPos) {
+        int minX = chunkSectionPos.minBlockX();
+        int minY = chunkSectionPos.minBlockY();
+        int minZ = chunkSectionPos.minBlockZ();
+        int maxX = chunkSectionPos.maxBlockX();
+        int maxY = chunkSectionPos.maxBlockY();
+        int maxZ = chunkSectionPos.maxBlockZ();
         RenderEvent.RenderBlockEvent renderBlockEvent = new RenderEvent.RenderBlockEvent();
 
-        for (BlockPos tempPos : BlockPos.iterate(minX, minY, minZ, maxX, maxY, maxZ)) {
+        for (BlockPos tempPos : BlockPos.betweenClosed(minX, minY, minZ, maxX, maxY, maxZ)) {
             BlockState state = this.region.getBlockState(tempPos);
 
             if (state.isAir()) continue;

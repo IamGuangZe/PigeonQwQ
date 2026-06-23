@@ -1,15 +1,15 @@
 package owo.pigeon.modules.impl.hypixel;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.Block;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -39,12 +39,12 @@ public class PixelHelper extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         if (!HypixelUtil.isInGame(HypixelUtil.Game.PIXELPARTY)) return;
 
-        MatrixStack matrixStack = event.getMatrix();
+        PoseStack matrixStack = event.getMatrix();
 
         if (anvilWarning.getValue()) {
-            for (Entity entity : mc.world.getEntities()) {
+            for (Entity entity : mc.level.entitiesForRendering()) {
                 if (entity instanceof FallingBlockEntity fallingBlockEntity) {
-                    Box box = new Box(fallingBlockEntity.getX() - 0.5, 1, fallingBlockEntity.getZ() - 0.5,
+                    AABB box = new AABB(fallingBlockEntity.getX() - 0.5, 1, fallingBlockEntity.getZ() - 0.5,
                             fallingBlockEntity.getX() + 0.5, 3, fallingBlockEntity.getZ() + 0.5);
                     RenderUtil.drawESP(matrixStack, box, new Color(0xBBFF0000, true), RenderUtil.ESPMode.BOTH, false);
                 }
@@ -60,15 +60,15 @@ public class PixelHelper extends Module {
 
         BlockPos closestPos = null;
         double minDistanceSq = Double.MAX_VALUE;
-        Vec3d playerPos = mc.player.getEntityPos();
+        Vec3 playerPos = mc.player.position();
 
         for (int x = -32; x <= 32; x++) {
             for (int z = -32; z <= 32; z++) {
                 BlockPos pos = new BlockPos(x, 0, z);
-                if (mc.world.getBlockState(pos).getBlock() == block) {
+                if (mc.level.getBlockState(pos).getBlock() == block) {
                     RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
 
-                    double distSq = pos.getSquaredDistance(playerPos.x, playerPos.y, playerPos.z);
+                    double distSq = pos.distToLowCornerSqr(playerPos.x, playerPos.y, playerPos.z);
                     if (distSq < minDistanceSq) {
                         minDistanceSq = distSq;
                         closestPos = pos;

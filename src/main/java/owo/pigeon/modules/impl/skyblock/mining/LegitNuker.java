@@ -1,15 +1,19 @@
 package owo.pigeon.modules.impl.skyblock.mining;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.*;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.RaycastContext;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
@@ -78,14 +82,14 @@ public class LegitNuker extends Module {
     );
 
     private double getReachDistance() {
-        return mc.player.getBlockInteractionRange();
+        return mc.player.blockInteractionRange();
     }
 
     private BlockPos currentTarget = null;
     private BlockPos wasTarget = null;
     private int switchDelayCounter = 0;
-    private Vec3d aimPoint = null;
-    private final List<Vec3d> failedAimPoints = new ArrayList<>();
+    private Vec3 aimPoint = null;
+    private final List<Vec3> failedAimPoints = new ArrayList<>();
     private int timeoutTimer = 0;
     private BlockPos miningStartTarget = null;
     private final Map<BlockPos, Integer> ignoredPositions = new HashMap<>();
@@ -96,18 +100,18 @@ public class LegitNuker extends Module {
         if (WorldUtil.nullCheck()) return;
 
         if (event instanceof ClientTickEvent.Pre) {
-            if (stopInGui.getValue() && mc.currentScreen instanceof HandledScreen) {
+            if (stopInGui.getValue() && mc.screen instanceof AbstractContainerScreen) {
                 currentTarget = null;
                 aimPoint = null;
                 failedAimPoints.clear();
-                if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.attackKey);
+                if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.keyAttack);
                 return;
             }
 
             cleanupIgnoredPositions();
 
             if (miningStartTarget != null) {
-                if (!isTargetBlock(mc.world.getBlockState(miningStartTarget))) {
+                if (!isTargetBlock(mc.level.getBlockState(miningStartTarget))) {
                     mineCounter++;
                     evictStaleIgnored();
                     timeoutTimer = 0;
@@ -127,7 +131,7 @@ public class LegitNuker extends Module {
                         aimPoint = null;
                         failedAimPoints.clear();
                         switchDelayCounter = 0;
-                        if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.attackKey);
+                        if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.keyAttack);
                     }
                 }
             }
@@ -140,7 +144,7 @@ public class LegitNuker extends Module {
                 wasTarget = null;
                 aimPoint = null;
                 failedAimPoints.clear();
-                if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.attackKey);
+                if (!keepPress.getValue()) KeybindUtil.resetPressed(mc.options.keyAttack);
                 return;
             }
 
@@ -153,10 +157,10 @@ public class LegitNuker extends Module {
         if (event instanceof ClientTickEvent.Post) {
             if (keepPress.getValue()) {
                 if (currentTarget != null) {
-                    KeybindUtil.setPressed(mc.options.attackKey, true);
+                    KeybindUtil.setPressed(mc.options.keyAttack, true);
                     wasTarget = currentTarget;
                 } else {
-                    KeybindUtil.resetPressed(mc.options.attackKey);
+                    KeybindUtil.resetPressed(mc.options.keyAttack);
                 }
                 return;
             }
@@ -166,26 +170,26 @@ public class LegitNuker extends Module {
             if (wasTarget != null && !currentTarget.equals(wasTarget)) {
                 if (switchDelayCounter < switchDelay.getValue()) {
                     switchDelayCounter++;
-                    KeybindUtil.resetPressed(mc.options.attackKey);
+                    KeybindUtil.resetPressed(mc.options.keyAttack);
                     return;
                 }
             }
             switchDelayCounter = 0;
 
             double reach = getReachDistance();
-            HitResult hitResult = mc.player.raycast(reach, 1.0f, false);
+            HitResult hitResult = mc.player.pick(reach, 1.0f, false);
             if (hitResult.getType() != HitResult.Type.BLOCK) {
-                KeybindUtil.resetPressed(mc.options.attackKey);
+                KeybindUtil.resetPressed(mc.options.keyAttack);
                 return;
             }
 
             BlockHitResult blockHit = (BlockHitResult) hitResult;
             if (!blockHit.getBlockPos().equals(currentTarget)) {
-                KeybindUtil.resetPressed(mc.options.attackKey);
+                KeybindUtil.resetPressed(mc.options.keyAttack);
                 return;
             }
 
-            KeybindUtil.setPressed(mc.options.attackKey, true);
+            KeybindUtil.setPressed(mc.options.keyAttack, true);
             wasTarget = currentTarget;
         }
     }
@@ -197,20 +201,20 @@ public class LegitNuker extends Module {
         RenderUtil.drawESP(event.getMatrix(), currentTarget, new Color(0x44FF4444, true), RenderUtil.ESPMode.BOTH, false);
 
         if (isDebug()) {
-            for (Vec3d failed : failedAimPoints) {
+            for (Vec3 failed : failedAimPoints) {
                 double s = 0.04;
-                Box failedBox = new Box(failed.x - s, failed.y - s, failed.z - s,
+                AABB failedBox = new AABB(failed.x - s, failed.y - s, failed.z - s,
                         failed.x + s, failed.y + s, failed.z + s);
                 RenderUtil.drawESP(event.getMatrix(), failedBox, new Color(0x88FF0000, true), RenderUtil.ESPMode.BOTH, false);
             }
 
             if (aimPoint != null) {
                 double s = 0.06;
-                Box aimBox = new Box(aimPoint.x - s, aimPoint.y - s, aimPoint.z - s,
+                AABB aimBox = new AABB(aimPoint.x - s, aimPoint.y - s, aimPoint.z - s,
                         aimPoint.x + s, aimPoint.y + s, aimPoint.z + s);
                 RenderUtil.drawESP(event.getMatrix(), aimBox, new Color(0x44FFFF00, true), RenderUtil.ESPMode.BOTH, false);
 
-                Vec3d eyes = mc.player.getEyePos();
+                Vec3 eyes = mc.player.getEyePosition();
                 RenderUtil.draw3DLine(event.getMatrix(), eyes, aimPoint, new Color(0x6600FFFF, true), 1.5);
             }
         }
@@ -230,7 +234,7 @@ public class LegitNuker extends Module {
         mineCounter = 0;
         ignoredPositions.clear();
         if (mc.options != null) {
-            KeybindUtil.resetPressed(mc.options.attackKey);
+            KeybindUtil.resetPressed(mc.options.keyAttack);
         }
     }
 
@@ -238,7 +242,7 @@ public class LegitNuker extends Module {
         Iterator<Map.Entry<BlockPos, Integer>> it = ignoredPositions.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<BlockPos, Integer> entry = it.next();
-            BlockState state = mc.world.getBlockState(entry.getKey());
+            BlockState state = mc.level.getBlockState(entry.getKey());
             if (!isTargetBlock(state) || mineCounter - entry.getValue() >= 3) {
                 it.remove();
             }
@@ -253,26 +257,26 @@ public class LegitNuker extends Module {
     private BlockPos lookupTarget() {
         double reach = getReachDistance();
         double rangeSq = reach * reach;
-        Vec3d eyes = mc.player.getEyePos();
+        Vec3 eyes = mc.player.getEyePosition();
 
         List<BlockPos> candidates = new ArrayList<>();
         int radius = (int) Math.ceil(reach);
-        BlockPos playerPos = mc.player.getBlockPos();
+        BlockPos playerPos = mc.player.blockPosition();
 
         for (int x = playerPos.getX() - radius; x <= playerPos.getX() + radius; x++) {
             for (int y = playerPos.getY() - radius; y <= playerPos.getY() + radius; y++) {
                 for (int z = playerPos.getZ() - radius; z <= playerPos.getZ() + radius; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
-                    BlockState state = mc.world.getBlockState(pos);
+                    BlockState state = mc.level.getBlockState(pos);
 
                     if (state.isAir()) continue;
                     if (!isTargetBlock(state)) continue;
-                    if (state.getHardness(mc.world, pos) < 0) continue;
+                    if (state.getDestroySpeed(mc.level, pos) < 0) continue;
 
                     if (ignoredPositions.containsKey(pos)) continue;
 
-                    Vec3d closestPoint = getClosestPointToShape(pos, state, eyes);
-                    if (closestPoint == null || closestPoint.squaredDistanceTo(eyes) > rangeSq) continue;
+                    Vec3 closestPoint = getClosestPointToShape(pos, state, eyes);
+                    if (closestPoint == null || closestPoint.distanceToSqr(eyes) > rangeSq) continue;
 
                     if (!canBeMined(eyes, pos, state, reach)) continue;
 
@@ -300,14 +304,14 @@ public class LegitNuker extends Module {
         boolean priorTitanium = titanium.getValue() && prioritizeTitanium.getValue();
         boolean hasMithril = mithril.getValue();
         boolean mithrilSortActive = hasMithril && mithrilSort.getValue() != MithrilSort.NONE;
-        Vec3d eyes = mc.player.getEyePos();
-        float currentYaw = mc.player.getYaw();
-        float currentPitch = mc.player.getPitch();
+        Vec3 eyes = mc.player.getEyePosition();
+        float currentYaw = mc.player.getYRot();
+        float currentPitch = mc.player.getXRot();
 
         Map<BlockPos, Float> rotDiffs = new HashMap<>(candidates.size());
         Map<BlockPos, Block> typeCache = new HashMap<>(candidates.size());
         for (BlockPos pos : candidates) {
-            BlockState state = mc.world.getBlockState(pos);
+            BlockState state = mc.level.getBlockState(pos);
             typeCache.put(pos, state.getBlock());
             rotDiffs.put(pos, getRotationDiffToBlock(pos, state, eyes, currentYaw, currentPitch));
         }
@@ -366,17 +370,17 @@ public class LegitNuker extends Module {
         candidates.addAll(others);
     }
 
-    private float getRotationDiffToBlock(BlockPos pos, BlockState state, Vec3d eyes, float currentYaw, float currentPitch) {
-        Vec3d aimPt = getClosestPointToShape(pos, state, eyes);
-        if (aimPt == null) aimPt = pos.toCenterPos();
+    private float getRotationDiffToBlock(BlockPos pos, BlockState state, Vec3 eyes, float currentYaw, float currentPitch) {
+        Vec3 aimPt = getClosestPointToShape(pos, state, eyes);
+        if (aimPt == null) aimPt = pos.getCenter();
 
-        Vec3d diff = aimPt.subtract(eyes);
+        Vec3 diff = aimPt.subtract(eyes);
         float targetYaw = (float) Math.toDegrees(Math.atan2(-diff.x, diff.z));
         double hDist = Math.sqrt(diff.x * diff.x + diff.z * diff.z);
         float targetPitch = (float) Math.toDegrees(Math.atan2(-diff.y, hDist));
 
-        float yawDiff = Math.abs(MathHelper.wrapDegrees(targetYaw - currentYaw));
-        float pitchDiff = Math.abs(MathHelper.wrapDegrees(targetPitch - currentPitch));
+        float yawDiff = Math.abs(Mth.wrapDegrees(targetYaw - currentYaw));
+        float pitchDiff = Math.abs(Mth.wrapDegrees(targetPitch - currentPitch));
         return yawDiff + pitchDiff;
     }
 
@@ -385,60 +389,60 @@ public class LegitNuker extends Module {
         if (mithril.getValue() && MITHRIL_BLOCKS.contains(block)) return true;
         if (titanium.getValue() && TITANIUM_BLOCKS.contains(block)) return true;
         if (GENERIC_TARGET_BLOCKS.contains(block)) {
-            if (state.isOf(Blocks.DIAMOND_BLOCK)) return diamondBlock.getValue();
-            if (state.isOf(Blocks.COAL_BLOCK)) return coalBlock.getValue();
-            if (state.isOf(Blocks.EMERALD_BLOCK)) return emeraldBlock.getValue();
-            if (state.isOf(Blocks.IRON_BLOCK)) return ironBlock.getValue();
-            if (state.isOf(Blocks.GOLD_BLOCK)) return goldBlock.getValue();
-            if (state.isOf(Blocks.REDSTONE_BLOCK)) return redstoneBlock.getValue();
-            if (state.isOf(Blocks.LAPIS_BLOCK)) return lapisBlock.getValue();
-            if (state.isOf(Blocks.QUARTZ_BLOCK)) return quartzBlock.getValue();
+            if (state.is(Blocks.DIAMOND_BLOCK)) return diamondBlock.getValue();
+            if (state.is(Blocks.COAL_BLOCK)) return coalBlock.getValue();
+            if (state.is(Blocks.EMERALD_BLOCK)) return emeraldBlock.getValue();
+            if (state.is(Blocks.IRON_BLOCK)) return ironBlock.getValue();
+            if (state.is(Blocks.GOLD_BLOCK)) return goldBlock.getValue();
+            if (state.is(Blocks.REDSTONE_BLOCK)) return redstoneBlock.getValue();
+            if (state.is(Blocks.LAPIS_BLOCK)) return lapisBlock.getValue();
+            if (state.is(Blocks.QUARTZ_BLOCK)) return quartzBlock.getValue();
             return false;
         }
         return false;
     }
 
-    private Vec3d getClosestPointToShape(BlockPos pos, BlockState state, Vec3d eyes) {
-        VoxelShape shape = state.getOutlineShape(mc.world, pos);
+    private Vec3 getClosestPointToShape(BlockPos pos, BlockState state, Vec3 eyes) {
+        VoxelShape shape = state.getShape(mc.level, pos);
         if (shape.isEmpty()) return null;
 
-        final Vec3d[] closest = {null};
+        final Vec3[] closest = {null};
         final double[] minDistSq = {Double.MAX_VALUE};
 
         double inset = boxInset.getValue();
-        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+        shape.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
             double iMinX = minX + inset, iMaxX = maxX - inset;
             double iMinY = minY + inset, iMaxY = maxY - inset;
             double iMinZ = minZ + inset, iMaxZ = maxZ - inset;
             if (iMinX >= iMaxX || iMinY >= iMaxY || iMinZ >= iMaxZ) return;
 
-            double cx = MathHelper.clamp(eyes.x, pos.getX() + iMinX, pos.getX() + iMaxX);
-            double cy = MathHelper.clamp(eyes.y, pos.getY() + iMinY, pos.getY() + iMaxY);
-            double cz = MathHelper.clamp(eyes.z, pos.getZ() + iMinZ, pos.getZ() + iMaxZ);
-            double distSq = eyes.squaredDistanceTo(cx, cy, cz);
+            double cx = Mth.clamp(eyes.x, pos.getX() + iMinX, pos.getX() + iMaxX);
+            double cy = Mth.clamp(eyes.y, pos.getY() + iMinY, pos.getY() + iMaxY);
+            double cz = Mth.clamp(eyes.z, pos.getZ() + iMinZ, pos.getZ() + iMaxZ);
+            double distSq = eyes.distanceToSqr(cx, cy, cz);
             if (distSq < minDistSq[0]) {
                 minDistSq[0] = distSq;
-                closest[0] = new Vec3d(cx, cy, cz);
+                closest[0] = new Vec3(cx, cy, cz);
             }
         });
 
         return closest[0];
     }
 
-    private boolean canBeMined(Vec3d eyes, BlockPos pos, BlockState state, double reach) {
+    private boolean canBeMined(Vec3 eyes, BlockPos pos, BlockState state, double reach) {
         double inset = boxInset.getValue();
         for (Direction dir : Direction.values()) {
-            BlockPos neighbor = pos.offset(dir);
-            BlockState neighborState = mc.world.getBlockState(neighbor);
-            if (neighborState.isOpaque()) continue;
+            BlockPos neighbor = pos.relative(dir);
+            BlockState neighborState = mc.level.getBlockState(neighbor);
+            if (neighborState.canOcclude()) continue;
 
             if (!isFaceFacingPlayer(pos, dir, eyes)) continue;
 
             double[] offsets = {0.2, 0.5, 0.8};
             for (double u : offsets) {
                 for (double v : offsets) {
-                    Vec3d target = getPointOnFace(pos, dir, u, v, inset);
-                    if (eyes.squaredDistanceTo(target) > reach * reach) continue;
+                    Vec3 target = getPointOnFace(pos, dir, u, v, inset);
+                    if (eyes.distanceToSqr(target) > reach * reach) continue;
                     if (isVisiblePoint(eyes, target, pos)) return true;
                 }
             }
@@ -446,36 +450,36 @@ public class LegitNuker extends Module {
         return false;
     }
 
-    private Vec3d getPointOnFace(BlockPos pos, Direction dir, double u, double v, double inset) {
+    private Vec3 getPointOnFace(BlockPos pos, Direction dir, double u, double v, double inset) {
         double x = pos.getX(), y = pos.getY(), z = pos.getZ();
         double mu = inset + u * (1.0 - 2.0 * inset);
         double mv = inset + v * (1.0 - 2.0 * inset);
         return switch (dir) {
-            case UP -> new Vec3d(x + mu, y + 1.0, z + mv);
-            case DOWN -> new Vec3d(x + mu, y, z + mv);
-            case NORTH -> new Vec3d(x + mu, y + mv, z);
-            case SOUTH -> new Vec3d(x + mu, y + mv, z + 1.0);
-            case WEST -> new Vec3d(x, y + mu, z + mv);
-            case EAST -> new Vec3d(x + 1, y + mu, z + mv);
+            case UP -> new Vec3(x + mu, y + 1.0, z + mv);
+            case DOWN -> new Vec3(x + mu, y, z + mv);
+            case NORTH -> new Vec3(x + mu, y + mv, z);
+            case SOUTH -> new Vec3(x + mu, y + mv, z + 1.0);
+            case WEST -> new Vec3(x, y + mu, z + mv);
+            case EAST -> new Vec3(x + 1, y + mu, z + mv);
         };
     }
 
-    private boolean isFaceFacingPlayer(BlockPos pos, Direction dir, Vec3d eyes) {
-        double faceX = pos.getX() + 0.5 + dir.getVector().getX() * 0.5;
-        double faceY = pos.getY() + 0.5 + dir.getVector().getY() * 0.5;
-        double faceZ = pos.getZ() + 0.5 + dir.getVector().getZ() * 0.5;
+    private boolean isFaceFacingPlayer(BlockPos pos, Direction dir, Vec3 eyes) {
+        double faceX = pos.getX() + 0.5 + dir.getUnitVec3i().getX() * 0.5;
+        double faceY = pos.getY() + 0.5 + dir.getUnitVec3i().getY() * 0.5;
+        double faceZ = pos.getZ() + 0.5 + dir.getUnitVec3i().getZ() * 0.5;
         double dx = faceX - eyes.x, dy = faceY - eyes.y, dz = faceZ - eyes.z;
-        return dx * dir.getVector().getX() + dy * dir.getVector().getY() + dz * dir.getVector().getZ() < 0;
+        return dx * dir.getUnitVec3i().getX() + dy * dir.getUnitVec3i().getY() + dz * dir.getUnitVec3i().getZ() < 0;
     }
 
-    private boolean isVisiblePoint(Vec3d eyes, Vec3d target, BlockPos expectedBlock) {
-        Vec3d dir = target.subtract(eyes);
+    private boolean isVisiblePoint(Vec3 eyes, Vec3 target, BlockPos expectedBlock) {
+        Vec3 dir = target.subtract(eyes);
         double dist = dir.length();
         if (dist < 1e-4) return true;
-        Vec3d adjusted = eyes.add(dir.normalize().multiply(Math.max(dist - 0.005, 0.0)));
+        Vec3 adjusted = eyes.add(dir.normalize().scale(Math.max(dist - 0.005, 0.0)));
 
-        BlockHitResult hitResult = mc.world.raycast(
-                new RaycastContext(eyes, adjusted, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player)
+        BlockHitResult hitResult = mc.level.clip(
+                new ClipContext(eyes, adjusted, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, mc.player)
         );
         if (hitResult.getType() == HitResult.Type.MISS) return true;
         boolean pass = hitResult.getBlockPos().equals(expectedBlock);
@@ -487,9 +491,9 @@ public class LegitNuker extends Module {
         return pass;
     }
 
-    private boolean validateRaytrace(Vec3d target, BlockPos pos, double reach) {
-        Vec3d eyes = mc.player.getEyePos();
-        Vec3d diff = target.subtract(eyes);
+    private boolean validateRaytrace(Vec3 target, BlockPos pos, double reach) {
+        Vec3 eyes = mc.player.getEyePosition();
+        Vec3 diff = target.subtract(eyes);
         float yaw = (float) Math.toDegrees(Math.atan2(-diff.x, diff.z));
         double hDist = Math.sqrt(diff.x * diff.x + diff.z * diff.z);
         float pitch = (float) Math.toDegrees(Math.atan2(-diff.y, hDist));
@@ -498,29 +502,29 @@ public class LegitNuker extends Module {
         return ((BlockHitResult) hit).getBlockPos().equals(pos);
     }
 
-    private Vec3d findBestAimPoint(Vec3d eyes, BlockPos pos, BlockState state) {
-        VoxelShape shape = state.getOutlineShape(mc.world, pos);
+    private Vec3 findBestAimPoint(Vec3 eyes, BlockPos pos, BlockState state) {
+        VoxelShape shape = state.getShape(mc.level, pos);
         if (shape.isEmpty()) return null;
 
         double reach = getReachDistance();
-        float currentYaw = mc.player.getYaw();
-        float currentPitch = mc.player.getPitch();
+        float currentYaw = mc.player.getYRot();
+        float currentPitch = mc.player.getXRot();
 
-        Vec3d bestVisible = null;
+        Vec3 bestVisible = null;
         float bestVisibleDiff = Float.MAX_VALUE;
-        Vec3d bestInvisible = null;
+        Vec3 bestInvisible = null;
         float bestInvisibleDiff = Float.MAX_VALUE;
 
         if (isDebug()) failedAimPoints.clear();
 
         double inset = boxInset.getValue();
-        final List<Box> boxes = new ArrayList<>();
-        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            Box box = new Box(
+        final List<AABB> boxes = new ArrayList<>();
+        shape.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            AABB box = new AABB(
                     pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
                     pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
             );
-            Box contracted = box.contract(inset);
+            AABB contracted = box.deflate(inset);
             if (contracted.minX >= contracted.maxX
                     || contracted.minY >= contracted.maxY
                     || contracted.minZ >= contracted.maxZ) {
@@ -530,12 +534,12 @@ public class LegitNuker extends Module {
             }
         });
 
-        for (Box box : boxes) {
-            Vec3d lookDir = Vec3d.fromPolar(currentPitch, currentYaw);
-            Vec3d lookEnd = eyes.add(lookDir.multiply(reach * 2));
-            Optional<Vec3d> crosshairHit = box.raycast(eyes, lookEnd);
+        for (AABB box : boxes) {
+            Vec3 lookDir = Vec3.directionFromRotation(currentPitch, currentYaw);
+            Vec3 lookEnd = eyes.add(lookDir.scale(reach * 2));
+            Optional<Vec3> crosshairHit = box.clip(eyes, lookEnd);
             if (crosshairHit.isPresent()) {
-                Vec3d hitPoint = crosshairHit.get();
+                Vec3 hitPoint = crosshairHit.get();
                 if (isVisiblePoint(eyes, hitPoint, pos) && eyes.distanceTo(hitPoint) <= reach) {
                     if (validateRaytrace(hitPoint, pos, reach)) {
                         return hitPoint;
@@ -544,18 +548,18 @@ public class LegitNuker extends Module {
                 }
             }
 
-            List<Vec3d> candidates = new ArrayList<>();
+            List<Vec3> candidates = new ArrayList<>();
 
-            candidates.add(new Vec3d(
-                    MathHelper.clamp(eyes.x, box.minX, box.maxX),
-                    MathHelper.clamp(eyes.y, box.minY, box.maxY),
-                    MathHelper.clamp(eyes.z, box.minZ, box.maxZ)
+            candidates.add(new Vec3(
+                    Mth.clamp(eyes.x, box.minX, box.maxX),
+                    Mth.clamp(eyes.y, box.minY, box.maxY),
+                    Mth.clamp(eyes.z, box.minZ, box.maxZ)
             ));
 
             for (Direction dir : Direction.values()) {
-                BlockPos neighbor = pos.offset(dir);
-                BlockState neighborState = mc.world.getBlockState(neighbor);
-                if (neighborState.isOpaque()) continue;
+                BlockPos neighbor = pos.relative(dir);
+                BlockState neighborState = mc.level.getBlockState(neighbor);
+                if (neighborState.canOcclude()) continue;
                 if (!isFaceFacingPlayer(pos, dir, eyes)) continue;
 
                 double[] offsets = {0.1, 0.25, 0.4, 0.5, 0.6, 0.75, 0.9};
@@ -574,13 +578,13 @@ public class LegitNuker extends Module {
                 }
             }
 
-            for (Vec3d candidate : candidates) {
-                Vec3d toCandidate = candidate.subtract(eyes);
-                Vec3d rayEnd = eyes.add(toCandidate.multiply(2.0));
-                Optional<Vec3d> exactHit = box.raycast(eyes, rayEnd);
+            for (Vec3 candidate : candidates) {
+                Vec3 toCandidate = candidate.subtract(eyes);
+                Vec3 rayEnd = eyes.add(toCandidate.scale(2.0));
+                Optional<Vec3> exactHit = box.clip(eyes, rayEnd);
                 if (exactHit.isEmpty()) continue;
 
-                Vec3d hitPoint = exactHit.get();
+                Vec3 hitPoint = exactHit.get();
                 double dist = eyes.distanceTo(hitPoint);
                 if (dist > reach) continue;
 
@@ -614,7 +618,7 @@ public class LegitNuker extends Module {
             }
         }
 
-        Vec3d result = bestVisible;
+        Vec3 result = bestVisible;
         if (result != null) {
             ChatUtil.sendDebugMessage("LegitNuker",
                     String.format("aim: %.2f %.2f %.2f (vis)", result.x, result.y, result.z));
@@ -628,17 +632,17 @@ public class LegitNuker extends Module {
         return result;
     }
 
-    private Vec3d findEdgeVisiblePoint(Vec3d eyes, BlockPos pos, BlockState state, double reach, float currentYaw, float currentPitch) {
-        VoxelShape shape = state.getOutlineShape(mc.world, pos);
+    private Vec3 findEdgeVisiblePoint(Vec3 eyes, BlockPos pos, BlockState state, double reach, float currentYaw, float currentPitch) {
+        VoxelShape shape = state.getShape(mc.level, pos);
         if (shape.isEmpty()) return null;
 
-        final List<Box> rawBoxes = new ArrayList<>();
-        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            Box box = new Box(
+        final List<AABB> rawBoxes = new ArrayList<>();
+        shape.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            AABB box = new AABB(
                     pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
                     pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
             );
-            Box minContracted = box.contract(0.01);
+            AABB minContracted = box.deflate(0.01);
             if (minContracted.minX >= minContracted.maxX
                     || minContracted.minY >= minContracted.maxY
                     || minContracted.minZ >= minContracted.maxZ) {
@@ -648,20 +652,20 @@ public class LegitNuker extends Module {
             }
         });
 
-        Vec3d bestEdge = null;
+        Vec3 bestEdge = null;
         float bestEdgeDiff = Float.MAX_VALUE;
 
-        for (Box box : rawBoxes) {
+        for (AABB box : rawBoxes) {
             for (Direction dir : Direction.values()) {
-                BlockPos neighbor = pos.offset(dir);
-                BlockState neighborState = mc.world.getBlockState(neighbor);
-                if (neighborState.isOpaque()) continue;
+                BlockPos neighbor = pos.relative(dir);
+                BlockState neighborState = mc.level.getBlockState(neighbor);
+                if (neighborState.canOcclude()) continue;
                 if (!isFaceFacingPlayer(pos, dir, eyes)) continue;
 
                 double[] edgeOffsets = {0.05, 0.25, 0.5, 0.75, 0.95};
                 for (double u : edgeOffsets) {
                     for (double v : edgeOffsets) {
-                        Vec3d pt = getPointOnFace(pos, dir, u, v, 0.01);
+                        Vec3 pt = getPointOnFace(pos, dir, u, v, 0.01);
                         double dist = eyes.distanceTo(pt);
                         if (dist > reach) continue;
 
@@ -682,32 +686,32 @@ public class LegitNuker extends Module {
         return bestEdge;
     }
 
-    private float getRotationDifference(Vec3d diff, float currentYaw, float currentPitch) {
+    private float getRotationDifference(Vec3 diff, float currentYaw, float currentPitch) {
         float targetYaw = (float) Math.toDegrees(Math.atan2(-diff.x, diff.z));
         double hDist = Math.sqrt(diff.x * diff.x + diff.z * diff.z);
         float targetPitch = (float) Math.toDegrees(Math.atan2(-diff.y, hDist));
 
-        float yawDiff = Math.abs(MathHelper.wrapDegrees(targetYaw - currentYaw));
-        float pitchDiff = Math.abs(MathHelper.wrapDegrees(targetPitch - currentPitch));
+        float yawDiff = Math.abs(Mth.wrapDegrees(targetYaw - currentYaw));
+        float pitchDiff = Math.abs(Mth.wrapDegrees(targetPitch - currentPitch));
         return yawDiff + pitchDiff;
     }
 
     private void rotateToward(BlockPos pos, float delta) {
-        Vec3d eyes = mc.player.getEyePos();
-        BlockState state = mc.world.getBlockState(pos);
+        Vec3 eyes = mc.player.getEyePosition();
+        BlockState state = mc.level.getBlockState(pos);
 
-        Vec3d aimTarget = findBestAimPoint(eyes, pos, state);
+        Vec3 aimTarget = findBestAimPoint(eyes, pos, state);
         if (aimTarget == null) return;
         aimPoint = aimTarget;
 
-        Vec3d diff = aimTarget.subtract(eyes);
+        Vec3 diff = aimTarget.subtract(eyes);
 
         float targetYaw = (float) Math.toDegrees(Math.atan2(-diff.x, diff.z));
         double hDist = Math.sqrt(diff.x * diff.x + diff.z * diff.z);
         float targetPitch = (float) Math.toDegrees(Math.atan2(-diff.y, hDist));
 
-        float currentYaw = mc.player.getYaw();
-        float currentPitch = mc.player.getPitch();
+        float currentYaw = mc.player.getYRot();
+        float currentPitch = mc.player.getXRot();
 
         float hSpeed = (float) horizontalSpeed.getValue();
         float vSpeed = (float) verticalSpeed.getValue();
@@ -717,7 +721,7 @@ public class LegitNuker extends Module {
         newYaw = RotationUtil.normalizeRotation(currentYaw, newYaw);
         newPitch = RotationUtil.normalizeRotation(currentPitch, newPitch);
 
-        mc.player.setYaw(newYaw);
-        mc.player.setPitch(MathHelper.clamp(newPitch, -90f, 90f));
+        mc.player.setYRot(newYaw);
+        mc.player.setXRot(Mth.clamp(newPitch, -90f, 90f));
     }
 }

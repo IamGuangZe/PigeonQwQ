@@ -1,8 +1,8 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
 import owo.pigeon.modules.impl.client.PigeonQwQ;
@@ -17,7 +17,7 @@ import owo.pigeon.utils.render.RenderUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class ModulePanel extends AbstractDisplableItem {
     private final Module module;
@@ -52,7 +52,7 @@ public class ModulePanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
         expandProgress.setDuration(clickGui.animationSpeed.getValue());
         expandProgress.update(delta);
 
@@ -65,10 +65,10 @@ public class ModulePanel extends AbstractDisplableItem {
         int textColor = module.isEnable()
                 ? (theme.isGradient() ? theme.getMidColor() : Color.WHITE.getRGB())
                 : Color.GRAY.getRGB();
-        context.drawTextWithShadow(textRenderer,
+        context.drawString(font,
                 module.name,
-                x + width / 2 - textRenderer.getWidth(module.name) / 2,
-                y + height / 2 - textRenderer.fontHeight / 2,
+                x + width / 2 - font.width(module.name) / 2,
+                y + height / 2 - font.lineHeight / 2,
                 textColor);
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.BLUE.getRGB());
@@ -140,7 +140,7 @@ public class ModulePanel extends AbstractDisplableItem {
         return fullHeight;
     }
 
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (hovered) {
             if (click.button() == 0) {
                 module.toggle();
@@ -170,7 +170,7 @@ public class ModulePanel extends AbstractDisplableItem {
         return false;
     }
 
-    public void mouseReleased(Click click) {
+    public void mouseReleased(MouseButtonEvent click) {
         if (!expandProgress.isCollapsed()) {
             for (SettingPanel panel : visiblePanels) {
                 if (panel.y < clipBottom) panel.mouseReleased(click);
@@ -178,7 +178,7 @@ public class ModulePanel extends AbstractDisplableItem {
         }
     }
 
-    public void mouseDragged(Click click, double offsetX, double offsetY) {
+    public void mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
         if (!expandProgress.isCollapsed()) {
             for (SettingPanel panel : visiblePanels) {
                 if (panel.y < clipBottom) panel.mouseDragged(click, offsetX, offsetY);
@@ -207,7 +207,7 @@ public class ModulePanel extends AbstractDisplableItem {
         return hovered;
     }
 
-    public void keyPressed(KeyInput input) {
+    public void keyPressed(KeyEvent input) {
         if (!expandProgress.isCollapsed()) {
             if (keybindPanel.y < clipBottom) keybindPanel.keyPressed(input);
 

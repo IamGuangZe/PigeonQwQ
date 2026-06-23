@@ -1,11 +1,11 @@
 package owo.pigeon.modules.impl.skyblock.slayer;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.world.GameMode;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.level.GameType;
 import owo.pigeon.event.events.ClientTickEvent;
-import owo.pigeon.mixin.accessors.IAccessorInGameHud;
+import owo.pigeon.mixin.accessors.IAccessorGui;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -66,7 +66,7 @@ public class VampireSlayer extends Module {
         if (WorldUtil.nullCheck()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
 
-        String subtitle = ((IAccessorInGameHud) mc.inGameHud).pigeon$getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorInGameHud) mc.inGameHud).pigeon$getSubtitle().getString());
+        String subtitle = ((IAccessorGui) mc.gui).pigeon$getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorGui) mc.gui).pigeon$getSubtitle().getString());
         boolean foundTitle = subtitle.startsWith("Impel: ");
 
         Entity slayer = SkyblockUtil.getSlayer();
@@ -85,21 +85,21 @@ public class VampireSlayer extends Module {
                     if (impelAction != ImpelAction.NONE) {
                         impelTicks = 5;
                         hasImpel = true;
-                        rawPitch = mc.player.getPitch();
+                        rawPitch = mc.player.getXRot();
                     }
                 }
 
                 if (impelTicks > 0) {
                     switch (impelAction) {
-                        case JUMP -> KeybindUtil.setPressed(mc.options.jumpKey, true);
-                        case SNEAK -> KeybindUtil.setPressed(mc.options.sneakKey, true);
+                        case JUMP -> KeybindUtil.setPressed(mc.options.keyJump, true);
+                        case SNEAK -> KeybindUtil.setPressed(mc.options.keyShift, true);
                         case UP -> {
-                            mc.player.setPitch(-90f);
+                            mc.player.setXRot(-90f);
                             if (impelTicks % 2 != 0)
                                 PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
                         }
                         case DOWN -> {
-                            mc.player.setPitch(90f);
+                            mc.player.setXRot(90f);
                             if (impelTicks % 2 != 0)
                                 PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
                         }
@@ -107,20 +107,20 @@ public class VampireSlayer extends Module {
                 }
             }
 
-            GameMode targetMode = (changeGamemode.getValue() && slayer != null && mc.player.getPitch() <= 45) ? GameMode.ADVENTURE : GameMode.SURVIVAL;
+            GameType targetMode = (changeGamemode.getValue() && slayer != null && mc.player.getXRot() <= 45) ? GameType.ADVENTURE : GameType.SURVIVAL;
 
-            if (mc.interactionManager != null && mc.interactionManager.getCurrentGameMode() != targetMode) {
+            if (mc.gameMode != null && mc.gameMode.getPlayerMode() != targetMode) {
 
                 boolean wasFlying = mc.player.getAbilities().flying;
-                boolean canFly = mc.player.getAbilities().allowFlying;
+                boolean canFly = mc.player.getAbilities().mayfly;
 
-                mc.interactionManager.setGameMode(targetMode);
+                mc.gameMode.setLocalMode(targetMode);
 
-                mc.player.getAbilities().allowFlying = canFly;
+                mc.player.getAbilities().mayfly = canFly;
                 mc.player.getAbilities().flying = wasFlying;
 
                 // ChatUtil.sendCustomPrefixMessage(this.name, "Changed gamemode to &6" + targetMode.getId().toUpperCase());
-                ChatUtil.sendDebugMessage(this.name, "Client Gamemode -> " + targetMode.getId());
+                ChatUtil.sendDebugMessage(this.name, "Client Gamemode -> " + targetMode.getName());
             }
 
             if (autoHeal.getValue()) {
@@ -142,7 +142,7 @@ public class VampireSlayer extends Module {
                 if (ice == -1 || slayer == null) return;
 
                 boolean foundClaws = false;
-                for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25, 2.5, 0.25), entity -> true)) {
+                for (ArmorStand stand : mc.level.getEntitiesOfClass(ArmorStand.class, slayer.getBoundingBox().inflate(0.25, 2.5, 0.25), entity -> true)) {
                     ChatUtil.sendDebugMessage(this.name, "stand: " + stand.getName().getString());
 
                     if (stand.getName().getString().contains("TWINCLAWS")) {
@@ -173,7 +173,7 @@ public class VampireSlayer extends Module {
                 int steak = ItemUtil.getSlotFromItemName(STEAK, true);
                 if (steak == -1 || slayer == null) return;
 
-                for (ArmorStandEntity stand : mc.world.getEntitiesByClass(ArmorStandEntity.class, slayer.getBoundingBox().expand(0.25, 2.5, 0.25), entity -> true)) {
+                for (ArmorStand stand : mc.level.getEntitiesOfClass(ArmorStand.class, slayer.getBoundingBox().inflate(0.25, 2.5, 0.25), entity -> true)) {
                     if (stand.getName().getString().contains("҉") && stand.getName().getString().contains("Bloodfiend")) {
                         PlayerUtil.switchItemSlot(steak);
                     }
@@ -188,9 +188,9 @@ public class VampireSlayer extends Module {
 
                     if (impelTicks <= 0) {
                         switch (impelAction) {
-                            case JUMP -> KeybindUtil.resetPressed(mc.options.jumpKey);
-                            case SNEAK -> KeybindUtil.resetPressed(mc.options.sneakKey);
-                            case UP, DOWN -> mc.player.setPitch(rawPitch);
+                            case JUMP -> KeybindUtil.resetPressed(mc.options.keyJump);
+                            case SNEAK -> KeybindUtil.resetPressed(mc.options.keyShift);
+                            case UP, DOWN -> mc.player.setXRot(rawPitch);
                         }
 
                         impelAction = ImpelAction.NONE;
@@ -207,8 +207,8 @@ public class VampireSlayer extends Module {
             impelTicks = 0;
             impelAction = ImpelAction.NONE;
 
-            KeybindUtil.resetPressed(mc.options.jumpKey);
-            KeybindUtil.resetPressed(mc.options.sneakKey);
+            KeybindUtil.resetPressed(mc.options.keyJump);
+            KeybindUtil.resetPressed(mc.options.keyShift);
         }
     }
 
@@ -221,14 +221,14 @@ public class VampireSlayer extends Module {
         iceTicks = 0;
         impelTicks = 0;
 
-        KeybindUtil.resetPressed(mc.options.jumpKey);
-        KeybindUtil.resetPressed(mc.options.sneakKey);
+        KeybindUtil.resetPressed(mc.options.keyJump);
+        KeybindUtil.resetPressed(mc.options.keyShift);
 
         if (changeGamemode.getValue() && SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) {
             boolean wasFlying = mc.player.getAbilities().flying;
-            boolean canFly = mc.player.getAbilities().allowFlying;
-            mc.interactionManager.setGameMode(GameMode.SURVIVAL);
-            mc.player.getAbilities().allowFlying = canFly;
+            boolean canFly = mc.player.getAbilities().mayfly;
+            mc.gameMode.setLocalMode(GameType.SURVIVAL);
+            mc.player.getAbilities().mayfly = canFly;
             mc.player.getAbilities().flying = wasFlying;
         }
     }

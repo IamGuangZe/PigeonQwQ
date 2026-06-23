@@ -1,9 +1,9 @@
 package owo.pigeon.modules.impl.render;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -32,13 +32,13 @@ public class FullBright extends Module {
 
         switch (mode.getValue()) {
             case GAMMA -> {
-                if (rawGamma == null) rawGamma = mc.options.getGamma().getValue();
-                mc.options.getGamma().setValue(15.0D);
+                if (rawGamma == null) rawGamma = mc.options.gamma().get();
+                mc.options.gamma().set(15.0D);
             }
 
             case NIGHT_VISION -> {
                 if (mc.player != null)
-                    mc.player.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(StatusEffects.NIGHT_VISION.value()), -1, 0, false, false, false));
+                    mc.player.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(MobEffects.NIGHT_VISION.value()), -1, 0, false, false, false));
             }
         }
     }
@@ -59,14 +59,14 @@ public class FullBright extends Module {
 
     private void resetGamma() {
         if (rawGamma == null) rawGamma = 1.0;
-        mc.options.getGamma().setValue(rawGamma);
+        mc.options.gamma().set(rawGamma);
         rawGamma = null;
     }
 
     private void resetNightVision() {
         if (mc.player == null) return;
-        if (mc.player.hasStatusEffect(Registries.STATUS_EFFECT.getEntry(StatusEffects.NIGHT_VISION.value()))) {
-            mc.player.removeStatusEffect(Registries.STATUS_EFFECT.getEntry(StatusEffects.NIGHT_VISION.value()));
+        if (mc.player.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(MobEffects.NIGHT_VISION.value()))) {
+            mc.player.removeEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(MobEffects.NIGHT_VISION.value()));
         }
     }
 }

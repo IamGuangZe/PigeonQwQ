@@ -38,7 +38,7 @@ public class AutoTipall extends Module {
         tick++;
 
         if (tick >= interval.getValue() * 60 * 20) {
-            mc.player.networkHandler.sendChatCommand("tipall");
+            mc.player.connection.sendCommand("tipall");
             tick = 0;
         }
     }

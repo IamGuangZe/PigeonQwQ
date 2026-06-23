@@ -55,7 +55,7 @@ public class AutoMaddox extends Module {
         if (event.getMessage().getString().matches(" {3}» Talk to Maddox to claim your (.*) Slayer XP!")) {
             switch (callMode.getValue()) {
                 case CALL -> {
-                    mc.player.networkHandler.sendChatMessage("/call maddox");
+                    mc.player.connection.sendChat("/call maddox");
                 }
 
                 case BATPHONE -> {

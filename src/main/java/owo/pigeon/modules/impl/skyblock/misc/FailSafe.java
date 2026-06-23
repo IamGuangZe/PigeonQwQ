@@ -1,12 +1,12 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
-import net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
+import net.minecraft.network.protocol.game.ClientboundSetHeldSlotPacket;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import owo.pigeon.event.events.PacketEvent;
 import owo.pigeon.event.events.WorldChangeEvent;
 import owo.pigeon.modules.Category;
@@ -53,13 +53,13 @@ public class FailSafe extends Module {
 
     @Handler
     public void onReceivePacketPre(PacketEvent.ReceivePacketEvent.Pre event) {
-        if (teleportDetection.getValue() && event.getPacket() instanceof PlayerPositionLookS2CPacket packet) {
+        if (teleportDetection.getValue() && event.getPacket() instanceof ClientboundPlayerPositionPacket packet) {
             // ChatUtil.sendDebugMessage(this.name, packet.toString());
 
             if (onlyWhenStop.getValue() && isPlayerMoving()) return;
-            if (onlyOnGround.getValue() && !mc.player.isOnGround()) return;
+            if (onlyOnGround.getValue() && !mc.player.onGround()) return;
 
-            Set<String> abilities = SkyblockUtil.getItemAbilityNames(mc.player.getMainHandStack());
+            Set<String> abilities = SkyblockUtil.getItemAbilityNames(mc.player.getMainHandItem());
             if (abilities.contains("Instant Transmission") ||
                     abilities.contains("Wither Impact") ||
                     abilities.contains("Shadow Warp")
@@ -72,7 +72,7 @@ public class FailSafe extends Module {
             handleFailSafe();
         }
 
-        if (slotChangeDetection.getValue() && event.getPacket() instanceof UpdateSelectedSlotS2CPacket) {
+        if (slotChangeDetection.getValue() && event.getPacket() instanceof ClientboundSetHeldSlotPacket) {
             ChatUtil.sendMessage(this.name, "Selected slot has been modified!");
             handleFailSafe();
         }
@@ -90,24 +90,24 @@ public class FailSafe extends Module {
         mc.execute(() -> {
             if (soundAlert.getValue()) {
                 String inputId = soundId.getValue().trim().isEmpty() ? "block.note_block.pling" : soundId.getValue();
-                Identifier id = Identifier.of(inputId);
+                Identifier id = Identifier.parse(inputId);
 
-                SoundEvent sound = Registries.SOUND_EVENT.get(id);
+                SoundEvent sound = BuiltInRegistries.SOUND_EVENT.getValue(id);
 
                 if (sound == null) {
-                    sound = Registries.SOUND_EVENT.get(Identifier.of("block.note_block.pling"));
+                    sound = BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse("block.note_block.pling"));
                     ChatUtil.sendDebugMessage(this.name, "Invalid Sound ID! Falling back to: block.note_block.pling");
                 }
 
                 float volume = soundVolume.getValue() / 100f;
-                mc.world.playSound(
+                mc.level.playSeededSound(
                         mc.player,
                         mc.player.getX(), mc.player.getY(), mc.player.getZ(),
                         sound,
-                        SoundCategory.VOICE,
+                        SoundSource.VOICE,
                         volume,
                         1.0f,
-                        mc.world.random.nextLong()
+                        mc.level.random.nextLong()
                 );
 
             }
@@ -119,11 +119,11 @@ public class FailSafe extends Module {
     }
 
     private boolean isPlayerMoving() {
-        return KeybindUtil.isPressed(mc.options.forwardKey) ||
-                KeybindUtil.isPressed(mc.options.backKey) ||
-                KeybindUtil.isPressed(mc.options.leftKey) ||
-                KeybindUtil.isPressed(mc.options.rightKey) ||
-                KeybindUtil.isPressed(mc.options.jumpKey) ||
-                KeybindUtil.isPressed(mc.options.sneakKey);
+        return KeybindUtil.isPressed(mc.options.keyUp) ||
+                KeybindUtil.isPressed(mc.options.keyDown) ||
+                KeybindUtil.isPressed(mc.options.keyLeft) ||
+                KeybindUtil.isPressed(mc.options.keyRight) ||
+                KeybindUtil.isPressed(mc.options.keyJump) ||
+                KeybindUtil.isPressed(mc.options.keyShift);
     }
 }

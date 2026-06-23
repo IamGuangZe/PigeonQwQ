@@ -1,6 +1,6 @@
 package owo.pigeon.modules.impl.client;
 
-import net.minecraft.client.util.InputUtil;
+import com.mojang.blaze3d.platform.InputConstants;
 import owo.pigeon.Pigeon;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -11,7 +11,7 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ClickGui extends Module {
     public ClickGui() {
-        super("ClickGui", Category.CLIENT, InputUtil.GLFW_KEY_RIGHT_SHIFT);
+        super("ClickGui", Category.CLIENT, InputConstants.KEY_RSHIFT);
     }
 
     public enum Background {
@@ -23,7 +23,7 @@ public class ClickGui extends Module {
 
     @Override
     public void enable() {
-        if (mc.currentScreen == null) {
+        if (mc.screen == null) {
             Pigeon.clickGuiScreen.setParentScreen(null);
             mc.setScreen(Pigeon.clickGuiScreen);
         }

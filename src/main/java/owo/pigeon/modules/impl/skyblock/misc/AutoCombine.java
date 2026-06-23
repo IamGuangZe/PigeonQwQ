@@ -1,18 +1,18 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.PacketEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.mixin.accessors.IAccessorHandledScreen;
+import owo.pigeon.mixin.accessors.IAccessorAbstractContainerScreen;
 import owo.pigeon.mixin.accessors.IAccessorScreen;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -45,8 +45,8 @@ public class AutoCombine extends Module {
     public ListSetting anvilCombineList = setting("anvil-combine-list", DefaultAnvilList, v -> true);
     public ListSetting runeCombineList = setting("rune-combine-list", DefaultRuneList, v -> true);
 
-    private GenericContainerScreen lastScreen;
-    private ButtonWidget button;
+    private ContainerScreen lastScreen;
+    private Button button;
     private boolean combining;
     private long lastAction;
     private CombineMode mode = CombineMode.NONE;
@@ -57,7 +57,7 @@ public class AutoCombine extends Module {
 
     @Handler
     public void onRenderContainer(RenderEvent.RenderContainerEvent event) {
-        if (!(event.getScreen() instanceof GenericContainerScreen screen)) {
+        if (!(event.getScreen() instanceof ContainerScreen screen)) {
             button = null;
             lastScreen = null;
             combining = false;
@@ -76,7 +76,7 @@ public class AutoCombine extends Module {
             return;
         }
 
-        GenericContainerScreenHandler container = event.getContainer();
+        ChestMenu container = event.getContainer();
         if (container == null) return;
 
         if (lastScreen != screen) {
@@ -85,19 +85,19 @@ public class AutoCombine extends Module {
         }
         mode = currentMode;
 
-        IAccessorHandledScreen handled = (IAccessorHandledScreen) screen;
+        IAccessorAbstractContainerScreen handled = (IAccessorAbstractContainerScreen) screen;
         IAccessorScreen accessor = (IAccessorScreen) screen;
 
-        int x = handled.pigeon$getX() + handled.pigeon$getBackgroundWidth() + 5;
-        int y = handled.pigeon$getY();
+        int x = handled.pigeon$getLeftPos() + handled.pigeon$getImageWidth() + 5;
+        int y = handled.pigeon$getTopPos();
 
         if (button == null) {
-            button = ButtonWidget.builder(Text.of("Combine"), btn -> {
+            button = Button.builder(Component.nullToEmpty("Combine"), btn -> {
                         combining = !combining;
                         lastAction = System.currentTimeMillis();
                         btn.setFocused(false);
                     })
-                    .dimensions(x, y, 85, 20)
+                    .bounds(x, y, 85, 20)
                     .build();
 
             if (!accessor.pigeon$getChildren().contains(button)) {
@@ -120,7 +120,7 @@ public class AutoCombine extends Module {
 
     @Handler
     public void onPacketSend(PacketEvent.SendPacketEvent event) {
-        if (event.getPacket() instanceof CloseHandledScreenC2SPacket) {
+        if (event.getPacket() instanceof ServerboundContainerClosePacket) {
             combining = false;
             mode = CombineMode.NONE;
         }
@@ -132,24 +132,24 @@ public class AutoCombine extends Module {
         return CombineMode.NONE;
     }
 
-    private void processAnvil(GenericContainerScreenHandler container) {
+    private void processAnvil(ChestMenu container) {
         long now = System.currentTimeMillis();
         if (now - lastAction < delay.getValue()) return;
 
-        ItemStack result = container.getSlot(13).getStack();
-        ItemStack left = container.getSlot(29).getStack();
-        ItemStack right = container.getSlot(33).getStack();
+        ItemStack result = container.getSlot(13).getItem();
+        ItemStack left = container.getSlot(29).getItem();
+        ItemStack right = container.getSlot(33).getItem();
 
         lastAction = now;
 
-        if (!result.isOf(Items.BARRIER) && left.isEmpty() && right.isEmpty()) {
-            PlayerUtil.clickSlot(container.syncId, 13, 0, SlotActionType.QUICK_MOVE);
+        if (!result.is(Items.BARRIER) && left.isEmpty() && right.isEmpty()) {
+            PlayerUtil.clickSlot(container.containerId, 13, 0, ClickType.QUICK_MOVE);
             return;
         }
 
         if (!left.isEmpty() && !right.isEmpty()) {
-            if (!result.isOf(Items.BARRIER)) {
-                PlayerUtil.clickSlot(container.syncId, 22, 0, SlotActionType.PICKUP);
+            if (!result.is(Items.BARRIER)) {
+                PlayerUtil.clickSlot(container.containerId, 22, 0, ClickType.PICKUP);
             } else {
                 combining = false;
             }
@@ -166,27 +166,27 @@ public class AutoCombine extends Module {
             return;
         }
 
-        PlayerUtil.clickSlot(container.syncId, slot, 0, SlotActionType.QUICK_MOVE);
+        PlayerUtil.clickSlot(container.containerId, slot, 0, ClickType.QUICK_MOVE);
     }
 
-    private void processPedestal(GenericContainerScreenHandler container) {
+    private void processPedestal(ChestMenu container) {
         long now = System.currentTimeMillis();
         if (now - lastAction < delay.getValue()) return;
 
-        ItemStack output = container.getSlot(31).getStack();
-        ItemStack left = container.getSlot(19).getStack();
-        ItemStack right = container.getSlot(25).getStack();
+        ItemStack output = container.getSlot(31).getItem();
+        ItemStack left = container.getSlot(19).getItem();
+        ItemStack right = container.getSlot(25).getItem();
 
         lastAction = now;
 
-        if (!output.isOf(Items.BARRIER) && !output.isEmpty() && left.isEmpty() && right.isEmpty()) {
-            PlayerUtil.clickSlot(container.syncId, 31, 0, SlotActionType.QUICK_MOVE);
+        if (!output.is(Items.BARRIER) && !output.isEmpty() && left.isEmpty() && right.isEmpty()) {
+            PlayerUtil.clickSlot(container.containerId, 31, 0, ClickType.QUICK_MOVE);
             return;
         }
 
         if (!left.isEmpty() && !right.isEmpty()) {
-            if (!output.isOf(Items.BARRIER) && !output.isEmpty()) {
-                PlayerUtil.clickSlot(container.syncId, 13, 0, SlotActionType.PICKUP);
+            if (!output.is(Items.BARRIER) && !output.isEmpty()) {
+                PlayerUtil.clickSlot(container.containerId, 13, 0, ClickType.PICKUP);
             }
             return;
         }
@@ -202,13 +202,13 @@ public class AutoCombine extends Module {
             return;
         }
 
-        PlayerUtil.clickSlot(container.syncId, slot, 0, SlotActionType.QUICK_MOVE);
+        PlayerUtil.clickSlot(container.containerId, slot, 0, ClickType.QUICK_MOVE);
     }
 
-    private int findAnvilPair(GenericContainerScreenHandler container) {
+    private int findAnvilPair(ChestMenu container) {
         Map<String, Integer> seen = new HashMap<>();
         for (int i = container.slots.size() - 36; i < container.slots.size(); i++) {
-            ItemStack stack = container.getSlot(i).getStack();
+            ItemStack stack = container.getSlot(i).getItem();
             if (!isValidBook(stack)) continue;
             for (String key : getEnchantKeys(stack)) {
                 if (!anvilCombineList.getValue().contains(key)) continue;
@@ -219,21 +219,21 @@ public class AutoCombine extends Module {
         return -1;
     }
 
-    private int findAnvilMatch(GenericContainerScreenHandler container, ItemStack target) {
+    private int findAnvilMatch(ChestMenu container, ItemStack target) {
         Set<String> targetKeys = getEnchantKeys(target);
         if (targetKeys.isEmpty()) return -1;
         for (int i = container.slots.size() - 36; i < container.slots.size(); i++) {
-            ItemStack stack = container.getSlot(i).getStack();
+            ItemStack stack = container.getSlot(i).getItem();
             if (!isValidBook(stack)) continue;
             if (getEnchantKeys(stack).stream().anyMatch(targetKeys::contains)) return i;
         }
         return -1;
     }
 
-    private int findRunePair(GenericContainerScreenHandler container) {
+    private int findRunePair(ChestMenu container) {
         Map<String, Integer> seen = new HashMap<>();
         for (int i = container.slots.size() - 36; i < container.slots.size(); i++) {
-            ItemStack stack = container.getSlot(i).getStack();
+            ItemStack stack = container.getSlot(i).getItem();
             if (!isValidRune(stack)) continue;
             for (String key : getRuneKeys(stack)) {
                 if (!runeCombineList.getValue().contains(key)) continue;
@@ -245,11 +245,11 @@ public class AutoCombine extends Module {
         return -1;
     }
 
-    private int findRuneMatch(GenericContainerScreenHandler container, ItemStack target) {
+    private int findRuneMatch(ChestMenu container, ItemStack target) {
         Set<String> targetKeys = getRuneKeys(target);
         if (targetKeys.isEmpty()) return -1;
         for (int i = container.slots.size() - 36; i < container.slots.size(); i++) {
-            ItemStack stack = container.getSlot(i).getStack();
+            ItemStack stack = container.getSlot(i).getItem();
             if (!isValidRune(stack)) continue;
             if (getRuneKeys(stack).stream().anyMatch(targetKeys::contains)) return i;
         }
@@ -258,7 +258,7 @@ public class AutoCombine extends Module {
 
     public boolean isValidBook(ItemStack stack) {
         return !stack.isEmpty()
-                && stack.hasGlint()
+                && stack.hasFoil()
                 && "ENCHANTED_BOOK".equals(ItemUtil.getCustomDataValue(stack, "id", ItemUtil.STRING_EXTRACTOR));
     }
 
@@ -268,9 +268,9 @@ public class AutoCombine extends Module {
     }
 
     public Set<String> getEnchantKeys(ItemStack stack) {
-        NbtCompound enchants = ItemUtil.getCustomDataValue(stack, "enchantments", ItemUtil.COMPOUND_EXTRACTOR);
+        CompoundTag enchants = ItemUtil.getCustomDataValue(stack, "enchantments", ItemUtil.COMPOUND_EXTRACTOR);
         if (enchants == null) return Collections.emptySet();
-        return enchants.getKeys().stream()
+        return enchants.keySet().stream()
                 .map(key -> enchants.getInt(key)
                         .map(level -> key + ":" + level)
                         .orElse(null))
@@ -279,9 +279,9 @@ public class AutoCombine extends Module {
     }
 
     public Set<String> getRuneKeys(ItemStack stack) {
-        NbtCompound runes = ItemUtil.getCustomDataValue(stack, "runes", ItemUtil.COMPOUND_EXTRACTOR);
+        CompoundTag runes = ItemUtil.getCustomDataValue(stack, "runes", ItemUtil.COMPOUND_EXTRACTOR);
         if (runes == null) return Collections.emptySet();
-        return runes.getKeys().stream()
+        return runes.keySet().stream()
                 .map(key -> runes.getInt(key)
                         .map(level -> key + ":" + level)
                         .orElse(null))

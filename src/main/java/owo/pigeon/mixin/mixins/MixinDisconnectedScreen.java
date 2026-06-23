@@ -1,13 +1,13 @@
 package owo.pigeon.mixin.mixins;
 
-import net.minecraft.client.gui.screen.DisconnectedScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.screens.ConnectScreen;
+import net.minecraft.client.gui.screens.DisconnectedScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,38 +22,38 @@ import static owo.pigeon.Pigeon.mc;
 
 @Mixin(DisconnectedScreen.class)
 public abstract class MixinDisconnectedScreen extends Screen {
-    protected MixinDisconnectedScreen(Text title) {
+    protected MixinDisconnectedScreen(Component title) {
         super(title);
     }
 
     @Shadow
     @Final
-    private DirectionalLayoutWidget grid;
+    private LinearLayout layout;
     @Unique
-    private ButtonWidget reconnectButton;
+    private Button reconnectButton;
     @Unique
-    private ButtonWidget autoReconnectButton;
+    private Button autoReconnectButton;
 
     @Unique
     private double reconnectTicks;
 
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/DirectionalLayoutWidget;refreshPositions()V", shift = At.Shift.BEFORE))
+    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/LinearLayout;arrangeElements()V", shift = At.Shift.BEFORE))
     private void onInit(CallbackInfo ci) {
         AutoReconnect autoReconnect = ModuleUtil.getModule(AutoReconnect.class);
 
         if (autoReconnect.address == null) return;
         reconnectTicks = autoReconnect.delay.getValue() / 50.0;
 
-        reconnectButton = new ButtonWidget.Builder(Text.literal(reconnectLabel()), button -> reconnect()).width(200).build();
-        grid.add(reconnectButton);
+        reconnectButton = new Button.Builder(Component.literal(reconnectLabel()), button -> reconnect()).width(200).build();
+        layout.addChild(reconnectButton);
 
-        autoReconnectButton = new ButtonWidget.Builder(Text.literal(autoReconnectLabel()), button -> {
+        autoReconnectButton = new Button.Builder(Component.literal(autoReconnectLabel()), button -> {
             ModuleUtil.toggleModule(AutoReconnect.class);
-            reconnectButton.setMessage(Text.literal(reconnectLabel()));
-            autoReconnectButton.setMessage(Text.literal(autoReconnectLabel()));
+            reconnectButton.setMessage(Component.literal(reconnectLabel()));
+            autoReconnectButton.setMessage(Component.literal(autoReconnectLabel()));
             reconnectTicks = autoReconnect.delay.getValue() / 50.0;
         }).width(200).build();
-        grid.add(autoReconnectButton);
+        layout.addChild(autoReconnectButton);
     }
 
     @Override
@@ -65,7 +65,7 @@ public abstract class MixinDisconnectedScreen extends Screen {
             reconnect();
         } else {
             reconnectTicks--;
-            if (reconnectButton != null) reconnectButton.setMessage(Text.literal(reconnectLabel()));
+            if (reconnectButton != null) reconnectButton.setMessage(Component.literal(reconnectLabel()));
         }
     }
 
@@ -84,8 +84,8 @@ public abstract class MixinDisconnectedScreen extends Screen {
     @Unique
     private void reconnect() {
         AutoReconnect autoReconnect = ModuleUtil.getModule(AutoReconnect.class);
-        ConnectScreen.connect(
-                new MultiplayerScreen(new TitleScreen()),
+        ConnectScreen.startConnecting(
+                new JoinMultiplayerScreen(new TitleScreen()),
                 mc,
                 autoReconnect.address,
                 autoReconnect.info,

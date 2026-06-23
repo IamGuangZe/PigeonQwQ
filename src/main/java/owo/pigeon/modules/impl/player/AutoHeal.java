@@ -1,10 +1,10 @@
 package owo.pigeon.modules.impl.player;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.world.GameMode;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameType;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -58,7 +58,7 @@ public class AutoHeal extends Module {
             int slot = ItemUtil.getSlotFromItemName("First-Aid Egg", true);
             if (slot != -1) {
                 ItemStack itemStack = ItemUtil.getItemStackfromSlot(slot);
-                if (itemStack.isOf(Items.MOOSHROOM_SPAWN_EGG)) healingItemSlot = slot;
+                if (itemStack.is(Items.MOOSHROOM_SPAWN_EGG)) healingItemSlot = slot;
             }
         }
         if (fracturedSoul.getValue()) {
@@ -77,7 +77,7 @@ public class AutoHeal extends Module {
 
         if (d_tick <= 0) {
             if (mc.player.getHealth() < health.getValue() &&
-                    mc.interactionManager.getCurrentGameMode() != GameMode.CREATIVE &&
+                    mc.gameMode.getPlayerMode() != GameType.CREATIVE &&
                     !hasAbsorption() &&
                     !hasRegen() &&
                     healingItemSlot != -1
@@ -106,6 +106,6 @@ public class AutoHeal extends Module {
     }
 
     private boolean hasRegen() {
-        return regenerationCheck.getValue() && mc.player.hasStatusEffect(StatusEffects.REGENERATION);
+        return regenerationCheck.getValue() && mc.player.hasEffect(MobEffects.REGENERATION);
     }
 }

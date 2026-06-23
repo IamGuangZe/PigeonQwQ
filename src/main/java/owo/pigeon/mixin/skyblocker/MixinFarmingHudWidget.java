@@ -3,11 +3,11 @@ package owo.pigeon.mixin.skyblocker;
 import de.hysky.skyblocker.skyblock.garden.FarmingHudWidget;
 import de.hysky.skyblocker.skyblock.tabhud.widget.element.Element;
 import de.hysky.skyblocker.skyblock.tabhud.widget.element.PlainTextElement;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,15 +38,15 @@ public class MixinFarmingHudWidget {
         Object lastElement = elements.get(elements.size() - 1);
         if (!(lastElement instanceof PlainTextElement)) return;
 
-        List<Text> lines = ((IAccessorPlainTextElement) lastElement).pigeon$getLines();
+        List<Component> lines = ((IAccessorPlainTextElement) lastElement).pigeon$getLines();
         if (lines.isEmpty()) return;
 
-        Text firstLine = lines.getFirst();
-        if (firstLine instanceof MutableText mutableText) {
-            lines.set(0, mutableText.append(Text.literal(" (From PigeonQwQ)").formatted(Formatting.GRAY)));
+        Component firstLine = lines.getFirst();
+        if (firstLine instanceof MutableComponent mutableText) {
+            lines.set(0, mutableText.append(Component.literal(" (From PigeonQwQ)").withStyle(ChatFormatting.GRAY)));
 
-            TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
-            int maxWidth = lines.stream().mapToInt(renderer::getWidth).max().orElse(0);
+            Font renderer = Minecraft.getInstance().font;
+            int maxWidth = lines.stream().mapToInt(renderer::width).max().orElse(0);
             ((IAccessorElementWidth) lastElement).pigeon$setWidth(2 + maxWidth);
         }
     }

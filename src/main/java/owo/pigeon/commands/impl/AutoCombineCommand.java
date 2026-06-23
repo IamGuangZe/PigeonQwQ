@@ -1,6 +1,6 @@
 package owo.pigeon.commands.impl;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import owo.pigeon.commands.Command;
 import owo.pigeon.modules.impl.skyblock.misc.AutoCombine;
 import owo.pigeon.settings.ListSetting;
@@ -97,7 +97,7 @@ public class AutoCombineCommand extends Command {
 
     private String getHeldKey(AutoCombine autoCombine, boolean isEnchant) {
         if (mc.player == null) return null;
-        ItemStack heldStack = mc.player.getMainHandStack();
+        ItemStack heldStack = mc.player.getMainHandItem();
         if (heldStack.isEmpty()) return null;
 
         if (isEnchant) {

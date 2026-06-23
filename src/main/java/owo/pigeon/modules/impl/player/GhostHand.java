@@ -1,6 +1,6 @@
 package owo.pigeon.modules.impl.player;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -19,7 +19,7 @@ public class GhostHand extends Module {
 
 
     public boolean shouldIgnore(Object input) {
-        if (input instanceof PlayerEntity player && players.getValue()) {
+        if (input instanceof Player player && players.getValue()) {
             return PlayerUtil.hasUUID(player);
         }
 

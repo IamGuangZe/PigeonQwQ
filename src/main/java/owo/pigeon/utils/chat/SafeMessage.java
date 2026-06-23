@@ -1,7 +1,7 @@
 package owo.pigeon.utils.chat;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import owo.pigeon.event.events.ClientTickEvent;
 
 import java.util.ArrayList;
@@ -10,12 +10,12 @@ import java.util.List;
 import static owo.pigeon.Pigeon.mc;
 
 public class SafeMessage {
-    public static List<Text> messages = new ArrayList<>();
+    public static List<Component> messages = new ArrayList<>();
 
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {
-        if (mc.inGameHud == null || mc.inGameHud.getChatHud() == null || messages.isEmpty()) return;
-        for (Text message : messages) mc.inGameHud.getChatHud().addMessage(message);
+        if (mc.gui == null || mc.gui.getChat() == null || messages.isEmpty()) return;
+        for (Component message : messages) mc.gui.getChat().addMessage(message);
         messages.clear();
     }
 }

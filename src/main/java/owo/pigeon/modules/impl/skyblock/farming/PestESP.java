@@ -1,14 +1,14 @@
 package owo.pigeon.modules.impl.skyblock.farming;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.decoration.DisplayEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.Box;
+import net.minecraft.world.entity.Display;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.AABB;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -43,20 +43,20 @@ public class PestESP extends Module {
         if (!inGarden && !(hubRat.getValue() && inHub)) return;
 
         if (onlyHoldVacuum.getValue()) {
-            ItemStack heldItem = mc.player.getMainHandStack();
+            ItemStack heldItem = mc.player.getMainHandItem();
             if (heldItem.isEmpty()) return;
 
-            String name = ColorUtil.removeColor(heldItem.getName().getString());
+            String name = ColorUtil.removeColor(heldItem.getHoverName().getString());
             if (!name.contains("Vacuum")) return;
         }
 
-        for (Entity entity : mc.world.getEntities()) {
+        for (Entity entity : mc.level.entitiesForRendering()) {
             if (inHub) {
-                if (!(entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay)) continue;
+                if (!(entity instanceof Display.ItemDisplay itemDisplay)) continue;
                 if (!SkyblockUtil.RAT.equals(getSkullTexture(itemDisplay))) continue;
 
             } else if (inGarden) {
-                if (!(entity instanceof ArmorStandEntity stand)) continue;
+                if (!(entity instanceof ArmorStand stand)) continue;
 
                 String texture = getSkullTexture(stand);
                 if (texture == null || !SkyblockUtil.PESTS.contains(texture)) continue;
@@ -69,44 +69,44 @@ public class PestESP extends Module {
                 }
             }
 
-            Box box = entity.getBoundingBox();
-            if (inHub) box = box.expand(0.4).offset(0.0, 0.275, 0.0);
+            AABB box = entity.getBoundingBox();
+            if (inHub) box = box.inflate(0.4).move(0.0, 0.275, 0.0);
             else if (inGarden) box = getGardenPestBox(box);
 
             RenderUtil.drawESP(event.getMatrix(), entity, box, color.getValue(), mode.getValue(), tracer.getValue());
         }
     }
 
-    private Box getGardenPestBox(Box box) {
+    private AABB getGardenPestBox(AABB box) {
         double size = 0.8d;
         double x = (box.minX + box.maxX) / 2.0;
         double y = box.maxY - size / 2;
         double z = (box.minZ + box.maxZ) / 2.0;
 
-        return new Box(x, y, z, x, y, z).expand(size / 2).offset(0.0, 0.175, 0.0);
+        return new AABB(x, y, z, x, y, z).inflate(size / 2).move(0.0, 0.175, 0.0);
     }
 
     private String getSkullTexture(Entity entity) {
         ItemStack stack;
-        if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay) {
+        if (entity instanceof Display.ItemDisplay itemDisplay) {
             stack = itemDisplay.getItemStack();
         } else if (entity instanceof LivingEntity livingEntity) {
-            stack = livingEntity.getEquippedStack(EquipmentSlot.HEAD);
+            stack = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
         } else {
             return null;
         }
 
-        if (stack.isEmpty() || !stack.isOf(Items.PLAYER_HEAD)) return null;
+        if (stack.isEmpty() || !stack.is(Items.PLAYER_HEAD)) return null;
         return ItemUtil.getSkullTexture(stack);
     }
 
     private Entity findClosestTail(Entity entity) {
         Entity closest = null;
         double closestDistance = Double.MAX_VALUE;
-        Box box = entity.getBoundingBox().expand(0.5);
+        AABB box = entity.getBoundingBox().inflate(0.5);
 
-        for (Entity nearbyEntity : mc.world.getOtherEntities(entity, box)) {
-            if (!(nearbyEntity instanceof ArmorStandEntity)) continue;
+        for (Entity nearbyEntity : mc.level.getEntities(entity, box)) {
+            if (!(nearbyEntity instanceof ArmorStand)) continue;
             if (!SkyblockUtil.EARTHWORM_TAIL.equals(getSkullTexture(nearbyEntity))) continue;
 
             double dist = entity.distanceTo(nearbyEntity);

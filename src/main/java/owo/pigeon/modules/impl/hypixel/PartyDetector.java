@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.hypixel;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.event.events.WorldChangeEvent;
@@ -53,7 +53,7 @@ public class PartyDetector extends Module {
 
             Set<String> currentPlayers = new HashSet<>();
 
-            for (AbstractClientPlayerEntity player : mc.world.getPlayers()) {
+            for (AbstractClientPlayer player : mc.level.players()) {
                 if (PlayerUtil.hasUUID(player))
                     currentPlayers.add(player.getName().getString());
             }

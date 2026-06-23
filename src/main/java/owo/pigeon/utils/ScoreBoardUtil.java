@@ -1,10 +1,10 @@
 package owo.pigeon.utils;
 
-import net.minecraft.client.gui.hud.PlayerListHud;
-import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.scoreboard.*;
-import net.minecraft.text.Text;
-import owo.pigeon.mixin.accessors.IAccessorPlayerListHud;
+import net.minecraft.client.gui.components.PlayerTabOverlay;
+import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.scores.*;
+import owo.pigeon.mixin.accessors.IAccessorPlayerTabOverlay;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -14,31 +14,31 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ScoreBoardUtil {
     public static String getSidebarTitle() {
-        if (mc.world == null) return null;
+        if (mc.level == null) return null;
 
-        Scoreboard scoreboard = mc.world.getScoreboard();
-        ScoreboardObjective sidebarObjective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.SIDEBAR); // 1 = SIDEBAR
+        Scoreboard scoreboard = mc.level.getScoreboard();
+        Objective sidebarObjective = scoreboard.getDisplayObjective(DisplaySlot.SIDEBAR); // 1 = SIDEBAR
         if (sidebarObjective != null) return sidebarObjective.getDisplayName().getString();
 
         return null;
     }
 
     public static List<String> getSidebarLines() {
-        if (mc.world == null) return List.of();
+        if (mc.level == null) return List.of();
 
-        Scoreboard scoreboard = mc.world.getScoreboard();
-        ScoreboardObjective sidebarObjective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.SIDEBAR);
+        Scoreboard scoreboard = mc.level.getScoreboard();
+        Objective sidebarObjective = scoreboard.getDisplayObjective(DisplaySlot.SIDEBAR);
         if (sidebarObjective == null) return List.of();
 
-        Collection<ScoreboardEntry> entries = scoreboard.getScoreboardEntries(sidebarObjective);
+        Collection<PlayerScoreEntry> entries = scoreboard.listPlayerScores(sidebarObjective);
         return entries.stream()
-                .filter(entry -> !entry.hidden())
-                .sorted(Comparator.comparingInt(ScoreboardEntry::value).reversed())
+                .filter(entry -> !entry.isHidden())
+                .sorted(Comparator.comparingInt(PlayerScoreEntry::value).reversed())
                 .map(entry -> {
                     String owner = entry.owner();
-                    Text baseName = entry.name();
-                    Team team = scoreboard.getScoreHolderTeam(owner);
-                    Text fullText = (team != null) ? team.decorateName(baseName) : baseName;
+                    Component baseName = entry.ownerName();
+                    PlayerTeam team = scoreboard.getPlayersTeam(owner);
+                    Component fullText = (team != null) ? team.getFormattedName(baseName) : baseName;
                     return fullText.getString();
                 })
                 .toList();
@@ -57,26 +57,26 @@ public class ScoreBoardUtil {
     }
 
     public static String getTabHeader() {
-        if (mc.inGameHud == null || mc.inGameHud.getPlayerListHud() == null) return null;
-        Text header = ((IAccessorPlayerListHud) mc.inGameHud.getPlayerListHud()).pigeon$getHeader();
+        if (mc.gui == null || mc.gui.getTabList() == null) return null;
+        Component header = ((IAccessorPlayerTabOverlay) mc.gui.getTabList()).pigeon$getHeader();
         return header == null ? null : header.getString();
     }
 
     public static String getTabFooter() {
-        if (mc.inGameHud == null || mc.inGameHud.getPlayerListHud() == null) return null;
-        Text footer = ((IAccessorPlayerListHud) mc.inGameHud.getPlayerListHud()).pigeon$getFooter();
+        if (mc.gui == null || mc.gui.getTabList() == null) return null;
+        Component footer = ((IAccessorPlayerTabOverlay) mc.gui.getTabList()).pigeon$getFooter();
         return footer == null ? null : footer.getString();
     }
 
     public static List<String> getTabLines() {
-        if (mc.getNetworkHandler() == null || mc.inGameHud == null || mc.inGameHud.getPlayerListHud() == null)
+        if (mc.getConnection() == null || mc.gui == null || mc.gui.getTabList() == null)
             return List.of();
 
-        PlayerListHud playerListHud = mc.inGameHud.getPlayerListHud();
+        PlayerTabOverlay playerTabOverlay = mc.gui.getTabList();
 
-        Collection<PlayerListEntry> entries = mc.getNetworkHandler().getPlayerList();
+        Collection<PlayerInfo> entries = mc.getConnection().getOnlinePlayers();
         return entries.stream()
-                .map(entry -> playerListHud.getPlayerName(entry).getString())
+                .map(entry -> playerTabOverlay.getNameForDisplay(entry).getString())
                 .toList();
     }
 }

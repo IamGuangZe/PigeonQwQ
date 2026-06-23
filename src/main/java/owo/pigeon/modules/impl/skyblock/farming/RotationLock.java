@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.skyblock.farming;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -22,7 +22,7 @@ public class RotationLock extends Module {
     public EnableSetting onlyHoldFarmingTool = setting("only-hold-farming-tool", true, v -> true);
 
     public boolean shouldLock() {
-        if (onlyOnGround.getValue() && !mc.player.isOnGround()) {
+        if (onlyOnGround.getValue() && !mc.player.onGround()) {
             return false;
         }
 
@@ -30,12 +30,12 @@ public class RotationLock extends Module {
             return false;
         }
 
-        return !onlyHoldFarmingTool.getValue() || isFarmingTool(mc.player.getMainHandStack());
+        return !onlyHoldFarmingTool.getValue() || isFarmingTool(mc.player.getMainHandItem());
     }
 
     private boolean isFarmingTool(ItemStack stack) {
         if (stack.isEmpty()) return false;
-        List<Text> lore = ItemUtil.getItemLore(stack);
+        List<Component> lore = ItemUtil.getItemLore(stack);
         if (lore.isEmpty()) return false;
         return lore.getLast().getString().contains("FARMING TOOL");
     }

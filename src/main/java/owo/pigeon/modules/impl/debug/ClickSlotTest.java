@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
 import owo.pigeon.event.events.ClickSlotEvent;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
@@ -30,7 +30,7 @@ public class ClickSlotTest extends Module {
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
-        if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler containerScreen) {
+        if (mc.player.containerMenu instanceof ChestMenu containerScreen) {
 
             if (s_delay > 0) {
                 s_delay--;
@@ -40,13 +40,13 @@ public class ClickSlotTest extends Module {
                 p_delay--;
             }
 
-            int size = containerScreen.getInventory().size();
+            int size = containerScreen.getContainer().getContainerSize();
 
             if (p_delay <= 0) {
                 for (int i = 0; i < size; i++) {
-                    if (containerScreen.getSlot(i).getStack().isEmpty()) continue;
+                    if (containerScreen.getSlot(i).getItem().isEmpty()) continue;
 
-                    PlayerUtil.clickSlot(containerScreen.syncId, i, 0, SlotActionType.QUICK_MOVE);
+                    PlayerUtil.clickSlot(containerScreen.containerId, i, 0, ClickType.QUICK_MOVE);
 
                     if (p_delay != 0) break;
                 }

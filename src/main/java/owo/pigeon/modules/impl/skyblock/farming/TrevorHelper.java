@@ -1,12 +1,12 @@
 package owo.pigeon.modules.impl.skyblock.farming;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Box;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.phys.AABB;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.event.events.RenderEvent;
@@ -40,8 +40,8 @@ public class TrevorHelper extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.FARMING_ISLAND)) return;
 
-        for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof ArmorStandEntity stand)) continue;
+        for (Entity entity : mc.level.entitiesForRendering()) {
+            if (!(entity instanceof ArmorStand stand)) continue;
 
             String name = stand.getName().getString();
 
@@ -51,18 +51,18 @@ public class TrevorHelper extends Module {
                     !name.contains("Endangered") &&
                     !name.contains("Elusive")) continue;
 
-            Box box = stand.getBoundingBox().offset(0.0D, -0.75D, 0.0D);
+            AABB box = stand.getBoundingBox().move(0.0D, -0.75D, 0.0D);
 
             if (Pigeon.isDebug()) {
-                RenderUtil.drawESP(event.getMatrix(), stand, stand.getBoundingBox().expand(0.2), Color.GREEN, RenderUtil.ESPMode.BOTH, false);
-                RenderUtil.drawESP(event.getMatrix(), stand, box.expand(0.2), Color.BLUE, RenderUtil.ESPMode.BOTH, false);
+                RenderUtil.drawESP(event.getMatrix(), stand, stand.getBoundingBox().inflate(0.2), Color.GREEN, RenderUtil.ESPMode.BOTH, false);
+                RenderUtil.drawESP(event.getMatrix(), stand, box.inflate(0.2), Color.BLUE, RenderUtil.ESPMode.BOTH, false);
             }
 
             Entity closestAnimal = null;
             double closestDistance = Double.MAX_VALUE;
 
-            for (Entity e : mc.world.getOtherEntities(stand, box)) {
-                if (!(e instanceof AnimalEntity animal)) continue;
+            for (Entity e : mc.level.getEntities(stand, box)) {
+                if (!(e instanceof Animal animal)) continue;
 
                 double dist = stand.distanceTo(e);
                 if (dist < closestDistance) {
@@ -82,21 +82,21 @@ public class TrevorHelper extends Module {
         if (event.isOverlay()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.FARMING_ISLAND)) return;
 
-        Text messageText = event.getMessage();
+        Component messageText = event.getMessage();
         String message = ColorUtil.removeColor(messageText.getString());
 
         if (autoWarp.getValue() && (message.contains("Return to the Trapper soon") || message.contains("The animal saw you and disappeared!"))) {
-            mc.execute(() -> mc.player.networkHandler.sendChatMessage("/warp trapper"));
+            mc.execute(() -> mc.player.connection.sendChat("/warp trapper"));
         }
 
         if (autoAccept.getValue() && message.contains("[YES]")) {
-            for (Text sibling : messageText.getSiblings()) {
+            for (Component sibling : messageText.getSiblings()) {
                 if (sibling.getString().contains("[YES]")) {
                     if (sibling.getStyle() != null && sibling.getStyle().getClickEvent() != null) {
                         ClickEvent clickEvent = sibling.getStyle().getClickEvent();
 
                         if (clickEvent instanceof ClickEvent.RunCommand(String command)) {
-                            mc.execute(() -> mc.player.networkHandler.sendChatMessage(command));
+                            mc.execute(() -> mc.player.connection.sendChat(command));
                             ChatUtil.sendDebugMessage(this.name, "Send Command : " + command);
                             break;
                         }

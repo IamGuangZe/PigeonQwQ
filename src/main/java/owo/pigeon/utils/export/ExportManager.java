@@ -2,11 +2,11 @@ package owo.pigeon.utils.export;
 
 import com.google.gson.JsonObject;
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.RegexUtil;
@@ -54,7 +54,7 @@ public class ExportManager {
             case HUNTING_BOX -> {
                 shardData.clear();
                 lastProcessedSyncId = -1;
-                mc.player.networkHandler.sendChatMessage("/huntingbox");
+                mc.player.connection.sendChat("/huntingbox");
             }
 
             case null, default -> {
@@ -70,8 +70,8 @@ public class ExportManager {
     public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck() || currentTask == ExportTask.NONE) return;
 
-        if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler container) {
-            String title = mc.currentScreen.getTitle().getString();
+        if (mc.player.containerMenu instanceof ChestMenu container) {
+            String title = mc.screen.getTitle().getString();
 
             switch (currentTask) {
                 case HUNTING_BOX -> {
@@ -83,16 +83,16 @@ public class ExportManager {
                     }
 
 
-                    if (container.syncId == lastProcessedSyncId) return;
-                    if (!container.getSlot(49).getStack().isOf(Items.BARRIER)) return;
+                    if (container.containerId == lastProcessedSyncId) return;
+                    if (!container.getSlot(49).getItem().is(Items.BARRIER)) return;
 
                     for (int r = 1; r <= 3; r++) {
                         for (int c = 1; c <= 7; c++) {
                             int slotId = r * 9 + c;
-                            ItemStack stack = container.getSlot(slotId).getStack();
+                            ItemStack stack = container.getSlot(slotId).getItem();
                             if (stack.isEmpty()) continue;
 
-                            String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
+                            String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Component::getString).toList());
                             String amountStr = RegexUtil.regexGetPart("Owned: (\\d+)", lore, 1);
                             String idStr = RegexUtil.regexGetPart("ID ([A-Z]\\d+)", lore, 1);
                             ChatUtil.sendDebugMessage("ExportManager", "slot: " + slotId + ", ID: " + idStr + ", amount: " + amountStr);
@@ -101,11 +101,11 @@ public class ExportManager {
                         }
                     }
 
-                    lastProcessedSyncId = container.syncId;
+                    lastProcessedSyncId = container.containerId;
 
-                    if (container.getSlot(53).getStack().isOf(Items.ARROW)) {
+                    if (container.getSlot(53).getItem().is(Items.ARROW)) {
                         ChatUtil.sendDebugMessage("ExportManager", "Hunting box: next page");
-                        PlayerUtil.clickSlot(container.syncId, 53, 0, SlotActionType.PICKUP);
+                        PlayerUtil.clickSlot(container.containerId, 53, 0, ClickType.PICKUP);
                     } else {
                         ChatUtil.sendDebugMessage("ExportManager", "Hunting box: done");
                         if (shardData.isEmpty()) {
@@ -113,13 +113,13 @@ public class ExportManager {
                         } else {
                             JsonObject root = new JsonObject();
                             root.add("hunting_box", GSON.toJsonTree(shardData));
-                            mc.keyboard.setClipboard(GSON.toJson(root));
+                            mc.keyboardHandler.setClipboard(GSON.toJson(root));
                             ChatUtil.sendMessage("Export", "Hunting box data has been exported to the clipboard!");
                         }
 
                         lastProcessedSyncId = -1;
                         currentTask = ExportTask.NONE;
-                        mc.player.closeHandledScreen();
+                        mc.player.closeContainer();
                     }
                 }
             }

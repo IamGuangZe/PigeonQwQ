@@ -1,9 +1,9 @@
 package owo.pigeon.modules.impl.render;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -31,17 +31,17 @@ public class ChestESP extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.worldRenderer != null) {
-            mc.worldRenderer.reload();
+        if (mc.levelRenderer != null) {
+            mc.levelRenderer.allChanged();
         }
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
         chests.removeIf(pos -> {
-            BlockState state = mc.world.getBlockState(pos);
-            boolean valid = state.isOf(Blocks.CHEST) || state.isOf(Blocks.TRAPPED_CHEST)
-                    || (enderChest.getValue() && state.isOf(Blocks.ENDER_CHEST));
+            BlockState state = mc.level.getBlockState(pos);
+            boolean valid = state.is(Blocks.CHEST) || state.is(Blocks.TRAPPED_CHEST)
+                    || (enderChest.getValue() && state.is(Blocks.ENDER_CHEST));
             return !valid;
         });
 
@@ -53,10 +53,10 @@ public class ChestESP extends Module {
     @Handler
     public void onRenderBlock(RenderEvent.RenderBlockEvent event) {
         BlockState state = event.getState();
-        if (state.isOf(Blocks.CHEST) || state.isOf(Blocks.TRAPPED_CHEST)) {
-            chests.add(event.getPos().toImmutable());
-        } else if (enderChest.getValue() && state.isOf(Blocks.ENDER_CHEST)) {
-            chests.add(event.getPos().toImmutable());
+        if (state.is(Blocks.CHEST) || state.is(Blocks.TRAPPED_CHEST)) {
+            chests.add(event.getPos().immutable());
+        } else if (enderChest.getValue() && state.is(Blocks.ENDER_CHEST)) {
+            chests.add(event.getPos().immutable());
         }
     }
 }

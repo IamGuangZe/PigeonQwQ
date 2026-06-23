@@ -1,6 +1,6 @@
 package owo.pigeon.commands.impl;
 
-import net.minecraft.client.util.InputUtil;
+import com.mojang.blaze3d.platform.InputConstants;
 import owo.pigeon.commands.Command;
 import owo.pigeon.modules.Module;
 import owo.pigeon.modules.ModuleManager;
@@ -48,9 +48,9 @@ public class BindCommand extends Command {
             String keyName = args[1].toLowerCase();
 
             try {
-                keyCode = InputUtil
-                        .fromTranslationKey("key.keyboard." + keyName)
-                        .getCode();
+                keyCode = InputConstants
+                        .getKey("key.keyboard." + keyName)
+                        .getValue();
             } catch (Exception ignored) {
             }
 

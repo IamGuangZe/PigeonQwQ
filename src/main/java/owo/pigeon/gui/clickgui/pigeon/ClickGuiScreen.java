@@ -1,10 +1,10 @@
 package owo.pigeon.gui.clickgui.pigeon;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.network.chat.Component;
 import owo.pigeon.Pigeon;
 import owo.pigeon.gui.clickgui.pigeon.panels.CategoryPanel;
 import owo.pigeon.gui.clickgui.pigeon.panels.ModulePanel;
@@ -12,7 +12,7 @@ import owo.pigeon.gui.clickgui.pigeon.panels.SettingPanel;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.utils.ModuleUtil;
-import owo.pigeon.utils.render.TextRendererUtil;
+import owo.pigeon.utils.render.FontUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class ClickGuiScreen extends Screen {
     private Screen parentScreen = null;
 
     public ClickGuiScreen() {
-        super(Text.literal("ClickGui"));
+        super(Component.literal("ClickGui"));
 
         int x = 5;
         int y = 5;
@@ -40,32 +40,32 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         for (CategoryPanel panel : categoryPanels) {
             panel.drawScreen(context, mouseX, mouseY, delta);
         }
 
-        context.drawTextWithShadow(TextRendererUtil.textRenderer,
+        context.drawString(FontUtil.font,
                 Pigeon.WATERMARK,
-                this.width - TextRendererUtil.textRenderer.getWidth(Pigeon.WATERMARK) - 2,
-                this.height - TextRendererUtil.textRenderer.fontHeight - 2,
+                this.width - FontUtil.font.width(Pigeon.WATERMARK) - 2,
+                this.height - FontUtil.font.lineHeight - 2,
                 Color.WHITE.getRGB());
     }
 
     @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+    public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
         ClickGui clickGui = ModuleUtil.getModule(ClickGui.class);
 
         switch (clickGui.background.getValue()) {
-            case INGAME -> this.renderInGameBackground(context);
-            case PANORAMA -> this.renderPanoramaBackground(context, deltaTicks);
-            case BLUR -> this.applyBlur(context);
-            case DARKENING -> this.renderDarkening(context);
+            case INGAME -> this.renderTransparentBackground(context);
+            case PANORAMA -> this.renderPanorama(context, deltaTicks);
+            case BLUR -> this.renderBlurredBackground(context);
+            case DARKENING -> this.renderMenuBackground(context);
         }
     }
 
     @Override
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         for (int i = categoryPanels.size() - 1; i >= 0; i--) {
             CategoryPanel panel = categoryPanels.get(i);
             if (panel.mouseClicked(click, doubled)) {
@@ -79,7 +79,7 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public boolean mouseReleased(Click click) {
+    public boolean mouseReleased(MouseButtonEvent click) {
         for (CategoryPanel panel : categoryPanels) {
             panel.mouseReleased(click);
         }
@@ -88,7 +88,7 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public boolean mouseDragged(Click click, double offsetX, double offsetY) {
+    public boolean mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
         for (CategoryPanel panel : categoryPanels) {
             panel.mouseDragged(click, offsetX, offsetY);
         }
@@ -108,7 +108,7 @@ public class ClickGuiScreen extends Screen {
 
         int moveAmount = verticalAmount > 0 ? 10 : -10;
 
-        if (mc.isShiftPressed()) {
+        if (mc.hasShiftDown()) {
             for (CategoryPanel categoryPanel : categoryPanels) {
                 categoryPanel.x += moveAmount;
             }
@@ -122,7 +122,7 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(KeyInput input) {
+    public boolean keyPressed(KeyEvent input) {
         boolean waitingForKey = false;
 
         for (CategoryPanel panel : categoryPanels) {
@@ -150,7 +150,7 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         mc.setScreen(this.parentScreen);
     }
 

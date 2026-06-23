@@ -1,9 +1,9 @@
 package owo.pigeon.modules;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 
@@ -27,14 +27,14 @@ public enum Category {
     DEBUG(Items.TEST_INSTANCE_BLOCK);
 
     static {
-        RIFT.icon.set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true);
+        RIFT.icon.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
         ItemUtil.setCustomDataValue(SLAYER.icon, "id", (nbt, k) -> nbt.putString(k, "REVENANT_FLESH"));
     }
 
     private ItemStack icon;
 
     Category(Item item) {
-        this.icon = item.getDefaultStack();
+        this.icon = item.getDefaultInstance();
     }
 
     Category(ItemStack itemStack) {

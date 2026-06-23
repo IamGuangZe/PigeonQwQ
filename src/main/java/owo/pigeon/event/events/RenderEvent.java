@@ -1,11 +1,11 @@
 package owo.pigeon.event.events;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.util.math.BlockPos;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.level.block.state.BlockState;
 import owo.pigeon.event.Event;
 
 public class RenderEvent extends Event {
@@ -14,27 +14,27 @@ public class RenderEvent extends Event {
     }
 
     public static class Render2DEvent extends RenderEvent {
-        protected DrawContext context;
+        protected GuiGraphics context;
 
-        public Render2DEvent(DrawContext context) {
+        public Render2DEvent(GuiGraphics context) {
             this.context = context;
         }
 
-        public DrawContext getContext() {
+        public GuiGraphics getContext() {
             return context;
         }
     }
 
     public static class Render3DEvent extends RenderEvent {
-        protected final MatrixStack matrix;
+        protected final PoseStack matrix;
         protected final float delta;
 
-        public Render3DEvent(MatrixStack matrix, float delta) {
+        public Render3DEvent(PoseStack matrix, float delta) {
             this.matrix = matrix;
             this.delta = delta;
         }
 
-        public MatrixStack getMatrix() {
+        public PoseStack getMatrix() {
             return matrix;
         }
 
@@ -44,13 +44,13 @@ public class RenderEvent extends Event {
     }
 
     public static class RenderContainerEvent extends RenderEvent {
-        private final DrawContext context;
-        private final HandledScreen<?> screen;
+        private final GuiGraphics context;
+        private final AbstractContainerScreen<?> screen;
         private final int mouseX;
         private final int mouseY;
         private final float delta;
 
-        public RenderContainerEvent(HandledScreen<?> screen, DrawContext context, int mouseX, int mouseY, float delta) {
+        public RenderContainerEvent(AbstractContainerScreen<?> screen, GuiGraphics context, int mouseX, int mouseY, float delta) {
             this.screen = screen;
             this.context = context;
             this.mouseX = mouseX;
@@ -58,11 +58,11 @@ public class RenderEvent extends Event {
             this.delta = delta;
         }
 
-        public HandledScreen<?> getScreen() {
+        public AbstractContainerScreen<?> getScreen() {
             return screen;
         }
 
-        public DrawContext getContext() {
+        public GuiGraphics getContext() {
             return context;
         }
 
@@ -78,8 +78,8 @@ public class RenderEvent extends Event {
             return delta;
         }
 
-        public GenericContainerScreenHandler getContainer() {
-            if (screen.getScreenHandler() instanceof GenericContainerScreenHandler container) {
+        public ChestMenu getContainer() {
+            if (screen.getMenu() instanceof ChestMenu container) {
                 return container;
             }
             return null;

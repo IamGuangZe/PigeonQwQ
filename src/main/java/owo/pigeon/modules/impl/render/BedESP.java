@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.render;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -28,14 +28,14 @@ public class BedESP extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.worldRenderer != null) {
-            mc.worldRenderer.reload();
+        if (mc.levelRenderer != null) {
+            mc.levelRenderer.allChanged();
         }
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        beds.removeIf(pos -> !mc.world.getBlockState(pos).isIn(BlockTags.BEDS));
+        beds.removeIf(pos -> !mc.level.getBlockState(pos).is(BlockTags.BEDS));
 
         for (BlockPos pos : beds) {
             RenderUtil.drawESP(event.getMatrix(), pos, color.getValue(), mode.getValue(), false);
@@ -44,8 +44,8 @@ public class BedESP extends Module {
 
     @Handler
     public void onRenderBlock(RenderEvent.RenderBlockEvent event) {
-        if (event.getState().isIn(BlockTags.BEDS)) {
-            beds.add(event.getPos().toImmutable());
+        if (event.getState().is(BlockTags.BEDS)) {
+            beds.add(event.getPos().immutable());
         }
     }
 }

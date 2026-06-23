@@ -1,17 +1,17 @@
 package owo.pigeon.modules.impl.skyblock.event;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.RedstoneLampBlock;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RedstoneLampBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
@@ -65,14 +65,14 @@ public class ZombieShootout extends Module {
 
     private int dartSlot = -1;
     private Object currentTarget;
-    private Vec3d targetAimPos;
+    private Vec3 targetAimPos;
     private final Map<UUID, TargetData> targetDataMap = new HashMap<>();
     private int shotCooldown;
     private UUID skippedTargetId;
 
     private static class TargetData {
-        Vec3d pos1;
-        Vec3d pos2;
+        Vec3 pos1;
+        Vec3 pos2;
         long tick1;
         boolean hasPos1;
         boolean hasPos2;
@@ -98,9 +98,9 @@ public class ZombieShootout extends Module {
         BlockPos litLamp = findLitLamp();
         if (litLamp != null) {
             currentTarget = litLamp;
-            targetAimPos = new Vec3d(litLamp.getX() + 0.5, litLamp.getY() + 0.8, litLamp.getZ() + 0.5);
+            targetAimPos = new Vec3(litLamp.getX() + 0.5, litLamp.getY() + 0.8, litLamp.getZ() + 0.5);
         } else {
-            ZombieEntity bestZombie = findBestZombie();
+            Zombie bestZombie = findBestZombie();
             if (bestZombie != null) {
                 currentTarget = bestZombie;
                 targetAimPos = computeAimPos(bestZombie);
@@ -122,8 +122,8 @@ public class ZombieShootout extends Module {
             shotCooldown = shotInterval.getValue();
 
             if (assumeHit.getValue()) {
-                if (currentTarget instanceof ZombieEntity zombie) {
-                    skippedTargetId = zombie.getUuid();
+                if (currentTarget instanceof Zombie zombie) {
+                    skippedTargetId = zombie.getUUID();
                 } else {
                     skippedTargetId = null;
                 }
@@ -154,9 +154,9 @@ public class ZombieShootout extends Module {
 
     private void findDartSlot() {
         if (dartSlot >= 0) {
-            ItemStack stack = mc.player.getInventory().getStack(dartSlot);
+            ItemStack stack = mc.player.getInventory().getItem(dartSlot);
             if (!stack.isEmpty()) {
-                String name = ColorUtil.removeColor(stack.getName().getString());
+                String name = ColorUtil.removeColor(stack.getHoverName().getString());
                 if (name != null && name.toLowerCase().contains("carnival dart tube")) {
                     if (mc.player.getInventory().getSelectedSlot() != dartSlot) {
                         PlayerUtil.switchItemSlot(dartSlot);
@@ -175,34 +175,34 @@ public class ZombieShootout extends Module {
 
     private BlockPos findLitLamp() {
         for (BlockPos pos : LAMP_POSITIONS) {
-            BlockState state = mc.world.getBlockState(pos);
-            if (state.isOf(Blocks.REDSTONE_LAMP) && state.get(RedstoneLampBlock.LIT)) {
+            BlockState state = mc.level.getBlockState(pos);
+            if (state.is(Blocks.REDSTONE_LAMP) && state.getValue(RedstoneLampBlock.LIT)) {
                 return pos;
             }
         }
         return null;
     }
 
-    private ZombieEntity findBestZombie() {
-        Vec3d playerPos = mc.player.getEyePos();
+    private Zombie findBestZombie() {
+        Vec3 playerPos = mc.player.getEyePosition();
         double radius = 32.0;
-        Box searchBox = new Box(
+        AABB searchBox = new AABB(
                 playerPos.x - radius, playerPos.y - radius, playerPos.z - radius,
                 playerPos.x + radius, playerPos.y + radius, playerPos.z + radius
         );
 
-        List<ZombieEntity> zombies = mc.world.getEntitiesByClass(ZombieEntity.class, searchBox, e -> true);
+        List<Zombie> zombies = mc.level.getEntitiesOfClass(Zombie.class, searchBox, e -> true);
 
-        ZombieEntity best = null;
+        Zombie best = null;
         int bestPriority = -1;
         double bestDist = Double.MAX_VALUE;
 
-        ZombieEntity bestSkipped = null;
+        Zombie bestSkipped = null;
         int bestSkippedPriority = -1;
         double bestSkippedDist = Double.MAX_VALUE;
 
-        for (ZombieEntity zombie : zombies) {
-            ItemStack head = zombie.getEquippedStack(EquipmentSlot.HEAD);
+        for (Zombie zombie : zombies) {
+            ItemStack head = zombie.getItemBySlot(EquipmentSlot.HEAD);
             if (head.isEmpty()) continue;
 
             int priority = helmetPriority(head);
@@ -210,9 +210,9 @@ public class ZombieShootout extends Module {
 
             updateTargetData(zombie);
 
-            double dist = playerPos.distanceTo(zombie.getEyePos());
+            double dist = playerPos.distanceTo(zombie.getEyePosition());
 
-            if (assumeHit.getValue() && zombie.getUuid().equals(skippedTargetId)) {
+            if (assumeHit.getValue() && zombie.getUUID().equals(skippedTargetId)) {
                 if (priority > bestSkippedPriority || (priority == bestSkippedPriority && dist < bestSkippedDist)) {
                     bestSkippedPriority = priority;
                     bestSkippedDist = dist;
@@ -233,18 +233,18 @@ public class ZombieShootout extends Module {
     }
 
     private int helmetPriority(ItemStack stack) {
-        if (stack.isOf(Items.DIAMOND_HELMET)) return 4;
-        if (stack.isOf(Items.GOLDEN_HELMET)) return 3;
-        if (stack.isOf(Items.IRON_HELMET)) return 2;
-        if (stack.isOf(Items.LEATHER_HELMET)) return 1;
+        if (stack.is(Items.DIAMOND_HELMET)) return 4;
+        if (stack.is(Items.GOLDEN_HELMET)) return 3;
+        if (stack.is(Items.IRON_HELMET)) return 2;
+        if (stack.is(Items.LEATHER_HELMET)) return 1;
         return 0;
     }
 
-    private void updateTargetData(ZombieEntity zombie) {
-        UUID uuid = zombie.getUuid();
+    private void updateTargetData(Zombie zombie) {
+        UUID uuid = zombie.getUUID();
         TargetData data = targetDataMap.computeIfAbsent(uuid, k -> new TargetData());
-        Vec3d headPos = zombie.getEyePos().add(0, 0.3, 0);
-        long currentTick = mc.world.getTime();
+        Vec3 headPos = zombie.getEyePosition().add(0, 0.3, 0);
+        long currentTick = mc.level.getGameTime();
         int interval = sampleInterval.getValue();
 
         if (!data.hasPos1) {
@@ -267,21 +267,21 @@ public class ZombieShootout extends Module {
         }
     }
 
-    private Vec3d computeAimPos(ZombieEntity zombie) {
-        UUID uuid = zombie.getUuid();
+    private Vec3 computeAimPos(Zombie zombie) {
+        UUID uuid = zombie.getUUID();
         TargetData data = targetDataMap.get(uuid);
 
         if (data != null && data.hasPos2) {
-            Vec3d movement = data.pos2.subtract(data.pos1);
+            Vec3 movement = data.pos2.subtract(data.pos1);
             double factor = latency.getValue() / 100.0;
-            Vec3d offset = movement.multiply(factor);
+            Vec3 offset = movement.scale(factor);
             return data.pos2.add(offset);
         }
         return null;
     }
 
-    private void smoothAimAt(Vec3d targetPos, RenderEvent.Render3DEvent event) {
-        Vec3d eyePos = mc.player.getEyePos();
+    private void smoothAimAt(Vec3 targetPos, RenderEvent.Render3DEvent event) {
+        Vec3 eyePos = mc.player.getEyePosition();
         double dx = targetPos.x - eyePos.x;
         double dy = targetPos.y - eyePos.y;
         double dz = targetPos.z - eyePos.z;
@@ -290,8 +290,8 @@ public class ZombieShootout extends Module {
         float targetYaw = (float) Math.toDegrees(Math.atan2(-dx, dz));
         float targetPitch = (float) Math.toDegrees(Math.atan2(-dy, hDist));
 
-        float currentYaw = mc.player.getYaw();
-        float currentPitch = mc.player.getPitch();
+        float currentYaw = mc.player.getYRot();
+        float currentPitch = mc.player.getXRot();
         float delta = event.getDelta();
 
         float horizontalSpeedVal = (float) horizontalSpeed.getValue();
@@ -303,12 +303,12 @@ public class ZombieShootout extends Module {
         newYaw = RotationUtil.normalizeRotation(currentYaw, newYaw);
         newPitch = RotationUtil.normalizeRotation(currentPitch, newPitch);
 
-        mc.player.setYaw(newYaw);
-        mc.player.setPitch(MathHelper.clamp(newPitch, -90f, 90f));
+        mc.player.setYRot(newYaw);
+        mc.player.setXRot(Mth.clamp(newPitch, -90f, 90f));
     }
 
-    private boolean isOnTarget(Vec3d targetPos) {
-        Vec3d eyePos = mc.player.getEyePos();
+    private boolean isOnTarget(Vec3 targetPos) {
+        Vec3 eyePos = mc.player.getEyePosition();
         double dx = targetPos.x - eyePos.x;
         double dy = targetPos.y - eyePos.y;
         double dz = targetPos.z - eyePos.z;
@@ -317,8 +317,8 @@ public class ZombieShootout extends Module {
         float targetYaw = (float) Math.toDegrees(Math.atan2(-dx, dz));
         float targetPitch = (float) Math.toDegrees(Math.atan2(-dy, hDist));
 
-        float yawDiff = Math.abs(MathHelper.wrapDegrees(mc.player.getYaw() - targetYaw));
-        float pitchDiff = Math.abs(MathHelper.wrapDegrees(mc.player.getPitch() - targetPitch));
+        float yawDiff = Math.abs(Mth.wrapDegrees(mc.player.getYRot() - targetYaw));
+        float pitchDiff = Math.abs(Mth.wrapDegrees(mc.player.getXRot() - targetPitch));
 
         return yawDiff < aimThreshold.getValue() && pitchDiff < aimThreshold.getValue();
     }

@@ -68,7 +68,7 @@ public class AutoGFS extends Module {
     }
 
     private void refill() {
-        if (WorldUtil.nullCheck() || DungeonUtil.isGhost() || mc.currentScreen != null) return;
+        if (WorldUtil.nullCheck() || DungeonUtil.isGhost() || mc.screen != null) return;
         if (inDungeon.getValue() && !DungeonUtil.isInDungeon()) return;
 
         if (refillEnderPearl.getValue() && SkyblockUtil.getTotalItemCount("ENDER_PEARL") != 0) {

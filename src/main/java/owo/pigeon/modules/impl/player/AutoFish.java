@@ -1,9 +1,9 @@
 package owo.pigeon.modules.impl.player;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.item.FishingRodItem;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.item.FishingRodItem;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -49,15 +49,15 @@ public class AutoFish extends Module {
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
-        if (stopInGui.getValue() && mc.currentScreen != null) return;
+        if (stopInGui.getValue() && mc.screen != null) return;
 
         // fishHookAge
         int fishHookAge;
-        if (mc.player.fishHook != null) fishHookAge = mc.player.fishHook.age;
+        if (mc.player.fishing != null) fishHookAge = mc.player.fishing.tickCount;
         else fishHookAge = 0;
 
         // stop if full
-        if (stopIfFull.getValue() && mc.player.getInventory().getEmptySlot() == -1) {
+        if (stopIfFull.getValue() && mc.player.getInventory().getFreeSlot() == -1) {
             if (fishHookAge != 0 && rethrowTick > rethrowDelay.getValue()) {
                 PlayerUtil.rightClick(castMode.getValue());
                 fishIncoming = false;
@@ -102,8 +102,8 @@ public class AutoFish extends Module {
         }
 
         // Catch Fish
-        for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof ArmorStandEntity armorStand)) continue;
+        for (Entity entity : mc.level.entitiesForRendering()) {
+            if (!(entity instanceof ArmorStand armorStand)) continue;
             String name = armorStand.getDisplayName().getString();
 
             if (name.equals("?") || name.matches("\\d\\.\\d")) {
@@ -125,6 +125,6 @@ public class AutoFish extends Module {
     }
 
     private boolean isHeldRod() {
-        return mc.player.getMainHandStack().getItem() instanceof FishingRodItem;
+        return mc.player.getMainHandItem().getItem() instanceof FishingRodItem;
     }
 }

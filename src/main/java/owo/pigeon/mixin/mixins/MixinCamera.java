@@ -1,10 +1,10 @@
 package owo.pigeon.mixin.mixins;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.Camera;
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,31 +27,31 @@ public abstract class MixinCamera {
     @Shadow
     protected abstract void setRotation(float yaw, float pitch);
 
-    @ModifyVariable(method = "clipToSpace", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-    private float onClipToSpace(float value) {
+    @ModifyVariable(method = "getMaxZoom", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    private float onGetMaxZoom(float value) {
         return ModuleUtil.isEnable(ModifyCamera.class) ? ModuleUtil.getModule(ModifyCamera.class).distance.getValue() : 4.0f;
     }
 
-    @Inject(method = "clipToSpace", at = @At("HEAD"), cancellable = true)
-    private void onClipToSpace(float f, CallbackInfoReturnable<Float> cir) {
+    @Inject(method = "getMaxZoom", at = @At("HEAD"), cancellable = true)
+    private void onGetMaxZoom(float f, CallbackInfoReturnable<Float> cir) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).camNoClip.getValue())
             cir.setReturnValue(f);
     }
 
-    @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V", ordinal = 1, shift = At.Shift.AFTER))
-    private void onSetRotation(World focusedBlock, Entity cameraEntity, boolean isThirdPerson, boolean isFrontFacing, float tickDelta, CallbackInfo ci) {
-        if (ModuleUtil.getModule(FreeLook.class).freelooking && cameraEntity instanceof ClientPlayerEntity) {
+    @Inject(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setRotation(FF)V", ordinal = 1, shift = At.Shift.AFTER))
+    private void onSetRotation(Level focusedBlock, Entity cameraEntity, boolean isThirdPerson, boolean isFrontFacing, float tickDelta, CallbackInfo ci) {
+        if (ModuleUtil.getModule(FreeLook.class).freelooking && cameraEntity instanceof LocalPlayer) {
             ICameraOverriddenEntity cameraOverriddenEntity = (ICameraOverriddenEntity) cameraEntity;
 
-            if (firstTime && MinecraftClient.getInstance().player != null) {
-                cameraOverriddenEntity.pigeon$setCameraPitch(MinecraftClient.getInstance().player.getPitch());
-                cameraOverriddenEntity.pigeon$setCameraYaw(MinecraftClient.getInstance().player.getYaw());
+            if (firstTime && Minecraft.getInstance().player != null) {
+                cameraOverriddenEntity.pigeon$setCameraPitch(Minecraft.getInstance().player.getXRot());
+                cameraOverriddenEntity.pigeon$setCameraYaw(Minecraft.getInstance().player.getYRot());
                 firstTime = false;
             }
             this.setRotation(cameraOverriddenEntity.pigeon$getCameraYaw(), cameraOverriddenEntity.pigeon$getCameraPitch());
 
         }
-        if (!ModuleUtil.getModule(FreeLook.class).freelooking && cameraEntity instanceof ClientPlayerEntity) {
+        if (!ModuleUtil.getModule(FreeLook.class).freelooking && cameraEntity instanceof LocalPlayer) {
             firstTime = true;
         }
     }

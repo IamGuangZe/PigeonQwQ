@@ -4,17 +4,17 @@ import com.google.common.collect.LinkedListMultimap;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.LoreComponent;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.component.type.ProfileComponent;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.text.Text;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.ItemLore;
+import net.minecraft.world.item.component.ResolvableProfile;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,17 +26,17 @@ import java.util.function.BiFunction;
 import static owo.pigeon.Pigeon.mc;
 
 public class ItemUtil {
-    public static final BiFunction<NbtCompound, String, String> STRING_EXTRACTOR = (nbt, k) -> nbt.getString(k).orElse(null);
-    public static final BiFunction<NbtCompound, String, NbtCompound> COMPOUND_EXTRACTOR = (nbt, k) -> nbt.getCompound(k).orElse(null);
-    public static final BiFunction<NbtCompound, String, Integer> INT_EXTRACTOR = (nbt, k) -> nbt.getInt(k).orElse(null);
+    public static final BiFunction<CompoundTag, String, String> STRING_EXTRACTOR = (nbt, k) -> nbt.getString(k).orElse(null);
+    public static final BiFunction<CompoundTag, String, CompoundTag> COMPOUND_EXTRACTOR = (nbt, k) -> nbt.getCompound(k).orElse(null);
+    public static final BiFunction<CompoundTag, String, Integer> INT_EXTRACTOR = (nbt, k) -> nbt.getInt(k).orElse(null);
 
     public static boolean isSword(ItemStack stack) {
-        return stack.isOf(Items.WOODEN_SWORD)
-                || stack.isOf(Items.STONE_SWORD)
-                || stack.isOf(Items.IRON_SWORD)
-                || stack.isOf(Items.GOLDEN_SWORD)
-                || stack.isOf(Items.DIAMOND_SWORD)
-                || stack.isOf(Items.NETHERITE_SWORD);
+        return stack.is(Items.WOODEN_SWORD)
+                || stack.is(Items.STONE_SWORD)
+                || stack.is(Items.IRON_SWORD)
+                || stack.is(Items.GOLDEN_SWORD)
+                || stack.is(Items.DIAMOND_SWORD)
+                || stack.is(Items.NETHERITE_SWORD);
     }
 
 
@@ -46,10 +46,10 @@ public class ItemUtil {
         int limit = onlyHotbar ? 9 : 36;
 
         for (int i = 0; i < limit; i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
+            ItemStack stack = mc.player.getInventory().getItem(i);
             if (stack.isEmpty()) continue;
 
-            String name = ColorUtil.removeColor(stack.getName().getString());
+            String name = ColorUtil.removeColor(stack.getHoverName().getString());
             if (name.toLowerCase().contains(itemName.toLowerCase())) return i;
         }
 
@@ -57,14 +57,14 @@ public class ItemUtil {
     }
 
     public static ItemStack getItemStackfromSlot(int slot) {
-        return mc.player.getInventory().getStack(slot);
+        return mc.player.getInventory().getItem(slot);
     }
 
     public static int getTotalItemCount(Item item) {
         int totalCount = 0;
-        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
-            if (!stack.isEmpty() && stack.isOf(item)) {
+        for (int i = 0; i < mc.player.getInventory().getNonEquipmentItems().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getItem(i);
+            if (!stack.isEmpty() && stack.is(item)) {
                 totalCount += stack.getCount();
             }
         }
@@ -73,9 +73,9 @@ public class ItemUtil {
 
     public static int getTotalItemCount(TagKey<Item> tag) {
         int totalCount = 0;
-        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
-            if (!stack.isEmpty() && stack.isIn(tag)) {
+        for (int i = 0; i < mc.player.getInventory().getNonEquipmentItems().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getItem(i);
+            if (!stack.isEmpty() && stack.is(tag)) {
                 totalCount += stack.getCount();
             }
         }
@@ -84,39 +84,39 @@ public class ItemUtil {
 
     public static int getTotalItemCount(String name) {
         int totalCount = 0;
-        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
-            if (!stack.isEmpty() && stack.getName().getString().contains(name)) {
+        for (int i = 0; i < mc.player.getInventory().getNonEquipmentItems().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getItem(i);
+            if (!stack.isEmpty() && stack.getHoverName().getString().contains(name)) {
                 totalCount += stack.getCount();
             }
         }
         return totalCount;
     }
 
-    public static List<Text> getItemLore(ItemStack stack) {
+    public static List<Component> getItemLore(ItemStack stack) {
         if (stack.isEmpty()) return Collections.emptyList();
 
-        LoreComponent loreComponent = stack.get(DataComponentTypes.LORE);
+        ItemLore loreComponent = stack.get(DataComponents.LORE);
 
         if (loreComponent == null) return Collections.emptyList();
         return loreComponent.lines();
     }
 
-    public static NbtCompound getItemCustomData(ItemStack stack) {
+    public static CompoundTag getItemCustomData(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return null;
 
-        NbtComponent component = stack.get(DataComponentTypes.CUSTOM_DATA);
+        CustomData component = stack.get(DataComponents.CUSTOM_DATA);
 
-        return (component != null) ? component.copyNbt() : null;
+        return (component != null) ? component.copyTag() : null;
     }
 
     public static String getSkullTexture(ItemStack stack) {
-        if (stack == null || stack.isEmpty() || !stack.isOf(Items.PLAYER_HEAD)) return null;
+        if (stack == null || stack.isEmpty() || !stack.is(Items.PLAYER_HEAD)) return null;
 
-        ProfileComponent profileComponent = stack.get(DataComponentTypes.PROFILE);
+        ResolvableProfile profileComponent = stack.get(DataComponents.PROFILE);
         if (profileComponent == null) return null;
 
-        GameProfile profile = profileComponent.getGameProfile();
+        GameProfile profile = profileComponent.partialProfile();
         if (profile == null) return null;
 
         Collection<Property> textures = profile.properties().get("textures");
@@ -125,11 +125,11 @@ public class ItemUtil {
         return textures.iterator().next().value();
     }
 
-    public static ItemStack getSkullFromPlayer(PlayerEntity player) {
+    public static ItemStack getSkullFromPlayer(Player player) {
         if (player == null) return new ItemStack(Items.PLAYER_HEAD);
 
         ItemStack headStack = new ItemStack(Items.PLAYER_HEAD);
-        headStack.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(player.getGameProfile()));
+        headStack.set(DataComponents.PROFILE, ResolvableProfile.createResolved(player.getGameProfile()));
         return headStack;
     }
 
@@ -154,12 +154,12 @@ public class ItemUtil {
         PropertyMap properties = new PropertyMap(multimap);
         GameProfile profile = new GameProfile(uuid, "", properties);
 
-        headStack.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(profile));
+        headStack.set(DataComponents.PROFILE, ResolvableProfile.createResolved(profile));
         return headStack;
     }
 
-    public static <T> T getCustomDataValue(ItemStack stack, String key, BiFunction<NbtCompound, String, T> extractor) {
-        NbtCompound nbt = getItemCustomData(stack);
+    public static <T> T getCustomDataValue(ItemStack stack, String key, BiFunction<CompoundTag, String, T> extractor) {
+        CompoundTag nbt = getItemCustomData(stack);
         if (nbt != null && nbt.contains(key)) {
             try {
                 return extractor.apply(nbt, key);
@@ -170,9 +170,9 @@ public class ItemUtil {
         return null;
     }
 
-    public static ItemStack setCustomDataValue(ItemStack stack, String key, BiConsumer<NbtCompound, String> inserter) {
+    public static ItemStack setCustomDataValue(ItemStack stack, String key, BiConsumer<CompoundTag, String> inserter) {
         if (stack == null || stack.isEmpty()) return stack;
-        NbtComponent.set(DataComponentTypes.CUSTOM_DATA, stack, nbt -> {
+        CustomData.update(DataComponents.CUSTOM_DATA, stack, nbt -> {
             inserter.accept(nbt, key);
         });
         return stack;

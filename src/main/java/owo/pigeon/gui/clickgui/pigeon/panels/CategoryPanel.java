@@ -1,9 +1,9 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.world.item.ItemStack;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -18,7 +18,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static owo.pigeon.Pigeon.mc;
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class CategoryPanel extends AbstractDisplableItem {
     private final Category category;
@@ -45,7 +45,7 @@ public class CategoryPanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
         expandProgress.setDuration(clickGui.animationSpeed.getValue());
         expandProgress.update(delta);
 
@@ -73,26 +73,26 @@ public class CategoryPanel extends AbstractDisplableItem {
         int iconX = x + 2;
         int iconY = y + height / 2 - iconSize / 2;
 
-        context.getMatrices().pushMatrix();
-        context.getMatrices().translate(iconX, iconY);
-        context.getMatrices().scale(scale, scale);
-        context.drawItem(category.getIcon(), 0, 0);
-        context.getMatrices().popMatrix();
+        context.pose().pushMatrix();
+        context.pose().translate(iconX, iconY);
+        context.pose().scale(scale, scale);
+        context.renderItem(category.getIcon(), 0, 0);
+        context.pose().popMatrix();
 
         int textOffset = iconSize + 4; // icon width + gap
-        context.drawTextWithShadow(textRenderer,
+        context.drawString(font,
                 category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(),
                 x + textOffset,
-                y + height / 2 - textRenderer.fontHeight / 2,
+                y + height / 2 - font.lineHeight / 2,
                 Color.WHITE.getRGB());
 
         boolean expanded = expandProgress.isExpanded();
         String symbol = expanded ? "-" : "+";
         String color = expanded ? "&c" : "&a";
-        context.drawTextWithShadow(textRenderer,
+        context.drawString(font,
                 ColorUtil.parseColor(color + symbol),
-                x + width - textRenderer.getWidth(symbol) - 4,
-                y + height / 2 - textRenderer.fontHeight / 2,
+                x + width - font.width(symbol) - 4,
+                y + height / 2 - font.lineHeight / 2,
                 Color.WHITE.getRGB()
         );
 
@@ -129,7 +129,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         }
     }
 
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (hovered) {
             if (click.button() == 0) {
                 movepanel = true;
@@ -153,7 +153,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         return false;
     }
 
-    public void mouseReleased(Click click) {
+    public void mouseReleased(MouseButtonEvent click) {
         if (click.button() == 0) {
             movepanel = false;
         }
@@ -165,7 +165,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         }
     }
 
-    public void mouseDragged(Click click, double offsetX, double offsetY) {
+    public void mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
         if (movepanel) {
             x = (int) (mx + click.x());
             y = (int) (my + click.y());
@@ -189,7 +189,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         return hovered;
     }
 
-    public void keyPressed(KeyInput input) {
+    public void keyPressed(KeyEvent input) {
         if (!expandProgress.isCollapsed()) {
             for (ModulePanel panel : modulePanels) {
                 if (panel.y < clipBottom) panel.keyPressed(input);
