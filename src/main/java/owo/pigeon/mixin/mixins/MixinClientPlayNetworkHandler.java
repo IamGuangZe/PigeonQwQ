@@ -1,12 +1,12 @@
 package owo.pigeon.mixin.mixins;
 
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.PingMeasurer;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
-import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.query.PingResultS2CPacket;
-import net.minecraft.text.Text;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.PingDebugMonitor;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundLoginPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
+import net.minecraft.network.protocol.ping.ClientboundPongResponsePacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,19 +19,19 @@ import owo.pigeon.event.events.WorldChangeEvent;
 import owo.pigeon.utils.chat.ChatUtil;
 import owo.pigeon.utils.world.ServerUtil;
 
-@Mixin(ClientPlayNetworkHandler.class)
+@Mixin(ClientPacketListener.class)
 public abstract class MixinClientPlayNetworkHandler {
 
     @Shadow
-    public abstract void sendChatMessage(String content);
+    public abstract void sendChat(String content);
 
     @Shadow
-    private ClientWorld world;
+    private ClientLevel level;
 
     @Shadow
-    private PingMeasurer pingMeasurer;
+    private PingDebugMonitor pingDebugMonitor;
 
-    @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "sendChat", at = @At("HEAD"), cancellable = true)
     private void onSendMessagePre(String content, CallbackInfo ci) {
         ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "Message: " + content);
 
@@ -41,7 +41,7 @@ public abstract class MixinClientPlayNetworkHandler {
             return;
         }
 
-        MessageEvent.SendMessageEvent event = new MessageEvent.SendMessageEvent(Text.of(content));
+        MessageEvent.SendMessageEvent event = new MessageEvent.SendMessageEvent(Component.nullToEmpty(content));
         Pigeon.EVENT_BUS.post(event).now();
 
         if (event.isCancelled()) {
@@ -53,32 +53,32 @@ public abstract class MixinClientPlayNetworkHandler {
         }
 
         if (event.isMessageModified()) {
-            Text modifiedMessage = event.getMessage();
+            Component modifiedMessage = event.getMessage();
             if (modifiedMessage != null && !modifiedMessage.getString().isEmpty()) {
                 ci.cancel();
-                this.sendChatMessage(modifiedMessage.getString());
+                this.sendChat(modifiedMessage.getString());
             }
         }
     }
 
-    @Inject(method = "onGameJoin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;joinWorld(Lnet/minecraft/client/world/ClientWorld;)V", shift = At.Shift.AFTER))
-    private void onJoinWorld(GameJoinS2CPacket packet, CallbackInfo ci) {
-        if (world == null) return;
+    @Inject(method = "handleLogin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;setLevel(Lnet/minecraft/client/multiplayer/ClientLevel;)V", shift = At.Shift.AFTER))
+    private void onJoinWorld(ClientboundLoginPacket packet, CallbackInfo ci) {
+        if (level == null) return;
         Pigeon.EVENT_BUS.post(new WorldChangeEvent()).now();
     }
 
-    @Inject(method = "onWorldTimeUpdate", at = @At("RETURN"))
-    private void onWorldTimeUpdate(WorldTimeUpdateS2CPacket packet, CallbackInfo ci) {
+    @Inject(method = "handleSetTime", at = @At("RETURN"))
+    private void onWorldTimeUpdate(ClientboundSetTimePacket packet, CallbackInfo ci) {
         ServerUtil.onTimeUpdate();
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void alwaysSendPing(CallbackInfo ci) {
-        this.pingMeasurer.ping();
+        this.pingDebugMonitor.tick();
     }
 
-    @Inject(method = "onPingResult", at = @At("TAIL"))
-    private void onPingResult(PingResultS2CPacket packet, CallbackInfo ci) {
-        ServerUtil.onPongResponse(packet.startTime());
+    @Inject(method = "handlePongResponse", at = @At("TAIL"))
+    private void onPingResult(ClientboundPongResponsePacket packet, CallbackInfo ci) {
+        ServerUtil.onPongResponse(packet.time());
     }
 }

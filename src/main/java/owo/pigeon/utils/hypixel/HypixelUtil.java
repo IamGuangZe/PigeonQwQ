@@ -2,7 +2,7 @@ package owo.pigeon.utils.hypixel;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.multiplayer.ServerData;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
@@ -30,13 +30,13 @@ public class HypixelUtil {
     }
 
     public static boolean isInHypixel() {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
 
-        ServerInfo serverInfo = mc.getCurrentServerEntry();
+        ServerData serverInfo = mc.getCurrentServer();
         if (serverInfo == null) return false;
 
-        String ip = serverInfo.address == null ? "" : serverInfo.address.toLowerCase();
-        String name = serverInfo.label == null ? "" : serverInfo.label.getString().toLowerCase();
+        String ip = serverInfo.ip == null ? "" : serverInfo.ip.toLowerCase();
+        String name = serverInfo.motd == null ? "" : serverInfo.motd.getString().toLowerCase();
         String sidebarLine = ScoreBoardUtil.getSidebarLineBottomUp(1);
         String sidebarIp = sidebarLine == null ? "" : sidebarLine;
         String tabHeader = ScoreBoardUtil.getTabHeader() == null ? "" : ColorUtil.removeColor(ScoreBoardUtil.getTabHeader());
@@ -44,7 +44,7 @@ public class HypixelUtil {
     }
 
     public static boolean isInGame(Game game) {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         if (!isInHypixel()) return false;
 
         String sidebarTitle = ColorUtil.removeColor(ScoreBoardUtil.getSidebarTitle());

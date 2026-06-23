@@ -1,9 +1,9 @@
 package owo.pigeon.modules.impl.skyblock.dungeon;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -26,10 +26,10 @@ public class PillarsReplace extends Module {
     };
 
     private static final BlockState[] PILLAR_COLORS = {
-            Blocks.LIME_STAINED_GLASS.getDefaultState(),
-            Blocks.YELLOW_STAINED_GLASS.getDefaultState(),
-            Blocks.PURPLE_STAINED_GLASS.getDefaultState(),
-            Blocks.RED_STAINED_GLASS.getDefaultState()
+            Blocks.LIME_STAINED_GLASS.defaultBlockState(),
+            Blocks.YELLOW_STAINED_GLASS.defaultBlockState(),
+            Blocks.PURPLE_STAINED_GLASS.defaultBlockState(),
+            Blocks.RED_STAINED_GLASS.defaultBlockState()
     };
 
     @Handler
@@ -38,7 +38,7 @@ public class PillarsReplace extends Module {
         if (!DungeonUtil.isInBoss(DungeonUtil.Floor.F7) && !DungeonUtil.isInBoss(DungeonUtil.Floor.M7)) return;
         if (DungeonUtil.getFloor7Stage() != 2) return;
 
-        BlockPos.Mutable pos = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         for (int i = 0; i < PILLARS.length; i++) {
             BlockPos pillar = PILLARS[i];
@@ -46,8 +46,8 @@ public class PillarsReplace extends Module {
                 for (int dy = pillar.getY(); dy <= pillar.getY() + 37; dy++) {
                     for (int dz = pillar.getZ() - 3; dz <= pillar.getZ() + 3; dz++) {
                         pos.set(dx, dy, dz);
-                        BlockState state = mc.world.getBlockState(pos);
-                        if (state.isOf(Blocks.DIORITE) || state.isOf(Blocks.POLISHED_DIORITE)) {
+                        BlockState state = mc.level.getBlockState(pos);
+                        if (state.is(Blocks.DIORITE) || state.is(Blocks.POLISHED_DIORITE)) {
                             setBlock(pos, PILLAR_COLORS[i]);
                         }
                     }

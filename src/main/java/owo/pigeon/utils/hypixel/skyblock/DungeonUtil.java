@@ -53,7 +53,7 @@ public class DungeonUtil {
 
     public static Floor getFloor() {
         List<String> sidebarLines = ScoreBoardUtil.getSidebarLines();
-        if (mc.isInSingleplayer() || sidebarLines.isEmpty()) return Floor.Unknown;
+        if (mc.isLocalServer() || sidebarLines.isEmpty()) return Floor.Unknown;
 
         return sidebarLines.stream()
                 .filter(line -> line.contains("⏣"))
@@ -73,27 +73,27 @@ public class DungeonUtil {
     }
 
     public static boolean isInFloor(Floor floor) {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         return getFloor() == floor;
     }
 
     public static boolean isInFloor(int floor) {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         return getFloor().getFloorNum() == floor;
     }
 
     public static boolean isInBoss() {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         return isInBoss(getFloor());
     }
 
     public static boolean isInBoss(Floor floor) {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         return isInBoss(floor.getFloorNum());
     }
 
     public static boolean isInBoss(int floor) {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
 
         double x = mc.player.getX();
         double z = mc.player.getZ();
@@ -118,7 +118,7 @@ public class DungeonUtil {
 
     public static boolean isGhost() {
         if (!isInDungeon()) return false;
-        if (ItemUtil.getItemStackfromSlot(0).getName().getString().equals("Haunt")) return true;
-        else return mc.player.getAbilities().allowFlying;
+        if (ItemUtil.getItemStackfromSlot(0).getHoverName().getString().equals("Haunt")) return true;
+        else return mc.player.getAbilities().mayfly;
     }
 }

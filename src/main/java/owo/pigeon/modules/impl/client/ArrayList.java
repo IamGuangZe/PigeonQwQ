@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.client;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -49,13 +49,13 @@ public class ArrayList extends Module {
 
     @Handler
     public void onRender2D(RenderEvent.Render2DEvent event) {
-        if (mc.options.hudHidden) return;
+        if (mc.options.hideGui) return;
 
         ColorMode mode = colorMode.getValue();
         offsetTick += colorSpeed.getValue();
         if (offsetTick > OFFSET_MAX) offsetTick -= OFFSET_MAX;
 
-        DrawContext context = event.getContext();
+        GuiGraphics context = event.getContext();
         List<Module> sorted = ModuleManager.modules.stream()
                 .filter(m -> m.isEnable() && !m.isHide() && m != this)
                 .sorted(Comparator.comparingInt(this::getDisplayWidth).reversed())
@@ -69,7 +69,7 @@ public class ArrayList extends Module {
         float globalRatio = offsetTick / OFFSET_MAX;
         int staticColor = theme.isGradient() ? theme.getMidColor() : Color.WHITE.getRGB();
 
-        int scaledWidth = mc.getWindow().getScaledWidth();
+        int scaledWidth = mc.getWindow().getGuiScaledWidth();
         int fontHeight = TextRendererUtil.getFontHeight();
         int lineHeight = fontHeight + LINE_SPACING;
         int y = PADDING;
@@ -99,18 +99,18 @@ public class ArrayList extends Module {
                     float raw = (globalRatio + rowOffset + charRatio) % 1.0f;
                     int color = ColorUtil.interpolateGradient(gradient, pingPong(raw));
                     int charWidth = TextRendererUtil.getStringWidth(String.valueOf(module.name.charAt(ci)));
-                    TextRendererUtil.drawText(context, Text.literal(String.valueOf(module.name.charAt(ci)))
-                            .styled(s -> s.withColor(color)), x, y, color);
+                    TextRendererUtil.drawText(context, Component.literal(String.valueOf(module.name.charAt(ci)))
+                            .withStyle(s -> s.withColor(color)), x, y, color);
                     x += charWidth;
                 }
             } else if (hasGradient) {
-                TextRendererUtil.drawText(context, Text.literal(module.name).styled(s -> s.withColor(rowColor)), x, y, rowColor);
+                TextRendererUtil.drawText(context, Component.literal(module.name).withStyle(s -> s.withColor(rowColor)), x, y, rowColor);
             } else {
-                TextRendererUtil.drawText(context, Text.literal(module.name), x, y, staticColor);
+                TextRendererUtil.drawText(context, Component.literal(module.name), x, y, staticColor);
             }
 
             if (!suffix.isEmpty()) {
-                TextRendererUtil.drawText(context, Text.literal(" " + suffix), scaledWidth - textWidth - PADDING - barWidth + nameWidth, y, SUFFIX_COLOR);
+                TextRendererUtil.drawText(context, Component.literal(" " + suffix), scaledWidth - textWidth - PADDING - barWidth + nameWidth, y, SUFFIX_COLOR);
             }
 
             if (bar.getValue()) {

@@ -1,12 +1,12 @@
 package owo.pigeon.mixin.mixins;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.util.ObjectAllocator;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.RotationAxis;
+import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.renderer.LevelRenderer;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,17 +18,17 @@ import owo.pigeon.event.events.RenderEvent;
 
 import static owo.pigeon.Pigeon.mc;
 
-@Mixin(WorldRenderer.class)
+@Mixin(LevelRenderer.class)
 public class MixinWorldRenderer {
-    @Inject(method = "render", at = @At("RETURN"))
-    private void onRender3DPost(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci) {
-        MatrixStack stack = new MatrixStack();
-        stack.push();
-        stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(mc.gameRenderer.getCamera().getPitch()));
-        stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(mc.gameRenderer.getCamera().getYaw() + 180f));
+    @Inject(method = "renderLevel", at = @At("RETURN"))
+    private void onRender3DPost(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci) {
+        PoseStack stack = new PoseStack();
+        stack.pushPose();
+        stack.mulPose(Axis.XP.rotationDegrees(mc.gameRenderer.getMainCamera().xRot()));
+        stack.mulPose(Axis.YP.rotationDegrees(mc.gameRenderer.getMainCamera().yRot() + 180f));
 
-        Pigeon.EVENT_BUS.post(new RenderEvent.Render3DEvent(stack, tickCounter.getTickProgress(true))).now();
+        Pigeon.EVENT_BUS.post(new RenderEvent.Render3DEvent(stack, tickCounter.getGameTimeDeltaPartialTick(true))).now();
 
-        stack.pop();
+        stack.popPose();
     }
 }

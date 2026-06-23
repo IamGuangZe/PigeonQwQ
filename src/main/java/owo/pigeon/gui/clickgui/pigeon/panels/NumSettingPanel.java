@@ -1,7 +1,7 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.Pigeon;
 import owo.pigeon.settings.AbstractNumSetting;
 import owo.pigeon.settings.AbstractSetting;
@@ -28,7 +28,7 @@ public class NumSettingPanel extends SettingPanel {
     }
 
     @Override
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         String displayName = numberSetting.getName().replaceAll("-and-", "-&&-").replaceAll("-", " ");
@@ -68,8 +68,8 @@ public class NumSettingPanel extends SettingPanel {
         context.fill(knobX, knobY, knobX + knobWidth, knobY + knobHeight, new Color(220, 220, 220).getRGB());
 
         float scale = 0.5f;
-        context.getMatrices().pushMatrix();
-        context.getMatrices().scale(scale, scale);
+        context.pose().pushMatrix();
+        context.pose().scale(scale, scale);
 
         if (numberSetting instanceof FloatSetting floatSetting) {
             String displayValue = "&e" + floatSetting.getValue();
@@ -78,10 +78,10 @@ public class NumSettingPanel extends SettingPanel {
                 displayValue += " &r" + unit;
             }
 
-            context.drawTextWithShadow(textRenderer,
+            context.drawString(textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) rawHeight / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) rawHeight / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (numberSetting instanceof IntSetting intSetting) {
@@ -91,21 +91,21 @@ public class NumSettingPanel extends SettingPanel {
                 displayValue += " &r" + unit;
             }
 
-            context.drawTextWithShadow(textRenderer,
+            context.drawString(textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) rawHeight / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) rawHeight / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         }
 
-        context.getMatrices().popMatrix();
+        context.pose().popMatrix();
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
     @Override
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (!hovered) return false;
 
         if (sliderHovered && click.button() == 0) {
@@ -117,12 +117,12 @@ public class NumSettingPanel extends SettingPanel {
     }
 
     @Override
-    public void mouseReleased(Click click) {
+    public void mouseReleased(MouseButtonEvent click) {
         dragging = false;
     }
 
     @Override
-    public void mouseDragged(Click click, double offsetX, double offsetY) {
+    public void mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
         if (sliderHovered && dragging && click.button() == 0) {
             updateSliderValue(click.x());
         }
@@ -143,11 +143,11 @@ public class NumSettingPanel extends SettingPanel {
                 double baseStep = 0.01;
                 double multiplier = 1.0;
 
-                if (Pigeon.mc.isCtrlPressed()) {
+                if (Pigeon.mc.hasControlDown()) {
                     multiplier *= 2;
                 }
 
-                if (mc.isShiftPressed()) {
+                if (mc.hasShiftDown()) {
                     multiplier *= 5;
                 }
 

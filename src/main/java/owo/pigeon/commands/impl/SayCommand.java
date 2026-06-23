@@ -23,7 +23,7 @@ public class SayCommand extends Command {
         }
         String message = String.join(" ", args);
         CommandManager.isSay = true;
-        mc.player.networkHandler.sendChatMessage(message);
+        mc.player.connection.sendChat(message);
     }
 
     @Override

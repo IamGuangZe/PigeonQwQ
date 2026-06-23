@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.combat;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -27,16 +27,16 @@ public class AutoBow extends Module {
         if (WorldUtil.nullCheck()) return;
 
         if (event instanceof ClientTickEvent.Pre) {
-            ItemStack itemStack = mc.player.getMainHandStack();
+            ItemStack itemStack = mc.player.getMainHandItem();
             if (itemStack.isEmpty()) return;
             if (itemStack.getItem() != Items.BOW) return;
 
             if (mc.player.isUsingItem()) {
-                ChatUtil.sendDebugMessage(this.name, "itemUseTime: " + mc.player.getItemUseTime() + ", power: " + power.getValue());
+                ChatUtil.sendDebugMessage(this.name, "itemUseTime: " + mc.player.getTicksUsingItem() + ", power: " + power.getValue());
 
-                if (mc.player.getItemUseTime() >= power.getValue()) {
-                    ChatUtil.sendDebugMessage(this.name, "Releasing bow at power " + mc.player.getItemUseTime());
-                    KeybindUtil.setPressed(mc.options.useKey, false);
+                if (mc.player.getTicksUsingItem() >= power.getValue()) {
+                    ChatUtil.sendDebugMessage(this.name, "Releasing bow at power " + mc.player.getTicksUsingItem());
+                    KeybindUtil.setPressed(mc.options.keyUse, false);
                     hasRelease = true;
                 }
             }
@@ -45,7 +45,7 @@ public class AutoBow extends Module {
         if (event instanceof ClientTickEvent.Post) {
             if (hasRelease) {
                 ChatUtil.sendDebugMessage(this.name, "Resetting use key, hasRelease: " + hasRelease);
-                KeybindUtil.resetPressed(mc.options.useKey);
+                KeybindUtil.resetPressed(mc.options.keyUse);
                 hasRelease = false;
             }
         }

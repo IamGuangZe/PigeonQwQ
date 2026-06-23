@@ -1,15 +1,15 @@
 package owo.pigeon.mixin.accessors;
 
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public interface IAccessorInGameHud {
     @Accessor("title")
-    Text pigeon$getTitle();
+    Component pigeon$getTitle();
 
     @Accessor("subtitle")
-    Text pigeon$getSubtitle();
+    Component pigeon$getSubtitle();
 }

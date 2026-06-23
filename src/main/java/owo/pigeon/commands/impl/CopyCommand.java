@@ -22,7 +22,7 @@ public class CopyCommand extends Command {
             return;
         }
         String message = String.join(" ", args);
-        mc.keyboard.setClipboard(message);
+        mc.keyboardHandler.setClipboard(message);
         ChatUtil.sendMessage("You copied the text : " + message);
     }
 

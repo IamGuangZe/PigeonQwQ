@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -118,12 +118,12 @@ public class GTBSolver extends Module {
     private void loadWords() {
         wordDatabase.clear();
         try {
-            Identifier resourcePath = Identifier.of("pigeonqwq", "data/build_battle_themes.json");
+            Identifier resourcePath = Identifier.fromNamespaceAndPath("pigeonqwq", "data/build_battle_themes.json");
             var resourceOpt = mc.getResourceManager().getResource(resourcePath);
 
             if (resourceOpt.isEmpty()) return;
 
-            try (InputStream is = resourceOpt.get().getInputStream();
+            try (InputStream is = resourceOpt.get().open();
                  InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
 
                 JsonElement root = JsonParser.parseReader(reader);

@@ -1,12 +1,12 @@
 package owo.pigeon.modules.impl.skyblock.event;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.modules.Category;
@@ -32,7 +32,7 @@ public class AutoBouncingBall extends Module {
     public FloatSetting sneakRange = setting("sneakRange", 0.3F, 0.0F, 1.0F, v -> true);
 
     private boolean searching;
-    private ArmorStandEntity ballEntity;
+    private ArmorStand ballEntity;
 
     @Handler
     public void onTickPre(ClientTickEvent.Pre event) {
@@ -48,18 +48,18 @@ public class AutoBouncingBall extends Module {
 
         if (ballEntity == null) return;
 
-        KeybindUtil.resetPressed(mc.options.forwardKey);
-        KeybindUtil.resetPressed(mc.options.backKey);
-        KeybindUtil.resetPressed(mc.options.leftKey);
-        KeybindUtil.resetPressed(mc.options.rightKey);
-        KeybindUtil.resetPressed(mc.options.sneakKey);
+        KeybindUtil.resetPressed(mc.options.keyUp);
+        KeybindUtil.resetPressed(mc.options.keyDown);
+        KeybindUtil.resetPressed(mc.options.keyLeft);
+        KeybindUtil.resetPressed(mc.options.keyRight);
+        KeybindUtil.resetPressed(mc.options.keyShift);
 
         if (ballEntity.isRemoved()) {
             ballEntity = null;
             return;
         }
 
-        double playerYaw = mc.player.getYaw();
+        double playerYaw = mc.player.getYRot();
         double playerX = mc.player.getX();
         double playerZ = mc.player.getZ();
         double ballX = ballEntity.getX();
@@ -71,9 +71,9 @@ public class AutoBouncingBall extends Module {
 
         if (autoSneak.getValue()) {
             if (distanceXZ < sneakRange.getValue()) {
-                KeybindUtil.setPressed(mc.options.sneakKey, true);
+                KeybindUtil.setPressed(mc.options.keyShift, true);
             } else {
-                KeybindUtil.resetPressed(mc.options.sneakKey);
+                KeybindUtil.resetPressed(mc.options.keyShift);
             }
         }
 
@@ -82,12 +82,12 @@ public class AutoBouncingBall extends Module {
         }
 
         double targetAngle = Math.toDegrees(Math.atan2(-deltaX, deltaZ));
-        double relativeAngle = MathHelper.wrapDegrees(targetAngle - playerYaw);
+        double relativeAngle = Mth.wrapDegrees(targetAngle - playerYaw);
 
-        KeybindUtil.setPressed(mc.options.forwardKey, relativeAngle > -67.5 && relativeAngle <= 67.5);
-        KeybindUtil.setPressed(mc.options.backKey, relativeAngle > 112.5 || relativeAngle <= -112.5);
-        KeybindUtil.setPressed(mc.options.leftKey, relativeAngle > -157.5 && relativeAngle <= -22.5);
-        KeybindUtil.setPressed(mc.options.rightKey, relativeAngle > 22.5 && relativeAngle <= 157.5);
+        KeybindUtil.setPressed(mc.options.keyUp, relativeAngle > -67.5 && relativeAngle <= 67.5);
+        KeybindUtil.setPressed(mc.options.keyDown, relativeAngle > 112.5 || relativeAngle <= -112.5);
+        KeybindUtil.setPressed(mc.options.keyLeft, relativeAngle > -157.5 && relativeAngle <= -22.5);
+        KeybindUtil.setPressed(mc.options.keyRight, relativeAngle > 22.5 && relativeAngle <= 157.5);
     }
 
     @Handler
@@ -103,11 +103,11 @@ public class AutoBouncingBall extends Module {
                     ChatUtil.sendDebugMessage(this.name, "current bounces: " + currentBounces);
                     if (currentBounces >= bounces.getValue()) {
                         ballEntity = null;
-                        KeybindUtil.resetPressed(mc.options.forwardKey);
-                        KeybindUtil.resetPressed(mc.options.backKey);
-                        KeybindUtil.resetPressed(mc.options.leftKey);
-                        KeybindUtil.resetPressed(mc.options.rightKey);
-                        KeybindUtil.resetPressed(mc.options.sneakKey);
+                        KeybindUtil.resetPressed(mc.options.keyUp);
+                        KeybindUtil.resetPressed(mc.options.keyDown);
+                        KeybindUtil.resetPressed(mc.options.keyLeft);
+                        KeybindUtil.resetPressed(mc.options.keyRight);
+                        KeybindUtil.resetPressed(mc.options.keyShift);
                     }
                 } catch (NumberFormatException ignored) {
 
@@ -128,23 +128,23 @@ public class AutoBouncingBall extends Module {
     @Override
     public void onDisable() {
         searching = false;
-        KeybindUtil.resetPressed(mc.options.forwardKey);
-        KeybindUtil.resetPressed(mc.options.backKey);
-        KeybindUtil.resetPressed(mc.options.leftKey);
-        KeybindUtil.resetPressed(mc.options.rightKey);
-        KeybindUtil.resetPressed(mc.options.sneakKey);
+        KeybindUtil.resetPressed(mc.options.keyUp);
+        KeybindUtil.resetPressed(mc.options.keyDown);
+        KeybindUtil.resetPressed(mc.options.keyLeft);
+        KeybindUtil.resetPressed(mc.options.keyRight);
+        KeybindUtil.resetPressed(mc.options.keyShift);
     }
 
-    private ArmorStandEntity findBall() {
-        ArmorStandEntity closest = null;
+    private ArmorStand findBall() {
+        ArmorStand closest = null;
         double closestDistance = Double.MAX_VALUE;
 
-        for (Entity entity : mc.world.getEntities()) {
-            if (entity instanceof ArmorStandEntity stand) {
+        for (Entity entity : mc.level.entitiesForRendering()) {
+            if (entity instanceof ArmorStand stand) {
                 if (stand.distanceTo(mc.player) < 20.0f) {
 
-                    ItemStack helmet = stand.getEquippedStack(EquipmentSlot.HEAD);
-                    if (helmet.isEmpty() || !helmet.isOf(Items.PLAYER_HEAD)) continue;
+                    ItemStack helmet = stand.getItemBySlot(EquipmentSlot.HEAD);
+                    if (helmet.isEmpty() || !helmet.is(Items.PLAYER_HEAD)) continue;
 
                     String texture = ItemUtil.getSkullTexture(helmet);
 

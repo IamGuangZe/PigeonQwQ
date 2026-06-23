@@ -1,12 +1,12 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClickSlotEvent;
 import owo.pigeon.event.events.ClientTickEvent;
@@ -48,8 +48,8 @@ public class ChocolateFactory extends Module {
     public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
 
-        if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler container) {
-            String title = mc.currentScreen.getTitle().getString();
+        if (mc.player.containerMenu instanceof ChestMenu container) {
+            String title = mc.screen.getTitle().getString();
             if (!title.contains("Chocolate Factory")) return;
 
             // catch strays
@@ -61,7 +61,7 @@ public class ChocolateFactory extends Module {
                 upgradeTick = 0;
 
                 if (catchTick >= catchDelay.getValue()) {
-                    PlayerUtil.clickSlot(container.syncId, straySlot, 0, SlotActionType.PICKUP);
+                    PlayerUtil.clickSlot(container.containerId, straySlot, 0, ClickType.PICKUP);
                     return;
                 }
 
@@ -71,11 +71,11 @@ public class ChocolateFactory extends Module {
 
             // auto tower
             if (autoTower.getValue()) {
-                ItemStack towerStack = container.getSlot(39).getStack();
-                if (!towerStack.isEmpty() && towerStack.isOf(Items.CLOCK)) {
-                    String loreString = String.join("\n", ItemUtil.getItemLore(towerStack).stream().map(Text::getString).toList());
+                ItemStack towerStack = container.getSlot(39).getItem();
+                if (!towerStack.isEmpty() && towerStack.is(Items.CLOCK)) {
+                    String loreString = String.join("\n", ItemUtil.getItemLore(towerStack).stream().map(Component::getString).toList());
                     if (loreString.contains("Right-click to activate!")) {
-                        PlayerUtil.clickSlot(container.syncId, 39, 1, SlotActionType.PICKUP);
+                        PlayerUtil.clickSlot(container.containerId, 39, 1, ClickType.PICKUP);
                         return;
                     }
                 }
@@ -98,10 +98,10 @@ public class ChocolateFactory extends Module {
                     if (slot == 39 && !upgradeTower.getValue()) continue;
                     if (slot == 42 && !upgradeCoach.getValue()) continue;
 
-                    ItemStack stack = container.getSlot(slot).getStack();
+                    ItemStack stack = container.getSlot(slot).getItem();
                     if (isInvalid(stack)) continue;
 
-                    String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
+                    String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Component::getString).toList());
                     long cost = parseCost(lore);
                     double delta = calculateDelta(slot, stack, baseProd, multiplier);
 
@@ -122,7 +122,7 @@ public class ChocolateFactory extends Module {
                 }
 
                 if (bestSlot != -1 && balance >= targetCost) {
-                    PlayerUtil.clickSlot(container.syncId, bestSlot, 0, SlotActionType.PICKUP);
+                    PlayerUtil.clickSlot(container.containerId, bestSlot, 0, ClickType.PICKUP);
                 }
             }
         } else {
@@ -134,9 +134,9 @@ public class ChocolateFactory extends Module {
     @Handler
     public void onRenderContainer(RenderEvent.RenderContainerEvent event) {
         if (!Pigeon.isDebug()) return;
-        if (!(event.getScreen() instanceof GenericContainerScreen screen)) return;
+        if (!(event.getScreen() instanceof ContainerScreen screen)) return;
 
-        GenericContainerScreenHandler container = event.getContainer();
+        ChestMenu container = event.getContainer();
         if (container == null || !screen.getTitle().getString().contains("Chocolate Factory")) return;
 
         IAccessorHandledScreen guiAccessor = (IAccessorHandledScreen) screen;
@@ -162,10 +162,10 @@ public class ChocolateFactory extends Module {
         List<String> rabbitLines = new ArrayList<>();
 
         for (int slot : slots) {
-            ItemStack stack = container.getSlot(slot).getStack();
+            ItemStack stack = container.getSlot(slot).getItem();
             if (isInvalid(stack)) continue;
 
-            String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
+            String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Component::getString).toList());
             long cost = parseCost(lore);
             double delta = calculateDelta(slot, stack, baseProd, multiplier);
 
@@ -177,7 +177,7 @@ public class ChocolateFactory extends Module {
                 bestSlot = slot;
             }
 
-            String name = stack.getName().getString().split("-")[0].trim();
+            String name = stack.getHoverName().getString().split("-")[0].trim();
             String color = (balance >= cost) ? "&a" : "&c";
             rabbitLines.add(String.format("%s%s|%d|: &fV: %.2f (Δ%.1f)", color, name, slot, efficiency, delta));
         }
@@ -199,14 +199,14 @@ public class ChocolateFactory extends Module {
     }
 
     private boolean isInvalid(ItemStack stack) {
-        return stack.isEmpty() || stack.isOf(Items.GRAY_DYE) || stack.isOf(Items.BARRIER) || stack.isOf(Items.BLACK_STAINED_GLASS_PANE);
+        return stack.isEmpty() || stack.is(Items.GRAY_DYE) || stack.is(Items.BARRIER) || stack.is(Items.BLACK_STAINED_GLASS_PANE);
     }
 
-    private int getStraySlot(GenericContainerScreenHandler container) {
+    private int getStraySlot(ChestMenu container) {
         for (int i = 0; i < container.slots.size(); i++) {
-            ItemStack stack = container.getSlot(i).getStack();
+            ItemStack stack = container.getSlot(i).getItem();
             if (stack.isEmpty()) continue;
-            String name = stack.getName().getString();
+            String name = stack.getHoverName().getString();
             if (name.contains("CLICK ME!") || name.contains("Golden Rabbit")) {
                 return i;
             }
@@ -214,23 +214,23 @@ public class ChocolateFactory extends Module {
         return -1;
     }
 
-    private long getBalance(GenericContainerScreenHandler container) {
-        String name = container.getSlot(13).getStack().getName().getString().replaceAll("[^0-9]", "");
+    private long getBalance(ChestMenu container) {
+        String name = container.getSlot(13).getItem().getHoverName().getString().replaceAll("[^0-9]", "");
         return name.isEmpty() ? 0 : Long.parseLong(name);
     }
 
-    private double getBaseProduction(GenericContainerScreenHandler container) {
-        ItemStack stack = container.getSlot(45).getStack();
+    private double getBaseProduction(ChestMenu container) {
+        ItemStack stack = container.getSlot(45).getItem();
         if (isInvalid(stack)) return 0;
-        String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
+        String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Component::getString).toList());
         String res = RegexUtil.regexGetPart("Base Chocolate: ([\\d,.]+)", lore, 1);
         return res != null ? Double.parseDouble(res.replace(",", "")) : 0;
     }
 
-    private double getMultiplier(GenericContainerScreenHandler container) {
-        ItemStack stack = container.getSlot(45).getStack();
+    private double getMultiplier(ChestMenu container) {
+        ItemStack stack = container.getSlot(45).getItem();
         if (isInvalid(stack)) return 1.0;
-        String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Text::getString).toList());
+        String lore = String.join("\n", ItemUtil.getItemLore(stack).stream().map(Component::getString).toList());
         String res = RegexUtil.regexGetPart("Total Multiplier: ([\\d,.]+)x", lore, 1);
         return res != null ? Double.parseDouble(res.replace(",", "")) : 1.0;
     }
@@ -244,7 +244,7 @@ public class ChocolateFactory extends Module {
 
     private double calculateDelta(int slot, ItemStack stack, double baseProd, double multiplier) {
         if (slot >= 28 && slot <= 34) return (slot - 27) * multiplier;
-        if (stack.isOf(Items.CLOCK)) return baseProd * 0.1;
+        if (stack.is(Items.CLOCK)) return baseProd * 0.1;
         if (slot == 42) return baseProd * 0.01;
         return 0;
     }

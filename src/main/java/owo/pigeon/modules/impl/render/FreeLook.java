@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.render;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.option.Perspective;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.CameraType;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -23,26 +23,26 @@ public class FreeLook extends Module {
     }
 
     public enum PerspectiveMode {
-        BACK(Perspective.THIRD_PERSON_BACK),
-        FRONT(Perspective.THIRD_PERSON_FRONT);
+        BACK(CameraType.THIRD_PERSON_BACK),
+        FRONT(CameraType.THIRD_PERSON_FRONT);
 
-        private final Perspective perspective;
+        private final CameraType perspective;
 
-        PerspectiveMode(Perspective perspective) {
+        PerspectiveMode(CameraType perspective) {
             this.perspective = perspective;
         }
 
-        public Perspective getPerspective() {
+        public CameraType getPerspective() {
             return perspective;
         }
     }
 
     public ModeSetting<Mode> mode = setting("mode", Mode.HOLD, v -> true);
     public ModeSetting<PerspectiveMode> perspective = setting("perspective", PerspectiveMode.BACK, v -> true);
-    public KeySetting freeLookKey = setting("free-look-key", InputUtil.GLFW_KEY_F, v -> true);
+    public KeySetting freeLookKey = setting("free-look-key", InputConstants.KEY_F, v -> true);
 
     public boolean freelooking = false;
-    private Perspective oldPerspective = Perspective.FIRST_PERSON;
+    private CameraType oldPerspective = CameraType.FIRST_PERSON;
     private boolean toggleState = false;
     private boolean lastKeyState = false;
 
@@ -58,7 +58,7 @@ public class FreeLook extends Module {
         if (WorldUtil.nullCheck()) return;
 
         boolean isKeyDown = KeybindUtil.isPressed(freeLookKey.getValue());
-        boolean isInScreen = mc.currentScreen != null;
+        boolean isInScreen = mc.screen != null;
 
         if (mode.getValue() == Mode.HOLD) {
             if (isKeyDown && !isInScreen) {
@@ -89,13 +89,13 @@ public class FreeLook extends Module {
     }
 
     private void startFreeLook() {
-        oldPerspective = mc.options.getPerspective();
+        oldPerspective = mc.options.getCameraType();
         freelooking = true;
-        mc.options.setPerspective(perspective.getValue().getPerspective());
+        mc.options.setCameraType(perspective.getValue().getPerspective());
     }
 
     private void stopFreeLook() {
         freelooking = false;
-        mc.options.setPerspective(oldPerspective);
+        mc.options.setCameraType(oldPerspective);
     }
 }

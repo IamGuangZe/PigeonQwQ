@@ -1,7 +1,7 @@
 package owo.pigeon.utils;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import owo.pigeon.modules.impl.client.PigeonQwQ;
 
 import java.awt.*;
@@ -58,8 +58,8 @@ public class ColorUtil {
         return ModuleUtil.getModule(PigeonQwQ.class).theme.getValue();
     }
 
-    public static MutableText gradientText(String text, int[] colors) {
-        MutableText result = Text.empty();
+    public static MutableComponent gradientText(String text, int[] colors) {
+        MutableComponent result = Component.empty();
         int len = text.length();
         if (len == 0) return result;
 
@@ -67,8 +67,8 @@ public class ColorUtil {
             float ratio = len > 1 ? (float) i / (len - 1) : 0f;
             int color = interpolateGradient(colors, ratio);
 
-            result.append(Text.literal(String.valueOf(text.charAt(i)))
-                    .styled(style -> style.withColor(color)));
+            result.append(Component.literal(String.valueOf(text.charAt(i)))
+                    .withStyle(style -> style.withColor(color)));
         }
         return result;
     }

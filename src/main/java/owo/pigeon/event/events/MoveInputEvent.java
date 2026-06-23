@@ -1,62 +1,62 @@
 package owo.pigeon.event.events;
 
-import net.minecraft.client.input.Input;
-import net.minecraft.util.PlayerInput;
-import net.minecraft.util.math.Vec2f;
+import net.minecraft.client.player.ClientInput;
+import net.minecraft.world.entity.player.Input;
+import net.minecraft.world.phys.Vec2;
 import owo.pigeon.event.Event;
 import owo.pigeon.mixin.accessors.IAccessorInput;
 
 public class MoveInputEvent extends Event {
 
-    private final Input input;
+    private final ClientInput input;
 
-    public MoveInputEvent(Input input) {
+    public MoveInputEvent(ClientInput input) {
         this.input = input;
     }
 
-    public Input getInput() {
+    public ClientInput getInput() {
         return input;
     }
 
-    public PlayerInput getPlayerInput() {
-        return input.playerInput;
+    public Input getPlayerInput() {
+        return input.keyPresses;
     }
 
-    public void setPlayerInput(PlayerInput playerInput) {
-        input.playerInput = playerInput;
+    public void setPlayerInput(Input playerInput) {
+        input.keyPresses = playerInput;
     }
 
-    public Vec2f getMovementVector() {
+    public Vec2 getMovementVector() {
         return ((IAccessorInput) input).pigeon$getMovementVector();
     }
 
-    public void setMovementVector(Vec2f movementVector) {
+    public void setMovementVector(Vec2 movementVector) {
         ((IAccessorInput) input).pigeon$setMovementVector(movementVector);
     }
 
     public boolean isSneaking() {
-        return input.playerInput.sneak();
+        return input.keyPresses.shift();
     }
 
     public boolean isJumping() {
-        return input.playerInput.jump();
+        return input.keyPresses.jump();
     }
 
     public void setSneaking(boolean sneak) {
-        PlayerInput old = input.playerInput;
-        if (old.sneak() == sneak) return;
+        Input old = input.keyPresses;
+        if (old.shift() == sneak) return;
 
-        input.playerInput = new PlayerInput(
+        input.keyPresses = new Input(
                 old.forward(), old.backward(),
                 old.left(), old.right(),
                 old.jump(), sneak, old.sprint()
         );
 
-        Vec2f mv = getMovementVector();
+        Vec2 mv = getMovementVector();
         if (sneak) {
-            setMovementVector(new Vec2f(mv.x * 0.3f, mv.y * 0.3f));
+            setMovementVector(new Vec2(mv.x * 0.3f, mv.y * 0.3f));
         } else {
-            setMovementVector(new Vec2f(mv.x / 0.3f, mv.y / 0.3f));
+            setMovementVector(new Vec2(mv.x / 0.3f, mv.y / 0.3f));
         }
     }
 }

@@ -1,7 +1,7 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ColorUtil;
@@ -24,31 +24,31 @@ public class HidePanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
 
         float scale = 0.5f;
-        context.getMatrices().pushMatrix();
-        context.getMatrices().scale(scale, scale);
+        context.pose().pushMatrix();
+        context.pose().scale(scale, scale);
 
         boolean value = module.isHide();
         String displayValue = value ? "&atrue" : "&cfalse";
 
-        context.drawTextWithShadow(
+        context.drawString(
                 textRenderer,
                 ColorUtil.parseColor("hide : " + displayValue),
                 (int) ((x + 4) / scale),
-                (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                 Color.LIGHT_GRAY.getRGB());
 
-        context.getMatrices().popMatrix();
+        context.pose().popMatrix();
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (!hovered) return false;
 
         if (click.button() == 0) {

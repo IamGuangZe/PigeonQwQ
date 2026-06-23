@@ -35,13 +35,13 @@ public class ServerUtil {
     }
 
     public static void onPongResponse(long startTime) {
-        currentPing = (int) (Util.getMeasuringTimeMs() - startTime);
+        currentPing = (int) (Util.getMillis() - startTime);
         if (currentPing < 0) currentPing = 0;
 
         // ChatUtil.sendDebugMessage("ServerUtil", "Ping RTT: " + currentPing + "ms (startTime=" + startTime + ")");
 
-        var pingLog = mc.getDebugHud().getPingLog();
-        int sampleSize = Math.min(pingLog.getLength(), 20);
+        var pingLog = mc.getDebugOverlay().getPingLogger();
+        int sampleSize = Math.min(pingLog.size(), 20);
         if (sampleSize == 0) {
             averagePing = currentPing;
             return;

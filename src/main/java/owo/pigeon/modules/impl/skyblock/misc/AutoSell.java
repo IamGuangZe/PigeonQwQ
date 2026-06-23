@@ -1,10 +1,10 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.ItemStack;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClickSlotEvent;
 import owo.pigeon.event.events.ClientTickEvent;
@@ -40,7 +40,7 @@ public class AutoSell extends Module {
     public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
 
-        if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler container) {
+        if (mc.player.containerMenu instanceof ChestMenu container) {
             if (!SkyblockUtil.isSellableMenu(container)) return;
 
             if (tick <= delay.getMaxValue()) tick++;
@@ -51,11 +51,11 @@ public class AutoSell extends Module {
                 List<String> ids = itemId.getValue();
 
                 for (int i = containerSize; i < container.slots.size(); i++) {
-                    ItemStack stack = container.getSlot(i).getStack();
+                    ItemStack stack = container.getSlot(i).getItem();
                     if (stack.isEmpty()) continue;
 
                     if (matchesItem(stack, names, ids)) {
-                        PlayerUtil.clickSlot(container.syncId, i, 0, SlotActionType.QUICK_MOVE);
+                        PlayerUtil.clickSlot(container.containerId, i, 0, ClickType.QUICK_MOVE);
                         break;
                     }
                 }
@@ -69,8 +69,8 @@ public class AutoSell extends Module {
     @Handler
     public void onRenderContainer(RenderEvent.RenderContainerEvent event) {
         if (!Pigeon.isDebug()) return;
-        if (!(event.getScreen() instanceof GenericContainerScreen screen)) return;
-        GenericContainerScreenHandler container = event.getContainer();
+        if (!(event.getScreen() instanceof ContainerScreen screen)) return;
+        ChestMenu container = event.getContainer();
         if (container == null) return;
 
         IAccessorHandledScreen guiAccessor = (IAccessorHandledScreen) screen;
@@ -102,7 +102,7 @@ public class AutoSell extends Module {
             }
         }
 
-        String displayName = ColorUtil.removeColor(stack.getName().getString());
+        String displayName = ColorUtil.removeColor(stack.getHoverName().getString());
         for (String targetName : names) {
             if (displayName.contains(targetName)) return true;
         }

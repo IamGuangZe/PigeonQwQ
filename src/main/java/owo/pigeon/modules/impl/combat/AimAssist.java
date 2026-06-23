@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.combat;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.HitResult;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -52,10 +52,10 @@ public class AimAssist extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        if (mc.currentScreen != null) return;
+        if (mc.screen != null) return;
 
-        boolean attacking = KeybindUtil.isPressed(mc.options.attackKey);
-        boolean lookingAtBlock = mc.crosshairTarget != null && mc.crosshairTarget.getType() == HitResult.Type.BLOCK;
+        boolean attacking = KeybindUtil.isPressed(mc.options.keyAttack);
+        boolean lookingAtBlock = mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.BLOCK;
 
         if (attacking) {
             lastPressTime = System.currentTimeMillis();
@@ -69,7 +69,7 @@ public class AimAssist extends Module {
             return;
         }
 
-        List<PlayerEntity> targets = mc.world.getPlayers()
+        List<Player> targets = mc.level.players()
                 .stream()
                 .filter(this::isValidTarget)
                 .sorted(this::compareTargets)
@@ -81,21 +81,21 @@ public class AimAssist extends Module {
             targets.removeIf(player -> !isInReach(player));
         }
 
-        PlayerEntity target = targets.getFirst();
+        Player target = targets.getFirst();
 
         if (RotationUtil.distanceToEntity(target) <= 0.0) return;
 
-        float collisionBorderSize = target.getTargetingMargin();
+        float collisionBorderSize = target.getPickRadius();
         float[] targetRotation = RotationUtil.getRotationsToBox(
-                target.getBoundingBox().expand(collisionBorderSize),
-                mc.player.getYaw(),
-                mc.player.getPitch(),
+                target.getBoundingBox().inflate(collisionBorderSize),
+                mc.player.getYRot(),
+                mc.player.getXRot(),
                 180.0f,
                 0.0f
         );
 
-        float currentYaw = mc.player.getYaw();
-        float currentPitch = mc.player.getPitch();
+        float currentYaw = mc.player.getYRot();
+        float currentPitch = mc.player.getXRot();
         float hSpeed = (float) horizontalSpeed.getValue();
         float vSpeed = (float) verticalSpeed.getValue();
 
@@ -106,8 +106,8 @@ public class AimAssist extends Module {
         newYaw = RotationUtil.normalizeRotation(currentYaw, newYaw);
         newPitch = RotationUtil.normalizeRotation(currentPitch, newPitch);
 
-        mc.player.setYaw(newYaw);
-        mc.player.setPitch(newPitch);
+        mc.player.setYRot(newYaw);
+        mc.player.setXRot(newPitch);
     }
 
     private float smoothRotation(float current, float target, float speed, float delta) {
@@ -120,8 +120,8 @@ public class AimAssist extends Module {
         };
     }
 
-    private boolean isValidTarget(PlayerEntity player) {
-        if (player == mc.player || player == mc.player.getVehicle() || player.isDead() || player.isSpectator())
+    private boolean isValidTarget(Player player) {
+        if (player == mc.player || player == mc.player.getVehicle() || player.isDeadOrDying() || player.isSpectator())
             return false;
         if (RotationUtil.distanceToEntity(player) > this.range.getValue()) return false;
         if (RotationUtil.angleToEntity(player) > this.fov.getValue()) return false;
@@ -130,11 +130,11 @@ public class AimAssist extends Module {
         return this.throughWalls.getValue() || RotationUtil.rayTrace(player).getType() != HitResult.Type.BLOCK;
     }
 
-    private boolean isInReach(PlayerEntity player) {
+    private boolean isInReach(Player player) {
         return RotationUtil.distanceToEntity(player) <= 3.0;
     }
 
-    private int compareTargets(PlayerEntity e1, PlayerEntity e2) {
+    private int compareTargets(Player e1, Player e2) {
         return switch (this.sort.getValue()) {
             case FOV -> Float.compare(RotationUtil.angleToEntity(e1), RotationUtil.angleToEntity(e2));
             case HEALTH -> Float.compare(e1.getHealth(), e2.getHealth());

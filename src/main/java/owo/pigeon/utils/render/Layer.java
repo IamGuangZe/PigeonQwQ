@@ -1,7 +1,7 @@
 package owo.pigeon.utils.render;
 
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.util.Util;
 
 import java.util.function.Function;
@@ -11,23 +11,23 @@ import static owo.pigeon.utils.render.Pipeline.GLOBAL_QUADS_PIPELINE;
 
 
 public class Layer {
-    private static final RenderLayer GLOBAL_QUADS;
-    private static final Function<Double, RenderLayer> GLOBAL_LINES;
+    private static final RenderType GLOBAL_QUADS;
+    private static final Function<Double, RenderType> GLOBAL_LINES;
 
-    public static RenderLayer getGlobalLines(double width) {
+    public static RenderType getGlobalLines(double width) {
         return GLOBAL_LINES.apply(width);
     }
 
-    public static RenderLayer getGlobalQuads() {
+    public static RenderType getGlobalQuads() {
         return GLOBAL_QUADS;
     }
 
     static {
-        GLOBAL_QUADS = RenderLayer.of("global_fill",
-                RenderSetup.builder(GLOBAL_QUADS_PIPELINE).build());
+        GLOBAL_QUADS = RenderType.create("global_fill",
+                RenderSetup.builder(GLOBAL_QUADS_PIPELINE).createRenderSetup());
 
         GLOBAL_LINES = Util.memoize(l ->
-                RenderLayer.of("global_lines",
-                        RenderSetup.builder(GLOBAL_LINES_PIPELINE).build()));
+                RenderType.create("global_lines",
+                        RenderSetup.builder(GLOBAL_LINES_PIPELINE).createRenderSetup()));
     }
 }

@@ -1,20 +1,20 @@
 package owo.pigeon.mixin.accessors;
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(HandledScreen.class)
+@Mixin(AbstractContainerScreen.class)
 public interface IAccessorHandledScreen {
-    @Accessor("x")
+    @Accessor("leftPos")
     int pigeon$getX();
 
-    @Accessor("y")
+    @Accessor("topPos")
     int pigeon$getY();
 
-    @Accessor("backgroundWidth")
+    @Accessor("imageWidth")
     int pigeon$getBackgroundWidth();
 
-    @Accessor("backgroundHeight")
+    @Accessor("imageHeight")
     int pigeon$getBackgroundHeight();
 }

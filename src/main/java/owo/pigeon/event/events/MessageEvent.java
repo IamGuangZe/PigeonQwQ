@@ -1,6 +1,6 @@
 package owo.pigeon.event.events;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import owo.pigeon.event.CancellableEvent;
 
 public class MessageEvent extends CancellableEvent {
@@ -8,20 +8,20 @@ public class MessageEvent extends CancellableEvent {
         SEND, RECEIVE
     }
 
-    private Text message;
+    private Component message;
     private final Type type;
     private boolean messageModified;
 
-    public MessageEvent(Text message, Type type) {
+    public MessageEvent(Component message, Type type) {
         this.message = message;
         this.type = type;
     }
 
-    public Text getMessage() {
+    public Component getMessage() {
         return this.message;
     }
 
-    public void setMessage(Text message) {
+    public void setMessage(Component message) {
         this.message = message;
         messageModified = true;
     }
@@ -35,7 +35,7 @@ public class MessageEvent extends CancellableEvent {
     }
 
     public static class SendMessageEvent extends MessageEvent {
-        public SendMessageEvent(Text message) {
+        public SendMessageEvent(Component message) {
             super(message, Type.SEND);
         }
     }
@@ -43,7 +43,7 @@ public class MessageEvent extends CancellableEvent {
     public static class ReceiveMessageEvent extends MessageEvent {
         private final boolean overlay;
 
-        public ReceiveMessageEvent(Text message, boolean overlay) {
+        public ReceiveMessageEvent(Component message, boolean overlay) {
             super(message, Type.RECEIVE);
             this.overlay = overlay;
         }

@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.skyblock.player;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.input.Input;
-import net.minecraft.util.PlayerInput;
+import net.minecraft.client.player.ClientInput;
+import net.minecraft.world.entity.player.Input;
 import owo.pigeon.event.events.MoveInputEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -23,22 +23,22 @@ public class AutoBreath extends Module {
 
     @Handler
     public void onMoveInput(MoveInputEvent event) {
-        if (mc.currentScreen != null) return;
+        if (mc.screen != null) return;
         if (onlyInGalatea.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.GALATEA))
             return;
 
-        Input input = event.getInput();
-        PlayerInput playerInput = input.playerInput;
+        ClientInput input = event.getInput();
+        Input playerInput = input.keyPresses;
 
-        boolean shouldJump = mc.player.getAir() / 15.0f <= air.getValue() || playerInput.jump();
+        boolean shouldJump = mc.player.getAirSupply() / 15.0f <= air.getValue() || playerInput.jump();
         boolean shouldSneak = reDive.getValue()
-                && mc.player.getAir() / 15.0f > air.getValue()
-                && mc.player.isInFluid()
-                && !mc.player.isOnGround()
+                && mc.player.getAirSupply() / 15.0f > air.getValue()
+                && mc.player.isInLiquid()
+                && !mc.player.onGround()
                 && !shouldJump
-                || playerInput.sneak();
+                || playerInput.shift();
 
-        input.playerInput = new PlayerInput(
+        input.keyPresses = new Input(
                 playerInput.forward(), playerInput.backward(),
                 playerInput.left(), playerInput.right(),
                 shouldJump, shouldSneak, playerInput.sprint()

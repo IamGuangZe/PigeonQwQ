@@ -1,10 +1,10 @@
 package owo.pigeon.mixin.mixins;
 
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,19 +17,19 @@ import owo.pigeon.modules.impl.player.NoBreakDelay;
 import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 
-@Mixin(ClientPlayerInteractionManager.class)
+@Mixin(MultiPlayerGameMode.class)
 public class MixinClientPlayerInteractionManager {
     @Shadow
-    private int blockBreakingCooldown;
+    private int destroyDelay;
 
-    @Inject(method = "clickSlot", at = @At("HEAD"))
-    private void onClickSlotPre(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
+    @Inject(method = "handleInventoryMouseClick", at = @At("HEAD"))
+    private void onClickSlotPre(int syncId, int slotId, int button, ClickType actionType, Player player, CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new ClickSlotEvent()).now();
         ChatUtil.sendDebugMessage("MixinClientPlayerInteractionManager", "syanId: " + syncId + ", slotId: " + slotId);
     }
 
-    @Inject(method = "updateBlockBreakingProgress", at = @At("HEAD"))
+    @Inject(method = "continueDestroyBlock", at = @At("HEAD"))
     private void onUpdateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        if (ModuleUtil.isEnable(NoBreakDelay.class)) blockBreakingCooldown = 0;
+        if (ModuleUtil.isEnable(NoBreakDelay.class)) destroyDelay = 0;
     }
 }

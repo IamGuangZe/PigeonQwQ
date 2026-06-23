@@ -1,9 +1,9 @@
 package owo.pigeon.commands.impl;
 
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 import owo.pigeon.commands.Command;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.WorldUtil;
@@ -27,7 +27,7 @@ public class SetBlockCommand extends Command {
         }
 
         Identifier id = Identifier.tryParse(args[3]);
-        if (id == null || !Registries.BLOCK.containsId(id)) {
+        if (id == null || !BuiltInRegistries.BLOCK.containsKey(id)) {
             CommandUtil.sendCommandError(
                     CommandUtil.ErrorReason.UnknownBlock,
                     getCommand(),
@@ -36,7 +36,7 @@ public class SetBlockCommand extends Command {
             );
             return;
         }
-        Block block = Registries.BLOCK.get(id);
+        Block block = BuiltInRegistries.BLOCK.getValue(id);
 
         Double x = WorldUtil.parseCoordinate(args[0], mc.player.getX());
         if (x == null) {
@@ -71,7 +71,7 @@ public class SetBlockCommand extends Command {
             return;
         }
 
-        BlockPos pos = BlockPos.ofFloored(x, y, z);
+        BlockPos pos = BlockPos.containing(x, y, z);
 
         WorldUtil.setBlock(pos, block);
     }

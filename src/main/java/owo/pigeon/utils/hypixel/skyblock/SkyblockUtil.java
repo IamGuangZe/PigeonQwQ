@@ -1,15 +1,15 @@
 package owo.pigeon.utils.hypixel.skyblock;
 
 import com.google.common.collect.Sets;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Box;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.AABB;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ItemUtil;
@@ -89,13 +89,13 @@ public class SkyblockUtil {
     public static final String DUNGEONEERING = "eyJ0aW1lc3RhbXAiOjE1ODcwMTg2Nzk1NzYsInByb2ZpbGVJZCI6IjJkYzc3YWU3OTQ2MzQ4MDI5NDI4MGM4NDIyNzRiNTY3IiwicHJvZmlsZU5hbWUiOiJzYWR5MDYxMCIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWI1Njg5NWI5NjU5ODk2YWQ2NDdmNTg1OTkyMzhhZjUzMmQ0NmRiOWMxYjAzODliOGJiZWI3MDk5OWRhYjMzZCJ9fX0=";
 
     public static boolean isInSkyblock() {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         return HypixelUtil.isInGame(HypixelUtil.Game.SKYBLOCK);
     }
 
     public static Island getIsland() {
         List<String> tabLines = ScoreBoardUtil.getTabLines();
-        if (mc.isInSingleplayer()) return Island.SINGLE_PLAYER;
+        if (mc.isLocalServer()) return Island.SINGLE_PLAYER;
         if (!isInSkyblock() || tabLines.isEmpty()) return Island.UNKNOWN;
 
         for (String line : tabLines) {
@@ -113,7 +113,7 @@ public class SkyblockUtil {
     }
 
     public static boolean isInIsland(Island island) {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         return getIsland() == island;
     }
 
@@ -121,17 +121,17 @@ public class SkyblockUtil {
         if (WorldUtil.nullCheck()) return null;
 
         String ownerMarker = "Spawned by: " + mc.player.getName().getString();
-        for (Entity entity : mc.world.getEntities()) {
-            if (entity instanceof ArmorStandEntity stand && stand.getName().getString().startsWith(ownerMarker)) {
+        for (Entity entity : mc.level.entitiesForRendering()) {
+            if (entity instanceof ArmorStand stand && stand.getName().getString().startsWith(ownerMarker)) {
 
                 Entity closest = null;
                 double closestDistance = Double.MAX_VALUE;
-                Box box = stand.getBoundingBox().offset(0.0, -1.0, 0.0).expand(0.5);
+                AABB box = stand.getBoundingBox().move(0.0, -1.0, 0.0).inflate(0.5);
 
-                for (Entity entityInBox : mc.world.getOtherEntities(stand, box)) {
-                    if (entityInBox instanceof ArmorStandEntity || entityInBox == mc.player) continue;
-                    if (entityInBox instanceof WitherEntity && entityInBox.isInvisible()) continue;
-                    if (entityInBox instanceof PlayerEntity player && PlayerUtil.hasUUID(player)) continue;
+                for (Entity entityInBox : mc.level.getEntities(stand, box)) {
+                    if (entityInBox instanceof ArmorStand || entityInBox == mc.player) continue;
+                    if (entityInBox instanceof WitherBoss && entityInBox.isInvisible()) continue;
+                    if (entityInBox instanceof Player player && PlayerUtil.hasUUID(player)) continue;
 
                     double dist = stand.distanceTo(entityInBox);
                     if (dist < closestDistance) {
@@ -150,11 +150,11 @@ public class SkyblockUtil {
     private static final Pattern ABILITY_PATTERN = Pattern.compile(".*?Ability:\\s+(.*?)(?:\\s{2,}.*|\\s*)$");
 
     public static Set<String> getItemAbilityNames(ItemStack stack) {
-        List<Text> lore = getItemLore(stack);
+        List<Component> lore = getItemLore(stack);
         if (lore.isEmpty()) return Collections.emptySet();
 
         return lore.stream()
-                .map(Text::getString)
+                .map(Component::getString)
                 .map(ABILITY_PATTERN::matcher)
                 .filter(Matcher::find)
                 .map(matcher -> matcher.group(1).trim())
@@ -164,8 +164,8 @@ public class SkyblockUtil {
 
     public static int getTotalItemCount(String itemId) {
         int totalCount = 0;
-        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
+        for (int i = 0; i < mc.player.getInventory().getNonEquipmentItems().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getItem(i);
             if (stack.isEmpty()) continue;
 
             String currentId = ItemUtil.getCustomDataValue(stack, "id", ItemUtil.STRING_EXTRACTOR);
@@ -176,8 +176,8 @@ public class SkyblockUtil {
     }
 
     public static int getFirstItemCount(String itemId) {
-        for (int i = 0; i < mc.player.getInventory().getMainStacks().size(); i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
+        for (int i = 0; i < mc.player.getInventory().getNonEquipmentItems().size(); i++) {
+            ItemStack stack = mc.player.getInventory().getItem(i);
 
             if (stack.isEmpty()) continue;
 
@@ -193,28 +193,28 @@ public class SkyblockUtil {
 
         if (currentCount < amount) {
             int needed = amount - currentCount;
-            mc.player.networkHandler.sendChatMessage("/gfs " + itemId + " " + needed);
+            mc.player.connection.sendChat("/gfs " + itemId + " " + needed);
             return true;
         }
 
         return false;
     }
 
-    public static boolean isSellableMenu(GenericContainerScreenHandler containerScreen) {
-        int rows = containerScreen.getRows();
+    public static boolean isSellableMenu(ChestMenu containerScreen) {
+        int rows = containerScreen.getRowCount();
         int targetSlotIndex = (rows - 1) * 9 + 4;
         if (targetSlotIndex < 0 || targetSlotIndex >= containerScreen.slots.size()) return false;
 
-        ItemStack stack = containerScreen.getSlot(targetSlotIndex).getStack();
+        ItemStack stack = containerScreen.getSlot(targetSlotIndex).getItem();
         if (stack.isEmpty()) return false;
 
-        String displayName = ColorUtil.removeColor(stack.getName().getString());
-        if (stack.isOf(Items.HOPPER) && displayName.equals("Sell Item")) {
+        String displayName = ColorUtil.removeColor(stack.getHoverName().getString());
+        if (stack.is(Items.HOPPER) && displayName.equals("Sell Item")) {
             return true;
         }
 
-        List<Text> lore = ItemUtil.getItemLore(stack);
-        for (Text line : lore) {
+        List<Component> lore = ItemUtil.getItemLore(stack);
+        for (Component line : lore) {
             if (line.getString().contains("Click to buyback!")) {
                 return true;
             }

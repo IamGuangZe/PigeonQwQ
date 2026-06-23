@@ -1,11 +1,11 @@
 package owo.pigeon.utils.player;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,11 +17,11 @@ import static owo.pigeon.Pigeon.mc;
 
 public class RotationUtil {
     public static float angleDifference(float a, float b) {
-        return MathHelper.wrapDegrees(a - b);
+        return Mth.wrapDegrees(a - b);
     }
 
     public static float wrapAngleDiff(float angle, float target) {
-        return target + MathHelper.wrapDegrees(angle - target);
+        return target + Mth.wrapDegrees(angle - target);
     }
 
     public static float clampAngle(float angle, float maxAngle) {
@@ -43,7 +43,7 @@ public class RotationUtil {
     }
 
     public static float gcd() {
-        double sensitivity = mc.options.getMouseSensitivity().getValue();
+        double sensitivity = mc.options.sensitivity().get();
         double gcdSens = sensitivity * 0.6 + 0.2;
         return (float) (gcdSens * gcdSens * gcdSens * 8.0 * 0.15);
     }
@@ -98,8 +98,8 @@ public class RotationUtil {
         return oneMinusT * oneMinusT * start + 2.0f * oneMinusT * t * control + t * t * end;
     }
 
-    public static float[] getRotationsToBox(Box boundingBox, float yaw, float pitch, float maxAngle, float smoothFactor) {
-        Vec3d eyePos = mc.player.getCameraPosVec(1.0f);
+    public static float[] getRotationsToBox(AABB boundingBox, float yaw, float pitch, float maxAngle, float smoothFactor) {
+        Vec3 eyePos = mc.player.getEyePosition(1.0f);
         double minTargetY = boundingBox.minY + 0.05 * (boundingBox.maxY - boundingBox.minY);
         double maxTargetY = boundingBox.minY + 0.75 * (boundingBox.maxY - boundingBox.minY);
         double deltaX = (boundingBox.minX + boundingBox.maxX) / 2.0 - eyePos.x;
@@ -114,14 +114,14 @@ public class RotationUtil {
 
     public static float[] getRotations(double targetX, double targetY, double targetZ, float currentYaw, float currentPitch, float maxAngle, float smoothFactor) {
         double horizontalDistance = Math.sqrt(targetX * targetX + targetZ * targetZ);
-        float yawDelta = MathHelper.wrapDegrees((float) (Math.atan2(targetZ, targetX) * 180.0 / Math.PI) - 90.0f - currentYaw);
-        float pitchDelta = MathHelper.wrapDegrees((float) (-Math.atan2(targetY, horizontalDistance) * 180.0 / Math.PI) - currentPitch);
+        float yawDelta = Mth.wrapDegrees((float) (Math.atan2(targetZ, targetX) * 180.0 / Math.PI) - 90.0f - currentYaw);
+        float pitchDelta = Mth.wrapDegrees((float) (-Math.atan2(targetY, horizontalDistance) * 180.0 / Math.PI) - currentPitch);
         yawDelta = Math.abs(yawDelta) <= 1.0f ? 0.0f : smoothAngle(clampAngle(yawDelta, maxAngle), smoothFactor);
         pitchDelta = Math.abs(pitchDelta) <= 1.0f ? 0.0f : smoothAngle(clampAngle(pitchDelta, maxAngle), smoothFactor);
         return new float[]{quantizeAngle(currentYaw + yawDelta), quantizeAngle(currentPitch + pitchDelta)};
     }
 
-    public static Vec3d clampVecToBox(Vec3d vector, Box boundingBox) {
+    public static Vec3 clampVecToBox(Vec3 vector, AABB boundingBox) {
         double[] coords = new double[]{vector.x, vector.y, vector.z};
         double[] minCoords = new double[]{boundingBox.minX, boundingBox.minY, boundingBox.minZ};
         double[] maxCoords = new double[]{boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ};
@@ -133,30 +133,30 @@ public class RotationUtil {
             if (!(coords[i] < minCoords[i])) continue;
             coords[i] = minCoords[i];
         }
-        return new Vec3d(coords[0], coords[1], coords[2]);
+        return new Vec3(coords[0], coords[1], coords[2]);
     }
 
     public static double distanceToEntity(Entity entity) {
-        float borderSize = entity.getTargetingMargin();
-        Box boundingBox = entity.getBoundingBox().expand(borderSize);
+        float borderSize = entity.getPickRadius();
+        AABB boundingBox = entity.getBoundingBox().inflate(borderSize);
         return distanceToBox(boundingBox);
     }
 
-    public static double distanceToEntity(Entity entity, Vec3d point) {
-        float borderSize = entity.getTargetingMargin();
-        Box boundingBox = entity.getBoundingBox().expand(borderSize);
+    public static double distanceToEntity(Entity entity, Vec3 point) {
+        float borderSize = entity.getPickRadius();
+        AABB boundingBox = entity.getBoundingBox().inflate(borderSize);
         return distanceToBox(boundingBox, point);
     }
 
-    public static double distanceToBox(Box boundingBox) {
-        return distanceToBox(boundingBox, mc.player.getCameraPosVec(1.0f));
+    public static double distanceToBox(AABB boundingBox) {
+        return distanceToBox(boundingBox, mc.player.getEyePosition(1.0f));
     }
 
-    public static double distanceToBox(Box boundingBox, Vec3d point) {
+    public static double distanceToBox(AABB boundingBox, Vec3 point) {
         if (boundingBox.contains(point)) {
             return 0.0;
         }
-        Vec3d clampedPoint = clampVecToBox(point, boundingBox);
+        Vec3 clampedPoint = clampVecToBox(point, boundingBox);
         double deltaX = clampedPoint.x - point.x;
         double deltaY = clampedPoint.y - point.y;
         double deltaZ = clampedPoint.z - point.z;
@@ -164,39 +164,39 @@ public class RotationUtil {
     }
 
     public static float angleToEntity(Entity entity) {
-        Vec3d eyePos = mc.player.getCameraPosVec(1.0f);
-        float borderSize = entity.getTargetingMargin();
-        Box boundingBox = entity.getBoundingBox().expand(borderSize);
+        Vec3 eyePos = mc.player.getEyePosition(1.0f);
+        float borderSize = entity.getPickRadius();
+        AABB boundingBox = entity.getBoundingBox().inflate(borderSize);
         if (boundingBox.contains(eyePos)) {
             return 0.0f;
         }
         double deltaX = entity.getX() - eyePos.x;
         double deltaZ = entity.getZ() - eyePos.z;
-        return Math.abs(MathHelper.wrapDegrees((float) (Math.atan2(deltaZ, deltaX) * 180.0 / Math.PI) - 90.0f - mc.player.getYaw())) * 2.0f;
+        return Math.abs(Mth.wrapDegrees((float) (Math.atan2(deltaZ, deltaX) * 180.0 / Math.PI) - 90.0f - mc.player.getYRot())) * 2.0f;
     }
 
     public static float getYawBetween(double x1, double z1, double x2, double z2) {
-        return MathHelper.wrapDegrees((float) (Math.atan2(z2 - z1, x2 - x1) * 180.0 / Math.PI) - 90.0f - mc.player.getYaw());
+        return Mth.wrapDegrees((float) (Math.atan2(z2 - z1, x2 - x1) * 180.0 / Math.PI) - 90.0f - mc.player.getYRot());
     }
 
     public static HitResult rayTrace(float yaw, float pitch, double distance, float partialTicks) {
-        Vec3d eyePos = mc.player.getCameraPosVec(partialTicks);
-        Vec3d lookVec = Vec3d.fromPolar(pitch, yaw);
-        Vec3d targetPos = eyePos.add(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
-        return mc.world.raycast(new RaycastContext(eyePos, targetPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player));
+        Vec3 eyePos = mc.player.getEyePosition(partialTicks);
+        Vec3 lookVec = Vec3.directionFromRotation(pitch, yaw);
+        Vec3 targetPos = eyePos.add(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
+        return mc.level.clip(new ClipContext(eyePos, targetPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mc.player));
     }
 
     public static HitResult rayTrace(Entity entity) {
-        Vec3d eyePos = mc.player.getCameraPosVec(1.0f);
-        float borderSize = entity.getTargetingMargin();
-        Vec3d targetPos = clampVecToBox(eyePos, entity.getBoundingBox().expand(borderSize));
-        return mc.world.raycast(new RaycastContext(eyePos, targetPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player));
+        Vec3 eyePos = mc.player.getEyePosition(1.0f);
+        float borderSize = entity.getPickRadius();
+        Vec3 targetPos = clampVecToBox(eyePos, entity.getBoundingBox().inflate(borderSize));
+        return mc.level.clip(new ClipContext(eyePos, targetPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mc.player));
     }
 
-    public static Optional<Vec3d> rayTraceBox(Box boundingBox, float yaw, float pitch, double distance) {
-        Vec3d eyePos = mc.player.getCameraPosVec(1.0f);
-        Vec3d lookVec = Vec3d.fromPolar(pitch, yaw);
-        Vec3d targetPos = eyePos.add(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
-        return boundingBox.raycast(eyePos, targetPos);
+    public static Optional<Vec3> rayTraceBox(AABB boundingBox, float yaw, float pitch, double distance) {
+        Vec3 eyePos = mc.player.getEyePosition(1.0f);
+        Vec3 lookVec = Vec3.directionFromRotation(pitch, yaw);
+        Vec3 targetPos = eyePos.add(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
+        return boundingBox.clip(eyePos, targetPos);
     }
 }

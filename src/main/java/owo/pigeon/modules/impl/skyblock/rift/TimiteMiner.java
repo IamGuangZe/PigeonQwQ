@@ -1,11 +1,11 @@
 package owo.pigeon.modules.impl.skyblock.rift;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.DoItemUseEvent;
@@ -52,16 +52,16 @@ public class TimiteMiner extends Module {
         if (!autoMine.getValue()) return;
 
         if (!isHoldingTimiteTools()) {
-            KeybindUtil.resetPressed(mc.options.useKey);
-            KeybindUtil.resetPressed(mc.options.attackKey);
+            KeybindUtil.resetPressed(mc.options.keyUse);
+            KeybindUtil.resetPressed(mc.options.keyAttack);
             return;
         }
 
         TimiteStage currentBlockStage = getTargetBlockStage();
 
         if (currentBlockStage == null) {
-            KeybindUtil.resetPressed(mc.options.useKey);
-            KeybindUtil.resetPressed(mc.options.attackKey);
+            KeybindUtil.resetPressed(mc.options.keyUse);
+            KeybindUtil.resetPressed(mc.options.keyAttack);
             return;
         }
 
@@ -74,17 +74,17 @@ public class TimiteMiner extends Module {
         if (currentLevel < targetLevel) {
             // 阶段低于目标
             switchTo(GUN);
-            KeybindUtil.resetPressed(mc.options.attackKey);
-            KeybindUtil.setPressed(mc.options.useKey, true);
+            KeybindUtil.resetPressed(mc.options.keyAttack);
+            KeybindUtil.setPressed(mc.options.keyUse, true);
         } else if (currentLevel == targetLevel) {
             // 阶段等于目标
             switchTo(PICKAXE);
-            KeybindUtil.resetPressed(mc.options.useKey);
-            KeybindUtil.setPressed(mc.options.attackKey, true);
+            KeybindUtil.resetPressed(mc.options.keyUse);
+            KeybindUtil.setPressed(mc.options.keyAttack, true);
         } else {
             // 阶段高于目标
-            KeybindUtil.resetPressed(mc.options.useKey);
-            KeybindUtil.resetPressed(mc.options.attackKey);
+            KeybindUtil.resetPressed(mc.options.keyUse);
+            KeybindUtil.resetPressed(mc.options.keyAttack);
         }
     }
 
@@ -103,8 +103,8 @@ public class TimiteMiner extends Module {
     @Override
     public void onDisable() {
         if (mc.options != null) {
-            KeybindUtil.resetPressed(mc.options.useKey);
-            KeybindUtil.resetPressed(mc.options.attackKey);
+            KeybindUtil.resetPressed(mc.options.keyUse);
+            KeybindUtil.resetPressed(mc.options.keyAttack);
         }
     }
 
@@ -121,22 +121,22 @@ public class TimiteMiner extends Module {
     }
 
     private TimiteStage getTargetBlockStage() {
-        if (mc.crosshairTarget == null || mc.crosshairTarget.getType() != HitResult.Type.BLOCK) return null;
+        if (mc.hitResult == null || mc.hitResult.getType() != HitResult.Type.BLOCK) return null;
 
-        BlockState state = mc.world.getBlockState(((BlockHitResult) mc.crosshairTarget).getBlockPos());
+        BlockState state = mc.level.getBlockState(((BlockHitResult) mc.hitResult).getBlockPos());
 
-        if (state.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) return TimiteStage.YOUNGITE;
-        if (state.isOf(Blocks.BLUE_STAINED_GLASS_PANE)) return TimiteStage.TIMITE;
-        if (state.isOf(Blocks.PURPLE_STAINED_GLASS_PANE)) return TimiteStage.OBSOLITE;
+        if (state.is(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) return TimiteStage.YOUNGITE;
+        if (state.is(Blocks.BLUE_STAINED_GLASS_PANE)) return TimiteStage.TIMITE;
+        if (state.is(Blocks.PURPLE_STAINED_GLASS_PANE)) return TimiteStage.OBSOLITE;
 
         return null;
     }
 
     private boolean isHoldingTimiteTools() {
-        ItemStack stack = mc.player.getMainHandStack();
+        ItemStack stack = mc.player.getMainHandItem();
         if (stack.isEmpty()) return false;
 
-        String name = ColorUtil.removeColor(stack.getName().getString());
+        String name = ColorUtil.removeColor(stack.getHoverName().getString());
         return name.contains(PICKAXE) || name.contains(GUN);
     }
 

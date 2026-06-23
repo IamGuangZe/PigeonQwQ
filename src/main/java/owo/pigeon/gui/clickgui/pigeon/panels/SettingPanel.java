@@ -1,9 +1,9 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.util.InputUtil;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.gui.clickgui.pigeon.edits.ListSettingEditScreen;
 import owo.pigeon.gui.clickgui.pigeon.edits.SettingEditScreen;
@@ -31,46 +31,46 @@ public class SettingPanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
         String displayName = setting.getName().replaceAll("-and-", "-&&-").replaceAll("-", " ");
 
         context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
 
         float scale = 0.5f;
-        context.getMatrices().pushMatrix();
-        context.getMatrices().scale(scale, scale);
+        context.pose().pushMatrix();
+        context.pose().scale(scale, scale);
 
         if (setting instanceof BlockSetting blockSetting) {
             String displayValue = blockSetting.getValue().getName().getString();
 
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB()
             );
 
         } else if (setting instanceof CharSetting charSetting) {
             String displayValue = "'&7" + String.valueOf(charSetting.getValue()).replace("&", "&&") + "&r'";
 
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof EnableSetting enableSetting) {
             boolean value = enableSetting.getValue();
 
             String displayValue = value ? "&atrue" : "&cfalse";
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof KeySetting keySetting) {
@@ -80,9 +80,9 @@ public class SettingPanel extends AbstractDisplableItem {
                 displayValue = "Press a key...";
             } else {
                 if (keySetting.getValue() > 0) {
-                    displayValue = InputUtil.Type.KEYSYM
-                            .createFromCode(keySetting.getValue())
-                            .getTranslationKey()
+                    displayValue = InputConstants.Type.KEYSYM
+                            .getOrCreate(keySetting.getValue())
+                            .getName()
                             .replace("key.keyboard.", "")
                             .replace(".", " ")
                             .toUpperCase();
@@ -91,79 +91,79 @@ public class SettingPanel extends AbstractDisplableItem {
                 }
             }
 
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof ModeSetting<?> modeSetting) {
             String displayValue = "&b" + modeSetting.getValue().toString().toUpperCase();
 
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof StringSetting stringSetting) {
             String displayValue = "\"&7" + stringSetting.getValue().replace("&", "&&") + "&r\"";
 
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof ListSetting listSetting) {
             String displayValue = "&b[" + listSetting.size() + " items]";
 
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof ExpandSetting expandSetting) {
             boolean value = expandSetting.getValue();
 
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     ColorUtil.parseColor(displayName + " :"),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB()
             );
 
             String symbol = value ? "-" : "+";
             int color = value ? Color.RED.getRGB() : Color.GREEN.getRGB();
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     symbol,
-                    (int) ((x + width - textRenderer.getWidth(symbol) * scale - 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                    (int) ((x + width - textRenderer.width(symbol) * scale - 4) / scale),
+                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                     color
             );
 
         } else {
-            context.drawTextWithShadow(
+            context.drawString(
                     textRenderer,
                     displayName,
                     (int) ((x + 4) / scale),
-                    (int) (((y + (float) height / 2) - (float) textRenderer.fontHeight / 2 + 1) / scale),
+                    (int) (((y + (float) height / 2) - (float) textRenderer.lineHeight / 2 + 1) / scale),
                     Color.LIGHT_GRAY.getRGB());
         }
 
-        context.getMatrices().popMatrix();
+        context.pose().popMatrix();
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.GREEN.getRGB());
     }
 
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (!hovered) return false;
 
         if (click.button() == 0) {
@@ -189,11 +189,11 @@ public class SettingPanel extends AbstractDisplableItem {
         return true;
     }
 
-    public void mouseReleased(Click click) {
+    public void mouseReleased(MouseButtonEvent click) {
 
     }
 
-    public void mouseDragged(Click click, double offsetX, double offsetY) {
+    public void mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
 
     }
 
@@ -201,12 +201,12 @@ public class SettingPanel extends AbstractDisplableItem {
         return hovered;
     }
 
-    public void keyPressed(KeyInput input) {
+    public void keyPressed(KeyEvent input) {
         if (waitingForKey && setting instanceof KeySetting keySetting) {
-            if (input.getKeycode() == InputUtil.GLFW_KEY_ESCAPE) {
+            if (input.input() == InputConstants.KEY_ESCAPE) {
                 keySetting.setValue(-1);
             } else {
-                keySetting.setValue(input.getKeycode());
+                keySetting.setValue(input.input());
             }
             waitingForKey = false;
         }

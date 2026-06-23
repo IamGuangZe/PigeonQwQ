@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -17,13 +17,13 @@ public class Performance extends Module {
 
     @Handler
     public void onRender2D(RenderEvent.Render2DEvent event) {
-        if (mc.options.hudHidden) return;
-        if (mc.player == null || mc.getNetworkHandler() == null) return;
+        if (mc.options.hideGui) return;
+        if (mc.player == null || mc.getConnection() == null) return;
 
-        DrawContext context = event.getContext();
+        GuiGraphics context = event.getContext();
         int lineHeight = TextRendererUtil.getLineHeight();
         int x = 2;
-        int y = mc.getWindow().getScaledHeight() - lineHeight - 2;
+        int y = mc.getWindow().getGuiScaledHeight() - lineHeight - 2;
 
         String tpsText = String.format("%.1f", owo.pigeon.utils.world.ServerUtil.getTps());
         String pingText = owo.pigeon.utils.world.ServerUtil.getAveragePing() + "ms";

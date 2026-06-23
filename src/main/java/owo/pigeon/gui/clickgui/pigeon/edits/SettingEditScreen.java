@@ -1,13 +1,13 @@
 package owo.pigeon.gui.clickgui.pigeon.edits;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import owo.pigeon.Pigeon;
 import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.settings.AbstractSetting;
@@ -22,70 +22,70 @@ import java.awt.*;
 public class SettingEditScreen extends Screen {
     protected final AbstractSetting<?> setting;
 
-    private TextFieldWidget textField;
+    private EditBox textField;
     private String currentText = null;
 
     public SettingEditScreen(AbstractSetting<?> setting) {
-        super(Text.of("Editing " + setting.getName()));
+        super(Component.nullToEmpty("Editing " + setting.getName()));
         this.setting = setting;
     }
 
     @Override
     protected void init() {
         if (this.textField != null) {
-            this.currentText = this.textField.getText();
+            this.currentText = this.textField.getValue();
         }
 
         int fieldWidth = (int) (this.width * 0.618f);
         int x = (this.width - fieldWidth) / 2;
         int y = this.height / 2 - 10;
 
-        this.textField = new TextFieldWidget(TextRendererUtil.textRenderer, x, y, fieldWidth, 20, Text.of("Setting Input"));
+        this.textField = new EditBox(TextRendererUtil.textRenderer, x, y, fieldWidth, 20, Component.nullToEmpty("Setting Input"));
 
         if (currentText != null) {
-            textField.setText(currentText);
+            textField.setValue(currentText);
         } else if (setting instanceof BlockSetting blockSetting) {
-            textField.setText(Registries.BLOCK.getId(blockSetting.getValue()).toString());
+            textField.setValue(BuiltInRegistries.BLOCK.getKey(blockSetting.getValue()).toString());
         } else if (setting instanceof StringSetting stringSetting) {
-            textField.setText(stringSetting.getValue());
+            textField.setValue(stringSetting.getValue());
         } else if (setting instanceof CharSetting charSetting) {
-            textField.setText(String.valueOf(charSetting.getValue()));
+            textField.setValue(String.valueOf(charSetting.getValue()));
             textField.setMaxLength(1);
         }
 
-        this.textField.setChangedListener(text -> this.currentText = text);
+        this.textField.setResponder(text -> this.currentText = text);
 
-        this.addDrawableChild(this.textField);
+        this.addRenderableWidget(this.textField);
         this.setInitialFocus(this.textField);
 
         int buttonWidth = (fieldWidth - 10) / 2;
         int buttonY = y + 25;
 
-        this.addDrawableChild(ButtonWidget.builder(Text.of("Confirm"), (button) -> saveAndClose()).dimensions(x, buttonY, buttonWidth, 20).build());
+        this.addRenderableWidget(Button.builder(Component.nullToEmpty("Confirm"), (button) -> saveAndClose()).bounds(x, buttonY, buttonWidth, 20).build());
 
-        this.addDrawableChild(ButtonWidget.builder(Text.of("Cancel"), (button) -> this.close()).dimensions(x + buttonWidth + 10, buttonY, buttonWidth, 20).build());
+        this.addRenderableWidget(Button.builder(Component.nullToEmpty("Cancel"), (button) -> this.onClose()).bounds(x + buttonWidth + 10, buttonY, buttonWidth, 20).build());
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
         String text = "You are editing: " + setting.getName();
-        int textWidth = TextRendererUtil.textRenderer.getWidth(text);
+        int textWidth = TextRendererUtil.textRenderer.width(text);
         int textX = (this.width - textWidth) / 2;
-        int textY = this.textField.getY() - TextRendererUtil.textRenderer.fontHeight - 2;
-        context.drawTextWithShadow(TextRendererUtil.textRenderer, text, textX, textY, Color.WHITE.getRGB());
+        int textY = this.textField.getY() - TextRendererUtil.textRenderer.lineHeight - 2;
+        context.drawString(TextRendererUtil.textRenderer, text, textX, textY, Color.WHITE.getRGB());
 
         if (setting instanceof BlockSetting blockSetting) {
-            Identifier id = Identifier.tryParse(textField.getText().toLowerCase().trim());
+            Identifier id = Identifier.tryParse(textField.getValue().toLowerCase().trim());
 
-            if (id != null && Registries.BLOCK.containsId(id)) {
-                textField.setEditableColor(0xFFFFFFFF);
+            if (id != null && BuiltInRegistries.BLOCK.containsKey(id)) {
+                textField.setTextColor(0xFFFFFFFF);
 
                 int previewX = textField.getX() + textField.getWidth() + 4;
                 int previewY = textField.getY() + (textField.getHeight() - 16) / 2;
 
-                context.drawItem(Registries.BLOCK.get(id).asItem().getDefaultStack(), previewX, previewY);
+                context.renderItem(BuiltInRegistries.BLOCK.getValue(id).asItem().getDefaultInstance(), previewX, previewY);
             } else {
-                textField.setEditableColor(0xFFFF5555);
+                textField.setTextColor(0xFFFF5555);
             }
 
         }
@@ -94,21 +94,21 @@ public class SettingEditScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+    public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
         ClickGui clickGui = ModuleUtil.getModule(ClickGui.class);
 
         // if (clickGui.background.getValue()) super.renderBackground(context, mouseX, mouseY, deltaTicks);
         switch (clickGui.background.getValue()) {
-            case INGAME -> this.renderInGameBackground(context);
-            case PANORAMA -> this.renderPanoramaBackground(context, deltaTicks);
-            case BLUR -> this.applyBlur(context);
-            case DARKENING -> this.renderDarkening(context);
+            case INGAME -> this.renderTransparentBackground(context);
+            case PANORAMA -> this.renderPanorama(context, deltaTicks);
+            case BLUR -> this.renderBlurredBackground(context);
+            case DARKENING -> this.renderMenuBackground(context);
         }
     }
 
     @Override
-    public boolean keyPressed(KeyInput input) {
-        if (input.isEnter()) {
+    public boolean keyPressed(KeyEvent input) {
+        if (input.isConfirmation()) {
             saveAndClose();
             return true;
         }
@@ -117,30 +117,30 @@ public class SettingEditScreen extends Screen {
     }
 
     @Override
-    public void close() {
-        this.client.setScreen(Pigeon.clickGuiScreen);
+    public void onClose() {
+        this.minecraft.setScreen(Pigeon.clickGuiScreen);
     }
 
     private void saveAndClose() {
-        if (textField.getText().isEmpty()) {
-            this.close();
+        if (textField.getValue().isEmpty()) {
+            this.onClose();
             return;
         }
 
         if (setting instanceof BlockSetting blockSetting) {
-            Identifier id = Identifier.tryParse(textField.getText().toLowerCase());
-            if (id != null && Registries.BLOCK.containsId(id)) {
-                blockSetting.setValue(Registries.BLOCK.get(id));
+            Identifier id = Identifier.tryParse(textField.getValue().toLowerCase());
+            if (id != null && BuiltInRegistries.BLOCK.containsKey(id)) {
+                blockSetting.setValue(BuiltInRegistries.BLOCK.getValue(id));
             } else {
-                this.close();
+                this.onClose();
                 return;
             }
         } else if (setting instanceof CharSetting charSetting) {
-            charSetting.setValue(textField.getText().charAt(0));
+            charSetting.setValue(textField.getValue().charAt(0));
         } else if (setting instanceof StringSetting stringSetting) {
-            stringSetting.setValue(textField.getText());
+            stringSetting.setValue(textField.getValue());
         }
 
-        this.close();
+        this.onClose();
     }
 }

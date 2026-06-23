@@ -1,8 +1,8 @@
 package owo.pigeon.utils.chat;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 
@@ -10,68 +10,68 @@ import static owo.pigeon.Pigeon.mc;
 
 public class ChatUtil {
 
-    private static MutableText getClientPrefix() {
-        MutableText bracketLeft = Text.literal("[").styled(style -> style.withColor(Formatting.DARK_GRAY));
-        MutableText bracketRight = Text.literal("]").styled(style -> style.withColor(Formatting.DARK_GRAY));
+    private static MutableComponent getClientPrefix() {
+        MutableComponent bracketLeft = Component.literal("[").withStyle(style -> style.withColor(ChatFormatting.DARK_GRAY));
+        MutableComponent bracketRight = Component.literal("]").withStyle(style -> style.withColor(ChatFormatting.DARK_GRAY));
 
         ColorUtil.Theme theme = ColorUtil.getTheme();
-        MutableText nameText = theme.isGradient()
+        MutableComponent nameText = theme.isGradient()
                 ? ColorUtil.gradientText(Pigeon.MOD_NAME, theme.getGradient())
-                : Text.literal(Pigeon.MOD_NAME).styled(style -> style.withColor(Formatting.WHITE));
+                : Component.literal(Pigeon.MOD_NAME).withStyle(style -> style.withColor(ChatFormatting.WHITE));
 
-        return Text.empty()
+        return Component.empty()
                 .append(bracketLeft)
                 .append(nameText)
                 .append(bracketRight)
-                .append(Text.literal(" ").styled(style -> style.withFormatting(Formatting.RESET)));
+                .append(Component.literal(" ").withStyle(style -> style.applyFormat(ChatFormatting.RESET)));
     }
 
-    private static MutableText getCustomPrefix(String prefix) {
-        MutableText bracketLeft = Text.literal("[").styled(style -> style.withColor(Formatting.DARK_GRAY));
-        MutableText bracketRight = Text.literal("]").styled(style -> style.withColor(Formatting.DARK_GRAY));
+    private static MutableComponent getCustomPrefix(String prefix) {
+        MutableComponent bracketLeft = Component.literal("[").withStyle(style -> style.withColor(ChatFormatting.DARK_GRAY));
+        MutableComponent bracketRight = Component.literal("]").withStyle(style -> style.withColor(ChatFormatting.DARK_GRAY));
 
         ColorUtil.Theme theme = ColorUtil.getTheme();
-        MutableText nameText = theme.isGradient()
+        MutableComponent nameText = theme.isGradient()
                 ? ColorUtil.gradientText(prefix, theme.getGradient())
-                : Text.literal(prefix).styled(style -> style.withColor(Formatting.WHITE));
+                : Component.literal(prefix).withStyle(style -> style.withColor(ChatFormatting.WHITE));
 
-        return Text.empty()
+        return Component.empty()
                 .append(bracketLeft)
                 .append(nameText)
                 .append(bracketRight)
-                .append(Text.literal(" ").styled(style -> style.withFormatting(Formatting.RESET)));
+                .append(Component.literal(" ").withStyle(style -> style.applyFormat(ChatFormatting.RESET)));
     }
 
     public static void sendRawMessage(String message) {
-        SafeMessage.messages.add(Text.literal(message));
+        SafeMessage.messages.add(Component.literal(message));
     }
 
-    public static void sendRawMessage(Text text) {
+    public static void sendRawMessage(Component text) {
         SafeMessage.messages.add(text);
     }
 
     public static void sendMessage(String message) {
-        sendRawMessage(getClientPrefix().append(Text.literal(ColorUtil.parseColor(message))));
+        sendRawMessage(getClientPrefix().append(Component.literal(ColorUtil.parseColor(message))));
     }
 
-    public static void sendMessage(Text text) {
+    public static void sendMessage(Component text) {
         sendRawMessage(getClientPrefix().append(text));
     }
 
     public static void sendUncoloredMessage(String message) {
-        MutableText prefix = getClientPrefix();
-        sendRawMessage(prefix.append(Text.literal(message)));
+        MutableComponent prefix = getClientPrefix();
+        sendRawMessage(prefix.append(Component.literal(message)));
     }
 
-    public static void sendUncoloredMessage(Text text) {
+    public static void sendUncoloredMessage(Component text) {
         sendRawMessage(getClientPrefix().append(text));
     }
 
     public static void sendMessage(String prefix, String message) {
-        sendRawMessage(getCustomPrefix(prefix).append(Text.literal(ColorUtil.parseColor(message))));
+        sendRawMessage(getCustomPrefix(prefix).append(Component.literal(ColorUtil.parseColor(message))));
     }
 
-    public static void sendMessage(String prefix, Text text) {
+    public static void sendMessage(String prefix, Component text) {
         sendRawMessage(getCustomPrefix(prefix).append(text));
     }
 
@@ -83,42 +83,42 @@ public class ChatUtil {
         }
     }
 
-    private static MutableText buildDebugPrefix() {
-        int tick = mc.player != null ? mc.player.age : -1;
-        return Text.empty()
-                .append(Text.literal("[DEBUG]").styled(s -> s.withColor(Formatting.RED).withBold(true)))
-                .append(Text.literal(" "))
-                .append(Text.literal("[" + tick + "]").styled(s -> s.withColor(Formatting.RED).withBold(true)))
-                .append(Text.literal(" "));
+    private static MutableComponent buildDebugPrefix() {
+        int tick = mc.player != null ? mc.player.tickCount : -1;
+        return Component.empty()
+                .append(Component.literal("[DEBUG]").withStyle(s -> s.withColor(ChatFormatting.RED).withBold(true)))
+                .append(Component.literal(" "))
+                .append(Component.literal("[" + tick + "]").withStyle(s -> s.withColor(ChatFormatting.RED).withBold(true)))
+                .append(Component.literal(" "));
     }
 
     public static void sendDebugMessage(String message) {
         if (!Pigeon.isDebug()) return;
-        sendRawMessage(buildDebugPrefix().append(getClientPrefix()).append(Text.literal(ColorUtil.parseColor(message))));
+        sendRawMessage(buildDebugPrefix().append(getClientPrefix()).append(Component.literal(ColorUtil.parseColor(message))));
     }
 
-    public static void sendDebugMessage(Text text) {
+    public static void sendDebugMessage(Component text) {
         if (!Pigeon.isDebug()) return;
         sendRawMessage(buildDebugPrefix().append(getClientPrefix()).append(text));
     }
 
     public static void sendDebugMessage(String prefix, String message) {
         if (!Pigeon.isDebug()) return;
-        sendRawMessage(buildDebugPrefix().append(getCustomPrefix(prefix)).append(Text.literal(ColorUtil.parseColor(message))));
+        sendRawMessage(buildDebugPrefix().append(getCustomPrefix(prefix)).append(Component.literal(ColorUtil.parseColor(message))));
     }
 
-    public static void sendDebugMessage(String prefix, Text text) {
+    public static void sendDebugMessage(String prefix, Component text) {
         if (!Pigeon.isDebug()) return;
         sendRawMessage(buildDebugPrefix().append(getCustomPrefix(prefix)).append(text));
     }
 
     public static void sendIfHudReadyMessage(String message) {
-        if (mc.inGameHud == null || mc.inGameHud.getChatHud() == null) return;
-        mc.inGameHud.getChatHud().addMessage(getClientPrefix().append(Text.literal(ColorUtil.parseColor(message))));
+        if (mc.gui == null || mc.gui.getChat() == null) return;
+        mc.gui.getChat().addMessage(getClientPrefix().append(Component.literal(ColorUtil.parseColor(message))));
     }
 
-    public static void sendIfHudReadyMessage(Text text) {
-        if (mc.inGameHud == null || mc.inGameHud.getChatHud() == null) return;
-        mc.inGameHud.getChatHud().addMessage(getClientPrefix().append(text));
+    public static void sendIfHudReadyMessage(Component text) {
+        if (mc.gui == null || mc.gui.getChat() == null) return;
+        mc.gui.getChat().addMessage(getClientPrefix().append(text));
     }
 }

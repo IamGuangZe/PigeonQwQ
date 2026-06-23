@@ -1,11 +1,11 @@
 package owo.pigeon.commands.impl.debug;
 
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import owo.pigeon.commands.Command;
 import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.ScoreBoardUtil;
@@ -47,34 +47,34 @@ public class GetCommand extends Command {
                     return;
                 }
 
-                ChatUtil.sendDebugMessage("Item", "Name: " + stack.getName().getString());
-                ChatUtil.sendDebugMessage("Item", "Identifier: " + stack.getItem().toString());
+                ChatUtil.sendDebugMessage("Item", "Name: " + stack.getHoverName().getString());
+                ChatUtil.sendDebugMessage("Item", "Identifier: " + stack.getItem());
                 ChatUtil.sendDebugMessage("Item", "Count: " + stack.getCount());
                 ChatUtil.sendDebugMessage("Item", "Customdata: " + ItemUtil.getItemCustomData(stack));
 
-                if (stack.isOf(Items.PLAYER_HEAD)) {
+                if (stack.is(Items.PLAYER_HEAD)) {
                     String texture = ItemUtil.getSkullTexture(stack);
                     if (texture != null) {
                         ChatUtil.sendDebugMessage("Item", "Skull Texture: " + texture);
                     }
                 }
 
-                ItemEnchantmentsComponent enchants = stack.getEnchantments();
+                ItemEnchantments enchants = stack.getEnchantments();
                 if (!enchants.isEmpty()) {
                     ChatUtil.sendDebugMessage("Item", "");
                     ChatUtil.sendDebugMessage("Item", "Enchantments:");
-                    enchants.getEnchantments().forEach(enchantment -> {
+                    enchants.keySet().forEach(enchantment -> {
                         String name = enchantment.value().description().getString();
                         int level = enchants.getLevel(enchantment);
                         ChatUtil.sendDebugMessage("Item", " - " + name + " " + level);
                     });
                 }
 
-                List<Text> loreLines = ItemUtil.getItemLore(stack);
+                List<Component> loreLines = ItemUtil.getItemLore(stack);
                 if (!loreLines.isEmpty()) {
                     ChatUtil.sendDebugMessage("Item", "");
                     ChatUtil.sendDebugMessage("Item", "Lore:");
-                    for (Text line : loreLines) {
+                    for (Component line : loreLines) {
                         ChatUtil.sendDebugMessage("Item", " - " + line.getString());
                     }
                 }
@@ -91,8 +91,8 @@ public class GetCommand extends Command {
             }
 
             case "armorstand", "a" -> {
-                for (Entity entity : mc.world.getEntities()) {
-                    if (entity instanceof ArmorStandEntity stand) {
+                for (Entity entity : mc.level.entitiesForRendering()) {
+                    if (entity instanceof ArmorStand stand) {
                         ChatUtil.sendDebugMessage("ArmorStand", "name: " + stand.getName().getString());
                     }
                 }

@@ -1,15 +1,15 @@
 package owo.pigeon.event.events;
 
-import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.input.KeyEvent;
 import org.lwjgl.glfw.GLFW;
 import owo.pigeon.event.Event;
 
 public class KeyInputEvent extends Event {
 
     private final int action;
-    private final KeyInput keyInput;
+    private final KeyEvent keyInput;
 
-    public KeyInputEvent(int action, KeyInput keyInput) {
+    public KeyInputEvent(int action, KeyEvent keyInput) {
         this.action = action;
         this.keyInput = keyInput;
     }

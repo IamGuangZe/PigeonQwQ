@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.modules.Category;
@@ -45,7 +45,7 @@ public class AutoEquipment extends Module {
 
     @Handler
     public void onKeyInput(KeyInputEvent event) {
-        if (mc.currentScreen != null) return;
+        if (mc.screen != null) return;
         int keyCode = event.getKeyCode();
         if (event.isPressed()) {
 
@@ -64,7 +64,7 @@ public class AutoEquipment extends Module {
 
                 targetSlot = slot;
                 ticksOpened = 0;
-                mc.execute(() -> mc.player.networkHandler.sendChatMessage("/eq"));
+                mc.execute(() -> mc.player.connection.sendChat("/eq"));
             }
         }
     }
@@ -75,8 +75,8 @@ public class AutoEquipment extends Module {
 
         if (event instanceof ClientTickEvent.Pre) {
             if (targetSlot == null) return;
-            if (mc.player.currentScreenHandler instanceof GenericContainerScreenHandler containerScreen) {
-                String title = mc.currentScreen.getTitle().getString();
+            if (mc.player.containerMenu instanceof ChestMenu containerScreen) {
+                String title = mc.screen.getTitle().getString();
                 if (title.equals("Your Equipment and Stats")) {
 
                     if (ticksOpened < delay.getValue()) {
@@ -90,7 +90,7 @@ public class AutoEquipment extends Module {
                             ? containerSize + 27 + targetSlot
                             : containerSize + (targetSlot - 9);
 
-                    PlayerUtil.clickSlot(containerScreen.syncId, slotId, 0, SlotActionType.QUICK_MOVE);
+                    PlayerUtil.clickSlot(containerScreen.containerId, slotId, 0, ClickType.QUICK_MOVE);
                     targetSlot = null;
                     isWaitingToClose = true;
                     ticksOpened = 0;
@@ -99,8 +99,8 @@ public class AutoEquipment extends Module {
         }
 
         if (event instanceof ClientTickEvent.Post) {
-            if (isWaitingToClose && mc.player.currentScreenHandler instanceof GenericContainerScreenHandler) {
-                mc.player.closeHandledScreen();
+            if (isWaitingToClose && mc.player.containerMenu instanceof ChestMenu) {
+                mc.player.closeContainer();
                 isWaitingToClose = false;
             }
         }

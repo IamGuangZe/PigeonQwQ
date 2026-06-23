@@ -55,7 +55,7 @@ public class CommandManager {
 
         ChatUtil.sendDebugMessage("CommandManager", "client command: " + input);
 
-        mc.inGameHud.getChatHud().addToMessageHistory(input);
+        mc.gui.getChat().addRecentChat(input);
         String inputCommand = input.substring(1);
 
         if (inputCommand.isEmpty()) {

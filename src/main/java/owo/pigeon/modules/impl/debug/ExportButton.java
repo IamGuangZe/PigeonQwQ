@@ -3,13 +3,13 @@ package owo.pigeon.modules.impl.debug;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.mixin.accessors.IAccessorHandledScreen;
 import owo.pigeon.mixin.accessors.IAccessorScreen;
@@ -24,8 +24,8 @@ import static owo.pigeon.Pigeon.GSON;
 import static owo.pigeon.Pigeon.mc;
 
 public class ExportButton extends Module {
-    private ButtonWidget exportButton;
-    private GenericContainerScreen lastScreen;
+    private Button exportButton;
+    private ContainerScreen lastScreen;
 
     public ExportButton() {
         super("ExportButton", Category.DEBUG);
@@ -33,7 +33,7 @@ public class ExportButton extends Module {
 
     @Handler
     public void onRenderContainer(RenderEvent.RenderContainerEvent event) {
-        if (!(event.getScreen() instanceof GenericContainerScreen screen)) {
+        if (!(event.getScreen() instanceof ContainerScreen screen)) {
             exportButton = null;
             lastScreen = null;
             return;
@@ -44,7 +44,7 @@ public class ExportButton extends Module {
             lastScreen = screen;
         }
 
-        GenericContainerScreenHandler container = event.getContainer();
+        ChestMenu container = event.getContainer();
         if (container == null) return;
 
         IAccessorHandledScreen guiAccessor = (IAccessorHandledScreen) screen;
@@ -54,11 +54,11 @@ public class ExportButton extends Module {
         int buttonY = guiAccessor.pigeon$getY();
 
         if (exportButton == null) {
-            exportButton = ButtonWidget.builder(Text.of("Export JSON"), button -> {
+            exportButton = Button.builder(Component.nullToEmpty("Export JSON"), button -> {
                         exportToJson(screen, container);
                         button.setFocused(false);
                     })
-                    .dimensions(buttonX, buttonY, 85, 20)
+                    .bounds(buttonX, buttonY, 85, 20)
                     .build();
 
             if (!screenAccessor.pigeon$getChildren().contains(exportButton)) {
@@ -76,25 +76,25 @@ public class ExportButton extends Module {
         exportButton.render(event.getContext(), event.getMouseX(), event.getMouseY(), event.getDelta());
     }
 
-    private void exportToJson(GenericContainerScreen screen, GenericContainerScreenHandler container) {
+    private void exportToJson(ContainerScreen screen, ChestMenu container) {
         JsonObject result = new JsonObject();
         result.addProperty("title", screen.getTitle().getString());
-        result.addProperty("slots", container.getInventory().size());
+        result.addProperty("slots", container.getContainer().getContainerSize());
 
         JsonArray itemsArray = new JsonArray();
 
         for (int i = 0; i < container.slots.size(); i++) {
-            if (container.getSlot(i).inventory == mc.player.getInventory()) continue;
+            if (container.getSlot(i).container == mc.player.getInventory()) continue;
 
-            ItemStack stack = container.getSlot(i).getStack();
+            ItemStack stack = container.getSlot(i).getItem();
             if (stack.isEmpty()) continue;
 
             JsonObject itemJson = new JsonObject();
             itemJson.addProperty("slot", i);
-            itemJson.addProperty("name", stack.getName().getString());
-            itemJson.addProperty("id", Registries.ITEM.getId(stack.getItem()).toString());
+            itemJson.addProperty("name", stack.getHoverName().getString());
+            itemJson.addProperty("id", BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());
 
-            if (stack.isOf(Items.PLAYER_HEAD)) {
+            if (stack.is(Items.PLAYER_HEAD)) {
                 String texture = ItemUtil.getSkullTexture(stack);
                 if (texture != null) {
                     itemJson.addProperty("texture", texture);
@@ -106,10 +106,10 @@ public class ExportButton extends Module {
                 itemJson.addProperty("skyblockId", skyblockId);
             }
 
-            List<Text> loreLines = ItemUtil.getItemLore(stack);
+            List<Component> loreLines = ItemUtil.getItemLore(stack);
             if (!loreLines.isEmpty()) {
                 JsonArray loreArray = new JsonArray();
-                for (Text line : loreLines) {
+                for (Component line : loreLines) {
                     loreArray.add(line.getString());
                 }
                 itemJson.add("lore", loreArray);
@@ -125,7 +125,7 @@ public class ExportButton extends Module {
 
         result.add("items", itemsArray);
         String finalJson = GSON.toJson(result);
-        mc.keyboard.setClipboard(finalJson);
+        mc.keyboardHandler.setClipboard(finalJson);
         ChatUtil.sendMessage("ExportButton", "&aJSON copied to clipboard! (" + itemsArray.size() + " items)");
     }
 }

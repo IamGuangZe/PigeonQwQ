@@ -1,10 +1,10 @@
 package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.DisplayEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Display;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -24,14 +24,14 @@ public class ItemDisplay extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         if (WorldUtil.nullCheck()) return;
 
-        for (Entity entity : mc.world.getEntities()) {
-            if (!(entity instanceof DisplayEntity.ItemDisplayEntity)) continue;
+        for (Entity entity : mc.level.entitiesForRendering()) {
+            if (!(entity instanceof Display.ItemDisplay)) continue;
 
-            Box expandedBox = entity.getBoundingBox().expand(0.2);
+            AABB expandedBox = entity.getBoundingBox().inflate(0.2);
             RenderUtil.drawESP(event.getMatrix(), entity, expandedBox, Color.GREEN,
                     RenderUtil.ESPMode.OUTLINE, false);
 
-            BlockPos blockPos = entity.getBlockPos();
+            BlockPos blockPos = entity.blockPosition();
             RenderUtil.drawESP(event.getMatrix(), blockPos, Color.BLUE,
                     RenderUtil.ESPMode.OUTLINE, false);
         }

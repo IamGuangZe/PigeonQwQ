@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.combat;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -38,14 +38,14 @@ public class AutoClicker extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         long currentTime = System.currentTimeMillis();
 
-        if (KeybindUtil.isPressed(mc.options.attackKey) && leftClick.getValue()) {
+        if (KeybindUtil.isPressed(mc.options.keyAttack) && leftClick.getValue()) {
             if (breakBlocksCheck()) {
                 if (canClick() && onlySwordCheck()) {
                     if (firstLeftClick) {
                         firstLeftClick = false;
                         nextLeftClickTime = currentTime + (1000 / RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue()));
                     } else if (currentTime >= nextLeftClickTime) {
-                        KeybindUtil.setPressed(mc.options.attackKey, false);
+                        KeybindUtil.setPressed(mc.options.keyAttack, false);
                         PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
                         int randomCPS = RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());
                         nextLeftClickTime = currentTime + (1000 / randomCPS);
@@ -53,13 +53,13 @@ public class AutoClicker extends Module {
                     }
                 }
             } else {
-                KeybindUtil.setPressed(mc.options.attackKey, true);
+                KeybindUtil.setPressed(mc.options.keyAttack, true);
             }
         } else {
             firstLeftClick = true;
         }
 
-        if (KeybindUtil.isPressed(mc.options.useKey) && rightClick.getValue()) {
+        if (KeybindUtil.isPressed(mc.options.keyUse) && rightClick.getValue()) {
             if (canClick() && onlyBlocksCheck()) {
                 if (firstRightClick) {
                     firstRightClick = false;
@@ -77,7 +77,7 @@ public class AutoClicker extends Module {
     }
 
     private boolean canClick() {
-        return mc.currentScreen == null && !mc.player.isBlocking() && !mc.player.isUsingItem();
+        return mc.screen == null && !mc.player.isBlocking() && !mc.player.isUsingItem();
     }
 
     private boolean breakBlocksCheck() {
@@ -87,13 +87,13 @@ public class AutoClicker extends Module {
 
     private boolean onlySwordCheck() {
         if (!onlySword.getValue()) return true;
-        ItemStack itemStack = mc.player.getMainHandStack();
+        ItemStack itemStack = mc.player.getMainHandItem();
         return itemStack != null && ItemUtil.isSword(itemStack);
     }
 
     private boolean onlyBlocksCheck() {
         if (!onlyBlocks.getValue()) return true;
-        ItemStack itemStack = mc.player.getMainHandStack();
+        ItemStack itemStack = mc.player.getMainHandItem();
         return itemStack != null && itemStack.getItem() instanceof BlockItem;
     }
 

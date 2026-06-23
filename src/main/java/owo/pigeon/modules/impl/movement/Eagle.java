@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.movement;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.item.BlockItem;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.BlockItem;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -36,35 +36,35 @@ public class Eagle extends Module {
         if (sneakDelay > 0) sneakDelay--;
         if (sneakDelay == 0 && isAtEdge()) sneakDelay = RandomUtil.intRandom(minDelay.getValue(), maxDelay.getValue());
 
-        if (KeybindUtil.isPressed(mc.options.sneakKey)) return;
+        if (KeybindUtil.isPressed(mc.options.keyShift)) return;
 
         if (shouldSneak() && (sneakDelay > 0 || isAtEdge())) {
-            KeybindUtil.setPressed(mc.options.sneakKey, true);
+            KeybindUtil.setPressed(mc.options.keyShift, true);
         } else {
-            KeybindUtil.resetPressed(mc.options.sneakKey);
+            KeybindUtil.resetPressed(mc.options.keyShift);
         }
     }
 
     @Override
     public void onDisable() {
-        KeybindUtil.resetPressed(mc.options.sneakKey);
+        KeybindUtil.resetPressed(mc.options.keyShift);
     }
 
     private boolean shouldSneak() {
-        if (directionCheck.getValue() && !KeybindUtil.isPressed(mc.options.backKey)) {
+        if (directionCheck.getValue() && !KeybindUtil.isPressed(mc.options.keyDown)) {
             return false;
-        } else if (jumpCheck.getValue() && KeybindUtil.isPressed(mc.options.jumpKey)) {
+        } else if (jumpCheck.getValue() && KeybindUtil.isPressed(mc.options.keyJump)) {
             return false;
-        } else if (pitchCheck.getValue() && mc.player.getPitch() < 67.0F) {
+        } else if (pitchCheck.getValue() && mc.player.getXRot() < 67.0F) {
             return false;
         } else {
-            return !blocksOnly.getValue() || mc.player.getMainHandStack().getItem() instanceof BlockItem;
+            return !blocksOnly.getValue() || mc.player.getMainHandItem().getItem() instanceof BlockItem;
         }
     }
 
     private boolean isAtEdge() {
-        BlockPos pos = BlockPos.ofFloored(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ());
-        return mc.player.isOnGround() && mc.world.getBlockState(pos).isAir();
+        BlockPos pos = BlockPos.containing(mc.player.getX(), mc.player.getY() - 1, mc.player.getZ());
+        return mc.player.onGround() && mc.level.getBlockState(pos).isAir();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.render;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -26,7 +26,7 @@ public class PlayerESP extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        for (AbstractClientPlayerEntity player : mc.world.getPlayers()) {
+        for (AbstractClientPlayer player : mc.level.players()) {
             if (player != mc.player && PlayerUtil.hasUUID(player))
                 RenderUtil.drawESP(event.getMatrix(), player, color.getValue(), mode.getValue(), tracer.getValue());
         }

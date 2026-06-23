@@ -39,7 +39,7 @@ public class Spammer extends Module {
         tick++;
 
         if (tick >= delay.getValue() * 20) {
-            mc.player.networkHandler.sendChatMessage(message.getValue());
+            mc.player.connection.sendChat(message.getValue());
             tick = 0;
         }
     }

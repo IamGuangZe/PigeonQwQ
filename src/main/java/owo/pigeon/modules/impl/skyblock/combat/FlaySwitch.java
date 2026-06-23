@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.skyblock.combat;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.DoItemUseEvent;
 import owo.pigeon.modules.Category;
@@ -44,10 +44,10 @@ public class FlaySwitch extends Module {
         if (onlyInGalatea.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.GALATEA))
             return;
 
-        ItemStack stack = mc.player.getMainHandStack();
+        ItemStack stack = mc.player.getMainHandItem();
         if (stack.isEmpty()) return;
 
-        String name = ColorUtil.removeColor(stack.getName().getString());
+        String name = ColorUtil.removeColor(stack.getHoverName().getString());
         ChatUtil.sendDebugMessage(this.name, "holding: " + name);
         if (!name.contains("Soul Whip") && !name.contains("Flaming Flay")) return;
 

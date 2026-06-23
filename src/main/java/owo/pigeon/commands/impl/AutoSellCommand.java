@@ -1,6 +1,6 @@
 package owo.pigeon.commands.impl;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import owo.pigeon.commands.Command;
 import owo.pigeon.modules.impl.skyblock.misc.AutoSell;
 import owo.pigeon.utils.ColorUtil;
@@ -126,13 +126,13 @@ public class AutoSellCommand extends Command {
     }
 
     private String getHeldItemInfo(boolean isId) {
-        ItemStack heldStack = mc.player.getMainHandStack();
+        ItemStack heldStack = mc.player.getMainHandItem();
         if (heldStack.isEmpty()) return null;
 
         if (isId) {
             return ItemUtil.getCustomDataValue(heldStack, "id", ItemUtil.STRING_EXTRACTOR);
         } else {
-            return ColorUtil.removeColor(heldStack.getName().getString());
+            return ColorUtil.removeColor(heldStack.getHoverName().getString());
         }
     }
 

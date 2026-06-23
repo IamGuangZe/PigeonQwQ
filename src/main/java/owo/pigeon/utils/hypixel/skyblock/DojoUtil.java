@@ -1,6 +1,6 @@
 package owo.pigeon.utils.hypixel.skyblock;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.RegexUtil;
@@ -27,7 +27,7 @@ public class DojoUtil {
     private static final double DOJO_MAX_Z = -576;
 
     public static boolean isInDojoChallenge() {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.CRIMSON_ISLE)) return false;
 
         double x = mc.player.getX();
@@ -47,7 +47,7 @@ public class DojoUtil {
      * unreliable for server-spawned entities during arena transitions.
      */
     public static boolean isInDojoChallenge(Entity entity) {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
 
         double x = entity.getX();
         double y = entity.getY();
@@ -87,7 +87,7 @@ public class DojoUtil {
     }
 
     public static boolean isDojoChallenge(Dojo dojo) {
-        if (Pigeon.isDebug() && mc.isInSingleplayer()) return true;
+        if (Pigeon.isDebug() && mc.isLocalServer()) return true;
         return getDojoChallenge() == dojo;
     }
 }

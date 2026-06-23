@@ -1,13 +1,13 @@
 package owo.pigeon.commands.impl;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 import owo.pigeon.commands.Command;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.*;
@@ -119,7 +119,7 @@ public class SettingCommand extends Command {
                     }
                 } else if (setting instanceof BlockSetting) {
                     Identifier id = Identifier.tryParse(value.toLowerCase());
-                    if (id == null || !Registries.BLOCK.containsId(id)) {
+                    if (id == null || !BuiltInRegistries.BLOCK.containsKey(id)) {
                         CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownBlock,
                                 this.getCommand(),
                                 args,
@@ -127,9 +127,9 @@ public class SettingCommand extends Command {
                         );
                         return;
                     }
-                    Block blockValue = Registries.BLOCK.get(id);
+                    Block blockValue = BuiltInRegistries.BLOCK.getValue(id);
                     ((BlockSetting) setting).setValue(blockValue);
-                    value = blockValue.getName().getString() + "(" + Registries.BLOCK.getId(blockValue) + ")";
+                    value = blockValue.getName().getString() + "(" + BuiltInRegistries.BLOCK.getKey(blockValue) + ")";
                 } else if (setting instanceof CharSetting charSetting) {
                     char charValue = value.charAt(0);
                     charSetting.setValue(charValue);
@@ -259,7 +259,7 @@ public class SettingCommand extends Command {
                 } else if (setting instanceof KeySetting keySetting) {
                     Integer keyCode = null;
                     try {
-                        keyCode = InputUtil.fromTranslationKey("key.keyboard." + value.toLowerCase()).getCode();
+                        keyCode = InputConstants.getKey("key.keyboard." + value.toLowerCase()).getValue();
                     } catch (Exception e) {
                         keyCode = -1;
                     }
@@ -269,8 +269,8 @@ public class SettingCommand extends Command {
                     keySetting.setValue(keyCode);
                     value = keyCode == -1 ?
                             "None" :
-                            InputUtil.Type.KEYSYM.createFromCode(keyCode)
-                                    .getTranslationKey().replace("key.keyboard.", "").toUpperCase() + " (keycode: " + keyCode + ")";
+                            InputConstants.Type.KEYSYM.getOrCreate(keyCode)
+                                    .getName().replace("key.keyboard.", "").toUpperCase() + " (keycode: " + keyCode + ")";
                 } else if (setting instanceof ModeSetting<?> modeSetting) {
                     try {
                         Enum<?> enumValue = Enum.valueOf((Class<Enum>) modeSetting.getValue().getClass(), value.toUpperCase());
@@ -316,28 +316,28 @@ public class SettingCommand extends Command {
             String cmdPrefix = String.valueOf(CommandUtil.getCommandPrefix());
             String suggest = cmdPrefix + "setting " + module.name + " " + setting.getName() + " ";
 
-            MutableText line = Text.literal(ColorUtil.parseColor("&7 - " + setting.getName() + "&8: "))
-                    .append(setting instanceof ColorSetting s ? buildColorSettingText(s) : Text.literal(ColorUtil.parseColor(formatSettingValue(setting))));
+            MutableComponent line = Component.literal(ColorUtil.parseColor("&7 - " + setting.getName() + "&8: "))
+                    .append(setting instanceof ColorSetting s ? buildColorSettingText(s) : Component.literal(ColorUtil.parseColor(formatSettingValue(setting))));
 
-            line.styled(style -> style
+            line.withStyle(style -> style
                     .withClickEvent(new ClickEvent.SuggestCommand(suggest))
                     .withHoverEvent(new HoverEvent.ShowText(
-                            Text.literal(ColorUtil.parseColor(buildHoverText(setting)))
+                            Component.literal(ColorUtil.parseColor(buildHoverText(setting)))
                     ))
             );
             ChatUtil.sendMessage(line);
         }
     }
 
-    private MutableText buildColorSettingText(ColorSetting s) {
+    private MutableComponent buildColorSettingText(ColorSetting s) {
         Color c = s.getValue();
         int rgb = c.getRGB() & 0xFFFFFF;
 
-        MutableText hash = Text.literal("#").styled(style -> style.withColor(rgb));
-        MutableText r = Text.literal(ColorUtil.parseColor("&c" + String.format("%02X", c.getRed())));
-        MutableText g = Text.literal(ColorUtil.parseColor("&a" + String.format("%02X", c.getGreen())));
-        MutableText b = Text.literal(ColorUtil.parseColor("&9" + String.format("%02X", c.getBlue())));
-        MutableText a = Text.literal(ColorUtil.parseColor("&f" + String.format("%02X", c.getAlpha())));
+        MutableComponent hash = Component.literal("#").withStyle(style -> style.withColor(rgb));
+        MutableComponent r = Component.literal(ColorUtil.parseColor("&c" + String.format("%02X", c.getRed())));
+        MutableComponent g = Component.literal(ColorUtil.parseColor("&a" + String.format("%02X", c.getGreen())));
+        MutableComponent b = Component.literal(ColorUtil.parseColor("&9" + String.format("%02X", c.getBlue())));
+        MutableComponent a = Component.literal(ColorUtil.parseColor("&f" + String.format("%02X", c.getAlpha())));
 
         return hash.append(r).append(g).append(b).append(a);
     }
@@ -365,8 +365,8 @@ public class SettingCommand extends Command {
             int code = s.getValue();
             if (code == -1) return "&cNone";
             try {
-                return InputUtil.Type.KEYSYM.createFromCode(code)
-                        .getTranslationKey().replace("key.keyboard.", "").toUpperCase();
+                return InputConstants.Type.KEYSYM.getOrCreate(code)
+                        .getName().replace("key.keyboard.", "").toUpperCase();
             } catch (Exception e) {
                 return String.valueOf(code);
             }

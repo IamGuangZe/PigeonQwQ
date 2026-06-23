@@ -1,6 +1,6 @@
 package owo.pigeon.gui.clickgui.pigeon;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.utils.ModuleUtil;
 
@@ -9,7 +9,7 @@ public abstract class AbstractDisplableItem {
 
     public int x, y, width, height = 0;
 
-    public abstract void drawScreen(DrawContext context, int mouseX, int mouseY, float delta);
+    public abstract void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta);
 
     public boolean isHovered(int mouseX, int mouseY) {
         return (mouseX > x && mouseX < x + width) && (mouseY > y && mouseY < y + height);

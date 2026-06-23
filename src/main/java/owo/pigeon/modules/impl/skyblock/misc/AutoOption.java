@@ -1,8 +1,8 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -25,11 +25,11 @@ public class AutoOption extends Module {
     public void onChatReceive(MessageEvent.ReceiveMessageEvent event) {
         if (event.isOverlay()) return;
 
-        Text messageText = event.getMessage();
+        Component messageText = event.getMessage();
         String message = ColorUtil.removeColor(messageText.getString());
 
         if (message.startsWith("Select an option:")) {
-            for (Text sibling : messageText.getSiblings()) {
+            for (Component sibling : messageText.getSiblings()) {
                 String siblingStr = sibling.getString();
                 boolean isGreen = siblingStr.contains("§a[") && greenOption.getValue();
                 boolean isBoldGreen = siblingStr.contains("§a§l[") && boldGreenOption.getValue();
@@ -38,21 +38,21 @@ public class AutoOption extends Module {
                 if (executeClickCommand(sibling, "Auto Option")) return;
             }
         } else if (pickUpAbiphone.getValue() && message.contains("RING...") && message.contains("[PICK UP]")) {
-            for (Text sibling : messageText.getSiblings()) {
+            for (Component sibling : messageText.getSiblings()) {
                 if (!sibling.getString().contains("§2§l[PICK UP]")) continue;
                 if (executeClickCommand(sibling, "Auto Abiphone")) return;
             }
         }
     }
 
-    private boolean executeClickCommand(Text sibling, String debugName) {
+    private boolean executeClickCommand(Component sibling, String debugName) {
         if (sibling.getStyle() == null || sibling.getStyle().getClickEvent() == null) return false;
 
         ClickEvent clickEvent = sibling.getStyle().getClickEvent();
         if (!(clickEvent instanceof ClickEvent.RunCommand(String command))) return false;
 
         mc.execute(() -> {
-            mc.player.networkHandler.sendChatMessage(command);
+            mc.player.connection.sendChat(command);
             ChatUtil.sendDebugMessage(this.name, debugName + ": " + command);
         });
 

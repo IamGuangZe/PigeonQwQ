@@ -1,12 +1,12 @@
 package owo.pigeon.modules.impl.render;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -57,7 +57,7 @@ public class ParticlesHalo extends Module {
 
         // 根据设置选择渲染目标
         if (allPlayer.getValue()) {
-            mc.world.getPlayers()
+            mc.level.players()
                     .stream().filter(PlayerUtil::hasUUID)
                     .forEach(this::renderParticles);
         } else {
@@ -65,10 +65,10 @@ public class ParticlesHalo extends Module {
         }
     }
 
-    private void renderParticles(PlayerEntity player) {
+    private void renderParticles(Player player) {
         if (player == mc.player || allPlayer.getValue()) {
             if (onlyWhenStopped.getValue() && !isPlayerStopped(player)) return;
-            UUID uuid = player.getUuid();
+            UUID uuid = player.getUUID();
             float rotation = rotationMap.getOrDefault(uuid, 0.0f);
 
             rotation += rotationSpeed.getValue() * 5;
@@ -96,19 +96,19 @@ public class ParticlesHalo extends Module {
     private void addParticle(String particleId, double x, double y, double z) {
         try {
             Identifier id = Identifier.tryParse(particleId);
-            ParticleType<?> type = Registries.PARTICLE_TYPE.get(id);
+            ParticleType<?> type = BuiltInRegistries.PARTICLE_TYPE.getValue(id);
 
             if (type != null) {
-                ParticleEffect effect = (ParticleEffect) type;
-                mc.particleManager.addParticle(effect, x, y, z, 0, 0, 0);
+                ParticleOptions effect = (ParticleOptions) type;
+                mc.particleEngine.createParticle(effect, x, y, z, 0, 0, 0);
             }
         } catch (Exception ignored) {
         }
     }
 
-    private boolean isPlayerStopped(PlayerEntity player) {
+    private boolean isPlayerStopped(Player player) {
         if (player == null) return false;
-        Vec3d velocity = player.getVelocity();
+        Vec3 velocity = player.getDeltaMovement();
         // ChatUtil.sendDebugMessage(this.name, "Player ID: " + player.getUuid() + ", Velocity: x=" + velocity.x + ", y=" + velocity.y + ", z=" + velocity.z);
         return velocity.x == 0 && velocity.z == 0;
     }

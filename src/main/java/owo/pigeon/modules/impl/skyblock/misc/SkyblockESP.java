@@ -1,15 +1,25 @@
 package owo.pigeon.modules.impl.skyblock.misc;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.DisplayEntity;
-import net.minecraft.entity.mob.*;
-import net.minecraft.entity.passive.*;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Display;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ambient.Bat;
+import net.minecraft.world.entity.animal.dolphin.Dolphin;
+import net.minecraft.world.entity.animal.frog.Frog;
+import net.minecraft.world.entity.animal.frog.FrogVariants;
+import net.minecraft.world.entity.animal.golem.IronGolem;
+import net.minecraft.world.entity.animal.squid.GlowSquid;
+import net.minecraft.world.entity.animal.turtle.Turtle;
+import net.minecraft.world.entity.monster.MagmaCube;
+import net.minecraft.world.entity.monster.Phantom;
+import net.minecraft.world.entity.monster.Shulker;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -90,82 +100,82 @@ public class SkyblockESP extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.worldRenderer == null) return;
-        mc.worldRenderer.reload();
+        if (mc.levelRenderer == null) return;
+        mc.levelRenderer.allChanged();
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        MatrixStack stack = event.getMatrix();
+        PoseStack stack = event.getMatrix();
 
         if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CRIMSON_ISLE)) {
-            for (Entity entity : mc.world.getEntities()) {
-                if (entity instanceof BatEntity && !entity.isInvisible() && cinderbatEsp.getValue()) {
+            for (Entity entity : mc.level.entitiesForRendering()) {
+                if (entity instanceof Bat && !entity.isInvisible() && cinderbatEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
                 }
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CRYSTAL_HOLLOWS)) {
-            for (Entity entity : mc.world.getEntities()) {
-                if (entity instanceof ZombieEntity zombie && zombie.getMainHandStack().isOf(Items.BONE) && keyGuardianEsp.getValue()) {
+            for (Entity entity : mc.level.entitiesForRendering()) {
+                if (entity instanceof Zombie zombie && zombie.getMainHandItem().is(Items.BONE) && keyGuardianEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.YELLOW, RenderUtil.ESPMode.BOTH, false);
-                } else if (entity instanceof IronGolemEntity && automatonEsp.getValue()) {
+                } else if (entity instanceof IronGolem && automatonEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
-                } else if (entity instanceof SlimeEntity && !(entity instanceof MagmaCubeEntity) && sludgeEsp.getValue()) {
+                } else if (entity instanceof Slime && !(entity instanceof MagmaCube) && sludgeEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
-                } else if (entity instanceof MagmaCubeEntity && yogEsp.getValue()) {
+                } else if (entity instanceof MagmaCube && yogEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.ORANGE, RenderUtil.ESPMode.BOTH, false);
                 }
             }
 
             if (wormLavaEsp.getValue()) {
-                wormLavas.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.LAVA));
+                wormLavas.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.LAVA));
                 renderBlocks(stack, wormLavas, Color.ORANGE, wormLavaEspLimit.getValue());
             }
 
             if (corleoneBatcaveEsp.getValue()) {
-                batcaveBlocks.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.BLUE_STAINED_GLASS));
+                batcaveBlocks.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.BLUE_STAINED_GLASS));
                 for (BlockPos pos : batcaveBlocks) {
                     RenderUtil.drawESP(event.getMatrix(), pos, Color.CYAN, RenderUtil.ESPMode.BOTH, false);
                 }
             }
 
             if (jadeEsp.getValue()) {
-                jades.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.LIME_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.LIME_STAINED_GLASS_PANE));
+                jades.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.LIME_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.LIME_STAINED_GLASS_PANE));
                 renderBlocks(stack, jades, Color.GREEN, gemstoneEspLimit.getValue());
             }
             if (amberEsp.getValue()) {
-                ambers.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.ORANGE_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.ORANGE_STAINED_GLASS_PANE));
+                ambers.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.ORANGE_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.ORANGE_STAINED_GLASS_PANE));
                 renderBlocks(stack, ambers, Color.ORANGE, gemstoneEspLimit.getValue());
             }
             if (sapphireEsp.getValue()) {
-                sapphires.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.LIGHT_BLUE_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE));
+                sapphires.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.LIGHT_BLUE_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE));
                 renderBlocks(stack, sapphires, new Color(0xADD8FF, true), gemstoneEspLimit.getValue());
             }
             if (amethystEsp.getValue()) {
-                amethysts.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.PURPLE_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.PURPLE_STAINED_GLASS_PANE));
+                amethysts.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.PURPLE_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.PURPLE_STAINED_GLASS_PANE));
                 renderBlocks(stack, amethysts, new Color(0x9932CC, true), gemstoneEspLimit.getValue());
             }
             if (rubyEsp.getValue()) {
-                rubys.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.RED_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.RED_STAINED_GLASS_PANE));
+                rubys.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.RED_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.RED_STAINED_GLASS_PANE));
                 renderBlocks(stack, rubys, Color.RED, gemstoneEspLimit.getValue());
             }
             if (topazEsp.getValue()) {
-                topazs.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.YELLOW_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.YELLOW_STAINED_GLASS_PANE));
+                topazs.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.YELLOW_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.YELLOW_STAINED_GLASS_PANE));
                 renderBlocks(stack, topazs, Color.YELLOW, gemstoneEspLimit.getValue());
             }
             if (jasperEsp.getValue()) {
-                jaspers.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.MAGENTA_STAINED_GLASS) && !mc.world.getBlockState(pos).isOf(Blocks.MAGENTA_STAINED_GLASS_PANE));
+                jaspers.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.MAGENTA_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.MAGENTA_STAINED_GLASS_PANE));
                 renderBlocks(stack, jaspers, Color.MAGENTA, gemstoneEspLimit.getValue());
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.DWARVEN_MINES)) {
             if (titaniumEsp.getValue()) {
-                titaniums.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.POLISHED_DIORITE));
+                titaniums.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.POLISHED_DIORITE));
                 for (BlockPos pos : titaniums) {
                     RenderUtil.drawESP(event.getMatrix(), pos, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                 }
             }
             if (dragonEggEsp.getValue()) {
-                dragonEggs.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.DRAGON_EGG));
+                dragonEggs.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.DRAGON_EGG));
                 for (BlockPos pos : dragonEggs) {
                     RenderUtil.drawESP(event.getMatrix(), pos, Color.DARK_GRAY, RenderUtil.ESPMode.BOTH, false);
                 }
@@ -173,10 +183,10 @@ public class SkyblockESP extends Module {
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.GALATEA)) {
             Set<BlockPos> renderedMudworms = new HashSet<>();
 
-            for (Entity entity : mc.world.getEntities()) {
-                if (entity instanceof ShulkerEntity && hideonleafEsp.getValue()) {
+            for (Entity entity : mc.level.entitiesForRendering()) {
+                if (entity instanceof Shulker && hideonleafEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
-                } else if (entity instanceof PhantomEntity phantom) {
+                } else if (entity instanceof Phantom phantom) {
                     float scale = phantom.getScale();
                     if (scale == 0.4f && phanpyreEsp.getValue()) {
                         RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
@@ -185,8 +195,8 @@ public class SkyblockESP extends Module {
                     } else if (scale == 3.0f && dreadwingEsp.getValue()) {
                         RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                     }
-                } else if (entity instanceof DisplayEntity.ItemDisplayEntity itemDisplay && itemDisplay.getItemStack().isOf(Items.STRING) && mudwormEsp.getValue()) {
-                    BlockPos blockPos = entity.getBlockPos();
+                } else if (entity instanceof Display.ItemDisplay itemDisplay && itemDisplay.getItemStack().is(Items.STRING) && mudwormEsp.getValue()) {
+                    BlockPos blockPos = entity.blockPosition();
                     if (!renderedMudworms.contains(blockPos)) {
                         renderedMudworms.add(blockPos);
                         RenderUtil.drawESP(stack, blockPos, Color.YELLOW, RenderUtil.ESPMode.BOTH, false);
@@ -194,25 +204,25 @@ public class SkyblockESP extends Module {
                 }
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.LOTUS_ATOLL)) {
-            for (Entity entity : mc.world.getEntities()) {
-                if (entity instanceof FrogEntity frog && frog.getVariant().matchesKey(FrogVariants.TEMPERATE)) {
+            for (Entity entity : mc.level.entitiesForRendering()) {
+                if (entity instanceof Frog frog && frog.getVariant().is(FrogVariants.TEMPERATE)) {
                     float scale = frog.getScale();
                     if (scale == 1.0f && lotumEsp.getValue()) {
                         RenderUtil.drawESP(stack, entity, new Color(0xFFCD853F, true), RenderUtil.ESPMode.BOTH, false);
                     } else if (scale == 4.0f && puddleJumperEsp.getValue()) {
                         RenderUtil.drawESP(stack, entity, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                     }
-                } else if (entity instanceof TurtleEntity && tewtilEsp.getValue()) {
+                } else if (entity instanceof Turtle && tewtilEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.GREEN, RenderUtil.ESPMode.BOTH, false);
-                } else if (entity instanceof DolphinEntity && flipflopperEsp.getValue()) {
+                } else if (entity instanceof Dolphin && flipflopperEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.CYAN, RenderUtil.ESPMode.BOTH, false);
-                } else if (entity instanceof GlowSquidEntity && seashineEsp.getValue()) {
+                } else if (entity instanceof GlowSquid && seashineEsp.getValue()) {
                     RenderUtil.drawESP(stack, entity, Color.BLUE, RenderUtil.ESPMode.BOTH, false);
                 }
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_END)) {
             if (enderNodeEsp.getValue()) {
-                enderNodes.removeIf(pos -> !mc.world.getBlockState(pos).isOf(Blocks.PURPLE_TERRACOTTA));
+                enderNodes.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.PURPLE_TERRACOTTA));
                 for (BlockPos pos : enderNodes) {
                     RenderUtil.drawESP(event.getMatrix(), pos, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                 }
@@ -225,41 +235,41 @@ public class SkyblockESP extends Module {
         BlockState state = event.getState();
         BlockPos pos = event.getPos();
 
-        if (state.isOf(Blocks.LAVA) && pos.getX() > 513 && pos.getZ() > 513 && (pos.getX() > 559 || pos.getZ() > 559) && pos.getY() > 64) {
-            wormLavas.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.BLUE_STAINED_GLASS)) {
-            batcaveBlocks.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.LIME_STAINED_GLASS) || state.isOf(Blocks.LIME_STAINED_GLASS_PANE)) {
-            jades.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.ORANGE_STAINED_GLASS) || state.isOf(Blocks.ORANGE_STAINED_GLASS_PANE)) {
-            ambers.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS) || state.isOf(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) {
-            sapphires.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.PURPLE_STAINED_GLASS) || state.isOf(Blocks.PURPLE_STAINED_GLASS_PANE)) {
-            amethysts.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.RED_STAINED_GLASS) || state.isOf(Blocks.RED_STAINED_GLASS_PANE)) {
-            rubys.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.MAGENTA_STAINED_GLASS) || state.isOf(Blocks.MAGENTA_STAINED_GLASS_PANE)) {
-            jaspers.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.YELLOW_STAINED_GLASS) || state.isOf(Blocks.YELLOW_STAINED_GLASS_PANE)) {
-            topazs.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.POLISHED_DIORITE)) {
-            titaniums.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.DRAGON_EGG)) {
-            dragonEggs.add(pos.toImmutable());
-        } else if (state.isOf(Blocks.PURPLE_TERRACOTTA) && pos.getX() > -597) {
-            enderNodes.add(pos.toImmutable());
+        if (state.is(Blocks.LAVA) && pos.getX() > 513 && pos.getZ() > 513 && (pos.getX() > 559 || pos.getZ() > 559) && pos.getY() > 64) {
+            wormLavas.add(pos.immutable());
+        } else if (state.is(Blocks.BLUE_STAINED_GLASS)) {
+            batcaveBlocks.add(pos.immutable());
+        } else if (state.is(Blocks.LIME_STAINED_GLASS) || state.is(Blocks.LIME_STAINED_GLASS_PANE)) {
+            jades.add(pos.immutable());
+        } else if (state.is(Blocks.ORANGE_STAINED_GLASS) || state.is(Blocks.ORANGE_STAINED_GLASS_PANE)) {
+            ambers.add(pos.immutable());
+        } else if (state.is(Blocks.LIGHT_BLUE_STAINED_GLASS) || state.is(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) {
+            sapphires.add(pos.immutable());
+        } else if (state.is(Blocks.PURPLE_STAINED_GLASS) || state.is(Blocks.PURPLE_STAINED_GLASS_PANE)) {
+            amethysts.add(pos.immutable());
+        } else if (state.is(Blocks.RED_STAINED_GLASS) || state.is(Blocks.RED_STAINED_GLASS_PANE)) {
+            rubys.add(pos.immutable());
+        } else if (state.is(Blocks.MAGENTA_STAINED_GLASS) || state.is(Blocks.MAGENTA_STAINED_GLASS_PANE)) {
+            jaspers.add(pos.immutable());
+        } else if (state.is(Blocks.YELLOW_STAINED_GLASS) || state.is(Blocks.YELLOW_STAINED_GLASS_PANE)) {
+            topazs.add(pos.immutable());
+        } else if (state.is(Blocks.POLISHED_DIORITE)) {
+            titaniums.add(pos.immutable());
+        } else if (state.is(Blocks.DRAGON_EGG)) {
+            dragonEggs.add(pos.immutable());
+        } else if (state.is(Blocks.PURPLE_TERRACOTTA) && pos.getX() > -597) {
+            enderNodes.add(pos.immutable());
         }
     }
 
-    private void renderBlocks(MatrixStack stack, Set<BlockPos> positions, Color color, int limit) {
+    private void renderBlocks(PoseStack stack, Set<BlockPos> positions, Color color, int limit) {
         if (limit == -1) {
             for (BlockPos pos : positions) {
                 RenderUtil.drawESP(stack, pos, color, RenderUtil.ESPMode.BOTH, false);
             }
         } else {
             List<BlockPos> sorted = new ArrayList<>(positions);
-            sorted.sort(Comparator.comparingDouble(pos -> pos.getSquaredDistance(mc.player.getX(), mc.player.getY(), mc.player.getZ())));
+            sorted.sort(Comparator.comparingDouble(pos -> pos.distToLowCornerSqr(mc.player.getX(), mc.player.getY(), mc.player.getZ())));
             int count = Math.min(limit, sorted.size());
             for (int i = 0; i < count; i++) {
                 RenderUtil.drawESP(stack, sorted.get(i), color, RenderUtil.ESPMode.BOTH, false);

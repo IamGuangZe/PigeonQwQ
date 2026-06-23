@@ -17,11 +17,11 @@ public class Sprint extends Module {
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
-        KeybindUtil.setPressed(mc.options.sprintKey, true);
+        KeybindUtil.setPressed(mc.options.keySprint, true);
     }
 
     @Override
     public void onDisable() {
-        KeybindUtil.resetPressed(mc.options.sprintKey);
+        KeybindUtil.resetPressed(mc.options.keySprint);
     }
 }

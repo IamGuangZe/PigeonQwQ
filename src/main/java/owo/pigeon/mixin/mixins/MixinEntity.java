@@ -1,9 +1,9 @@
 package owo.pigeon.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,12 +23,12 @@ public class MixinEntity implements ICameraOverriddenEntity {
     @Unique
     private float cameraYaw;
 
-    @Inject(method = "changeLookDirection", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "turn", at = @At("HEAD"), cancellable = true)
     private void onChangeLookDirection(double xDelta, double yDelta, CallbackInfo ci) {
-        if (ModuleUtil.getModule(FreeLook.class).freelooking && (Object) this instanceof ClientPlayerEntity) {
+        if (ModuleUtil.getModule(FreeLook.class).freelooking && (Object) this instanceof LocalPlayer) {
             double pitchDelta = yDelta * 0.15;
             double yawDelta = xDelta * 0.15;
-            this.cameraPitch = MathHelper.clamp(this.cameraPitch + (float) pitchDelta, -90.0f, 90.0f);
+            this.cameraPitch = Mth.clamp(this.cameraPitch + (float) pitchDelta, -90.0f, 90.0f);
             this.cameraYaw += (float) yawDelta;
             ci.cancel();
         }

@@ -1,7 +1,7 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.settings.AbstractSetting;
 import owo.pigeon.settings.ColorSetting;
 import owo.pigeon.utils.ColorUtil;
@@ -24,7 +24,7 @@ public class ColorSettingPanel extends SettingPanel {
     }
 
     @Override
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         String displayName = colorSetting.getName().replaceAll("-and-", "-&&-").replaceAll("-", " ");
@@ -81,8 +81,8 @@ public class ColorSettingPanel extends SettingPanel {
         }
 
         float scale = 0.5f;
-        context.getMatrices().pushMatrix();
-        context.getMatrices().scale(scale, scale);
+        context.pose().pushMatrix();
+        context.pose().scale(scale, scale);
 
         String rHex = String.format("%02X", colorSetting.getRed());
         String gHex = String.format("%02X", colorSetting.getGreen());
@@ -90,16 +90,16 @@ public class ColorSettingPanel extends SettingPanel {
         String aHex = String.format("%02X", colorSetting.getAlpha());
 
         String displayValue = "&c" + rHex + "&a" + gHex + "&9" + bHex + "&f" + aHex;
-        context.drawTextWithShadow(textRenderer,
+        context.drawString(textRenderer,
                 ColorUtil.parseColor(displayName + " : " + displayValue),
                 (int) ((x + 4) / scale),
-                (int) ((y + (float) rawHeight / 2 - (float) textRenderer.fontHeight * scale / 2) / scale),
+                (int) ((y + (float) rawHeight / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
                 Color.LIGHT_GRAY.getRGB());
 
-        context.getMatrices().popMatrix();
+        context.pose().popMatrix();
 
         // 颜色预览
-        int colorCubeSize = (int) (textRenderer.fontHeight * scale);
+        int colorCubeSize = (int) (textRenderer.lineHeight * scale);
         int colorCubeX = x + width - 4 - colorCubeSize;
         int colorCubeY = y;
 
@@ -109,7 +109,7 @@ public class ColorSettingPanel extends SettingPanel {
     }
 
     @Override
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (!hovered) return false;
 
         for (int i = 0; i < 4; i++) {
@@ -123,14 +123,14 @@ public class ColorSettingPanel extends SettingPanel {
     }
 
     @Override
-    public void mouseReleased(Click click) {
+    public void mouseReleased(MouseButtonEvent click) {
         for (int i = 0; i < 4; i++) {
             dragging[i] = false;
         }
     }
 
     @Override
-    public void mouseDragged(Click click, double offsetX, double offsetY) {
+    public void mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
         for (int i = 0; i < 4; i++) {
             if (sliderHovered[i] && dragging[i] && click.button() == 0) {
                 updateSliderValue(click.x(), i);

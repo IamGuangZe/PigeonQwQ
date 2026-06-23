@@ -1,9 +1,9 @@
 package owo.pigeon.commands.impl;
 
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
 import owo.pigeon.commands.Command;
 import owo.pigeon.commands.CommandManager;
 import owo.pigeon.utils.ColorUtil;
@@ -55,10 +55,10 @@ public class HelpCommand extends Command {
             String cmdName = CommandManager.commands.get(i).getCommand().toLowerCase();
             String fullCommand = CommandUtil.getCommandPrefix() + cmdName;
 
-            MutableText commandText = Text.literal(ColorUtil.parseColor("&7" + fullCommand))
-                    .styled(style -> style
+            MutableComponent commandText = Component.literal(ColorUtil.parseColor("&7" + fullCommand))
+                    .withStyle(style -> style
                             .withClickEvent(new ClickEvent.SuggestCommand(fullCommand + " "))
-                            .withHoverEvent(new HoverEvent.ShowText(Text.literal(ColorUtil.parseColor("&bClick to suggest to chat\n&7" + fullCommand))))
+                            .withHoverEvent(new HoverEvent.ShowText(Component.literal(ColorUtil.parseColor("&bClick to suggest to chat\n&7" + fullCommand))))
                     );
             ChatUtil.sendMessage(commandText);
         }

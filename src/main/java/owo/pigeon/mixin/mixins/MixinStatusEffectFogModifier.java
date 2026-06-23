@@ -1,26 +1,26 @@
 package owo.pigeon.mixin.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.minecraft.client.render.fog.StatusEffectFogModifier;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.client.renderer.fog.environment.MobEffectFogEnvironment;
+import net.minecraft.core.Holder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
-@Mixin(StatusEffectFogModifier.class)
+@Mixin(MobEffectFogEnvironment.class)
 public abstract class MixinStatusEffectFogModifier {
     @Shadow
-    public abstract RegistryEntry<StatusEffect> getStatusEffect();
+    public abstract Holder<MobEffect> getMobEffect();
 
-    @ModifyReturnValue(method = "shouldApply", at = @At("RETURN"))
+    @ModifyReturnValue(method = "isApplicable", at = @At("RETURN"))
     private boolean onShouldApply(boolean original) {
-        if (getStatusEffect() == StatusEffects.BLINDNESS)
+        if (getMobEffect() == MobEffects.BLINDNESS)
             return original && !(ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noBlindness.getValue());
-        if (getStatusEffect() == StatusEffects.DARKNESS)
+        if (getMobEffect() == MobEffects.DARKNESS)
             return original && !(ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noDarkness.getValue());
         return original;
     }

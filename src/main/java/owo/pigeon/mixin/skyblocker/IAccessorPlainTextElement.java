@@ -1,7 +1,7 @@
 package owo.pigeon.mixin.skyblocker;
 
 import de.hysky.skyblocker.skyblock.tabhud.widget.element.PlainTextElement;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
@@ -11,5 +11,5 @@ import java.util.List;
 public interface IAccessorPlainTextElement {
 
     @Accessor(value = "lines", remap = false)
-    List<Text> pigeon$getLines();
+    List<Component> pigeon$getLines();
 }
