@@ -81,7 +81,7 @@ public class AutoClicker extends Module {
     }
 
     private boolean breakBlocksCheck() {
-        // ChatUtil.sendDebugMessage(this.name,"isBreakingBlock: " + mc.interactionManager.isBreakingBlock());
+        // ChatUtil.sendDebugMessage(this.name,"isBreakingBlock: " + mc.gameMode.isBreakingBlock());
         return !(breakBlocks.getValue() && PlayerUtil.isBreakingBlock());
     }
 

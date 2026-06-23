@@ -88,8 +88,8 @@ public class AutoCombine extends Module {
         IAccessorAbstractContainerScreen handled = (IAccessorAbstractContainerScreen) screen;
         IAccessorScreen accessor = (IAccessorScreen) screen;
 
-        int x = handled.pigeon$getX() + handled.pigeon$getBackgroundWidth() + 5;
-        int y = handled.pigeon$getY();
+        int x = handled.pigeon$getLeftPos() + handled.pigeon$getImageWidth() + 5;
+        int y = handled.pigeon$getTopPos();
 
         if (button == null) {
             button = Button.builder(Component.nullToEmpty("Combine"), btn -> {

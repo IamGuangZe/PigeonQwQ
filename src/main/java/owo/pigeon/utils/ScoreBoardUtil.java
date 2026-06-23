@@ -72,11 +72,11 @@ public class ScoreBoardUtil {
         if (mc.getConnection() == null || mc.gui == null || mc.gui.getTabList() == null)
             return List.of();
 
-        PlayerTabOverlay playerListHud = mc.gui.getTabList();
+        PlayerTabOverlay playerTabOverlay = mc.gui.getTabList();
 
         Collection<PlayerInfo> entries = mc.getConnection().getOnlinePlayers();
         return entries.stream()
-                .map(entry -> playerListHud.getNameForDisplay(entry).getString())
+                .map(entry -> playerTabOverlay.getNameForDisplay(entry).getString())
                 .toList();
     }
 }

@@ -13,7 +13,7 @@ import owo.pigeon.utils.render.RenderUtil;
 import java.awt.*;
 
 import static owo.pigeon.Pigeon.mc;
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class NumSettingPanel extends SettingPanel {
     public AbstractNumSetting<?> numberSetting;
@@ -78,10 +78,10 @@ public class NumSettingPanel extends SettingPanel {
                 displayValue += " &r" + unit;
             }
 
-            context.drawString(textRenderer,
+            context.drawString(font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) rawHeight / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) rawHeight / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (numberSetting instanceof IntSetting intSetting) {
@@ -91,10 +91,10 @@ public class NumSettingPanel extends SettingPanel {
                 displayValue += " &r" + unit;
             }
 
-            context.drawString(textRenderer,
+            context.drawString(font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) rawHeight / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) rawHeight / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         }

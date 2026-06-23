@@ -28,12 +28,12 @@ public abstract class MixinCamera {
     protected abstract void setRotation(float yaw, float pitch);
 
     @ModifyVariable(method = "getMaxZoom", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-    private float onClipToSpace(float value) {
+    private float onGetMaxZoom(float value) {
         return ModuleUtil.isEnable(ModifyCamera.class) ? ModuleUtil.getModule(ModifyCamera.class).distance.getValue() : 4.0f;
     }
 
     @Inject(method = "getMaxZoom", at = @At("HEAD"), cancellable = true)
-    private void onClipToSpace(float f, CallbackInfoReturnable<Float> cir) {
+    private void onGetMaxZoom(float f, CallbackInfoReturnable<Float> cir) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).camNoClip.getValue())
             cir.setReturnValue(f);
     }

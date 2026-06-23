@@ -19,7 +19,7 @@ import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.hypixel.skyblock.SkyblockUtil;
 import owo.pigeon.utils.player.PlayerUtil;
-import owo.pigeon.utils.render.TextRendererUtil;
+import owo.pigeon.utils.render.FontUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +74,8 @@ public class AutoSell extends Module {
         if (container == null) return;
 
         IAccessorAbstractContainerScreen guiAccessor = (IAccessorAbstractContainerScreen) screen;
-        int startX = guiAccessor.pigeon$getX() + guiAccessor.pigeon$getBackgroundWidth() + 5;
-        int startY = guiAccessor.pigeon$getY();
+        int startX = guiAccessor.pigeon$getLeftPos() + guiAccessor.pigeon$getImageWidth() + 5;
+        int startY = guiAccessor.pigeon$getTopPos();
 
         boolean isSellable = SkyblockUtil.isSellableMenu(container);
         List<String> lines = new ArrayList<>();
@@ -86,7 +86,7 @@ public class AutoSell extends Module {
             lines.add("&7ID list: &f" + itemId.getValue().size() + " items");
             lines.add("&7Name list: &f" + itemName.getValue().size() + " items");
         }
-        TextRendererUtil.drawStringList(event.getContext(), lines, startX, startY);
+        FontUtil.drawStringList(event.getContext(), lines, startX, startY);
     }
 
     @Handler

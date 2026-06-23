@@ -15,7 +15,7 @@ public class MixinLivingEntity {
     private int noJumpDelay;
 
     @Inject(method = "aiStep", at = @At("HEAD"))
-    private void onTickMovement(CallbackInfo ci) {
+    private void onAiStep(CallbackInfo ci) {
         if (ModuleUtil.isEnable(NoJumpDelay.class)) noJumpDelay = 0;
     }
 }

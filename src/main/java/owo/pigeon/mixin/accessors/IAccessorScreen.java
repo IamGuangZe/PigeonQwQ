@@ -14,5 +14,5 @@ public interface IAccessorScreen {
     List<GuiEventListener> pigeon$getChildren();
 
     @Accessor("renderables")
-    List<Renderable> pigeon$getDrawables();
+    List<Renderable> pigeon$getRenderables();
 }

@@ -28,14 +28,14 @@ public abstract class MixinGameRenderer {
     }
 
     @Inject(method = "bobHurt", at = @At("HEAD"), cancellable = true)
-    private void onTiltViewWhenHurt(PoseStack matrices, float tickProgress, CallbackInfo ci) {
+    private void onbobHurt(PoseStack matrices, float tickProgress, CallbackInfo ci) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noHurtCam.getValue()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "pick", at = @At("RETURN"))
-    private void afterUpdateCrosshairTarget(float tickProgress, CallbackInfo ci) {
+    private void onPickTail(float tickProgress, CallbackInfo ci) {
         if (!ModuleUtil.isEnable(GhostHand.class)) return;
 
         Entity camera = mc.getCameraEntity();

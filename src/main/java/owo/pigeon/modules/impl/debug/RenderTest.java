@@ -7,8 +7,8 @@ import net.minecraft.world.entity.Entity;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
+import owo.pigeon.utils.render.FontUtil;
 import owo.pigeon.utils.render.RenderUtil;
-import owo.pigeon.utils.render.TextRendererUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,14 +24,14 @@ public class RenderTest extends Module {
     @Handler
     public void onRender2D(RenderEvent.Render2DEvent event) {
         GuiGraphics context = event.getContext();
-        TextRendererUtil.drawString(context, "line 1: with color input &a[&&a]", 100, 100, 0xFF000000);
-        TextRendererUtil.drawString(context, "line 2: without color input &a[&&a]", 100, 100 + TextRendererUtil.getLineHeight());
+        FontUtil.drawString(context, "line 1: with color input &a[&&a]", 100, 100, 0xFF000000);
+        FontUtil.drawString(context, "line 2: without color input &a[&&a]", 100, 100 + FontUtil.getLineHeight());
 
         List<String> mutiText = new ArrayList<>();
         mutiText.add("line 3: input &a[&&a]");
         mutiText.add("line 4: muti lines &a[&&a]");
 
-        TextRendererUtil.drawStringList(context, mutiText, 100, 100 + TextRendererUtil.getLineHeight() * 2);
+        FontUtil.drawStringList(context, mutiText, 100, 100 + FontUtil.getLineHeight() * 2);
     }
 
     @Handler

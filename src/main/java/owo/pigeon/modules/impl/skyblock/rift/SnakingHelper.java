@@ -6,8 +6,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import owo.pigeon.event.events.DoAttackEvent;
-import owo.pigeon.event.events.DoItemUseEvent;
+import owo.pigeon.event.events.StartAttackEvent;
+import owo.pigeon.event.events.StartUseItemEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.utils.ColorUtil;
@@ -27,13 +27,13 @@ public class SnakingHelper extends Module {
     private static final String PUNGI = "Frozen Water Pungi";
 
     @Handler
-    public void onDoAttackPre(DoAttackEvent.Pre event) {
+    public void onStartAttackEventPre(StartAttackEvent.Pre event) {
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         switchTo(PICKAXE);
     }
 
     @Handler
-    public void onDoItemUse(DoItemUseEvent.Pre event) {
+    public void onStartUseItem(StartUseItemEvent.Pre event) {
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
         switchTo(PUNGI);
     }

@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(KeyMapping.class)
 public interface IAccessorKeyMapping {
     @Accessor("key")
-    InputConstants.Key pigeon$getBoundKey();
+    InputConstants.Key pigeon$getKey();
 }

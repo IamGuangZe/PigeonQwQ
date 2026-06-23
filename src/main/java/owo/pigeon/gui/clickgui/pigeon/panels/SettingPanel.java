@@ -14,7 +14,7 @@ import owo.pigeon.utils.render.RenderUtil;
 import java.awt.*;
 
 import static owo.pigeon.Pigeon.mc;
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class SettingPanel extends AbstractDisplableItem {
     private final AbstractSetting<?> setting;
@@ -45,10 +45,10 @@ public class SettingPanel extends AbstractDisplableItem {
             String displayValue = blockSetting.getValue().getName().getString();
 
             context.drawString(
-                    textRenderer,
+                    font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB()
             );
 
@@ -56,10 +56,10 @@ public class SettingPanel extends AbstractDisplableItem {
             String displayValue = "'&7" + String.valueOf(charSetting.getValue()).replace("&", "&&") + "&r'";
 
             context.drawString(
-                    textRenderer,
+                    font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof EnableSetting enableSetting) {
@@ -67,10 +67,10 @@ public class SettingPanel extends AbstractDisplableItem {
 
             String displayValue = value ? "&atrue" : "&cfalse";
             context.drawString(
-                    textRenderer,
+                    font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof KeySetting keySetting) {
@@ -92,69 +92,69 @@ public class SettingPanel extends AbstractDisplableItem {
             }
 
             context.drawString(
-                    textRenderer,
+                    font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof ModeSetting<?> modeSetting) {
             String displayValue = "&b" + modeSetting.getValue().toString().toUpperCase();
 
             context.drawString(
-                    textRenderer,
+                    font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof StringSetting stringSetting) {
             String displayValue = "\"&7" + stringSetting.getValue().replace("&", "&&") + "&r\"";
 
             context.drawString(
-                    textRenderer,
+                    font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof ListSetting listSetting) {
             String displayValue = "&b[" + listSetting.size() + " items]";
 
             context.drawString(
-                    textRenderer,
+                    font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB());
 
         } else if (setting instanceof ExpandSetting expandSetting) {
             boolean value = expandSetting.getValue();
 
             context.drawString(
-                    textRenderer,
+                    font,
                     ColorUtil.parseColor(displayName + " :"),
                     (int) ((x + 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     Color.LIGHT_GRAY.getRGB()
             );
 
             String symbol = value ? "-" : "+";
             int color = value ? Color.RED.getRGB() : Color.GREEN.getRGB();
             context.drawString(
-                    textRenderer,
+                    font,
                     symbol,
-                    (int) ((x + width - textRenderer.width(symbol) * scale - 4) / scale),
-                    (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                    (int) ((x + width - font.width(symbol) * scale - 4) / scale),
+                    (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                     color
             );
 
         } else {
             context.drawString(
-                    textRenderer,
+                    font,
                     displayName,
                     (int) ((x + 4) / scale),
-                    (int) (((y + (float) height / 2) - (float) textRenderer.lineHeight / 2 + 1) / scale),
+                    (int) (((y + (float) height / 2) - (float) font.lineHeight / 2 + 1) / scale),
                     Color.LIGHT_GRAY.getRGB());
         }
 

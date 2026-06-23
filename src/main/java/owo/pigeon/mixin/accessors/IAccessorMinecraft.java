@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface IAccessorMinecraft {
 
     @Invoker("startAttack")
-    boolean pigeon$invokeDoAttack();
+    boolean pigeon$invokeStartAttack();
 
     @Invoker("startUseItem")
-    void pigeon$invokeDoItemUse();
+    void pigeon$invokeStartUseItem();
 }

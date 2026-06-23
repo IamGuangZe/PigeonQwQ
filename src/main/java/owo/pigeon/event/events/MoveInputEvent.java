@@ -27,11 +27,11 @@ public class MoveInputEvent extends Event {
     }
 
     public Vec2 getMovementVector() {
-        return ((IAccessorClientInput) input).pigeon$getMovementVector();
+        return ((IAccessorClientInput) input).pigeon$getMoveVector();
     }
 
     public void setMovementVector(Vec2 movementVector) {
-        ((IAccessorClientInput) input).pigeon$setMovementVector(movementVector);
+        ((IAccessorClientInput) input).pigeon$setMoveVector(movementVector);
     }
 
     public boolean isSneaking() {

@@ -39,13 +39,6 @@ public class DojoUtil {
                 z > DOJO_MIN_Z && z < DOJO_MAX_Z;
     }
 
-    /**
-     * Checks if an entity is within the Dojo arena spatial bounds.
-     * Unlike {@link #isInDojoChallenge()}, this method skips the Skyblock island guard
-     * because it is only called after the caller has already confirmed we are in a Dojo
-     * challenge via {@link #isDojoChallenge(Dojo)}. The CrimsonIsle tab-list check is
-     * unreliable for server-spawned entities during arena transitions.
-     */
     public static boolean isInDojoChallenge(Entity entity) {
         if (Pigeon.isDebug() && mc.isLocalServer()) return true;
 
@@ -58,10 +51,6 @@ public class DojoUtil {
                 z > DOJO_MIN_Z && z < DOJO_MAX_Z;
     }
 
-    /**
-     * Returns a human-readable summary of the entity's position relative to the Dojo bounds.
-     * Useful for debug logging.
-     */
     public static String getDojoBoundsDiagnostic(Entity entity) {
         double x = entity.getX(), y = entity.getY(), z = entity.getZ();
         boolean inX = x > DOJO_MIN_X && x < DOJO_MAX_X;

@@ -20,7 +20,7 @@ import owo.pigeon.utils.ItemUtil;
 import owo.pigeon.utils.RegexUtil;
 import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.player.PlayerUtil;
-import owo.pigeon.utils.render.TextRendererUtil;
+import owo.pigeon.utils.render.FontUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,8 +140,8 @@ public class ChocolateFactory extends Module {
         if (container == null || !screen.getTitle().getString().contains("Chocolate Factory")) return;
 
         IAccessorAbstractContainerScreen guiAccessor = (IAccessorAbstractContainerScreen) screen;
-        int startX = guiAccessor.pigeon$getX() + guiAccessor.pigeon$getBackgroundWidth() + 5;
-        int startY = guiAccessor.pigeon$getY();
+        int startX = guiAccessor.pigeon$getLeftPos() + guiAccessor.pigeon$getImageWidth() + 5;
+        int startY = guiAccessor.pigeon$getTopPos();
 
         long balance = getBalance(container);
         double baseProd = getBaseProduction(container);
@@ -189,7 +189,7 @@ public class ChocolateFactory extends Module {
                 debugLines.add(line.replaceAll("\\|\\d+\\|", ""));
             }
         }
-        TextRendererUtil.drawStringList(event.getContext(), debugLines, startX, startY);
+        FontUtil.drawStringList(event.getContext(), debugLines, startX, startY);
     }
 
     @Handler

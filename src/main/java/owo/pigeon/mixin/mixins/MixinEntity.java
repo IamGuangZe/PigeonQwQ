@@ -24,7 +24,7 @@ public class MixinEntity implements ICameraOverriddenEntity {
     private float cameraYaw;
 
     @Inject(method = "turn", at = @At("HEAD"), cancellable = true)
-    private void onChangeLookDirection(double xDelta, double yDelta, CallbackInfo ci) {
+    private void onTurn(double xDelta, double yDelta, CallbackInfo ci) {
         if (ModuleUtil.getModule(FreeLook.class).freelooking && (Object) this instanceof LocalPlayer) {
             double pitchDelta = yDelta * 0.15;
             double yawDelta = xDelta * 0.15;

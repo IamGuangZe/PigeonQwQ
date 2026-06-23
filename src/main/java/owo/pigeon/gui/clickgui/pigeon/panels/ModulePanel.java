@@ -17,7 +17,7 @@ import owo.pigeon.utils.render.RenderUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class ModulePanel extends AbstractDisplableItem {
     private final Module module;
@@ -65,10 +65,10 @@ public class ModulePanel extends AbstractDisplableItem {
         int textColor = module.isEnable()
                 ? (theme.isGradient() ? theme.getMidColor() : Color.WHITE.getRGB())
                 : Color.GRAY.getRGB();
-        context.drawString(textRenderer,
+        context.drawString(font,
                 module.name,
-                x + width / 2 - textRenderer.width(module.name) / 2,
-                y + height / 2 - textRenderer.lineHeight / 2,
+                x + width / 2 - font.width(module.name) / 2,
+                y + height / 2 - font.lineHeight / 2,
                 textColor);
         if (owo.pigeon.Pigeon.isDebug())
             RenderUtil.drawBorder(context, x, y, width, height, hovered ? Color.YELLOW.getRGB() : Color.BLUE.getRGB());

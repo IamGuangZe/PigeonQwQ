@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClientTickEvent;
-import owo.pigeon.event.events.DoAttackEvent;
-import owo.pigeon.event.events.DoItemUseEvent;
+import owo.pigeon.event.events.StartAttackEvent;
+import owo.pigeon.event.events.StartUseItemEvent;
 import owo.pigeon.modules.impl.combat.AutoClicker;
 import owo.pigeon.modules.impl.combat.NoHitDelay;
 import owo.pigeon.modules.impl.player.FastPlace;
@@ -31,7 +31,7 @@ public class MixinMinecraft {
     private int rightClickDelay;
 
     @Unique
-    private ClientLevel lastProcessedWorld;
+    private ClientLevel lastProcessedLevel;
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void onClientTickPre(CallbackInfo ci) {
@@ -45,7 +45,7 @@ public class MixinMinecraft {
 
     @Inject(method = "startAttack", at = @At("HEAD"), cancellable = true)
     private void onStartAttack(CallbackInfoReturnable<Boolean> cir) {
-        DoAttackEvent.Pre event = new DoAttackEvent.Pre();
+        StartAttackEvent.Pre event = new StartAttackEvent.Pre();
         Pigeon.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
             cir.cancel();
@@ -59,7 +59,7 @@ public class MixinMinecraft {
 
     @Inject(method = "startUseItem", at = @At("HEAD"), cancellable = true)
     private void onStartUseItemPre(CallbackInfo ci) {
-        DoItemUseEvent.Pre event = new DoItemUseEvent.Pre();
+        StartUseItemEvent.Pre event = new StartUseItemEvent.Pre();
         Pigeon.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
             ci.cancel();
@@ -68,7 +68,7 @@ public class MixinMinecraft {
 
     @Inject(method = "startUseItem", at = @At("RETURN"))
     private void onStartUseItemPost(CallbackInfo ci) {
-        Pigeon.EVENT_BUS.post(new DoItemUseEvent.Post()).now();
+        Pigeon.EVENT_BUS.post(new StartUseItemEvent.Post()).now();
 
         if (ModuleUtil.isEnable(FastPlace.class) && ModuleUtil.getModule(FastPlace.class).canFastPlace()) {
             rightClickDelay = ModuleUtil.getModule(FastPlace.class).delay.getValue();
@@ -76,7 +76,7 @@ public class MixinMinecraft {
     }
 
     @Redirect(method = "handleKeybinds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/CameraType;cycle()Lnet/minecraft/client/CameraType;"))
-    private CameraType onCyclePerspective(CameraType instance) {
+    private CameraType onCycleCameraType(CameraType instance) {
         CameraType next = instance.cycle();
 
         if (ModuleUtil.getModule(FreeLook.class).freelooking && next == CameraType.FIRST_PERSON) {

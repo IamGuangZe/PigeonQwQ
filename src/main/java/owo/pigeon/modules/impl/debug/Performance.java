@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
-import owo.pigeon.utils.render.TextRendererUtil;
+import owo.pigeon.utils.render.FontUtil;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -21,7 +21,7 @@ public class Performance extends Module {
         if (mc.player == null || mc.getConnection() == null) return;
 
         GuiGraphics context = event.getContext();
-        int lineHeight = TextRendererUtil.getLineHeight();
+        int lineHeight = FontUtil.getLineHeight();
         int x = 2;
         int y = mc.getWindow().getGuiScaledHeight() - lineHeight - 2;
 
@@ -29,6 +29,6 @@ public class Performance extends Module {
         String pingText = owo.pigeon.utils.world.ServerUtil.getAveragePing() + "ms";
         String display = "TPS: " + tpsText + "  Ping: " + pingText;
 
-        TextRendererUtil.drawString(context, display, x, y, 0xFFFFFFFF);
+        FontUtil.drawString(context, display, x, y, 0xFFFFFFFF);
     }
 }

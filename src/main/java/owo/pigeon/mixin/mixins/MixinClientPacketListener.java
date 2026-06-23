@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
 import net.minecraft.network.protocol.ping.ClientboundPongResponsePacket;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,6 +29,7 @@ public abstract class MixinClientPacketListener {
     @Shadow
     private ClientLevel level;
 
+    @Final
     @Shadow
     private PingDebugMonitor pingDebugMonitor;
 
@@ -41,7 +43,7 @@ public abstract class MixinClientPacketListener {
             return;
         }
 
-        MessageEvent.SendMessageEvent event = new MessageEvent.SendMessageEvent(Component.nullToEmpty(content));
+        MessageEvent.SendChatEvent event = new MessageEvent.SendChatEvent(Component.nullToEmpty(content));
         Pigeon.EVENT_BUS.post(event).now();
 
         if (event.isCancelled()) {

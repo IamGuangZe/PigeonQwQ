@@ -13,7 +13,7 @@ import owo.pigeon.utils.ModuleUtil;
 @Mixin(WeatherEffectRenderer.class)
 public class MixinWeatherEffectRenderer {
     @Redirect(method = {"extractRenderState", "tickRainParticles"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getRainLevel(F)F"))
-    private float redirectRainGradient(Level instance, float tickProgress) {
+    private float redirectRainLevel(Level instance, float tickProgress) {
         if (ModuleUtil.isEnable(Environment.class) && ModuleUtil.getModule(Environment.class).shouldModifyWeather()) {
             return ModuleUtil.getModule(Environment.class).isRaining() ? 1.0f : 0.0f;
         }

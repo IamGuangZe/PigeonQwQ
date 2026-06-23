@@ -50,8 +50,8 @@ public class ExportButton extends Module {
         IAccessorAbstractContainerScreen guiAccessor = (IAccessorAbstractContainerScreen) screen;
         IAccessorScreen screenAccessor = (IAccessorScreen) screen;
 
-        int buttonX = guiAccessor.pigeon$getX() + guiAccessor.pigeon$getBackgroundWidth() + 5;
-        int buttonY = guiAccessor.pigeon$getY();
+        int buttonX = guiAccessor.pigeon$getLeftPos() + guiAccessor.pigeon$getImageWidth() + 5;
+        int buttonY = guiAccessor.pigeon$getTopPos();
 
         if (exportButton == null) {
             exportButton = Button.builder(Component.nullToEmpty("Export JSON"), button -> {

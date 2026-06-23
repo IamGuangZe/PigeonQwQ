@@ -24,7 +24,7 @@ public abstract class MixinRebuildTask {
     protected RenderSectionRegion region;
 
     @Inject(method = "doTask", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/chunk/SectionCompiler;compile(Lnet/minecraft/core/SectionPos;Lnet/minecraft/client/renderer/chunk/RenderSectionRegion;Lcom/mojang/blaze3d/vertex/VertexSorting;Lnet/minecraft/client/renderer/SectionBufferBuilderPack;)Lnet/minecraft/client/renderer/chunk/SectionCompiler$Results;"))
-    private void onSectionBuild(SectionBufferBuilderPack buffers, CallbackInfoReturnable<CompletableFuture<?>> cir, @Local SectionPos chunkSectionPos) {
+    private void onSectionCompiler(SectionBufferBuilderPack buffers, CallbackInfoReturnable<CompletableFuture<?>> cir, @Local SectionPos chunkSectionPos) {
         int minX = chunkSectionPos.minBlockX();
         int minY = chunkSectionPos.minBlockY();
         int minZ = chunkSectionPos.minBlockZ();

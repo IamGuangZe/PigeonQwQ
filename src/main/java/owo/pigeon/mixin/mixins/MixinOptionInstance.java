@@ -19,7 +19,7 @@ public class MixinOptionInstance<T> {
     private T value;
 
     @Inject(method = "set", at = @At("HEAD"), cancellable = true)
-    private void onSetValue(T value, CallbackInfo ci) {
+    private void onSet(T value, CallbackInfo ci) {
         if (caption.getContents().toString().contains("options.gamma")) {
             this.value = value;
             ci.cancel();

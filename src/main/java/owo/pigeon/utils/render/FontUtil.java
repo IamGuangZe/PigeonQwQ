@@ -9,39 +9,39 @@ import java.util.List;
 
 import static owo.pigeon.Pigeon.mc;
 
-public class TextRendererUtil {
-    public static final Font textRenderer = mc.font;
+public class FontUtil {
+    public static final Font font = mc.font;
 
     public static int getFontHeight() {
-        return textRenderer.lineHeight;
+        return font.lineHeight;
     }
 
     public static int getLineHeight() {
-        return textRenderer.lineHeight + 1;
+        return font.lineHeight + 1;
     }
 
     public static int getStringWidth(String text) {
-        return textRenderer.width(ColorUtil.removeColor(text));
+        return font.width(ColorUtil.removeColor(text));
     }
 
     public static int getTextWidth(Component text) {
-        return textRenderer.width(text);
+        return font.width(text);
     }
 
     public static void drawText(GuiGraphics context, Component text, int x, int y, int color) {
-        context.drawString(textRenderer, text, x, y, color, true);
+        context.drawString(font, text, x, y, color, true);
     }
 
     public static void drawText(GuiGraphics context, Component text, int x, int y) {
-        context.drawString(textRenderer, text, x, y, 0xFFFFFFFF, true);
+        context.drawString(font, text, x, y, 0xFFFFFFFF, true);
     }
 
     public static void drawString(GuiGraphics context, String text, int x, int y, int color) {
-        context.drawString(textRenderer, Component.literal(text), x, y, color, true);
+        context.drawString(font, Component.literal(text), x, y, color, true);
     }
 
     public static void drawString(GuiGraphics context, String text, int x, int y) {
-        context.drawString(textRenderer, Component.literal(ColorUtil.parseColor(text)), x, y, 0xFFFFFFFF, true);
+        context.drawString(font, Component.literal(ColorUtil.parseColor(text)), x, y, 0xFFFFFFFF, true);
     }
 
     public static void drawTextList(GuiGraphics context, List<Component> lines, int x, int y) {

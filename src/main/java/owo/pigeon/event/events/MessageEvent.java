@@ -34,8 +34,8 @@ public class MessageEvent extends CancellableEvent {
         return messageModified;
     }
 
-    public static class SendMessageEvent extends MessageEvent {
-        public SendMessageEvent(Component message) {
+    public static class SendChatEvent extends MessageEvent {
+        public SendChatEvent(Component message) {
             super(message, Type.SEND);
         }
     }

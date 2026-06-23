@@ -9,7 +9,7 @@ import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
 
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class ColorSettingPanel extends SettingPanel {
     public ColorSetting colorSetting;
@@ -90,16 +90,16 @@ public class ColorSettingPanel extends SettingPanel {
         String aHex = String.format("%02X", colorSetting.getAlpha());
 
         String displayValue = "&c" + rHex + "&a" + gHex + "&9" + bHex + "&f" + aHex;
-        context.drawString(textRenderer,
+        context.drawString(font,
                 ColorUtil.parseColor(displayName + " : " + displayValue),
                 (int) ((x + 4) / scale),
-                (int) ((y + (float) rawHeight / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                (int) ((y + (float) rawHeight / 2 - (float) font.lineHeight * scale / 2) / scale),
                 Color.LIGHT_GRAY.getRGB());
 
         context.pose().popMatrix();
 
         // 颜色预览
-        int colorCubeSize = (int) (textRenderer.lineHeight * scale);
+        int colorCubeSize = (int) (font.lineHeight * scale);
         int colorCubeX = x + width - 4 - colorCubeSize;
         int colorCubeY = y;
 

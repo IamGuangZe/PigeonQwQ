@@ -28,7 +28,7 @@ public class SlayerESP extends Module {
         RenderUtil.drawESP(event.getMatrix(), SkyblockUtil.getSlayer(), Color.PINK, RenderUtil.ESPMode.BOTH, false);
 
         /*
-        for (Entity entity : mc.world.getEntities()) {
+        for (Entity entity : mc.level.getEntities()) {
             if (entity instanceof ArmorStandEntity stand) {
                 String name = stand.getName().getString();
                 if (name.startsWith("Spawned by: " + mc.player.getName().getString())) {

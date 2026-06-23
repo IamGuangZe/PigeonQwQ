@@ -11,7 +11,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.modules.impl.client.ClickGui;
 import owo.pigeon.settings.ListSetting;
 import owo.pigeon.utils.ModuleUtil;
-import owo.pigeon.utils.render.TextRendererUtil;
+import owo.pigeon.utils.render.FontUtil;
 
 import java.awt.*;
 
@@ -37,7 +37,7 @@ public class ListSettingEditScreen extends Screen {
         int x = (this.width - fieldWidth) / 2;
         int y = this.height / 2 - 10;
 
-        this.textField = new EditBox(TextRendererUtil.textRenderer, x, y, fieldWidth - 60, 20, Component.nullToEmpty("Add Item"));
+        this.textField = new EditBox(FontUtil.font, x, y, fieldWidth - 60, 20, Component.nullToEmpty("Add Item"));
 
         if (currentText != null) {
             textField.setValue(currentText);
@@ -68,12 +68,12 @@ public class ListSettingEditScreen extends Screen {
     @Override
     public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
         String title = "Editing list: " + setting.getName() + " (" + setting.size() + " items)";
-        int titleWidth = TextRendererUtil.textRenderer.width(title);
-        context.drawString(TextRendererUtil.textRenderer, title, (this.width - titleWidth) / 2, this.textField.getY() - TextRendererUtil.textRenderer.lineHeight - 6, Color.WHITE.getRGB());
+        int titleWidth = FontUtil.font.width(title);
+        context.drawString(FontUtil.font, title, (this.width - titleWidth) / 2, this.textField.getY() - FontUtil.font.lineHeight - 6, Color.WHITE.getRGB());
 
         int listY = this.textField.getY() + 50;
         int listHeight = this.height - listY - 10;
-        int itemHeight = TextRendererUtil.textRenderer.lineHeight + 4;
+        int itemHeight = FontUtil.font.lineHeight + 4;
         int maxVisible = listHeight / itemHeight;
 
         int start = scrollOffset;
@@ -93,7 +93,7 @@ public class ListSettingEditScreen extends Screen {
                 context.fill(listLeft, itemY, listRight, itemY + itemHeight, new Color(255, 255, 255, 30).getRGB());
             }
 
-            context.drawString(TextRendererUtil.textRenderer, item, listLeft + 4, itemY + 2, Color.LIGHT_GRAY.getRGB());
+            context.drawString(FontUtil.font, item, listLeft + 4, itemY + 2, Color.LIGHT_GRAY.getRGB());
 
             String removeLabel = "x";
             int removeX = listRight - 15;
@@ -102,7 +102,7 @@ public class ListSettingEditScreen extends Screen {
             if (hovered && mouseX >= removeX) {
                 removeColor = Color.WHITE.getRGB();
             }
-            context.drawString(TextRendererUtil.textRenderer, removeLabel, removeX, itemY + 2, removeColor);
+            context.drawString(FontUtil.font, removeLabel, removeX, itemY + 2, removeColor);
         }
 
         super.render(context, mouseX, mouseY, deltaTicks);
@@ -112,7 +112,7 @@ public class ListSettingEditScreen extends Screen {
     public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (click.button() == 0) {
             int listY = this.textField.getY() + 50;
-            int itemHeight = TextRendererUtil.textRenderer.lineHeight + 4;
+            int itemHeight = FontUtil.font.lineHeight + 4;
             int listLeft = this.textField.getX();
             int listRight = listLeft + this.textField.getWidth() + 60;
             int removeX = listRight - 15;

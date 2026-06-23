@@ -11,7 +11,7 @@ import owo.pigeon.utils.render.RenderUtil;
 
 import java.awt.*;
 
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class KeybindPanel extends AbstractDisplableItem {
     private final Module module;
@@ -55,10 +55,10 @@ public class KeybindPanel extends AbstractDisplableItem {
         }
 
         context.drawString(
-                textRenderer,
+                font,
                 ColorUtil.parseColor(displayName + " : " + displayValue),
                 (int) ((x + 4) / scale),
-                (int) ((y + (float) height / 2 - (float) textRenderer.lineHeight * scale / 2) / scale),
+                (int) ((y + (float) height / 2 - (float) font.lineHeight * scale / 2) / scale),
                 Color.LIGHT_GRAY.getRGB());
 
         context.pose().popMatrix();

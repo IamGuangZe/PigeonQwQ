@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface IAccessorClientInput {
 
     @Accessor("moveVector")
-    Vec2 pigeon$getMovementVector();
+    Vec2 pigeon$getMoveVector();
 
     @Accessor("moveVector")
-    void pigeon$setMovementVector(Vec2 movementVector);
+    void pigeon$setMoveVector(Vec2 movementVector);
 }

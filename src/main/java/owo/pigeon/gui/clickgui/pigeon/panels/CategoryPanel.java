@@ -18,7 +18,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static owo.pigeon.Pigeon.mc;
-import static owo.pigeon.utils.render.TextRendererUtil.textRenderer;
+import static owo.pigeon.utils.render.FontUtil.font;
 
 public class CategoryPanel extends AbstractDisplableItem {
     private final Category category;
@@ -80,19 +80,19 @@ public class CategoryPanel extends AbstractDisplableItem {
         context.pose().popMatrix();
 
         int textOffset = iconSize + 4; // icon width + gap
-        context.drawString(textRenderer,
+        context.drawString(font,
                 category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(),
                 x + textOffset,
-                y + height / 2 - textRenderer.lineHeight / 2,
+                y + height / 2 - font.lineHeight / 2,
                 Color.WHITE.getRGB());
 
         boolean expanded = expandProgress.isExpanded();
         String symbol = expanded ? "-" : "+";
         String color = expanded ? "&c" : "&a";
-        context.drawString(textRenderer,
+        context.drawString(font,
                 ColorUtil.parseColor(color + symbol),
-                x + width - textRenderer.width(symbol) - 4,
-                y + height / 2 - textRenderer.lineHeight / 2,
+                x + width - font.width(symbol) - 4,
+                y + height / 2 - font.lineHeight / 2,
                 Color.WHITE.getRGB()
         );
 

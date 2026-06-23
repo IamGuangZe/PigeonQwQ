@@ -7,14 +7,14 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(AbstractContainerScreen.class)
 public interface IAccessorAbstractContainerScreen {
     @Accessor("leftPos")
-    int pigeon$getX();
+    int pigeon$getLeftPos();
 
     @Accessor("topPos")
-    int pigeon$getY();
+    int pigeon$getTopPos();
 
     @Accessor("imageWidth")
-    int pigeon$getBackgroundWidth();
+    int pigeon$getImageWidth();
 
     @Accessor("imageHeight")
-    int pigeon$getBackgroundHeight();
+    int pigeon$getImageHeight();
 }

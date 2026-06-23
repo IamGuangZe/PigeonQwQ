@@ -28,8 +28,8 @@ import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 import owo.pigeon.utils.hypixel.HypixelUtil;
 import owo.pigeon.utils.player.PlayerUtil;
+import owo.pigeon.utils.render.FontUtil;
 import owo.pigeon.utils.render.RenderUtil;
-import owo.pigeon.utils.render.TextRendererUtil;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -130,9 +130,9 @@ public class MurderHelper extends Module {
 
         if (!hud.getValue()) return;
         if (!HypixelUtil.isInGame(HypixelUtil.Game.MURDERMYSTERY)) return;
-        TextRendererUtil.drawString(context, "Murder Mystery", 5, 5);
-        TextRendererUtil.drawString(context, "Murders : &c" + String.join("&r, &c", murdererNames), 5, 5 + TextRendererUtil.getLineHeight());
-        TextRendererUtil.drawString(context, "Who has bow : " + String.join(", ", playersWithBow), 5, 5 + TextRendererUtil.getLineHeight() * 2);
+        FontUtil.drawString(context, "Murder Mystery", 5, 5);
+        FontUtil.drawString(context, "Murders : &c" + String.join("&r, &c", murdererNames), 5, 5 + FontUtil.getLineHeight());
+        FontUtil.drawString(context, "Who has bow : " + String.join(", ", playersWithBow), 5, 5 + FontUtil.getLineHeight() * 2);
     }
 
     @Handler

@@ -15,18 +15,18 @@ import static owo.pigeon.Pigeon.mc;
 
 public class PlayerUtil {
     public enum LeftClickMode {
-        MOUSE, DOATTACK
+        MOUSE, START_ATTACK
     }
 
     public enum RightClickMode {
-        MOUSE, DOITEMUSE, INTERACTITEM
+        MOUSE, USE_ITEM, START_USE_ITEM
     }
 
     public static void leftClick(LeftClickMode mode) {
         ChatUtil.sendDebugMessage("PlayerUtil", "LeftClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.keyAttack);
-            case DOATTACK -> ((IAccessorMinecraft) mc).pigeon$invokeDoAttack();
+            case START_ATTACK -> ((IAccessorMinecraft) mc).pigeon$invokeStartAttack();
         }
     }
 
@@ -34,8 +34,8 @@ public class PlayerUtil {
         ChatUtil.sendDebugMessage("PlayerUtil", "RightClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.keyUse);
-            case DOITEMUSE -> ((IAccessorMinecraft) mc).pigeon$invokeDoItemUse();
-            case INTERACTITEM -> mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
+            case USE_ITEM -> mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
+            case START_USE_ITEM -> ((IAccessorMinecraft) mc).pigeon$invokeStartUseItem();
         }
     }
 

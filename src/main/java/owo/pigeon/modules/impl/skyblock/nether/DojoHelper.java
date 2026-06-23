@@ -17,8 +17,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClientTickEvent;
-import owo.pigeon.event.events.DoAttackEvent;
 import owo.pigeon.event.events.RenderEvent;
+import owo.pigeon.event.events.StartAttackEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -143,7 +143,7 @@ public class DojoHelper extends Module {
     }
 
     @Handler
-    public void onDoAttack(DoAttackEvent event) {
+    public void onStartAttackEvent(StartAttackEvent event) {
         if (discipline.getValue() && DojoUtil.isDojoChallenge(DojoUtil.Dojo.Discipline)) {
             if (mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.ENTITY) {
                 Entity target = ((EntityHitResult) mc.hitResult).getEntity();

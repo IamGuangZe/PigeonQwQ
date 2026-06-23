@@ -10,7 +10,7 @@ import static owo.pigeon.Pigeon.mc;
 public class KeybindUtil {
     public static void onPressed(KeyMapping key) {
         if (mc.screen != null) return;
-        KeyMapping.click(((IAccessorKeyMapping) key).pigeon$getBoundKey());
+        KeyMapping.click(((IAccessorKeyMapping) key).pigeon$getKey());
     }
 
     public static void setPressed(KeyMapping key, boolean pressed) {
@@ -21,7 +21,7 @@ public class KeybindUtil {
 
     public static boolean isPressed(KeyMapping key) {
         if (mc.getWindow() == null || key.isUnbound()) return false;
-        return isPressed(((IAccessorKeyMapping) key).pigeon$getBoundKey());
+        return isPressed(((IAccessorKeyMapping) key).pigeon$getKey());
     }
 
     public static boolean isPressed(int keyCode) {
