@@ -10,11 +10,9 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.MessageEvent;
 
 @Mixin(ChatListener.class)
-public class MixinMessageHandler {
+public class MixinChatListener {
     @Inject(method = "handleSystemMessage", at = @At("HEAD"), cancellable = true)
     private void onGameMessage(Component message, boolean overlay, CallbackInfo ci) {
-        // ChatUtil.sendDebugMessage("MixinMessageHandler","Game Message: " + message.getString() + ", Overlay: " + overlay);
-
         MessageEvent.ReceiveMessageEvent event = new MessageEvent.ReceiveMessageEvent(message, overlay);
         Pigeon.EVENT_BUS.post(event).now();
 

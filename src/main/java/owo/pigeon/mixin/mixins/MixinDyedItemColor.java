@@ -17,7 +17,7 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 @Mixin(DyedItemColor.class)
-public class MixinDyedColorComponent {
+public class MixinDyedItemColor {
 
     @Inject(method = "addToTooltip", at = @At("HEAD"), cancellable = true)
     private void onAppendTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag tooltipType, DataComponentGetter componentsAccess, CallbackInfo ci) {

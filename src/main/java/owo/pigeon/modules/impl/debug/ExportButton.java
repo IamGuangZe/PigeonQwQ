@@ -11,7 +11,7 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.mixin.accessors.IAccessorHandledScreen;
+import owo.pigeon.mixin.accessors.IAccessorAbstractContainerScreen;
 import owo.pigeon.mixin.accessors.IAccessorScreen;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -47,7 +47,7 @@ public class ExportButton extends Module {
         ChestMenu container = event.getContainer();
         if (container == null) return;
 
-        IAccessorHandledScreen guiAccessor = (IAccessorHandledScreen) screen;
+        IAccessorAbstractContainerScreen guiAccessor = (IAccessorAbstractContainerScreen) screen;
         IAccessorScreen screenAccessor = (IAccessorScreen) screen;
 
         int buttonX = guiAccessor.pigeon$getX() + guiAccessor.pigeon$getBackgroundWidth() + 5;

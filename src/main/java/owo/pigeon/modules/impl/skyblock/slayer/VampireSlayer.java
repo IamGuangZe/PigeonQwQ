@@ -5,7 +5,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.level.GameType;
 import owo.pigeon.event.events.ClientTickEvent;
-import owo.pigeon.mixin.accessors.IAccessorInGameHud;
+import owo.pigeon.mixin.accessors.IAccessorGui;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -66,7 +66,7 @@ public class VampireSlayer extends Module {
         if (WorldUtil.nullCheck()) return;
         if (!SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_RIFT)) return;
 
-        String subtitle = ((IAccessorInGameHud) mc.gui).pigeon$getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorInGameHud) mc.gui).pigeon$getSubtitle().getString());
+        String subtitle = ((IAccessorGui) mc.gui).pigeon$getSubtitle() == null ? "" : ColorUtil.removeColor(((IAccessorGui) mc.gui).pigeon$getSubtitle().getString());
         boolean foundTitle = subtitle.startsWith("Impel: ");
 
         Entity slayer = SkyblockUtil.getSlayer();

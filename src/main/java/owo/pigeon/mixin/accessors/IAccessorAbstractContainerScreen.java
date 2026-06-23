@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(AbstractContainerScreen.class)
-public interface IAccessorHandledScreen {
+public interface IAccessorAbstractContainerScreen {
     @Accessor("leftPos")
     int pigeon$getX();
 

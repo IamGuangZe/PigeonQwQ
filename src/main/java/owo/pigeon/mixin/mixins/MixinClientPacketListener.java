@@ -20,7 +20,7 @@ import owo.pigeon.utils.chat.ChatUtil;
 import owo.pigeon.utils.world.ServerUtil;
 
 @Mixin(ClientPacketListener.class)
-public abstract class MixinClientPlayNetworkHandler {
+public abstract class MixinClientPacketListener {
 
     @Shadow
     public abstract void sendChat(String content);
@@ -33,10 +33,10 @@ public abstract class MixinClientPlayNetworkHandler {
 
     @Inject(method = "sendChat", at = @At("HEAD"), cancellable = true)
     private void onSendMessagePre(String content, CallbackInfo ci) {
-        ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "Message: " + content);
+        ChatUtil.sendDebugMessage("MixinClientPacketListener", "Message: " + content);
 
         if (CommandManager.isSay) {
-            ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "return because say command");
+            ChatUtil.sendDebugMessage("MixinClientPacketListener", "return because say command");
             CommandManager.isSay = false;
             return;
         }
@@ -46,7 +46,7 @@ public abstract class MixinClientPlayNetworkHandler {
 
         if (event.isCancelled()) {
 
-            ChatUtil.sendDebugMessage("MixinClientPlayNetworkHandler", "sendMessage cancel");
+            ChatUtil.sendDebugMessage("MixinClientPacketListener", "sendMessage cancel");
 
             ci.cancel();
             return;

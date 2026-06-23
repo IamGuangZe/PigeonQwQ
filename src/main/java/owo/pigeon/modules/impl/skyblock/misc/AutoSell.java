@@ -9,7 +9,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClickSlotEvent;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.mixin.accessors.IAccessorHandledScreen;
+import owo.pigeon.mixin.accessors.IAccessorAbstractContainerScreen;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.IntSetting;
@@ -73,7 +73,7 @@ public class AutoSell extends Module {
         ChestMenu container = event.getContainer();
         if (container == null) return;
 
-        IAccessorHandledScreen guiAccessor = (IAccessorHandledScreen) screen;
+        IAccessorAbstractContainerScreen guiAccessor = (IAccessorAbstractContainerScreen) screen;
         int startX = guiAccessor.pigeon$getX() + guiAccessor.pigeon$getBackgroundWidth() + 5;
         int startY = guiAccessor.pigeon$getY();
 

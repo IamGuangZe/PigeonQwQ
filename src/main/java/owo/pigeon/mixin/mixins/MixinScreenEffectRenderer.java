@@ -13,7 +13,7 @@ import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(ScreenEffectRenderer.class)
-public class MixinInGameOverlayRenderer {
+public class MixinScreenEffectRenderer {
     @Inject(method = "renderWater", at = @At("HEAD"), cancellable = true)
     private static void onRenderUnderwaterOverlay(Minecraft client, PoseStack matrices, MultiBufferSource vertexConsumers, CallbackInfo ci) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noUnderwaterOverlay.getValue()) {

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Gui.class)
-public interface IAccessorInGameHud {
+public interface IAccessorGui {
     @Accessor("title")
     Component pigeon$getTitle();
 

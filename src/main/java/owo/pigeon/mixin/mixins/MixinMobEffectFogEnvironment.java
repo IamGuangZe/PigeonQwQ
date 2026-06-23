@@ -12,7 +12,7 @@ import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(MobEffectFogEnvironment.class)
-public abstract class MixinStatusEffectFogModifier {
+public abstract class MixinMobEffectFogEnvironment {
     @Shadow
     public abstract Holder<MobEffect> getMobEffect();
 

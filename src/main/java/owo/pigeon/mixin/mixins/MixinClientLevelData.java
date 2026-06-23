@@ -9,7 +9,7 @@ import owo.pigeon.modules.impl.world.Environment;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(ClientLevel.ClientLevelData.class)
-public class MixinClientWorldProperties {
+public class MixinClientLevelData {
     @Inject(method = "getDayTime", at = @At("HEAD"), cancellable = true)
     private void onGetTimeOfDay(CallbackInfoReturnable<Long> cir) {
         if (ModuleUtil.isEnable(Environment.class) && ModuleUtil.getModule(Environment.class).shouldModifyTime()) {

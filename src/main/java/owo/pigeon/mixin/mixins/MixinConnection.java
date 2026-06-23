@@ -13,7 +13,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.PacketEvent;
 
 @Mixin(Connection.class)
-public class MixinClientConnection {
+public class MixinConnection {
     @Inject(method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/protocol/Packet;)V", at = @At("HEAD"), cancellable = true)
     private void onChannelRead0Pre(ChannelHandlerContext channelHandlerContext, Packet<?> packet, CallbackInfo ci) {
         PacketEvent.ReceivePacketEvent.Pre receivePacketEvent = new PacketEvent.ReceivePacketEvent.Pre(packet);

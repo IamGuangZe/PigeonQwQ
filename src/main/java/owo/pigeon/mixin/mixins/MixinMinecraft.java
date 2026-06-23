@@ -22,7 +22,7 @@ import owo.pigeon.modules.impl.render.FreeLook;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(Minecraft.class)
-public class MixinMinecraftClient {
+public class MixinMinecraft {
 
     @Shadow
     public int missTime;

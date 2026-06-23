@@ -10,7 +10,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.RenderEvent;
 
 @Mixin(AbstractContainerScreen.class)
-public class MixinHandledScreen {
+public class MixinAbstractContainerScreen {
     @Inject(method = "render", at = @At("RETURN"))
     private void onRenderPost(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         AbstractContainerScreen<?> screen = (AbstractContainerScreen<?>) (Object) this;

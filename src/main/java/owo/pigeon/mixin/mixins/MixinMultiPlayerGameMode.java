@@ -18,14 +18,14 @@ import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 
 @Mixin(MultiPlayerGameMode.class)
-public class MixinClientPlayerInteractionManager {
+public class MixinMultiPlayerGameMode {
     @Shadow
     private int destroyDelay;
 
     @Inject(method = "handleInventoryMouseClick", at = @At("HEAD"))
     private void onClickSlotPre(int syncId, int slotId, int button, ClickType actionType, Player player, CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new ClickSlotEvent()).now();
-        ChatUtil.sendDebugMessage("MixinClientPlayerInteractionManager", "syanId: " + syncId + ", slotId: " + slotId);
+        ChatUtil.sendDebugMessage("MixinMultiPlayerGameMode", "syanId: " + syncId + ", slotId: " + slotId);
     }
 
     @Inject(method = "continueDestroyBlock", at = @At("HEAD"))

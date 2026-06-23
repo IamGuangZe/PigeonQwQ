@@ -7,7 +7,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
-import owo.pigeon.mixin.accessors.IAccessorMinecraftClient;
+import owo.pigeon.mixin.accessors.IAccessorMinecraft;
 import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 
@@ -26,7 +26,7 @@ public class PlayerUtil {
         ChatUtil.sendDebugMessage("PlayerUtil", "LeftClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.keyAttack);
-            case DOATTACK -> ((IAccessorMinecraftClient) mc).pigeon$invokeDoAttack();
+            case DOATTACK -> ((IAccessorMinecraft) mc).pigeon$invokeDoAttack();
         }
     }
 
@@ -34,7 +34,7 @@ public class PlayerUtil {
         ChatUtil.sendDebugMessage("PlayerUtil", "RightClick, mode: " + mode.name());
         switch (mode) {
             case MOUSE -> KeybindUtil.onPressed(mc.options.keyUse);
-            case DOITEMUSE -> ((IAccessorMinecraftClient) mc).pigeon$invokeDoItemUse();
+            case DOITEMUSE -> ((IAccessorMinecraft) mc).pigeon$invokeDoItemUse();
             case INTERACTITEM -> mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
         }
     }

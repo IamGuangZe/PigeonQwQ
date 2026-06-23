@@ -10,7 +10,7 @@ import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.KeyInputEvent;
 
 @Mixin(KeyboardHandler.class)
-public class MixinKeyboard {
+public class MixinKeyboardHandler {
     @Inject(method = "keyPress", at = @At("HEAD"))
     private void onKeyInputPre(long window, int action, KeyEvent input, CallbackInfo ci) {
         if (input.key() != -1)

@@ -19,7 +19,7 @@ import owo.pigeon.event.events.RenderEvent;
 import static owo.pigeon.Pigeon.mc;
 
 @Mixin(LevelRenderer.class)
-public class MixinWorldRenderer {
+public class MixinLevelRenderer {
     @Inject(method = "renderLevel", at = @At("RETURN"))
     private void onRender3DPost(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci) {
         PoseStack stack = new PoseStack();

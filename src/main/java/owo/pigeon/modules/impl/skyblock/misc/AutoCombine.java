@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.PacketEvent;
 import owo.pigeon.event.events.RenderEvent;
-import owo.pigeon.mixin.accessors.IAccessorHandledScreen;
+import owo.pigeon.mixin.accessors.IAccessorAbstractContainerScreen;
 import owo.pigeon.mixin.accessors.IAccessorScreen;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -85,7 +85,7 @@ public class AutoCombine extends Module {
         }
         mode = currentMode;
 
-        IAccessorHandledScreen handled = (IAccessorHandledScreen) screen;
+        IAccessorAbstractContainerScreen handled = (IAccessorAbstractContainerScreen) screen;
         IAccessorScreen accessor = (IAccessorScreen) screen;
 
         int x = handled.pigeon$getX() + handled.pigeon$getBackgroundWidth() + 5;

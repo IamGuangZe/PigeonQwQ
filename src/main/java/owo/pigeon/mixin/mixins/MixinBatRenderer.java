@@ -12,7 +12,7 @@ import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.hypixel.skyblock.DungeonUtil;
 
 @Mixin(BatRenderer.class)
-public class MixinBatEntityRenderer {
+public class MixinBatRenderer {
 
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/ambient/Bat;Lnet/minecraft/client/renderer/entity/state/BatRenderState;F)V", at = @At("RETURN"))
     private void onUpdateRenderStateTail(Bat batEntity, BatRenderState batEntityRenderState, float f, CallbackInfo ci) {

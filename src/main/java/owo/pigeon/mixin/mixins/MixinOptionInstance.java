@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(OptionInstance.class)
-public class MixinSimpleOption<T> {
+public class MixinOptionInstance<T> {
     @Shadow
     @Final
     private Component caption;
@@ -20,8 +20,6 @@ public class MixinSimpleOption<T> {
 
     @Inject(method = "set", at = @At("HEAD"), cancellable = true)
     private void onSetValue(T value, CallbackInfo ci) {
-        // ChatUtil.sendDebugMessage("MixinSimpleOption",text.getString() + " / " + text.getContent().toString() + " / " +this.text.getString());
-
         if (caption.getContents().toString().contains("options.gamma")) {
             this.value = value;
             ci.cancel();

@@ -11,7 +11,7 @@ import owo.pigeon.modules.impl.skyblock.misc.ArmorColor;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(TooltipDisplay.class)
-public class MixinTooltipDisplayComponent {
+public class MixinTooltipDisplay {
 
     @Inject(method = "shows", at = @At("RETURN"), cancellable = true)
     private void onShouldDisplay(DataComponentType<?> type, CallbackInfoReturnable<Boolean> cir) {

@@ -9,7 +9,7 @@ import owo.pigeon.modules.impl.skyblock.farming.RotationLock;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(MouseHandler.class)
-public class MixinMouse {
+public class MixinMouseHandler {
     @ModifyExpressionValue(method = "turnPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/OptionInstance;get()Ljava/lang/Object;", ordinal = 0))
     private Object onUpdateMouse(Object original) {
         if (ModuleUtil.isEnable(RotationLock.class) && ModuleUtil.getModule(RotationLock.class).shouldLock() && !ModuleUtil.getModule(FreeLook.class).freelooking) {

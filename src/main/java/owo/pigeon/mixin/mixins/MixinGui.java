@@ -15,7 +15,7 @@ import owo.pigeon.modules.impl.render.ModifyCamera;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(Gui.class)
-public abstract class MixinInGameHud {
+public abstract class MixinGui {
     @Inject(method = "render", at = @At("RETURN"))
     private void onRender2DPost(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new RenderEvent.Render2DEvent(context)).now();

@@ -4,7 +4,7 @@ import net.minecraft.client.player.ClientInput;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.phys.Vec2;
 import owo.pigeon.event.Event;
-import owo.pigeon.mixin.accessors.IAccessorInput;
+import owo.pigeon.mixin.accessors.IAccessorClientInput;
 
 public class MoveInputEvent extends Event {
 
@@ -27,11 +27,11 @@ public class MoveInputEvent extends Event {
     }
 
     public Vec2 getMovementVector() {
-        return ((IAccessorInput) input).pigeon$getMovementVector();
+        return ((IAccessorClientInput) input).pigeon$getMovementVector();
     }
 
     public void setMovementVector(Vec2 movementVector) {
-        ((IAccessorInput) input).pigeon$setMovementVector(movementVector);
+        ((IAccessorClientInput) input).pigeon$setMovementVector(movementVector);
     }
 
     public boolean isSneaking() {

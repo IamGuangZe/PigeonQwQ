@@ -3,14 +3,14 @@ package owo.pigeon.utils;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
-import owo.pigeon.mixin.accessors.IAccessorKeyBinding;
+import owo.pigeon.mixin.accessors.IAccessorKeyMapping;
 
 import static owo.pigeon.Pigeon.mc;
 
 public class KeybindUtil {
     public static void onPressed(KeyMapping key) {
         if (mc.screen != null) return;
-        KeyMapping.click(((IAccessorKeyBinding) key).pigeon$getBoundKey());
+        KeyMapping.click(((IAccessorKeyMapping) key).pigeon$getBoundKey());
     }
 
     public static void setPressed(KeyMapping key, boolean pressed) {
@@ -21,7 +21,7 @@ public class KeybindUtil {
 
     public static boolean isPressed(KeyMapping key) {
         if (mc.getWindow() == null || key.isUnbound()) return false;
-        return isPressed(((IAccessorKeyBinding) key).pigeon$getBoundKey());
+        return isPressed(((IAccessorKeyMapping) key).pigeon$getBoundKey());
     }
 
     public static boolean isPressed(int keyCode) {

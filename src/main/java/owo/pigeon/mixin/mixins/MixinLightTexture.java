@@ -16,7 +16,7 @@ import owo.pigeon.modules.impl.render.FullBright;
 import owo.pigeon.utils.ModuleUtil;
 
 @Mixin(LightTexture.class)
-public class MixinLightmapTextureManager {
+public class MixinLightTexture {
     @Shadow
     @Final
     private GpuTexture texture;

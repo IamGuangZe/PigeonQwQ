@@ -4,7 +4,7 @@ import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.scores.*;
-import owo.pigeon.mixin.accessors.IAccessorPlayerListHud;
+import owo.pigeon.mixin.accessors.IAccessorPlayerTabOverlay;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -58,13 +58,13 @@ public class ScoreBoardUtil {
 
     public static String getTabHeader() {
         if (mc.gui == null || mc.gui.getTabList() == null) return null;
-        Component header = ((IAccessorPlayerListHud) mc.gui.getTabList()).pigeon$getHeader();
+        Component header = ((IAccessorPlayerTabOverlay) mc.gui.getTabList()).pigeon$getHeader();
         return header == null ? null : header.getString();
     }
 
     public static String getTabFooter() {
         if (mc.gui == null || mc.gui.getTabList() == null) return null;
-        Component footer = ((IAccessorPlayerListHud) mc.gui.getTabList()).pigeon$getFooter();
+        Component footer = ((IAccessorPlayerTabOverlay) mc.gui.getTabList()).pigeon$getFooter();
         return footer == null ? null : footer.getString();
     }
 
