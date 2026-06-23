@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public class MixinDyedItemColor {
 
     @Inject(method = "addToTooltip", at = @At("HEAD"), cancellable = true)
-    private void onAppendTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag tooltipType, DataComponentGetter componentsAccess, CallbackInfo ci) {
+    private void onAddToTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag tooltipType, DataComponentGetter componentsAccess, CallbackInfo ci) {
         if (tooltipType.isAdvanced()) return;
         if (!ModuleUtil.isEnable(ArmorColor.class)) return;
 

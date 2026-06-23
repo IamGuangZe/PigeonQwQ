@@ -23,13 +23,13 @@ public class MixinMultiPlayerGameMode {
     private int destroyDelay;
 
     @Inject(method = "handleInventoryMouseClick", at = @At("HEAD"))
-    private void onClickSlotPre(int syncId, int slotId, int button, ClickType actionType, Player player, CallbackInfo ci) {
+    private void onHandleInventoryMouseClick(int syncId, int slotId, int button, ClickType actionType, Player player, CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new ClickSlotEvent()).now();
         ChatUtil.sendDebugMessage("MixinMultiPlayerGameMode", "syanId: " + syncId + ", slotId: " + slotId);
     }
 
     @Inject(method = "continueDestroyBlock", at = @At("HEAD"))
-    private void onUpdateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
+    private void onContinueDestroyBlock(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (ModuleUtil.isEnable(NoBreakDelay.class)) destroyDelay = 0;
     }
 }

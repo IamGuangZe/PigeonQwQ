@@ -22,7 +22,7 @@ public class MixinLightTexture {
     private GpuTexture texture;
 
     @Inject(method = "updateLightTexture", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", shift = At.Shift.AFTER), cancellable = true)
-    private void onUpdate(float tickProgress, CallbackInfo ci, @Local ProfilerFiller profiler) {
+    private void onUpdateLightTexture(float tickProgress, CallbackInfo ci, @Local ProfilerFiller profiler) {
         if (ModuleUtil.isEnable(FullBright.class) && ModuleUtil.getModule(FullBright.class).mode.getValue() == FullBright.Mode.LIGHTMAP) {
             RenderSystem.getDevice().createCommandEncoder().clearColorTexture(texture, ARGB.color(255, 255, 255, 255));
             profiler.pop();

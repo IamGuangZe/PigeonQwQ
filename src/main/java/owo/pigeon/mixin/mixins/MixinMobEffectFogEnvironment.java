@@ -17,7 +17,7 @@ public abstract class MixinMobEffectFogEnvironment {
     public abstract Holder<MobEffect> getMobEffect();
 
     @ModifyReturnValue(method = "isApplicable", at = @At("RETURN"))
-    private boolean onShouldApply(boolean original) {
+    private boolean onIsApplicable(boolean original) {
         if (getMobEffect() == MobEffects.BLINDNESS)
             return original && !(ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noBlindness.getValue());
         if (getMobEffect() == MobEffects.DARKNESS)

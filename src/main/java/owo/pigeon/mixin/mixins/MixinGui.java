@@ -29,14 +29,14 @@ public abstract class MixinGui {
     }
 
     @ModifyArgs(method = "renderCameraOverlays", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderTextureOverlay(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/resources/Identifier;F)V", ordinal = 0))
-    private void onRenderPumpkinOverlay(Args args) {
+    private void onRenderCameraOverlays(Args args) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noPumpkinOverlay.getValue()) {
             args.set(2, 0f);
         }
     }
 
     @Inject(method = "renderConfusionOverlay", at = @At("HEAD"), cancellable = true)
-    private void onRenderNauseaOverlay(GuiGraphics context, float distortionStrength, CallbackInfo ci) {
+    private void onRenderConfusionOverlay(GuiGraphics context, float distortionStrength, CallbackInfo ci) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noNausea.getValue()) {
             ci.cancel();
         }

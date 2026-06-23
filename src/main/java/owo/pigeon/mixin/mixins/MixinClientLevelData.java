@@ -11,7 +11,7 @@ import owo.pigeon.utils.ModuleUtil;
 @Mixin(ClientLevel.ClientLevelData.class)
 public class MixinClientLevelData {
     @Inject(method = "getDayTime", at = @At("HEAD"), cancellable = true)
-    private void onGetTimeOfDay(CallbackInfoReturnable<Long> cir) {
+    private void onGetDayTime(CallbackInfoReturnable<Long> cir) {
         if (ModuleUtil.isEnable(Environment.class) && ModuleUtil.getModule(Environment.class).shouldModifyTime()) {
             long customTime = ModuleUtil.getModule(Environment.class).getTimeOfDay();
             if (customTime != -1) cir.setReturnValue(customTime);

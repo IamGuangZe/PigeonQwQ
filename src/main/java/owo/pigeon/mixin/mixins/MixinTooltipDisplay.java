@@ -14,7 +14,7 @@ import owo.pigeon.utils.ModuleUtil;
 public class MixinTooltipDisplay {
 
     @Inject(method = "shows", at = @At("RETURN"), cancellable = true)
-    private void onShouldDisplay(DataComponentType<?> type, CallbackInfoReturnable<Boolean> cir) {
+    private void onShows(DataComponentType<?> type, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) return;
         if (ModuleUtil.isEnable(ArmorColor.class) && type == DataComponents.DYED_COLOR) {
             cir.setReturnValue(true);

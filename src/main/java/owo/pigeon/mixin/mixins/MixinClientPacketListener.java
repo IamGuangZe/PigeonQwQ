@@ -32,7 +32,7 @@ public abstract class MixinClientPacketListener {
     private PingDebugMonitor pingDebugMonitor;
 
     @Inject(method = "sendChat", at = @At("HEAD"), cancellable = true)
-    private void onSendMessagePre(String content, CallbackInfo ci) {
+    private void onSendChatPre(String content, CallbackInfo ci) {
         ChatUtil.sendDebugMessage("MixinClientPacketListener", "Message: " + content);
 
         if (CommandManager.isSay) {
@@ -62,23 +62,23 @@ public abstract class MixinClientPacketListener {
     }
 
     @Inject(method = "handleLogin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;setLevel(Lnet/minecraft/client/multiplayer/ClientLevel;)V", shift = At.Shift.AFTER))
-    private void onJoinWorld(ClientboundLoginPacket packet, CallbackInfo ci) {
+    private void onHandleLogin(ClientboundLoginPacket packet, CallbackInfo ci) {
         if (level == null) return;
         Pigeon.EVENT_BUS.post(new WorldChangeEvent()).now();
     }
 
     @Inject(method = "handleSetTime", at = @At("RETURN"))
-    private void onWorldTimeUpdate(ClientboundSetTimePacket packet, CallbackInfo ci) {
+    private void onHandleSetTime(ClientboundSetTimePacket packet, CallbackInfo ci) {
         ServerUtil.onTimeUpdate();
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void alwaysSendPing(CallbackInfo ci) {
+    private void onTickTail(CallbackInfo ci) {
         this.pingDebugMonitor.tick();
     }
 
     @Inject(method = "handlePongResponse", at = @At("TAIL"))
-    private void onPingResult(ClientboundPongResponsePacket packet, CallbackInfo ci) {
+    private void onHandlePongResponse(ClientboundPongResponsePacket packet, CallbackInfo ci) {
         ServerUtil.onPongResponse(packet.time());
     }
 }

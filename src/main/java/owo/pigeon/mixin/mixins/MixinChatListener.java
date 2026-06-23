@@ -12,7 +12,7 @@ import owo.pigeon.event.events.MessageEvent;
 @Mixin(ChatListener.class)
 public class MixinChatListener {
     @Inject(method = "handleSystemMessage", at = @At("HEAD"), cancellable = true)
-    private void onGameMessage(Component message, boolean overlay, CallbackInfo ci) {
+    private void onHandleSystemMessage(Component message, boolean overlay, CallbackInfo ci) {
         MessageEvent.ReceiveMessageEvent event = new MessageEvent.ReceiveMessageEvent(message, overlay);
         Pigeon.EVENT_BUS.post(event).now();
 

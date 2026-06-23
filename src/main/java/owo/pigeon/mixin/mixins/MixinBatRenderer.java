@@ -15,7 +15,7 @@ import owo.pigeon.utils.hypixel.skyblock.DungeonUtil;
 public class MixinBatRenderer {
 
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/ambient/Bat;Lnet/minecraft/client/renderer/entity/state/BatRenderState;F)V", at = @At("RETURN"))
-    private void onUpdateRenderStateTail(Bat batEntity, BatRenderState batEntityRenderState, float f, CallbackInfo ci) {
+    private void onExtractRenderStateTail(Bat batEntity, BatRenderState batEntityRenderState, float f, CallbackInfo ci) {
         if (!ModuleUtil.isEnable(GiantBat.class)) return;
         if (!DungeonUtil.isInDungeon()) return;
 

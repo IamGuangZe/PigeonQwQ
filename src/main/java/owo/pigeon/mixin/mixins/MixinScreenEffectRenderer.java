@@ -15,21 +15,21 @@ import owo.pigeon.utils.ModuleUtil;
 @Mixin(ScreenEffectRenderer.class)
 public class MixinScreenEffectRenderer {
     @Inject(method = "renderWater", at = @At("HEAD"), cancellable = true)
-    private static void onRenderUnderwaterOverlay(Minecraft client, PoseStack matrices, MultiBufferSource vertexConsumers, CallbackInfo ci) {
+    private static void onRenderWater(Minecraft client, PoseStack matrices, MultiBufferSource vertexConsumers, CallbackInfo ci) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noUnderwaterOverlay.getValue()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "renderFire", at = @At("HEAD"), cancellable = true)
-    private static void onRenderFireOverlay(PoseStack matrices, MultiBufferSource vertexConsumers, TextureAtlasSprite sprite, CallbackInfo ci) {
+    private static void onRenderFire(PoseStack matrices, MultiBufferSource vertexConsumers, TextureAtlasSprite sprite, CallbackInfo ci) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noFireOverlay.getValue()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "renderTex", at = @At("HEAD"), cancellable = true)
-    private static void onRenderInWallOverlay(TextureAtlasSprite sprite, PoseStack matrices, MultiBufferSource vertexConsumers, CallbackInfo ci) {
+    private static void onRenderTex(TextureAtlasSprite sprite, PoseStack matrices, MultiBufferSource vertexConsumers, CallbackInfo ci) {
         if (ModuleUtil.isEnable(ModifyCamera.class) && ModuleUtil.getModule(ModifyCamera.class).noInWallOverlay.getValue()) {
             ci.cancel();
         }

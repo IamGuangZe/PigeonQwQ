@@ -44,7 +44,7 @@ public class MixinMinecraft {
     }
 
     @Inject(method = "startAttack", at = @At("HEAD"), cancellable = true)
-    private void onDoAttackPre(CallbackInfoReturnable<Boolean> cir) {
+    private void onStartAttack(CallbackInfoReturnable<Boolean> cir) {
         DoAttackEvent.Pre event = new DoAttackEvent.Pre();
         Pigeon.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
@@ -58,7 +58,7 @@ public class MixinMinecraft {
     }
 
     @Inject(method = "startUseItem", at = @At("HEAD"), cancellable = true)
-    private void onDoItemUsePre(CallbackInfo ci) {
+    private void onStartUseItemPre(CallbackInfo ci) {
         DoItemUseEvent.Pre event = new DoItemUseEvent.Pre();
         Pigeon.EVENT_BUS.post(event).now();
         if (event.isCancelled()) {
@@ -67,7 +67,7 @@ public class MixinMinecraft {
     }
 
     @Inject(method = "startUseItem", at = @At("RETURN"))
-    private void onDoItemUsePost(CallbackInfo ci) {
+    private void onStartUseItemPost(CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new DoItemUseEvent.Post()).now();
 
         if (ModuleUtil.isEnable(FastPlace.class) && ModuleUtil.getModule(FastPlace.class).canFastPlace()) {
