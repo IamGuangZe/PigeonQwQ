@@ -12,7 +12,7 @@ public class AutoReconnect extends Module {
         super("AutoReconnect", Category.MISC);
     }
 
-    public IntSetting delay = setting("delay", 1000, 100, 5000, "ms", v -> true);
+    public IntSetting delay = setting("delay", 5, 0, 60, "s", v -> true);
 
     public ServerAddress address;
     public ServerData info;
