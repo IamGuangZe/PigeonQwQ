@@ -14,6 +14,7 @@ public class PigeonQwQ extends Module {
 
     public ModeSetting<ColorUtil.Theme> theme = setting("theme", ColorUtil.Theme.NORMAL, v -> true);
     public CharSetting commandPrefix = setting("command-prefix", '>', v -> true);
+    public EnableSetting commandBorder = setting("command-border", true, v -> true);
     public EnableSetting debug = setting("debug", false, v -> true);
 
     @Override

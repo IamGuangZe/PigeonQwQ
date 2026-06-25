@@ -26,6 +26,7 @@
     "mixins.MixinBatRenderer",
     "mixins.MixinCamera",
     "mixins.MixinChatListener",
+    "mixins.MixinChatScreen",
     "mixins.MixinClientLevelData",
     "mixins.MixinClientPacketListener",
     "mixins.MixinConnectScreen",
