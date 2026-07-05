@@ -23,11 +23,12 @@ I sincerely appreciate their contribution to the community and for making their 
 - [WhatsYouss/Frosty](https://github.com/WhatsYouss/Frosty)
 - [MeteorDevelopment/meteor-client](https://github.com/MeteorDevelopment/meteor-client/tree/1.21.10)
 - [CCBlueX/LiquidBounce](https://github.com/CCBlueX/LiquidBounce)
+- [SuperShadiao/skydiao](https://5ixsd.top/skydiao)
 
 Credits from previous repository: [PigeonOwO - Credits & Acknowledgements](https://github.com/IamGuangZe/PigeonOwO?tab=readme-ov-file#credits--acknowledgements)
 
 ## AI Acknowledgements
-This project was extensively developed with assistance from AI models such as Gemini 3, CodeGeeX, GPT-5, and GLM-5.1.
+This project was extensively developed with assistance from AI models such as DeepSeek, Gemini, GLM, and GPT.
 
 ## License
 This project is released into the public domain under the **Unlicense**.

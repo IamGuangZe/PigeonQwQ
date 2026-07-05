@@ -23,11 +23,12 @@
 - [WhatsYouss/Frosty](https://github.com/WhatsYouss/Frosty)
 - [MeteorDevelopment/meteor-client](https://github.com/MeteorDevelopment/meteor-client/tree/1.21.10)
 - [CCBlueX/LiquidBounce](https://github.com/CCBlueX/LiquidBounce)
+- [SuperShadiao/skydiao](https://5ixsd.top/skydiao)
 
 旧仓库的致谢列表：[PigeonOwO - Credits & Acknowledgements](https://github.com/IamGuangZe/PigeonOwO?tab=readme-ov-file#credits--acknowledgements)
 
 ## AI 辅助声明
-本项目开发过程中大量使用了 Gemini 3、CodeGeeX、GPT-5 和 GLM-5.1 等 AI 模型的协助。
+本项目开发过程中大量使用了 DeepSeek、Gemini、GLM 和 GPT 等 AI 模型的协助。
 
 ## 许可证
 本项目在 **Unlicense** 协议下发布到公共领域。
