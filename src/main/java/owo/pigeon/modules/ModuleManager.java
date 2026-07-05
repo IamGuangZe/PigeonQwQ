@@ -26,6 +26,7 @@ import owo.pigeon.modules.impl.skyblock.farming.PestESP;
 import owo.pigeon.modules.impl.skyblock.farming.RotationLock;
 import owo.pigeon.modules.impl.skyblock.farming.TrevorHelper;
 import owo.pigeon.modules.impl.skyblock.hunting.AutoReel;
+import owo.pigeon.modules.impl.skyblock.mining.CrystalStructure;
 import owo.pigeon.modules.impl.skyblock.mining.LegitNuker;
 import owo.pigeon.modules.impl.skyblock.mining.NoNBTUpdate;
 import owo.pigeon.modules.impl.skyblock.misc.*;
@@ -118,6 +119,7 @@ public class ModuleManager {
 
         modules.add(new AutoReel());
 
+        modules.add(new CrystalStructure());
         modules.add(new NoNBTUpdate());
         modules.add(new LegitNuker());
 

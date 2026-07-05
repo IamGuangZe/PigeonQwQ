@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
@@ -87,6 +88,15 @@ public class SkyblockUtil {
 
     public static final String BOUNCY_BEACH_BALL = "ewogICJ0aW1lc3RhbXAiIDogMTczNjQyNzQ4ODAwNCwKICAicHJvZmlsZUlkIiA6ICIzN2JhNjRkYzkxOTg0OGI4YjZhNDdiYTg0ZDgwNDM3MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJTb3lLb3NhIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzJhZGY5ZDcxMzY3Y2Q2ZTUwNWZiNDhjYWFhNWFjZGNkZmYyYTA5ZjY2YzQ4OGRhZjA0ZDA0NWVlMGJmNTI4ZTEiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ==";
     public static final String DUNGEONEERING = "eyJ0aW1lc3RhbXAiOjE1ODcwMTg2Nzk1NzYsInByb2ZpbGVJZCI6IjJkYzc3YWU3OTQ2MzQ4MDI5NDI4MGM4NDIyNzRiNTY3IiwicHJvZmlsZU5hbWUiOiJzYWR5MDYxMCIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWI1Njg5NWI5NjU5ODk2YWQ2NDdmNTg1OTkyMzhhZjUzMmQ0NmRiOWMxYjAzODliOGJiZWI3MDk5OWRhYjMzZCJ9fX0=";
+
+    // Crystal Hollows zone bounding boxes
+    public static final BoundingBox NUCLEUS_BB = new BoundingBox(462, 63, 461, 564, 181, 565);
+    public static final BoundingBox HOLLOWS_BB = new BoundingBox(201, 30, 201, 824, 189, 824);
+    public static final BoundingBox PRECURSOR_REMNANTS_BB = new BoundingBox(512, 64, 512, 824, 189, 824);
+    public static final BoundingBox MITHRIL_DEPOSITS_BB = new BoundingBox(512, 64, 201, 824, 189, 513);
+    public static final BoundingBox GOBLIN_HOLDOUT_BB = new BoundingBox(201, 64, 512, 513, 189, 824);
+    public static final BoundingBox JUNGLE_BB = new BoundingBox(201, 64, 201, 513, 189, 513);
+    public static final BoundingBox MAGMA_FIELDS_BB = new BoundingBox(201, 30, 201, 824, 63, 824);
 
     public static boolean isInSkyblock() {
         if (Pigeon.isDebug() && mc.isLocalServer()) return true;
