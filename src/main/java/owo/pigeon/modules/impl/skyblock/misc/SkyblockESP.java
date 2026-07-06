@@ -51,7 +51,6 @@ public class SkyblockESP extends Module {
     public EnableSetting automatonEsp = setting("automaton-esp", false, v -> crystalHollows.getValue());
     public EnableSetting sludgeEsp = setting("sludge-esp", false, v -> crystalHollows.getValue());
     public EnableSetting yogEsp = setting("yog-esp", false, v -> crystalHollows.getValue());
-    public EnableSetting corleoneBatcaveEsp = setting("corleone-batcave-esp", false, v -> crystalHollows.getValue());
     public EnableSetting wormLavaEsp = setting("worm-lava-esp", false, v -> crystalHollows.getValue());
     public IntSetting wormLavaEspLimit = setting("worm-lava-esp-limit", 9, -1, 100, v -> wormLavaEsp.isVisible() && wormLavaEsp.getValue());
     public ExpandSetting gemstoneEsp = setting("gemstone-esp", v -> crystalHollows.getValue());
@@ -85,7 +84,6 @@ public class SkyblockESP extends Module {
     public ExpandSetting theEnd = setting("the-end", v -> true);
     public EnableSetting enderNodeEsp = setting("ender-node-esp", false, v -> theEnd.getValue());
 
-    private final Set<BlockPos> batcaveBlocks = ConcurrentHashMap.newKeySet();
     private final Set<BlockPos> wormLavas = ConcurrentHashMap.newKeySet();
     private final Set<BlockPos> jades = ConcurrentHashMap.newKeySet();
     private final Set<BlockPos> ambers = ConcurrentHashMap.newKeySet();
@@ -130,13 +128,6 @@ public class SkyblockESP extends Module {
             if (wormLavaEsp.getValue()) {
                 wormLavas.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.LAVA));
                 renderBlocks(stack, wormLavas, Color.ORANGE, wormLavaEspLimit.getValue());
-            }
-
-            if (corleoneBatcaveEsp.getValue()) {
-                batcaveBlocks.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.BLUE_STAINED_GLASS));
-                for (BlockPos pos : batcaveBlocks) {
-                    RenderUtil.drawESP(event.getMatrix(), pos, Color.CYAN, RenderUtil.ESPMode.BOTH, false);
-                }
             }
 
             if (jadeEsp.getValue()) {
@@ -235,10 +226,8 @@ public class SkyblockESP extends Module {
         BlockState state = event.getState();
         BlockPos pos = event.getPos();
 
-        if (state.is(Blocks.LAVA) && pos.getX() > 513 && pos.getZ() > 513 && (pos.getX() > 559 || pos.getZ() > 559) && pos.getY() > 64) {
+        if (state.is(Blocks.LAVA) && SkyblockUtil.PRECURSOR_REMNANTS_BB.isInside(pos)) {
             wormLavas.add(pos.immutable());
-        } else if (state.is(Blocks.BLUE_STAINED_GLASS)) {
-            batcaveBlocks.add(pos.immutable());
         } else if (state.is(Blocks.LIME_STAINED_GLASS) || state.is(Blocks.LIME_STAINED_GLASS_PANE)) {
             jades.add(pos.immutable());
         } else if (state.is(Blocks.ORANGE_STAINED_GLASS) || state.is(Blocks.ORANGE_STAINED_GLASS_PANE)) {
