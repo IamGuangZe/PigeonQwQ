@@ -1,9 +1,9 @@
 package owo.pigeon.commands.impl;
 
-import owo.pigeon.Pigeon;
 import owo.pigeon.commands.Command;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.chat.ChatUtil;
+import owo.pigeon.utils.hypixel.BanTracker;
 
 public class BannedStatsCommand extends Command {
     public BannedStatsCommand() {
@@ -29,8 +29,8 @@ public class BannedStatsCommand extends Command {
                 return;
             }
 
-            long banCount = Pigeon.banTracker.getBansInLast(requestedMinutes);
-            int trackedMinutes = Pigeon.banTracker.getTrackedMinutes();
+            long banCount = BanTracker.INSTANCE.getBansInLast(requestedMinutes);
+            int trackedMinutes = BanTracker.INSTANCE.getTrackedMinutes();
 
             int actualMinutes = Math.min(requestedMinutes, trackedMinutes);
 

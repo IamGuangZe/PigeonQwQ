@@ -17,6 +17,7 @@ import java.util.Objects;
 import static owo.pigeon.Pigeon.mc;
 
 public class HypixelStateCache {
+    public static final HypixelStateCache INSTANCE = new HypixelStateCache();
 
     public static volatile boolean isOnHypixel;
     public static volatile HypixelUtil.Game currentGame = HypixelUtil.Game.UNKNOWN;
@@ -24,7 +25,7 @@ public class HypixelStateCache {
     public static volatile DungeonUtil.Floor currentFloor = DungeonUtil.Floor.Unknown;
     public static volatile DojoUtil.Dojo currentDojo = DojoUtil.Dojo.UNKNOWN;
 
-    public HypixelStateCache() {
+    private HypixelStateCache() {
     }
 
     @Handler

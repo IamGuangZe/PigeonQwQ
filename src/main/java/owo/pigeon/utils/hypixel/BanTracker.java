@@ -18,6 +18,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class BanTracker {
+    public static final BanTracker INSTANCE = new BanTracker();
+
     private static final String API_URL = "https://api.plancke.io/hypixel/v1/punishmentStats";
     private final List<Long> staffHistory = new ArrayList<>();
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {

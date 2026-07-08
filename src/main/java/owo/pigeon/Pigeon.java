@@ -29,12 +29,6 @@ public class Pigeon implements ModInitializer {
     public static ClickGuiScreen clickGuiScreen;
     public static ConfigManager configManager;
 
-    public static SafeMessage safeMessage = new SafeMessage();
-    public static ExportManager exportManager = new ExportManager();
-    public static InstantUse instantUse = new InstantUse();
-    public static HypixelStateCache hypixelStateCache = new HypixelStateCache();
-    public static BanTracker banTracker = new BanTracker();
-
     public static final String MOD_ID = "pigeonqwq";
     public static final String MOD_NAME = "PigeonQwQ";
     public static final String MOD_VERSION = "0.0.1";
@@ -42,10 +36,10 @@ public class Pigeon implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        EVENT_BUS.subscribe(safeMessage);
-        EVENT_BUS.subscribe(exportManager);
-        EVENT_BUS.subscribe(instantUse);
-        EVENT_BUS.subscribe(hypixelStateCache);
+        EVENT_BUS.subscribe(SafeMessage.INSTANCE);
+        EVENT_BUS.subscribe(ExportManager.INSTANCE);
+        EVENT_BUS.subscribe(InstantUse.INSTANCE);
+        EVENT_BUS.subscribe(HypixelStateCache.INSTANCE);
 
         moduleManager = new ModuleManager();
         moduleManager.init();
@@ -58,7 +52,7 @@ public class Pigeon implements ModInitializer {
         configManager = new ConfigManager();
         configManager.init();
 
-        banTracker.start();
+        BanTracker.INSTANCE.start();
     }
 
     public static boolean isDebug() {

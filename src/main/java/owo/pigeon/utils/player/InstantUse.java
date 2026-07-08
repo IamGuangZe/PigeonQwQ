@@ -7,6 +7,8 @@ import owo.pigeon.utils.WorldUtil;
 import static owo.pigeon.Pigeon.mc;
 
 public class InstantUse {
+    public static final InstantUse INSTANCE = new InstantUse();
+
     private static Integer inputSlot;
     private static Integer rawSlot;
     private static PlayerUtil.RightClickMode clickMode;

@@ -23,6 +23,8 @@ import static owo.pigeon.Pigeon.GSON;
 import static owo.pigeon.Pigeon.mc;
 
 public class ExportManager {
+    public static final ExportManager INSTANCE = new ExportManager();
+
     public enum ExportTask {
         NONE, HUNTING_BOX
     }

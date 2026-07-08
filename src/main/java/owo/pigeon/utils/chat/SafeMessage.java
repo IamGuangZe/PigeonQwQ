@@ -10,6 +10,8 @@ import java.util.List;
 import static owo.pigeon.Pigeon.mc;
 
 public class SafeMessage {
+    public static final SafeMessage INSTANCE = new SafeMessage();
+
     public static List<Component> messages = new ArrayList<>();
 
     @Handler
