@@ -15,6 +15,7 @@ import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.chat.SafeMessage;
 import owo.pigeon.utils.export.ExportManager;
 import owo.pigeon.utils.hypixel.BanTracker;
+import owo.pigeon.utils.hypixel.HypixelStateCache;
 import owo.pigeon.utils.player.InstantUse;
 
 public class Pigeon implements ModInitializer {
@@ -31,6 +32,7 @@ public class Pigeon implements ModInitializer {
     public static SafeMessage safeMessage = new SafeMessage();
     public static ExportManager exportManager = new ExportManager();
     public static InstantUse instantUse = new InstantUse();
+    public static HypixelStateCache hypixelStateCache = new HypixelStateCache();
     public static BanTracker banTracker = new BanTracker();
 
     public static final String MOD_ID = "pigeonqwq";
@@ -43,6 +45,7 @@ public class Pigeon implements ModInitializer {
         EVENT_BUS.subscribe(safeMessage);
         EVENT_BUS.subscribe(exportManager);
         EVENT_BUS.subscribe(instantUse);
+        EVENT_BUS.subscribe(hypixelStateCache);
 
         moduleManager = new ModuleManager();
         moduleManager.init();

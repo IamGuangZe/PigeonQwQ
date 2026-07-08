@@ -1,13 +1,8 @@
 package owo.pigeon.utils.hypixel.skyblock;
 
 import owo.pigeon.Pigeon;
-import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ItemUtil;
-import owo.pigeon.utils.RegexUtil;
-import owo.pigeon.utils.ScoreBoardUtil;
-
-import java.util.List;
-import java.util.Objects;
+import owo.pigeon.utils.hypixel.HypixelStateCache;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -48,20 +43,11 @@ public class DungeonUtil {
     }
 
     public static boolean isInDungeon() {
-        return SkyblockUtil.isInIsland(SkyblockUtil.Island.DUNGEON);
+        return HypixelStateCache.currentIsland == SkyblockUtil.Island.DUNGEON;
     }
 
     public static Floor getFloor() {
-        List<String> sidebarLines = ScoreBoardUtil.getSidebarLines();
-        if (mc.isLocalServer() || sidebarLines.isEmpty()) return Floor.Unknown;
-
-        return sidebarLines.stream()
-                .filter(line -> line.contains("⏣"))
-                .map(line -> RegexUtil.regexGetPart(" ⏣ The Catacombs \\((.*)\\)", ColorUtil.removeColor(line), 1))
-                .filter(Objects::nonNull)
-                .map(DungeonUtil::getFloor)
-                .findFirst()
-                .orElse(Floor.Unknown);
+        return HypixelStateCache.currentFloor;
     }
 
     public static Floor getFloor(String name) {
@@ -74,12 +60,12 @@ public class DungeonUtil {
 
     public static boolean isInFloor(Floor floor) {
         if (Pigeon.isDebug() && mc.isLocalServer()) return true;
-        return getFloor() == floor;
+        return HypixelStateCache.currentFloor == floor;
     }
 
     public static boolean isInFloor(int floor) {
         if (Pigeon.isDebug() && mc.isLocalServer()) return true;
-        return getFloor().getFloorNum() == floor;
+        return HypixelStateCache.currentFloor.getFloorNum() == floor;
     }
 
     public static boolean isInBoss() {

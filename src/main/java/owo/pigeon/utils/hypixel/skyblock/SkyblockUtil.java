@@ -14,8 +14,8 @@ import net.minecraft.world.phys.AABB;
 import owo.pigeon.Pigeon;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.ItemUtil;
-import owo.pigeon.utils.ScoreBoardUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.hypixel.HypixelStateCache;
 import owo.pigeon.utils.hypixel.HypixelUtil;
 import owo.pigeon.utils.player.PlayerUtil;
 
@@ -100,31 +100,16 @@ public class SkyblockUtil {
 
     public static boolean isInSkyblock() {
         if (Pigeon.isDebug() && mc.isLocalServer()) return true;
-        return HypixelUtil.isInGame(HypixelUtil.Game.SKYBLOCK);
+        return HypixelStateCache.currentGame == HypixelUtil.Game.SKYBLOCK;
     }
 
     public static Island getIsland() {
-        List<String> tabLines = ScoreBoardUtil.getTabLines();
-        if (mc.isLocalServer()) return Island.SINGLE_PLAYER;
-        if (!isInSkyblock() || tabLines.isEmpty()) return Island.UNKNOWN;
-
-        for (String line : tabLines) {
-            if (line.startsWith("Area: ") || line.startsWith("Dungeon: ")) {
-                for (Island island : Island.values()) {
-                    if (line.toLowerCase().contains(island.getDisplayName().toLowerCase())) {
-                        return island;
-                    }
-                }
-                break;
-            }
-        }
-
-        return Island.UNKNOWN;
+        return HypixelStateCache.currentIsland;
     }
 
     public static boolean isInIsland(Island island) {
         if (Pigeon.isDebug() && mc.isLocalServer()) return true;
-        return getIsland() == island;
+        return HypixelStateCache.currentIsland == island;
     }
 
     public static Entity getSlayer() {
