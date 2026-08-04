@@ -11,6 +11,7 @@ import owo.pigeon.modules.impl.combat.AutoClicker;
 import owo.pigeon.modules.impl.combat.NoHitDelay;
 import owo.pigeon.modules.impl.debug.*;
 import owo.pigeon.modules.impl.hypixel.*;
+import owo.pigeon.modules.impl.misc.AntiBot;
 import owo.pigeon.modules.impl.misc.AutoReconnect;
 import owo.pigeon.modules.impl.misc.Spammer;
 import owo.pigeon.modules.impl.movement.Eagle;
@@ -76,6 +77,7 @@ public class ModuleManager {
         modules.add(new PartyDetector());
         modules.add(new PixelHelper());
 
+        modules.add(new AntiBot());
         modules.add(new AutoReconnect());
         modules.add(new Spammer());
 

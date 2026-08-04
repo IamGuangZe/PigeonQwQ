@@ -20,7 +20,7 @@ public class GhostHand extends Module {
 
     public boolean shouldIgnore(Object input) {
         if (input instanceof Player player && players.getValue()) {
-            return PlayerUtil.hasUUID(player);
+            return !PlayerUtil.isBot(player);
         }
 
         // TODO: 完善 GhostHand 对方块的处理

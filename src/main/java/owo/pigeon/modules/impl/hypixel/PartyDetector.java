@@ -54,7 +54,7 @@ public class PartyDetector extends Module {
             Set<String> currentPlayers = new HashSet<>();
 
             for (AbstractClientPlayer player : mc.level.players()) {
-                if (PlayerUtil.hasUUID(player))
+                if (PlayerUtil.hasPremiumUuid(player))
                     currentPlayers.add(player.getName().getString());
             }
 

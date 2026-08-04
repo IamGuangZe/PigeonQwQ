@@ -27,7 +27,7 @@ public class PlayerESP extends Module {
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
         for (AbstractClientPlayer player : mc.level.players()) {
-            if (player != mc.player && PlayerUtil.hasUUID(player))
+            if (player != mc.player && !PlayerUtil.isBot(player))
                 RenderUtil.drawESP(event.getMatrix(), player, color.getValue(), mode.getValue(), tracer.getValue());
         }
     }

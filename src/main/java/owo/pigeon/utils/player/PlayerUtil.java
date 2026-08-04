@@ -1,5 +1,7 @@
 package owo.pigeon.utils.player;
 
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -8,7 +10,9 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import owo.pigeon.mixin.accessors.IAccessorMinecraft;
+import owo.pigeon.modules.impl.misc.AntiBot;
 import owo.pigeon.utils.KeybindUtil;
+import owo.pigeon.utils.ModuleUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 
 import static owo.pigeon.Pigeon.mc;
@@ -64,11 +68,40 @@ public class PlayerUtil {
                 KeybindUtil.isPressed(mc.options.keyAttack);
     }
 
-    public static boolean hasUUID(Entity entity) {
+    public static boolean hasPremiumUuid(Entity entity) {
         if (entity instanceof Player player)
             return player.getUUID().version() == 4;
 
         return false;
+    }
+
+    public static PlayerInfo getPlayerInfo(Player player) {
+        ClientPacketListener connection = mc.getConnection();
+        if (connection == null) return null;
+        return connection.getPlayerInfo(player.getUUID());
+    }
+
+    public static boolean hasPlayerInfo(Player player) {
+        ClientPacketListener connection = mc.getConnection();
+        if (connection == null) return false;
+        return connection.getOnlinePlayers().stream()
+                .anyMatch(info -> info.getProfile().id().equals(player.getUUID()));
+    }
+
+    public static boolean isValidName(String name) {
+        for (char c : name.toCharArray()) {
+            boolean valid = (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+            if (!valid) return false;
+        }
+        return true;
+    }
+
+    public static boolean isBot(Entity entity) {
+        if (entity == mc.player || !(entity instanceof Player player)) return false;
+        if (mc.getConnection() == null) return false;
+        AntiBot antiBot = ModuleUtil.getModule(AntiBot.class);
+        if (!antiBot.isEnable()) return false;
+        return antiBot.isBot(player);
     }
 
 

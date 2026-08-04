@@ -3,6 +3,7 @@ package owo.pigeon.utils;
 import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.*;
 import owo.pigeon.mixin.accessors.IAccessorPlayerTabOverlay;
 
@@ -78,5 +79,11 @@ public class ScoreBoardUtil {
         return entries.stream()
                 .map(entry -> playerTabOverlay.getNameForDisplay(entry).getString())
                 .toList();
+    }
+
+    public static boolean isInTabList(Player player) {
+        if (mc.getConnection() == null) return false;
+        return mc.getConnection().getListedOnlinePlayers().stream()
+                .anyMatch(info -> info.getProfile().id().equals(player.getUUID()));
     }
 }

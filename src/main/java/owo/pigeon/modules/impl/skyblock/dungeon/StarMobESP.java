@@ -81,7 +81,7 @@ public class StarMobESP extends Module {
         for (Entity entity : mc.level.getEntities(stand, box)) {
             if (entity instanceof ArmorStand || entity == mc.player) continue;
             if (entity instanceof WitherBoss && entity.isInvisible()) continue;
-            if (entity instanceof Player player && PlayerUtil.hasUUID(player)) continue;
+            if (entity instanceof Player player && PlayerUtil.hasPremiumUuid(player)) continue;
 
             double dist = stand.distanceTo(entity);
             if (dist < closestDistance) {

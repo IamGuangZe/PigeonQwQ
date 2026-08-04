@@ -46,7 +46,6 @@ public class AimAssist extends Module {
     public IntSetting fov = setting("fov", 90, 30, 360, v -> true);
     public EnableSetting throughWalls = setting("through-walls", false, v -> true);
     public EnableSetting invisibles = setting("invisibles", false, v -> true);
-    public EnableSetting botCheck = setting("bot-check", true, v -> true);
 
     private long lastPressTime = 0;
 
@@ -126,7 +125,7 @@ public class AimAssist extends Module {
         if (RotationUtil.distanceToEntity(player) > this.range.getValue()) return false;
         if (RotationUtil.angleToEntity(player) > this.fov.getValue()) return false;
         if (!this.invisibles.getValue() && player.isInvisible()) return false;
-        if (this.botCheck.getValue() && !PlayerUtil.hasUUID(player)) return false;
+        if (PlayerUtil.isBot(player)) return false;
         return this.throughWalls.getValue() || RotationUtil.rayTrace(player).getType() != HitResult.Type.BLOCK;
     }
 

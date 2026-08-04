@@ -58,7 +58,7 @@ public class ParticlesHalo extends Module {
         // 根据设置选择渲染目标
         if (allPlayer.getValue()) {
             mc.level.players()
-                    .stream().filter(PlayerUtil::hasUUID)
+                    .stream().filter(player -> !PlayerUtil.isBot(player))
                     .forEach(this::renderParticles);
         } else {
             renderParticles(mc.player);

@@ -91,7 +91,7 @@ public class MurderHelper extends Module {
 
         alivePlayers.clear();
         for (AbstractClientPlayer player : mc.level.players()) {
-            if (!PlayerUtil.hasUUID(player)) continue;
+            if (PlayerUtil.isBot(player)) continue;
 
             String playerName = player.getName().getString();
 
@@ -158,7 +158,7 @@ public class MurderHelper extends Module {
         if (!isInMurderGame()) return;
         for (Entity entity : mc.level.entitiesForRendering()) {
             if (entity instanceof AbstractClientPlayer && !(entity instanceof LocalPlayer) && playerEsp.getValue()) {
-                if (!PlayerUtil.hasUUID(entity)) continue;
+                if (PlayerUtil.isBot(entity)) continue;
                 String playername = entity.getName().getString();
                 if (murdererNames.contains(playername)) {
                     RenderUtil.drawESP(stack, entity, new Color(0xFFFF0000, true), espMode.getValue(), false);

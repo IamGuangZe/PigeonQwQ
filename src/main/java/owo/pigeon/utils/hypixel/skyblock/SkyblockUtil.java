@@ -126,7 +126,7 @@ public class SkyblockUtil {
                 for (Entity entityInBox : mc.level.getEntities(stand, box)) {
                     if (entityInBox instanceof ArmorStand || entityInBox == mc.player) continue;
                     if (entityInBox instanceof WitherBoss && entityInBox.isInvisible()) continue;
-                    if (entityInBox instanceof Player player && PlayerUtil.hasUUID(player)) continue;
+                    if (entityInBox instanceof Player player && PlayerUtil.hasPremiumUuid(player)) continue;
 
                     double dist = stand.distanceTo(entityInBox);
                     if (dist < closestDistance) {
