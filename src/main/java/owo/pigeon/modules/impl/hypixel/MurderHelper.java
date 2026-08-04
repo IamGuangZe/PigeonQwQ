@@ -9,10 +9,14 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.AABB;
+import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.MessageEvent;
 import owo.pigeon.event.events.RenderEvent;
@@ -24,6 +28,7 @@ import owo.pigeon.settings.ExpandSetting;
 import owo.pigeon.settings.ModeSetting;
 import owo.pigeon.utils.ColorUtil;
 import owo.pigeon.utils.RegexUtil;
+import owo.pigeon.utils.ScoreBoardUtil;
 import owo.pigeon.utils.WorldUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 import owo.pigeon.utils.hypixel.HypixelUtil;
@@ -34,6 +39,7 @@ import owo.pigeon.utils.render.RenderUtil;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -47,6 +53,8 @@ public class MurderHelper extends Module {
     public ExpandSetting Esp = setting("esp", v -> true);
     public EnableSetting playerEsp = setting("player-esp", true, v -> Esp.getValue());
     public EnableSetting itemEsp = setting("item-esp", true, v -> Esp.getValue());
+    public EnableSetting bowEsp = setting("bow-esp", true, v -> Esp.getValue());
+    public EnableSetting bowTracer = setting("bow-tracer", true, v -> bowEsp.isVisible() && bowEsp.getValue());
     public ModeSetting<RenderUtil.ESPMode> espMode = setting("esp-mode", RenderUtil.ESPMode.OUTLINE, v -> Esp.getValue());
 
     private final Set<String> allPlayers = new HashSet<>();
@@ -79,7 +87,7 @@ public class MurderHelper extends Module {
     @Handler
     public void onTickPre(ClientTickEvent.Pre event) {
         if (WorldUtil.nullCheck()) return;
-        if (!HypixelUtil.isInGame(HypixelUtil.Game.MURDERMYSTERY)) return;
+        if (!isInMurderGame()) return;
 
         alivePlayers.clear();
         for (AbstractClientPlayer player : mc.level.players()) {
@@ -102,7 +110,8 @@ public class MurderHelper extends Module {
             ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
             if (isKnife(stack) && !murdererNames.contains(playerName)) {
-                ChatUtil.sendMessage(this.name, "&c" + playerName + " &ris Murderer!");
+                double distance = mc.player.distanceTo(player);
+                ChatUtil.sendMessage(this.name, "&c" + playerName + " &ris the Murderer, distance: &e" + String.format("%.1f", distance));
                 murdererNames.add(playerName);
                 playersWithBow.remove(playerName);
             }
@@ -114,10 +123,17 @@ public class MurderHelper extends Module {
         Set<String> deadThisTick = new HashSet<>(allPlayers);
         deadThisTick.removeAll(alivePlayers);
 
-        for (String deadName : deadThisTick) {
-            String color = murdererNames.contains(deadName) ? "&c" : (playersWithBow.contains(deadName) ? "&a" : "&7");
-            ChatUtil.sendMessage(this.name, color + deadName + " &rhas died.");
-            playerDied(deadName);
+        if (!deadThisTick.isEmpty()) {
+            Set<String> tabPlayers = ScoreBoardUtil.getTabLines().stream()
+                    .map(ColorUtil::removeColor)
+                    .collect(Collectors.toSet());
+            for (String deadName : deadThisTick) {
+                if (tabPlayers.contains(deadName)) continue;
+
+                String color = murdererNames.contains(deadName) ? "&c" : (playersWithBow.contains(deadName) ? "&a" : "&7");
+                ChatUtil.sendMessage(this.name, color + deadName + " &rhas died.");
+                playerDied(deadName);
+            }
         }
 
         allPlayers.clear();
@@ -129,7 +145,7 @@ public class MurderHelper extends Module {
         GuiGraphics context = event.getContext();
 
         if (!hud.getValue()) return;
-        if (!HypixelUtil.isInGame(HypixelUtil.Game.MURDERMYSTERY)) return;
+        if (!isInMurderGame()) return;
         FontUtil.drawString(context, "Murder Mystery", 5, 5);
         FontUtil.drawString(context, "Murders : &c" + String.join("&r, &c", murdererNames), 5, 5 + FontUtil.getLineHeight());
         FontUtil.drawString(context, "Who has bow : " + String.join(", ", playersWithBow), 5, 5 + FontUtil.getLineHeight() * 2);
@@ -139,27 +155,27 @@ public class MurderHelper extends Module {
     public void onRender3D(RenderEvent.Render3DEvent event) {
         PoseStack stack = event.getMatrix();
 
-        if (!HypixelUtil.isInGame(HypixelUtil.Game.MURDERMYSTERY)) return;
+        if (!isInMurderGame()) return;
         for (Entity entity : mc.level.entitiesForRendering()) {
-            if (playerEsp.getValue()) {
-                if (entity instanceof AbstractClientPlayer && !(entity instanceof LocalPlayer)) {
-                    if (!PlayerUtil.hasUUID(entity)) continue;
-                    String playername = entity.getName().getString();
-                    if (murdererNames.contains(playername)) {
-                        RenderUtil.drawESP(stack, entity, new Color(0xFFFF0000, true), espMode.getValue(), false);
-                    } else if (playersWithBow.contains(playername)) {
-                        RenderUtil.drawESP(stack, entity, new Color(0xFF00FF00, true), espMode.getValue(), false);
-                    } else {
-                        RenderUtil.drawESP(stack, entity, new Color(0xFFFFFFFF, true), espMode.getValue(), false);
-                    }
+            if (entity instanceof AbstractClientPlayer && !(entity instanceof LocalPlayer) && playerEsp.getValue()) {
+                if (!PlayerUtil.hasUUID(entity)) continue;
+                String playername = entity.getName().getString();
+                if (murdererNames.contains(playername)) {
+                    RenderUtil.drawESP(stack, entity, new Color(0xFFFF0000, true), espMode.getValue(), false);
+                } else if (playersWithBow.contains(playername)) {
+                    RenderUtil.drawESP(stack, entity, new Color(0xFF00FF00, true), espMode.getValue(), false);
+                } else {
+                    RenderUtil.drawESP(stack, entity, new Color(0xFFFFFFFF, true), espMode.getValue(), false);
                 }
-            }
+            } else if (entity instanceof ItemEntity itemEntity && itemEsp.getValue()) {
+                if (!itemEntity.getItem().is(Items.GOLD_INGOT)) continue;
+                RenderUtil.drawESP(stack, entity, new Color(0xFFFFFF00, true), RenderUtil.ESPMode.OUTLINE, false);
+            } else if (entity instanceof ArmorStand armorStand && bowEsp.getValue()) {
+                if (!armorStand.isInvisible()) continue;
+                if (!armorStand.getItemBySlot(EquipmentSlot.MAINHAND).is(Items.BOW)) continue;
+                AABB box = entity.getBoundingBox().inflate(0.25).move(0.0, 1.0, 0.0);
+                RenderUtil.drawESP(stack, entity, box, new Color(0xFF00FF00, true), RenderUtil.ESPMode.OUTLINE, bowTracer.getValue());
 
-            if (itemEsp.getValue()) {
-                if (entity instanceof ItemEntity itemEntity) {
-                    if (!itemEntity.getItem().is(Items.GOLD_INGOT)) continue;
-                    RenderUtil.drawESP(stack, entity, new Color(0xFFFFFF00, true), RenderUtil.ESPMode.OUTLINE, false);
-                }
             }
         }
     }
@@ -191,17 +207,21 @@ public class MurderHelper extends Module {
         reload();
     }
 
+    private boolean isInMurderGame() {
+        if (HypixelUtil.isInGame(HypixelUtil.Game.MURDERMYSTERY)) return true;
+        return Pigeon.isDebug() && HypixelUtil.isInGame(HypixelUtil.Game.REPLAY);
+    }
+
     private boolean isKnife(ItemStack stack) {
         if (stack.isEmpty()) return false;
 
-        if (!stack.is(Items.FILLED_MAP) && !stack.is(Items.GOLD_INGOT) && !stack.is(Items.ARMOR_STAND)) {
-            ChatUtil.sendDebugMessage(this.name, "name: " + stack.getHoverName());
-        }
+        // if (!stack.is(Items.FILLED_MAP) && !stack.is(Items.GOLD_INGOT) && !stack.is(Items.ARMOR_STAND)) {
+        //     ChatUtil.sendDebugMessage(this.name, "name: " + stack.getHoverName());
+        // }
 
         TextColor greenColor = TextColor.fromLegacyFormat(ChatFormatting.GREEN);
-        boolean hasGreenInSiblings = stack.getHoverName().getSiblings().stream()
-                .anyMatch(sibling -> greenColor.equals(sibling.getStyle().getColor()));
-        if (!hasGreenInSiblings) return false;
+        boolean hasGreen = greenColor.equals(stack.getHoverName().getStyle().getColor());
+        if (!hasGreen) return false;
 
         return KNIFE_ITEMS.contains(stack.getItem());
     }
