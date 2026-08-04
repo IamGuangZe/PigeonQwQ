@@ -51,10 +51,9 @@ public class MixinMinecraft {
             cir.cancel();
         }
 
-        boolean removeDelay = ModuleUtil.isEnable(NoHitDelay.class);
-        if (ModuleUtil.isEnable(AutoClicker.class) && ModuleUtil.getModule(AutoClicker.class).leftClick.getValue())
-            removeDelay = true;
-        if (removeDelay) this.missTime = 0;
+
+        if (ModuleUtil.isEnable(NoHitDelay.class) || ModuleUtil.isEnable(AutoClicker.class))
+            this.missTime = 0;
     }
 
     @Inject(method = "startUseItem", at = @At("HEAD"), cancellable = true)

@@ -7,6 +7,7 @@ import com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -30,15 +32,10 @@ public class ItemUtil {
     public static final BiFunction<CompoundTag, String, CompoundTag> COMPOUND_EXTRACTOR = (nbt, k) -> nbt.getCompound(k).orElse(null);
     public static final BiFunction<CompoundTag, String, Integer> INT_EXTRACTOR = (nbt, k) -> nbt.getInt(k).orElse(null);
 
-    public static boolean isSword(ItemStack stack) {
-        return stack.is(Items.WOODEN_SWORD)
-                || stack.is(Items.STONE_SWORD)
-                || stack.is(Items.IRON_SWORD)
-                || stack.is(Items.GOLDEN_SWORD)
-                || stack.is(Items.DIAMOND_SWORD)
-                || stack.is(Items.NETHERITE_SWORD);
+    public static boolean hasEnchantment(ItemStack stack, ResourceKey<Enchantment> enchantment) {
+        return stack.getEnchantments().entrySet().stream()
+                .anyMatch(entry -> entry.getKey().is(enchantment));
     }
-
 
     public static int getSlotFromItemName(String itemName, boolean onlyHotbar) {
         if (mc.player == null) return -1;
