@@ -369,9 +369,7 @@ public class RenderUtil {
     }
 
     public static void drawESP(PoseStack stack, Vec3 vec, Color c, ESPMode mode, boolean drawTracer) {
-        drawESP(stack, AABB.unitCubeFromLowerCorner(vec), c, mode, false);
-
-        if (drawTracer) drawTracer(stack, vec, c, 2.0);
+        drawESP(stack, AABB.unitCubeFromLowerCorner(vec), c, mode, drawTracer);
     }
 
     public static void drawESP(PoseStack stack, BlockPos pos, Color c, ESPMode mode, boolean drawTracer) {
@@ -383,25 +381,19 @@ public class RenderUtil {
             drawESP(stack, new AABB(
                     pos.getX() + minX, pos.getY() + minY, pos.getZ() + minZ,
                     pos.getX() + maxX, pos.getY() + maxY, pos.getZ() + maxZ
-            ), c, mode, false);
+            ), c, mode, drawTracer);
         });
-
-        if (drawTracer) drawTracer(stack, pos, c, 2.0);
     }
 
     public static void drawESP(PoseStack stack, Entity entity, Color c, ESPMode mode, boolean drawTracer) {
         Vec3 interpPos = getInterpolatedPos(entity);
         AABB box = entity.getBoundingBox().move(interpPos.x - entity.getX(), interpPos.y - entity.getY(), interpPos.z - entity.getZ());
-        drawESP(stack, box, c, mode, false);
-
-        if (drawTracer) drawTracer(stack, entity, c, 2.0);
+        drawESP(stack, box, c, mode, drawTracer);
     }
 
     public static void drawESP(PoseStack stack, Entity entity, AABB box, Color c, ESPMode mode, boolean drawTracer) {
         Vec3 vec = getInterpolatedPos(entity);
         AABB renderedBox = box.move(vec.x - entity.getX(), vec.y - entity.getY(), vec.z - entity.getZ());
-        drawESP(stack, renderedBox, c, mode, false);
-
-        if (drawTracer) drawTracer(stack, entity, c, 2.0);
+        drawESP(stack, renderedBox, c, mode, drawTracer);
     }
 }
