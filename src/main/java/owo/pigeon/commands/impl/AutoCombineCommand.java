@@ -46,7 +46,7 @@ public class AutoCombineCommand extends Command {
                 } else {
                     value = getHeldKey(autoCombine, isEnchant);
                     if (value == null) {
-                        ChatUtil.sendMessage("AutoCombine", "&cNo valid item held or unable to get info.");
+                        ChatUtil.sendMessage("AutoCombine", "&cNo valid item held or unable to get item info.");
                         return;
                     }
                 }
@@ -65,7 +65,7 @@ public class AutoCombineCommand extends Command {
                 } else {
                     value = getHeldKey(autoCombine, isEnchant);
                     if (value == null) {
-                        ChatUtil.sendMessage("AutoCombine", "&cNo valid item held or unable to get info.");
+                        ChatUtil.sendMessage("AutoCombine", "&cNo valid item held or unable to get item info.");
                         return;
                     }
                 }

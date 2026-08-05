@@ -20,10 +20,6 @@ public abstract class Command {
         return CommandUtil.getCommandPrefix() + command;
     }
 
-    public void sendCommandError(String message) {
-        ChatUtil.sendMessage("&c" + message);
-    }
-
     public void sendUsage() {
         ChatUtil.sendMultiLineMessage(getUsage());
     }

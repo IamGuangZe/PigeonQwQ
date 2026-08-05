@@ -46,21 +46,21 @@ public class AutoSellCommand extends Command {
                     // Fallback to held item info
                     value = getHeldItemInfo(isId);
                     if (value == null) {
-                        ChatUtil.sendMessage("AutoSell", "&cNo item held or unable to get item info.");
+                        ChatUtil.sendMessage("AutoSell", "&cNo valid item held or unable to get item info.");
                         return;
                     }
                 }
 
                 if (isId) {
                     if (autoSell.itemId.contains(value)) {
-                        ChatUtil.sendMessage("AutoSell", "&7Item ID &7&l" + value + " &r&7already exists in list.");
+                        ChatUtil.sendMessage("AutoSell", "&7ID &7&l" + value + " &r&7already exists in list.");
                         return;
                     }
                     autoSell.itemId.add(value);
                     ChatUtil.sendMessage("AutoSell", "&aAdded ID &7&l" + value + " &r&ato auto-sell list.");
                 } else {
                     if (autoSell.itemName.contains(value)) {
-                        ChatUtil.sendMessage("AutoSell", "&7Item name &7&l" + value + " &r&7already exists in list.");
+                        ChatUtil.sendMessage("AutoSell", "&7Name &7&l" + value + " &r&7already exists in list.");
                         return;
                     }
                     autoSell.itemName.add(value);
@@ -74,7 +74,7 @@ public class AutoSellCommand extends Command {
                 } else {
                     value = getHeldItemInfo(isId);
                     if (value == null) {
-                        ChatUtil.sendMessage("AutoSell", "&cNo item held or unable to get item info.");
+                        ChatUtil.sendMessage("AutoSell", "&cNo valid item held or unable to get item info.");
                         return;
                     }
                 }

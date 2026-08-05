@@ -26,7 +26,7 @@ public class GetCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        if (args.length == 0) return;
+        if (args.length < 1) return;
 
         switch (args[0].toLowerCase()) {
             case "item", "hand", "i" -> {

@@ -13,7 +13,7 @@ public class SayCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        if (args.length == 0) {
+        if (args.length < 1) {
             CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,

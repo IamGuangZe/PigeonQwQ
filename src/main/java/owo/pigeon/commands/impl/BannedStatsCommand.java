@@ -12,7 +12,7 @@ public class BannedStatsCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        if (args.length == 0) {
+        if (args.length < 1) {
             CommandUtil.sendCommandError(CommandUtil.ErrorReason.UnknownOrIncompleteCommand,
                     this.getCommand(),
                     args,
@@ -25,7 +25,7 @@ public class BannedStatsCommand extends Command {
             int requestedMinutes = Integer.parseInt(args[0]);
 
             if (requestedMinutes <= 0) {
-                ChatUtil.sendMessage("BannedStats", "Please enter a positive integer.");
+                ChatUtil.sendMessage("BannedStats", "&cPlease enter a positive integer.");
                 return;
             }
 

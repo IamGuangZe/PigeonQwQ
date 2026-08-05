@@ -36,7 +36,7 @@ public class ConfigCommand extends Command {
                     return;
                 }
                 if (isInvalidConfigName(args[1])) {
-                    sendCommandError("Invalid config name! Cannot contain path separators.");
+                    ChatUtil.sendMessage("&cInvalid config name! Cannot contain path separators.");
                     return;
                 }
                 new SettingConfig(args[1]).save();
@@ -50,7 +50,7 @@ public class ConfigCommand extends Command {
                     return;
                 }
                 if (isInvalidConfigName(args[1])) {
-                    sendCommandError("Invalid config name! Cannot contain path separators.");
+                    ChatUtil.sendMessage("&cInvalid config name! Cannot contain path separators.");
                     return;
                 }
                 new SettingConfig(args[1]).load();
@@ -64,7 +64,7 @@ public class ConfigCommand extends Command {
                     return;
                 }
                 if (isInvalidConfigName(args[1]) || isInvalidConfigName(args[2])) {
-                    sendCommandError("Invalid config name! Cannot contain path separators.");
+                    ChatUtil.sendMessage("&cInvalid config name! Cannot contain path separators.");
                     return;
                 }
 
@@ -78,16 +78,16 @@ public class ConfigCommand extends Command {
                     Path dirPath = dir.toPath().normalize();
 
                     if (!oldPath.startsWith(dirPath) || !newPath.startsWith(dirPath)) {
-                        sendCommandError("Access denied: Cannot operate outside config directory!");
+                        ChatUtil.sendMessage("&cAccess denied: Cannot operate outside config directory!");
                         return;
                     }
 
                     if (!Files.exists(oldPath)) {
-                        sendCommandError("Unknown config &o" + args[1]);
+                        ChatUtil.sendMessage("&cUnknown config &o" + args[1]);
                         return;
                     }
                     if (Files.exists(newPath)) {
-                        sendCommandError("Config &o" + args[2] + " already exists!");
+                        ChatUtil.sendMessage("&cConfig &o" + args[2] + "&r&c already exists!");
                         return;
                     }
 
@@ -95,7 +95,7 @@ public class ConfigCommand extends Command {
                     ChatUtil.sendMessage("&aConfig &o" + args[1] + ".json &ahas been renamed to &o" + args[2] + ".json");
 
                 } catch (IOException e) {
-                    sendCommandError("Failed to rename config: " + e.getMessage());
+                    ChatUtil.sendMessage("&cFailed to rename config: " + e.getMessage());
                 }
                 break;
             }
@@ -107,7 +107,7 @@ public class ConfigCommand extends Command {
                     return;
                 }
                 if (isInvalidConfigName(args[1])) {
-                    sendCommandError("Invalid config name! Cannot contain path separators.");
+                    ChatUtil.sendMessage("&cInvalid config name! Cannot contain path separators.");
                     return;
                 }
 
@@ -118,12 +118,12 @@ public class ConfigCommand extends Command {
                     Path dirPath = new SettingConfig().getBaseDir().toPath().normalize();
 
                     if (!filePath.startsWith(dirPath)) {
-                        sendCommandError("Access denied: Cannot operate outside config directory!");
+                        ChatUtil.sendMessage("&cAccess denied: Cannot operate outside config directory!");
                         return;
                     }
 
                     if (!Files.exists(filePath)) {
-                        sendCommandError("Unknown config &o" + args[1]);
+                        ChatUtil.sendMessage("&cUnknown config &o" + args[1]);
                         return;
                     }
 
@@ -131,7 +131,7 @@ public class ConfigCommand extends Command {
                     ChatUtil.sendMessage("&aConfig &o" + args[1] + ".json &r&ahas been deleted.");
 
                 } catch (IOException e) {
-                    sendCommandError("Failed to delete config: " + e.getMessage());
+                    ChatUtil.sendMessage("&cFailed to delete config: " + e.getMessage());
                 }
                 break;
             }
@@ -139,13 +139,13 @@ public class ConfigCommand extends Command {
             case "list": {
                 File dir = new SettingConfig().getBaseDir();
                 if (!dir.exists() || !dir.isDirectory()) {
-                    sendCommandError("No configs found!");
+                    ChatUtil.sendMessage("&cNo configs found!");
                     return;
                 }
 
                 String[] files = dir.list((d, name) -> name.endsWith(".json"));
                 if (files == null || files.length == 0) {
-                    sendCommandError("No configs found!");
+                    ChatUtil.sendMessage("&cNo configs found!");
                     return;
                 }
 
@@ -197,7 +197,7 @@ public class ConfigCommand extends Command {
                     ChatUtil.sendMessage("&aOpened config folder: &7" + dir.getAbsolutePath());
 
                 } catch (IOException e) {
-                    sendCommandError("Failed to open config folder: " + e.getMessage());
+                    ChatUtil.sendMessage("&cFailed to open config folder: " + e.getMessage());
                 }
                 break;
             }

@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import owo.pigeon.commands.Command;
 import owo.pigeon.utils.CommandUtil;
 import owo.pigeon.utils.WorldUtil;
+import owo.pigeon.utils.chat.ChatUtil;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -82,7 +83,7 @@ public class FillCommand extends Command {
         long volume = (long) lengthX * lengthY * lengthZ;
 
         if (volume > MAX_FILL_VOLUME) {
-            this.sendCommandError("Too many blocks in the specified area (maximum " + MAX_FILL_VOLUME + ", but specified " + volume + ")");
+            ChatUtil.sendMessage("&cToo many blocks in the specified area (maximum " + MAX_FILL_VOLUME + ", but specified " + volume + ")");
             return;
         }
 
