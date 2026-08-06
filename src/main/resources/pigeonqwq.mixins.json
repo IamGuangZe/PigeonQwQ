@@ -20,6 +20,7 @@
     "accessors.IAccessorGui",
     "accessors.IAccessorKeyMapping",
     "accessors.IAccessorMinecraft",
+    "accessors.IAccessorMultiPlayerGameMode",
     "accessors.IAccessorPlayerTabOverlay",
     "accessors.IAccessorScreen",
     "mixins.MixinAbstractContainerScreen",

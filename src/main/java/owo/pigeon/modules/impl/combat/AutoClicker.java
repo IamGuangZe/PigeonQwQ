@@ -1,12 +1,15 @@
 package owo.pigeon.modules.impl.combat;
 
 import net.engio.mbassy.listener.Handler;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MaceItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.item.enchantment.Enchantments;
-import owo.pigeon.event.events.RenderEvent;
+import owo.pigeon.event.events.ClientTickEvent;
+import owo.pigeon.event.events.PacketEvent;
+import owo.pigeon.mixin.accessors.IAccessorMultiPlayerGameMode;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.EnableSetting;
@@ -17,6 +20,8 @@ import owo.pigeon.utils.KeybindUtil;
 import owo.pigeon.utils.RandomUtil;
 import owo.pigeon.utils.chat.ChatUtil;
 import owo.pigeon.utils.player.PlayerUtil;
+
+import java.util.Arrays;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -42,16 +47,22 @@ public class AutoClicker extends Module {
     public EnableSetting knockback = setting("knockback", false, v -> weapon.getValue());
     public EnableSetting fireAspect = setting("fire-aspect", false, v -> weapon.getValue());
     public EnableSetting breakBlocks = setting("break-blocks", true, v -> true);
+    public EnableSetting delayOnBroken = setting("delay-on-broken", true, v -> true);
 
+    private static final int CYCLE_LENGTH = 20;
     private boolean firstClick = true;
-    private long nextClickTime = 0;
+    private int planHead = 0;
+    private final int[] clickPlan = new int[CYCLE_LENGTH];
+    private long lastClickTime = 0;
+    private long lastFinishBreak = 0;
 
     @Handler
-    public void onRender3D(RenderEvent.Render3DEvent event) {
+    public void onClientTick(ClientTickEvent.Post event) {
         long currentTime = System.currentTimeMillis();
 
         if (!KeybindUtil.isPressed(mc.options.keyAttack)) {
             firstClick = true;
+            planHead = 0;
             return;
         }
 
@@ -60,25 +71,78 @@ public class AutoClicker extends Module {
             return;
         }
 
+        if (delayOnBroken.getValue() && System.currentTimeMillis() - lastFinishBreak < 300) {
+            return;
+        }
+
         if (!canClick() || !weaponCheck()) return;
 
         if (vanillaDelay.getValue()) {
-            if (mc.player.getAttackStrengthScale(0.0F) * 100 >= progress.getValue()) {
-                KeybindUtil.setPressed(mc.options.keyAttack, false);
-                PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
-            }
+            doVanillaClick();
         } else {
-            if (firstClick) {
-                firstClick = false;
-                nextClickTime = currentTime + (1000 / RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue()));
-            } else if (currentTime >= nextClickTime) {
-                KeybindUtil.setPressed(mc.options.keyAttack, false);
-                PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
-                int randomCPS = RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());
-                nextClickTime = currentTime + (1000 / randomCPS);
-                ChatUtil.sendDebugMessage(this.name, "Click Random CPS: " + randomCPS);
+            doCpsClick(currentTime);
+        }
+    }
+
+    @Handler
+    public void onPacketSend(PacketEvent.SendPacketEvent event) {
+        if (event.getPacket() instanceof ServerboundPlayerActionPacket packet
+                && packet.getAction() == ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK) {
+            lastFinishBreak = System.currentTimeMillis();
+        }
+    }
+
+    private void doVanillaClick() {
+        if (mc.player.getAttackStrengthScale(0.0F) * 100 >= progress.getValue()) {
+            performClick();
+        }
+    }
+
+    private void doCpsClick(long currentTime) {
+        if (firstClick) {
+            firstClick = false;
+            lastClickTime = currentTime;
+            performClick();
+            regeneratePlan();
+            return;
+        }
+
+        if (clickPlan[planHead] > 0 || isEnforcedClick(currentTime)) {
+            lastClickTime = currentTime;
+            performClick();
+        }
+        planHead++;
+
+        if (planHead >= CYCLE_LENGTH) {
+            planHead = 0;
+            regeneratePlan();
+        }
+    }
+
+    private void performClick() {
+        PlayerUtil.leftClick(PlayerUtil.LeftClickMode.MOUSE);
+        KeybindUtil.setPressed(mc.options.keyAttack, true);
+    }
+
+    private void regeneratePlan() {
+        int clicks = RandomUtil.intRandom(minCPS.getValue(), maxCPS.getValue());
+        Arrays.fill(clickPlan, 0);
+        int interval = clicks > 0 ? CYCLE_LENGTH / clicks : 0;
+        int remainder = clicks > 0 ? CYCLE_LENGTH % clicks : 0;
+        int currentIndex = 0;
+        for (int i = 0; i < clicks; i++) {
+            clickPlan[currentIndex % CYCLE_LENGTH]++;
+            currentIndex += Math.max(interval, 1);
+            if (remainder > 0) {
+                currentIndex++;
+                remainder--;
             }
         }
+        ChatUtil.sendDebugMessage(this.name, "Click plan: " + clicks + " clicks/cycle");
+    }
+
+    private boolean isEnforcedClick(long currentTime) {
+        return currentTime - lastClickTime >= 1000;
     }
 
     private boolean canClick() {
@@ -86,8 +150,7 @@ public class AutoClicker extends Module {
     }
 
     private boolean breakBlocksCheck() {
-        // ChatUtil.sendDebugMessage(this.name,"isBreakingBlock: " + mc.gameMode.isBreakingBlock());
-        return !(breakBlocks.getValue() && PlayerUtil.isBreakingBlock());
+        return !(breakBlocks.getValue() && ((IAccessorMultiPlayerGameMode) mc.gameMode).pigeon$isDestroying());
     }
 
     private boolean weaponCheck() {
