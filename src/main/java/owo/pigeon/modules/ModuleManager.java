@@ -72,6 +72,7 @@ public class ModuleManager {
 
         modules.add(new AutoTipall());
         modules.add(new BannedStats());
+        modules.add(new DailyReward());
         modules.add(new GTBSolver());
         modules.add(new MurderHelper());
         modules.add(new PartyDetector());

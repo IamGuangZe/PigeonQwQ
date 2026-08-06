@@ -28,6 +28,7 @@ public class CommandManager {
         commands.add(new CalcCommand());
         commands.add(new ConfigCommand());
         commands.add(new CopyCommand());
+        commands.add(new DailyRewardCommand());
         commands.add(new ExportCommand());
         commands.add(new FillCommand());
         commands.add(new GamemodeCommand());
