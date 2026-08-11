@@ -3,7 +3,9 @@ package owo.pigeon.modules.impl.debug;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.Blocks;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -41,5 +43,9 @@ public class RenderTest extends Module {
             RenderUtil.drawBox(stack, entity, Color.CYAN, 2.0);
             RenderUtil.drawTracer(stack, entity, Color.GREEN, 2.0);
         }
+
+        BlockPos playerPos = mc.player.blockPosition();
+        RenderUtil.renderBlockModel(stack, Blocks.STONE.defaultBlockState(), playerPos.above(2), 0.5F);
+        RenderUtil.renderBlockModel(stack, Blocks.DIRT.defaultBlockState(), playerPos.below(), 0.5F);
     }
 }

@@ -3,7 +3,13 @@ package owo.pigeon.utils.render;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ShapeRenderer;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -395,5 +401,71 @@ public class RenderUtil {
         Vec3 vec = getInterpolatedPos(entity);
         AABB renderedBox = box.move(vec.x - entity.getX(), vec.y - entity.getY(), vec.z - entity.getZ());
         drawESP(stack, renderedBox, c, mode, drawTracer);
+    }
+
+    public static void renderBlockModel(PoseStack stack, BlockState state, BlockPos pos, float alpha) {
+        Vec3 camera = mc.getEntityRenderDispatcher().camera.position();
+
+        BlockStateModel model = mc.getBlockRenderer().getBlockModel(state);
+        MultiBufferSource.BufferSource source = mc.renderBuffers().bufferSource();
+
+        stack.pushPose();
+        stack.translate(pos.getX() - camera.x, pos.getY() - camera.y, pos.getZ() - camera.z);
+
+        VertexConsumer consumer = new AlphaVertexConsumer(source.getBuffer(RenderTypes.translucentMovingBlock()), alpha);
+        ModelBlockRenderer.renderModel(stack.last(), consumer, model, 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+
+        stack.popPose();
+        source.endBatch(RenderTypes.translucentMovingBlock());
+    }
+
+    private static final class AlphaVertexConsumer implements VertexConsumer {
+        private final VertexConsumer delegate;
+        private final int alpha;
+
+        private AlphaVertexConsumer(VertexConsumer delegate, float alpha) {
+            this.delegate = delegate;
+            this.alpha = ((int) (alpha * 255.0F)) & 0xFF;
+        }
+
+        @Override
+        public VertexConsumer addVertex(float x, float y, float z) {
+            return delegate.addVertex(x, y, z);
+        }
+
+        @Override
+        public VertexConsumer setColor(int red, int green, int blue, int a) {
+            return delegate.setColor(red, green, blue, alpha);
+        }
+
+        @Override
+        public VertexConsumer setColor(int rgba) {
+            return delegate.setColor((rgba & 0x00FFFFFF) | alpha << 24);
+        }
+
+        @Override
+        public VertexConsumer setUv(float u, float v) {
+            return delegate.setUv(u, v);
+        }
+
+        @Override
+        public VertexConsumer setUv1(int u, int v) {
+            return delegate.setUv1(u, v);
+        }
+
+        @Override
+        public VertexConsumer setUv2(int u, int v) {
+            return delegate.setUv2(u, v);
+        }
+
+        @Override
+        public VertexConsumer setNormal(float x, float y, float z) {
+            return delegate.setNormal(x, y, z);
+        }
+
+        @Override
+        public VertexConsumer setLineWidth(float width) {
+            return delegate.setLineWidth(width);
+        }
     }
 }
