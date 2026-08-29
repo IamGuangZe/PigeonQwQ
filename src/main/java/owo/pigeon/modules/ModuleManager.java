@@ -77,6 +77,7 @@ public class ModuleManager {
         modules.add(new MurderHelper());
         modules.add(new PartyDetector());
         modules.add(new PixelHelper());
+        //TODO: modules.add(new SpeedBuilders());
 
         modules.add(new AntiBot());
         modules.add(new AutoReconnect());

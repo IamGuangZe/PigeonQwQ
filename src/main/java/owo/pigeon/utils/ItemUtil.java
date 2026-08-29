@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -17,6 +18,8 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -55,6 +58,31 @@ public class ItemUtil {
 
     public static ItemStack getItemStackfromSlot(int slot) {
         return mc.player.getInventory().getItem(slot);
+    }
+
+    public static boolean holdingBlockState(BlockState state) {
+        if (mc.player == null) return false;
+        return matchesBlockState(mc.player.getMainHandItem(), state);
+    }
+
+    public static int getSlotFromBlockState(BlockState state) {
+        if (mc.player == null) return -1;
+
+        for (int i = 0; i < 9; i++) {
+            ItemStack stack = mc.player.getInventory().getItem(i);
+            if (!stack.isEmpty() && matchesBlockState(stack, state)) return i;
+        }
+
+        return -1;
+    }
+
+    public static boolean matchesBlockState(ItemStack stack, BlockState target) {
+        if (stack.isEmpty() || target == null) return false;
+
+        if (target.is(Blocks.WATER) && stack.is(Items.WATER_BUCKET)) return true;
+
+        if (!(stack.getItem() instanceof BlockItem blockItem)) return false;
+        return blockItem.getBlock() == target.getBlock();
     }
 
     public static int getTotalItemCount(Item item) {
