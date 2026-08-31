@@ -224,7 +224,7 @@ public class SpeedBuilders extends Module {
         BlockState simulatedState = blockItem.getBlock().getStateForPlacement(context);
         if (simulatedState == null) return false;
         if (simulatedState.getBlock() != requiredState.getBlock()) return false;
-        if (simulatedState.getValues().containsKey(BlockStateProperties.FACING) && requiredState.getValues().containsKey(BlockStateProperties.FACING)) {
+        if (simulatedState.hasProperty(BlockStateProperties.FACING) && requiredState.hasProperty(BlockStateProperties.FACING)) {
             if (simulatedState.getValue(BlockStateProperties.FACING) != requiredState.getValue(BlockStateProperties.FACING))
                 return false;
         }

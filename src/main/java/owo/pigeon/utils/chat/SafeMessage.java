@@ -17,7 +17,7 @@ public class SafeMessage {
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {
         if (mc.gui == null || mc.gui.getChat() == null || messages.isEmpty()) return;
-        for (Component message : messages) mc.gui.getChat().addMessage(message);
+        for (Component message : messages) mc.gui.getChat().addClientSystemMessage(message);
         messages.clear();
     }
 }

@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
@@ -20,7 +20,7 @@ public class Performance extends Module {
         if (mc.options.hideGui) return;
         if (mc.player == null || mc.getConnection() == null) return;
 
-        GuiGraphics context = event.getContext();
+        GuiGraphicsExtractor context = event.getContext();
         int lineHeight = FontUtil.getLineHeight();
         int x = 2;
         int y = mc.getWindow().getGuiScaledHeight() - lineHeight - 2;

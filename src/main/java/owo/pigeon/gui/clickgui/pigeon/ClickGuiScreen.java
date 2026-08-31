@@ -1,6 +1,6 @@
 package owo.pigeon.gui.clickgui.pigeon;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -40,12 +40,12 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         for (CategoryPanel panel : categoryPanels) {
             panel.drawScreen(context, mouseX, mouseY, delta);
         }
 
-        context.drawString(FontUtil.font,
+        context.text(FontUtil.font,
                 Pigeon.WATERMARK,
                 this.width - FontUtil.font.width(Pigeon.WATERMARK) - 2,
                 this.height - FontUtil.font.lineHeight - 2,
@@ -53,14 +53,14 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
+    public void extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
         ClickGui clickGui = ModuleUtil.getModule(ClickGui.class);
 
         switch (clickGui.background.getValue()) {
-            case INGAME -> this.renderTransparentBackground(context);
-            case PANORAMA -> this.renderPanorama(context, deltaTicks);
-            case BLUR -> this.renderBlurredBackground(context);
-            case DARKENING -> this.renderMenuBackground(context);
+            case INGAME -> this.extractTransparentBackground(context);
+            case PANORAMA -> this.extractPanorama(context, deltaTicks);
+            case BLUR -> this.extractBlurredBackground(context);
+            case DARKENING -> this.extractMenuBackground(context);
         }
     }
 

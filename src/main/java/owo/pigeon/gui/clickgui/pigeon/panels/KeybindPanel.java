@@ -1,7 +1,7 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
@@ -27,7 +27,7 @@ public class KeybindPanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
@@ -54,7 +54,7 @@ public class KeybindPanel extends AbstractDisplableItem {
             }
         }
 
-        context.drawString(
+        context.text(
                 font,
                 ColorUtil.parseColor(displayName + " : " + displayValue),
                 (int) ((x + 4) / scale),

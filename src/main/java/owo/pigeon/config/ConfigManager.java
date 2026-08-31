@@ -5,6 +5,8 @@ import owo.pigeon.config.configs.SettingConfig;
 
 import java.util.ArrayList;
 
+import static owo.pigeon.Pigeon.LOGGER;
+
 public class ConfigManager {
     public static final ArrayList<Config> configs = new ArrayList<>();
 
@@ -15,6 +17,7 @@ public class ConfigManager {
 
         loadAll();
         Runtime.getRuntime().addShutdownHook(new Thread(ConfigManager::saveAll, "Config-Save-Hook"));
+        LOGGER.info("Pigeon ConfigManager loaded");
     }
 
     public static void loadAll() {

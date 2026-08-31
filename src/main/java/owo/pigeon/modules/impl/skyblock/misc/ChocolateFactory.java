@@ -4,7 +4,7 @@ import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import owo.pigeon.Pigeon;
@@ -61,7 +61,7 @@ public class ChocolateFactory extends Module {
                 upgradeTick = 0;
 
                 if (catchTick >= catchDelay.getValue()) {
-                    PlayerUtil.clickSlot(container.containerId, straySlot, 0, ClickType.PICKUP);
+                    PlayerUtil.clickSlot(container.containerId, straySlot, 0, ContainerInput.PICKUP);
                     return;
                 }
 
@@ -75,7 +75,7 @@ public class ChocolateFactory extends Module {
                 if (!towerStack.isEmpty() && towerStack.is(Items.CLOCK)) {
                     String loreString = String.join("\n", ItemUtil.getItemLore(towerStack).stream().map(Component::getString).toList());
                     if (loreString.contains("Right-click to activate!")) {
-                        PlayerUtil.clickSlot(container.containerId, 39, 1, ClickType.PICKUP);
+                        PlayerUtil.clickSlot(container.containerId, 39, 1, ContainerInput.PICKUP);
                         return;
                     }
                 }
@@ -122,7 +122,7 @@ public class ChocolateFactory extends Module {
                 }
 
                 if (bestSlot != -1 && balance >= targetCost) {
-                    PlayerUtil.clickSlot(container.containerId, bestSlot, 0, ClickType.PICKUP);
+                    PlayerUtil.clickSlot(container.containerId, bestSlot, 0, ContainerInput.PICKUP);
                 }
             }
         } else {

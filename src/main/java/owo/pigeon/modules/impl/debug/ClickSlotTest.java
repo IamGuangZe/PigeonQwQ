@@ -2,7 +2,7 @@ package owo.pigeon.modules.impl.debug;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import owo.pigeon.event.events.ClickSlotEvent;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
@@ -46,7 +46,7 @@ public class ClickSlotTest extends Module {
                 for (int i = 0; i < size; i++) {
                     if (containerScreen.getSlot(i).getItem().isEmpty()) continue;
 
-                    PlayerUtil.clickSlot(containerScreen.containerId, i, 0, ClickType.QUICK_MOVE);
+                    PlayerUtil.clickSlot(containerScreen.containerId, i, 0, ContainerInput.QUICK_MOVE);
 
                     if (p_delay != 0) break;
                 }

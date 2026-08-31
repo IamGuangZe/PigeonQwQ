@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.PacketEvent;
@@ -110,7 +110,7 @@ public class AutoCombine extends Module {
 
         if (button.isFocused()) button.setFocused(false);
 
-        button.render(event.getContext(), event.getMouseX(), event.getMouseY(), event.getDelta());
+        button.extractRenderState(event.getContext(), event.getMouseX(), event.getMouseY(), event.getDelta());
 
         if (combining) {
             if (mode == CombineMode.ANVIL) processAnvil(container);
@@ -143,13 +143,13 @@ public class AutoCombine extends Module {
         lastAction = now;
 
         if (!result.is(Items.BARRIER) && left.isEmpty() && right.isEmpty()) {
-            PlayerUtil.clickSlot(container.containerId, 13, 0, ClickType.QUICK_MOVE);
+            PlayerUtil.clickSlot(container.containerId, 13, 0, ContainerInput.QUICK_MOVE);
             return;
         }
 
         if (!left.isEmpty() && !right.isEmpty()) {
             if (!result.is(Items.BARRIER)) {
-                PlayerUtil.clickSlot(container.containerId, 22, 0, ClickType.PICKUP);
+                PlayerUtil.clickSlot(container.containerId, 22, 0, ContainerInput.PICKUP);
             } else {
                 combining = false;
             }
@@ -166,7 +166,7 @@ public class AutoCombine extends Module {
             return;
         }
 
-        PlayerUtil.clickSlot(container.containerId, slot, 0, ClickType.QUICK_MOVE);
+        PlayerUtil.clickSlot(container.containerId, slot, 0, ContainerInput.QUICK_MOVE);
     }
 
     private void processPedestal(ChestMenu container) {
@@ -180,13 +180,13 @@ public class AutoCombine extends Module {
         lastAction = now;
 
         if (!output.is(Items.BARRIER) && !output.isEmpty() && left.isEmpty() && right.isEmpty()) {
-            PlayerUtil.clickSlot(container.containerId, 31, 0, ClickType.QUICK_MOVE);
+            PlayerUtil.clickSlot(container.containerId, 31, 0, ContainerInput.QUICK_MOVE);
             return;
         }
 
         if (!left.isEmpty() && !right.isEmpty()) {
             if (!output.is(Items.BARRIER) && !output.isEmpty()) {
-                PlayerUtil.clickSlot(container.containerId, 13, 0, ClickType.PICKUP);
+                PlayerUtil.clickSlot(container.containerId, 13, 0, ContainerInput.PICKUP);
             }
             return;
         }
@@ -202,7 +202,7 @@ public class AutoCombine extends Module {
             return;
         }
 
-        PlayerUtil.clickSlot(container.containerId, slot, 0, ClickType.QUICK_MOVE);
+        PlayerUtil.clickSlot(container.containerId, slot, 0, ContainerInput.QUICK_MOVE);
     }
 
     private int findAnvilPair(ChestMenu container) {

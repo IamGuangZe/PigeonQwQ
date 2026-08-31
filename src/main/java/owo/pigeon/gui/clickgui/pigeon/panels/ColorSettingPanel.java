@@ -1,6 +1,6 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.settings.AbstractSetting;
 import owo.pigeon.settings.ColorSetting;
@@ -24,7 +24,7 @@ public class ColorSettingPanel extends SettingPanel {
     }
 
     @Override
-    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         String displayName = colorSetting.getName().replaceAll("-and-", "-&&-").replaceAll("-", " ");
@@ -90,7 +90,7 @@ public class ColorSettingPanel extends SettingPanel {
         String aHex = String.format("%02X", colorSetting.getAlpha());
 
         String displayValue = "&c" + rHex + "&a" + gHex + "&9" + bHex + "&f" + aHex;
-        context.drawString(font,
+        context.text(font,
                 ColorUtil.parseColor(displayName + " : " + displayValue),
                 (int) ((x + 4) / scale),
                 (int) ((y + (float) rawHeight / 2 - (float) font.lineHeight * scale / 2) / scale),

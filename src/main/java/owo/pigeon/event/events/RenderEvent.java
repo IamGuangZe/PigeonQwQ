@@ -1,7 +1,7 @@
 package owo.pigeon.event.events;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.ChestMenu;
@@ -14,13 +14,13 @@ public class RenderEvent extends Event {
     }
 
     public static class Render2DEvent extends RenderEvent {
-        protected GuiGraphics context;
+        protected GuiGraphicsExtractor context;
 
-        public Render2DEvent(GuiGraphics context) {
+        public Render2DEvent(GuiGraphicsExtractor context) {
             this.context = context;
         }
 
-        public GuiGraphics getContext() {
+        public GuiGraphicsExtractor getContext() {
             return context;
         }
     }
@@ -44,13 +44,13 @@ public class RenderEvent extends Event {
     }
 
     public static class RenderContainerEvent extends RenderEvent {
-        private final GuiGraphics context;
+        private final GuiGraphicsExtractor context;
         private final AbstractContainerScreen<?> screen;
         private final int mouseX;
         private final int mouseY;
         private final float delta;
 
-        public RenderContainerEvent(AbstractContainerScreen<?> screen, GuiGraphics context, int mouseX, int mouseY, float delta) {
+        public RenderContainerEvent(AbstractContainerScreen<?> screen, GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
             this.screen = screen;
             this.context = context;
             this.mouseX = mouseX;
@@ -62,7 +62,7 @@ public class RenderEvent extends Event {
             return screen;
         }
 
-        public GuiGraphics getContext() {
+        public GuiGraphicsExtractor getContext() {
             return context;
         }
 

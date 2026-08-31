@@ -1,6 +1,6 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +25,7 @@ public class CategoryPanel extends AbstractDisplableItem {
 
     private boolean movepanel;
     private boolean hovered;
-    private final AnimationValue expandProgress = new AnimationValue(1.0f, 0.3f);
+    private final AnimationValue expandProgress = new AnimationValue(0.0f, 0.3f);
     public ArrayList<ModulePanel> modulePanels = new ArrayList<>();
 
     private int mx;
@@ -45,7 +45,7 @@ public class CategoryPanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         expandProgress.setDuration(clickGui.animationSpeed.getValue());
         expandProgress.update(delta);
 
@@ -76,11 +76,11 @@ public class CategoryPanel extends AbstractDisplableItem {
         context.pose().pushMatrix();
         context.pose().translate(iconX, iconY);
         context.pose().scale(scale, scale);
-        context.renderItem(category.getIcon(), 0, 0);
+        context.item(category.getIcon(), 0, 0);
         context.pose().popMatrix();
 
         int textOffset = iconSize + 4; // icon width + gap
-        context.drawString(font,
+        context.text(font,
                 category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(),
                 x + textOffset,
                 y + height / 2 - font.lineHeight / 2,
@@ -89,7 +89,7 @@ public class CategoryPanel extends AbstractDisplableItem {
         boolean expanded = expandProgress.isExpanded();
         String symbol = expanded ? "-" : "+";
         String color = expanded ? "&c" : "&a";
-        context.drawString(font,
+        context.text(font,
                 ColorUtil.parseColor(color + symbol),
                 x + width - font.width(symbol) - 4,
                 y + height / 2 - font.lineHeight / 2,

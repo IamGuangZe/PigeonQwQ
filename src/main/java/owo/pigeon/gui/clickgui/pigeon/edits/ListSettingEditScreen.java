@@ -1,6 +1,6 @@
 package owo.pigeon.gui.clickgui.pigeon.edits;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -66,10 +66,10 @@ public class ListSettingEditScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
         String title = "Editing list: " + setting.getName() + " (" + setting.size() + " items)";
         int titleWidth = FontUtil.font.width(title);
-        context.drawString(FontUtil.font, title, (this.width - titleWidth) / 2, this.textField.getY() - FontUtil.font.lineHeight - 6, Color.WHITE.getRGB());
+        context.text(FontUtil.font, title, (this.width - titleWidth) / 2, this.textField.getY() - FontUtil.font.lineHeight - 6, Color.WHITE.getRGB());
 
         int listY = this.textField.getY() + 50;
         int listHeight = this.height - listY - 10;
@@ -93,7 +93,7 @@ public class ListSettingEditScreen extends Screen {
                 context.fill(listLeft, itemY, listRight, itemY + itemHeight, new Color(255, 255, 255, 30).getRGB());
             }
 
-            context.drawString(FontUtil.font, item, listLeft + 4, itemY + 2, Color.LIGHT_GRAY.getRGB());
+            context.text(FontUtil.font, item, listLeft + 4, itemY + 2, Color.LIGHT_GRAY.getRGB());
 
             String removeLabel = "x";
             int removeX = listRight - 15;
@@ -102,10 +102,10 @@ public class ListSettingEditScreen extends Screen {
             if (hovered && mouseX >= removeX) {
                 removeColor = Color.WHITE.getRGB();
             }
-            context.drawString(FontUtil.font, removeLabel, removeX, itemY + 2, removeColor);
+            context.text(FontUtil.font, removeLabel, removeX, itemY + 2, removeColor);
         }
 
-        super.render(context, mouseX, mouseY, deltaTicks);
+        super.extractRenderState(context, mouseX, mouseY, deltaTicks);
     }
 
     @Override
@@ -142,13 +142,13 @@ public class ListSettingEditScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
+    public void extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
         ClickGui clickGui = ModuleUtil.getModule(ClickGui.class);
         switch (clickGui.background.getValue()) {
-            case INGAME -> this.renderTransparentBackground(context);
-            case PANORAMA -> this.renderPanorama(context, deltaTicks);
-            case BLUR -> this.renderBlurredBackground(context);
-            case DARKENING -> this.renderMenuBackground(context);
+            case INGAME -> this.extractTransparentBackground(context);
+            case PANORAMA -> this.extractPanorama(context, deltaTicks);
+            case BLUR -> this.extractBlurredBackground(context);
+            case DARKENING -> this.extractMenuBackground(context);
         }
     }
 

@@ -3,6 +3,7 @@ package owo.pigeon.mixin.mixins;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.renderer.SectionBufferBuilderPack;
 import net.minecraft.client.renderer.chunk.RenderSectionRegion;
+import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.RenderEvent;
 
-import java.util.concurrent.CompletableFuture;
-
 @Mixin(targets = "net.minecraft.client.renderer.chunk.SectionRenderDispatcher$RenderSection$RebuildTask")
 public abstract class MixinRebuildTask {
     @Shadow
@@ -24,7 +23,7 @@ public abstract class MixinRebuildTask {
     protected RenderSectionRegion region;
 
     @Inject(method = "doTask", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/chunk/SectionCompiler;compile(Lnet/minecraft/core/SectionPos;Lnet/minecraft/client/renderer/chunk/RenderSectionRegion;Lcom/mojang/blaze3d/vertex/VertexSorting;Lnet/minecraft/client/renderer/SectionBufferBuilderPack;)Lnet/minecraft/client/renderer/chunk/SectionCompiler$Results;"))
-    private void onSectionCompiler(SectionBufferBuilderPack buffers, CallbackInfoReturnable<CompletableFuture<?>> cir, @Local SectionPos chunkSectionPos) {
+    private void onSectionCompiler(SectionBufferBuilderPack buffers, CallbackInfoReturnable<SectionRenderDispatcher.RenderSection.CompileTask.SectionTaskResult> cir, @Local SectionPos chunkSectionPos) {
         int minX = chunkSectionPos.minBlockX();
         int minY = chunkSectionPos.minBlockY();
         int minZ = chunkSectionPos.minBlockZ();

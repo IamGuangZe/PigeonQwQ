@@ -73,7 +73,7 @@ public class ExportButton extends Module {
             exportButton.setFocused(false);
         }
 
-        exportButton.render(event.getContext(), event.getMouseX(), event.getMouseY(), event.getDelta());
+        exportButton.extractRenderState(event.getContext(), event.getMouseX(), event.getMouseY(), event.getDelta());
     }
 
     private void exportToJson(ContainerScreen screen, ChestMenu container) {

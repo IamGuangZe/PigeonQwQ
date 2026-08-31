@@ -1,6 +1,6 @@
 package owo.pigeon.gui.clickgui.pigeon.edits;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -67,12 +67,12 @@ public class SettingEditScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
         String text = "You are editing: " + setting.getName();
         int textWidth = FontUtil.font.width(text);
         int textX = (this.width - textWidth) / 2;
         int textY = this.textField.getY() - FontUtil.font.lineHeight - 2;
-        context.drawString(FontUtil.font, text, textX, textY, Color.WHITE.getRGB());
+        context.text(FontUtil.font, text, textX, textY, Color.WHITE.getRGB());
 
         if (setting instanceof BlockSetting blockSetting) {
             Identifier id = Identifier.tryParse(textField.getValue().toLowerCase().trim());
@@ -83,26 +83,26 @@ public class SettingEditScreen extends Screen {
                 int previewX = textField.getX() + textField.getWidth() + 4;
                 int previewY = textField.getY() + (textField.getHeight() - 16) / 2;
 
-                context.renderItem(BuiltInRegistries.BLOCK.getValue(id).asItem().getDefaultInstance(), previewX, previewY);
+                context.item(BuiltInRegistries.BLOCK.getValue(id).asItem().getDefaultInstance(), previewX, previewY);
             } else {
                 textField.setTextColor(0xFFFF5555);
             }
 
         }
 
-        super.render(context, mouseX, mouseY, deltaTicks);
+        super.extractRenderState(context, mouseX, mouseY, deltaTicks);
     }
 
     @Override
-    public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
+    public void extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
         ClickGui clickGui = ModuleUtil.getModule(ClickGui.class);
 
-        // if (clickGui.background.getValue()) super.renderBackground(context, mouseX, mouseY, deltaTicks);
+        // if (clickGui.background.getValue()) super.extractBackground(context, mouseX, mouseY, deltaTicks);
         switch (clickGui.background.getValue()) {
-            case INGAME -> this.renderTransparentBackground(context);
-            case PANORAMA -> this.renderPanorama(context, deltaTicks);
-            case BLUR -> this.renderBlurredBackground(context);
-            case DARKENING -> this.renderMenuBackground(context);
+            case INGAME -> this.extractTransparentBackground(context);
+            case PANORAMA -> this.extractPanorama(context, deltaTicks);
+            case BLUR -> this.extractBlurredBackground(context);
+            case DARKENING -> this.extractMenuBackground(context);
         }
     }
 

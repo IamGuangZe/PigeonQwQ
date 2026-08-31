@@ -5,7 +5,7 @@ import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -57,8 +57,8 @@ public class PlayerUtil {
         InstantUse.instantUseItem(slot, mode);
     }
 
-    public static void clickSlot(int syncId, int slotId, int button, ClickType actionType) {
-        mc.gameMode.handleInventoryMouseClick(syncId, slotId, button, actionType, mc.player);
+    public static void clickSlot(int syncId, int slotId, int button, ContainerInput actionType) {
+        mc.gameMode.handleContainerInput(syncId, slotId, button, actionType, mc.player);
     }
 
     public static boolean isBreakingBlock() {

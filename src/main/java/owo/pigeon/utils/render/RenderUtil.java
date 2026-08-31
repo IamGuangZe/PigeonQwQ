@@ -2,14 +2,14 @@ package owo.pigeon.utils.render;
 
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ShapeRenderer;
+import net.minecraft.client.renderer.block.BlockQuadOutput;
+import net.minecraft.client.renderer.block.BlockStateModelSet;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -51,7 +51,7 @@ public class RenderUtil {
         drawVerticalLine(stack, x1, y1, y2, color, width);
     }
 
-    public static void drawBorder(GuiGraphics context, int x, int y, int width, int height, int color) {
+    public static void drawBorder(GuiGraphicsExtractor context, int x, int y, int width, int height, int color) {
         context.fill(x, y, x + width, y + 1, color);
 
         context.fill(x, y + height - 1, x + width, y + height, color);
@@ -61,7 +61,7 @@ public class RenderUtil {
         context.fill(x + width - 1, y, x + width, y + height, color);
     }
 
-    public static void drawGradientBorder(GuiGraphics context, int x, int y, int width, int height, int[] gradient) {
+    public static void drawGradientBorder(GuiGraphicsExtractor context, int x, int y, int width, int height, int[] gradient) {
         if (gradient == null) {
             drawBorder(context, x, y, width, height, Color.WHITE.getRGB());
             return;
@@ -406,14 +406,25 @@ public class RenderUtil {
     public static void renderBlockModel(PoseStack stack, BlockState state, BlockPos pos, float alpha) {
         Vec3 camera = mc.getEntityRenderDispatcher().camera.position();
 
-        BlockStateModel model = mc.getBlockRenderer().getBlockModel(state);
+        BlockStateModelSet modelSet = mc.getModelManager().getBlockStateModelSet();
+        BlockStateModel model = modelSet.get(state);
         MultiBufferSource.BufferSource source = mc.renderBuffers().bufferSource();
 
         stack.pushPose();
         stack.translate(pos.getX() - camera.x, pos.getY() - camera.y, pos.getZ() - camera.z);
 
         VertexConsumer consumer = new AlphaVertexConsumer(source.getBuffer(RenderTypes.translucentMovingBlock()), alpha);
-        ModelBlockRenderer.renderModel(stack.last(), consumer, model, 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+        ModelBlockRenderer blockRenderer = new ModelBlockRenderer(true, false, mc.getBlockColors());
+        long blockSeed = state.getSeed(pos);
+
+        BlockQuadOutput output = (x, y, z, quad, instance) -> {
+            stack.pushPose();
+            stack.translate(x, y, z);
+            consumer.putBakedQuad(stack.last(), quad, instance);
+            stack.popPose();
+        };
+
+        blockRenderer.tesselateBlock(output, 0.0F, 0.0F, 0.0F, mc.level, pos, state, model, blockSeed);
 
         stack.popPose();
         source.endBatch(RenderTypes.translucentMovingBlock());

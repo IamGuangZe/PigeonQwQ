@@ -3,7 +3,7 @@ package owo.pigeon.modules.impl.skyblock.misc;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.modules.Category;
@@ -115,7 +115,7 @@ public class AutoExperiments extends Module {
                                 containerScreen.containerId,
                                 chronomatronOrder.get(clickIndex),
                                 0,
-                                ClickType.PICKUP
+                                ContainerInput.PICKUP
                         );
                         clickCooldown = clickDelay.getValue();
                         clickIndex++;
@@ -183,7 +183,7 @@ public class AutoExperiments extends Module {
                                 containerScreen.containerId,
                                 ultrasequencerOrder.get(clickIndex),
                                 0,
-                                ClickType.PICKUP
+                                ContainerInput.PICKUP
                         );
                         clickCooldown = clickDelay.getValue();
                         clickIndex++;

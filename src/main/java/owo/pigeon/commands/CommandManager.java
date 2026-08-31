@@ -11,6 +11,7 @@ import owo.pigeon.utils.chat.ChatUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static owo.pigeon.Pigeon.LOGGER;
 import static owo.pigeon.Pigeon.mc;
 
 public class CommandManager {
@@ -44,6 +45,8 @@ public class CommandManager {
         commands.add(new ShowCommand());
 
         commands.add(new GetCommand());
+
+        LOGGER.info("Pigeon CommandManager loaded");
     }
 
     @Handler

@@ -3,7 +3,7 @@ package owo.pigeon.modules.impl.skyblock.misc;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import owo.pigeon.Pigeon;
 import owo.pigeon.event.events.ClickSlotEvent;
@@ -55,7 +55,7 @@ public class AutoSell extends Module {
                     if (stack.isEmpty()) continue;
 
                     if (matchesItem(stack, names, ids)) {
-                        PlayerUtil.clickSlot(container.containerId, i, 0, ClickType.QUICK_MOVE);
+                        PlayerUtil.clickSlot(container.containerId, i, 0, ContainerInput.QUICK_MOVE);
                         break;
                     }
                 }

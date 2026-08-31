@@ -3,7 +3,7 @@ package owo.pigeon.modules.impl.hypixel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.TextColor;
@@ -142,7 +142,7 @@ public class MurderHelper extends Module {
 
     @Handler
     public void onRender2D(RenderEvent.Render2DEvent event) {
-        GuiGraphics context = event.getContext();
+        GuiGraphicsExtractor context = event.getContext();
 
         if (!hud.getValue()) return;
         if (!isInMurderGame()) return;

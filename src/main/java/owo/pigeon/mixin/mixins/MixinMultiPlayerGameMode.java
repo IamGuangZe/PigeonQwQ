@@ -4,7 +4,7 @@ import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,8 +22,8 @@ public class MixinMultiPlayerGameMode {
     @Shadow
     private int destroyDelay;
 
-    @Inject(method = "handleInventoryMouseClick", at = @At("HEAD"))
-    private void onHandleInventoryMouseClick(int syncId, int slotId, int button, ClickType actionType, Player player, CallbackInfo ci) {
+    @Inject(method = "handleContainerInput", at = @At("HEAD"))
+    private void onHandleInventoryMouseClick(int syncId, int slotId, int button, ContainerInput actionType, Player player, CallbackInfo ci) {
         Pigeon.EVENT_BUS.post(new ClickSlotEvent()).now();
         ChatUtil.sendDebugMessage("MixinMultiPlayerGameMode", "syanId: " + syncId + ", slotId: " + slotId);
     }

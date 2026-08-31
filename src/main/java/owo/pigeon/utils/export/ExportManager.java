@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import owo.pigeon.event.events.ClientTickEvent;
@@ -107,7 +107,7 @@ public class ExportManager {
 
                     if (container.getSlot(53).getItem().is(Items.ARROW)) {
                         ChatUtil.sendDebugMessage("ExportManager", "Hunting box: next page");
-                        PlayerUtil.clickSlot(container.containerId, 53, 0, ClickType.PICKUP);
+                        PlayerUtil.clickSlot(container.containerId, 53, 0, ContainerInput.PICKUP);
                     } else {
                         ChatUtil.sendDebugMessage("ExportManager", "Hunting box: done");
                         if (shardData.isEmpty()) {

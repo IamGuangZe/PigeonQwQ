@@ -2,7 +2,7 @@ package owo.pigeon.modules.impl.debug;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
@@ -25,7 +25,7 @@ public class RenderTest extends Module {
 
     @Handler
     public void onRender2D(RenderEvent.Render2DEvent event) {
-        GuiGraphics context = event.getContext();
+        GuiGraphicsExtractor context = event.getContext();
         FontUtil.drawString(context, "line 1: with color input &a[&&a]", 100, 100, 0xFF000000);
         FontUtil.drawString(context, "line 2: without color input &a[&&a]", 100, 100 + FontUtil.getLineHeight());
 

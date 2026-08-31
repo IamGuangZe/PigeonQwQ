@@ -1,6 +1,6 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
 import owo.pigeon.modules.Module;
@@ -24,7 +24,7 @@ public class HidePanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
 
         context.fill(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
@@ -36,7 +36,7 @@ public class HidePanel extends AbstractDisplableItem {
         boolean value = module.isHide();
         String displayValue = value ? "&atrue" : "&cfalse";
 
-        context.drawString(
+        context.text(
                 font,
                 ColorUtil.parseColor("hide : " + displayValue),
                 (int) ((x + 4) / scale),

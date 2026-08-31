@@ -1,6 +1,6 @@
 package owo.pigeon.mixin.mixins;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ChatScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,8 +22,8 @@ public class MixinChatScreen {
     @Shadow
     protected EditBox input;
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void onRender(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    @Inject(method = "extractRenderState", at = @At("TAIL"))
+    private void onRender(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (!ModuleUtil.getModule(PigeonQwQ.class).commandBorder.getValue()) return;
 
         String text = input.getValue();

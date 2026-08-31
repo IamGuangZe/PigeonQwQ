@@ -2,7 +2,7 @@ package owo.pigeon.modules.impl.skyblock.misc;
 
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import owo.pigeon.event.events.ClientTickEvent;
 import owo.pigeon.event.events.KeyInputEvent;
 import owo.pigeon.modules.Category;
@@ -90,7 +90,7 @@ public class AutoEquipment extends Module {
                             ? containerSize + 27 + targetSlot
                             : containerSize + (targetSlot - 9);
 
-                    PlayerUtil.clickSlot(containerScreen.containerId, slotId, 0, ClickType.QUICK_MOVE);
+                    PlayerUtil.clickSlot(containerScreen.containerId, slotId, 0, ContainerInput.QUICK_MOVE);
                     targetSlot = null;
                     isWaitingToClose = true;
                     ticksOpened = 0;

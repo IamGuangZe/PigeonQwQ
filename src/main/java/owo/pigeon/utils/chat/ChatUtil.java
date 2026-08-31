@@ -114,11 +114,11 @@ public class ChatUtil {
 
     public static void sendIfHudReadyMessage(String message) {
         if (mc.gui == null || mc.gui.getChat() == null) return;
-        mc.gui.getChat().addMessage(getClientPrefix().append(Component.literal(ColorUtil.parseColor(message))));
+        mc.gui.getChat().addClientSystemMessage(getClientPrefix().append(Component.literal(ColorUtil.parseColor(message))));
     }
 
     public static void sendIfHudReadyMessage(Component text) {
         if (mc.gui == null || mc.gui.getChat() == null) return;
-        mc.gui.getChat().addMessage(getClientPrefix().append(text));
+        mc.gui.getChat().addClientSystemMessage(getClientPrefix().append(text));
     }
 }

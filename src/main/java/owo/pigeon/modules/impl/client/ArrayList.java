@@ -1,7 +1,7 @@
 package owo.pigeon.modules.impl.client;
 
 import net.engio.mbassy.listener.Handler;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import owo.pigeon.event.events.RenderEvent;
 import owo.pigeon.modules.Category;
@@ -55,7 +55,7 @@ public class ArrayList extends Module {
         offsetTick += colorSpeed.getValue();
         if (offsetTick > OFFSET_MAX) offsetTick -= OFFSET_MAX;
 
-        GuiGraphics context = event.getContext();
+        GuiGraphicsExtractor context = event.getContext();
         List<Module> sorted = ModuleManager.modules.stream()
                 .filter(m -> m.isEnable() && !m.isHide() && m != this)
                 .sorted(Comparator.comparingInt(this::getDisplayWidth).reversed())

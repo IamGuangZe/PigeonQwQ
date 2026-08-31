@@ -43,6 +43,7 @@ import owo.pigeon.modules.impl.world.Environment;
 
 import java.util.ArrayList;
 
+import static owo.pigeon.Pigeon.LOGGER;
 import static owo.pigeon.Pigeon.mc;
 
 public class ModuleManager {
@@ -148,6 +149,8 @@ public class ModuleManager {
 
         modules.add(new AutoMaddox());
         modules.add(new VampireSlayer());
+
+        LOGGER.info("Pigeon ModuleManager loaded");
     }
 
     @Handler

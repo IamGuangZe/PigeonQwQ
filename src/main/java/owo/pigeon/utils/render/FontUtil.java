@@ -1,7 +1,7 @@
 package owo.pigeon.utils.render;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import owo.pigeon.utils.ColorUtil;
 
@@ -28,23 +28,23 @@ public class FontUtil {
         return font.width(text);
     }
 
-    public static void drawText(GuiGraphics context, Component text, int x, int y, int color) {
-        context.drawString(font, text, x, y, color, true);
+    public static void drawText(GuiGraphicsExtractor context, Component text, int x, int y, int color) {
+        context.text(font, text, x, y, color, true);
     }
 
-    public static void drawText(GuiGraphics context, Component text, int x, int y) {
-        context.drawString(font, text, x, y, 0xFFFFFFFF, true);
+    public static void drawText(GuiGraphicsExtractor context, Component text, int x, int y) {
+        context.text(font, text, x, y, 0xFFFFFFFF, true);
     }
 
-    public static void drawString(GuiGraphics context, String text, int x, int y, int color) {
-        context.drawString(font, Component.literal(text), x, y, color, true);
+    public static void drawString(GuiGraphicsExtractor context, String text, int x, int y, int color) {
+        context.text(font, Component.literal(text), x, y, color, true);
     }
 
-    public static void drawString(GuiGraphics context, String text, int x, int y) {
-        context.drawString(font, Component.literal(ColorUtil.parseColor(text)), x, y, 0xFFFFFFFF, true);
+    public static void drawString(GuiGraphicsExtractor context, String text, int x, int y) {
+        context.text(font, Component.literal(ColorUtil.parseColor(text)), x, y, 0xFFFFFFFF, true);
     }
 
-    public static void drawTextList(GuiGraphics context, List<Component> lines, int x, int y) {
+    public static void drawTextList(GuiGraphicsExtractor context, List<Component> lines, int x, int y) {
         int offsetY = y;
         for (Component line : lines) {
             drawText(context, line, x, offsetY);
@@ -52,7 +52,7 @@ public class FontUtil {
         }
     }
 
-    public static void drawStringList(GuiGraphics context, List<String> lines, int x, int y) {
+    public static void drawStringList(GuiGraphicsExtractor context, List<String> lines, int x, int y) {
         int offsetY = y;
         for (String line : lines) {
             drawString(context, line, x, offsetY);

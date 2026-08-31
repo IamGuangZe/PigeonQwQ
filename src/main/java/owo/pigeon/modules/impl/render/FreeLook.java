@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.engio.mbassy.listener.Handler;
 import net.minecraft.client.CameraType;
 import owo.pigeon.event.events.ClientTickEvent;
+import owo.pigeon.interfaces.ICameraOverriddenEntity;
 import owo.pigeon.modules.Category;
 import owo.pigeon.modules.Module;
 import owo.pigeon.settings.KeySetting;
@@ -90,6 +91,9 @@ public class FreeLook extends Module {
 
     private void startFreeLook() {
         oldPerspective = mc.options.getCameraType();
+        ICameraOverriddenEntity cameraOverriddenPlayer = (ICameraOverriddenEntity) mc.player;
+        cameraOverriddenPlayer.pigeon$setCameraPitch(mc.player.getXRot());
+        cameraOverriddenPlayer.pigeon$setCameraYaw(mc.player.getYRot());
         freelooking = true;
         mc.options.setCameraType(perspective.getValue().getPerspective());
     }

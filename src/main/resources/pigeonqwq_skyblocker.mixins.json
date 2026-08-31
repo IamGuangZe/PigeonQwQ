@@ -2,7 +2,7 @@
   "required": false,
   "minVersion": "0.8",
   "package": "owo.pigeon.mixin.skyblocker",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "injectors": {
     "defaultRequire": 1
   },

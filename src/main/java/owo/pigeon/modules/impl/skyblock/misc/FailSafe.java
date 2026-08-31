@@ -107,7 +107,7 @@ public class FailSafe extends Module {
                         SoundSource.VOICE,
                         volume,
                         1.0f,
-                        mc.level.random.nextLong()
+                        mc.level.getRandom().nextLong()
                 );
 
             }

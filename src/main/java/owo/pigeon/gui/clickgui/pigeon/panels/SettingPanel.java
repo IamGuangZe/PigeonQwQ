@@ -1,7 +1,7 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
@@ -31,7 +31,7 @@ public class SettingPanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         hovered = isHovered(mouseX, mouseY, x, y, width, height);
         String displayName = setting.getName().replaceAll("-and-", "-&&-").replaceAll("-", " ");
 
@@ -44,7 +44,7 @@ public class SettingPanel extends AbstractDisplableItem {
         if (setting instanceof BlockSetting blockSetting) {
             String displayValue = blockSetting.getValue().getName().getString();
 
-            context.drawString(
+            context.text(
                     font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
@@ -55,7 +55,7 @@ public class SettingPanel extends AbstractDisplableItem {
         } else if (setting instanceof CharSetting charSetting) {
             String displayValue = "'&7" + String.valueOf(charSetting.getValue()).replace("&", "&&") + "&r'";
 
-            context.drawString(
+            context.text(
                     font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
@@ -66,7 +66,7 @@ public class SettingPanel extends AbstractDisplableItem {
             boolean value = enableSetting.getValue();
 
             String displayValue = value ? "&atrue" : "&cfalse";
-            context.drawString(
+            context.text(
                     font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
@@ -91,7 +91,7 @@ public class SettingPanel extends AbstractDisplableItem {
                 }
             }
 
-            context.drawString(
+            context.text(
                     font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
@@ -101,7 +101,7 @@ public class SettingPanel extends AbstractDisplableItem {
         } else if (setting instanceof ModeSetting<?> modeSetting) {
             String displayValue = "&b" + modeSetting.getValue().toString().toUpperCase();
 
-            context.drawString(
+            context.text(
                     font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
@@ -111,7 +111,7 @@ public class SettingPanel extends AbstractDisplableItem {
         } else if (setting instanceof StringSetting stringSetting) {
             String displayValue = "\"&7" + stringSetting.getValue().replace("&", "&&") + "&r\"";
 
-            context.drawString(
+            context.text(
                     font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
@@ -121,7 +121,7 @@ public class SettingPanel extends AbstractDisplableItem {
         } else if (setting instanceof ListSetting listSetting) {
             String displayValue = "&b[" + listSetting.size() + " items]";
 
-            context.drawString(
+            context.text(
                     font,
                     ColorUtil.parseColor(displayName + " : " + displayValue),
                     (int) ((x + 4) / scale),
@@ -131,7 +131,7 @@ public class SettingPanel extends AbstractDisplableItem {
         } else if (setting instanceof ExpandSetting expandSetting) {
             boolean value = expandSetting.getValue();
 
-            context.drawString(
+            context.text(
                     font,
                     ColorUtil.parseColor(displayName + " :"),
                     (int) ((x + 4) / scale),
@@ -141,7 +141,7 @@ public class SettingPanel extends AbstractDisplableItem {
 
             String symbol = value ? "-" : "+";
             int color = value ? Color.RED.getRGB() : Color.GREEN.getRGB();
-            context.drawString(
+            context.text(
                     font,
                     symbol,
                     (int) ((x + width - font.width(symbol) * scale - 4) / scale),
@@ -150,7 +150,7 @@ public class SettingPanel extends AbstractDisplableItem {
             );
 
         } else {
-            context.drawString(
+            context.text(
                     font,
                     displayName,
                     (int) ((x + 4) / scale),

@@ -1,6 +1,6 @@
 package owo.pigeon.gui.clickgui.pigeon.panels;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import owo.pigeon.gui.clickgui.pigeon.AbstractDisplableItem;
@@ -52,7 +52,7 @@ public class ModulePanel extends AbstractDisplableItem {
     }
 
     @Override
-    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void drawScreen(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         expandProgress.setDuration(clickGui.animationSpeed.getValue());
         expandProgress.update(delta);
 
@@ -65,7 +65,7 @@ public class ModulePanel extends AbstractDisplableItem {
         int textColor = module.isEnable()
                 ? (theme.isGradient() ? theme.getMidColor() : Color.WHITE.getRGB())
                 : Color.GRAY.getRGB();
-        context.drawString(font,
+        context.text(font,
                 module.name,
                 x + width / 2 - font.width(module.name) / 2,
                 y + height / 2 - font.lineHeight / 2,
