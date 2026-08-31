@@ -2,6 +2,14 @@
 
 English | [简体中文](README.md)
 
+> [!NOTE]
+> This project primarily serves as a code reference. Since my save data was wiped, which was not caused by this mod, I
+> still don't recommend using it, so this mod's Skyblock features **cannot be guaranteed to work**.
+> The last time Skyblock features were updated was during **Hypixel Skyblock PATCH 0.26
+** ([2026/7/8 Changelog](https://hypixelskyblock.minecraft.wiki/w/Changelog/2026/July_8)).
+> Unless something special comes up, I will only play Bingo mode going forward, so Skyblock-related updates to this mod
+> will be **extremely slow or may cease entirely**.
+
 ## About This Project
 This project is created by me as a personal learning experience for developing high-version Minecraft clients. It is intended for entertainment and educational purposes only.
 I only have some basic experience in other programming languages and am not proficient in Java or related technologies. This project was made on a whim.
