@@ -7,6 +7,7 @@ import net.engio.mbassy.bus.MBassador;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.Minecraft;
 import org.slf4j.Logger;
+import owo.pigeon.BuildConfig;
 import owo.pigeon.commands.CommandManager;
 import owo.pigeon.config.ConfigManager;
 import owo.pigeon.event.Event;
@@ -34,7 +35,7 @@ public class Pigeon implements ModInitializer {
 
     public static final String MOD_ID = "pigeonqwq";
     public static final String MOD_NAME = "PigeonQwQ";
-    public static final String MOD_VERSION = "0.0.1";
+    public static final String MOD_VERSION = BuildConfig.MOD_VERSION;
     public static final String WATERMARK = MOD_NAME + " v" + MOD_VERSION + " by GuangZe233";
 
     @Override
