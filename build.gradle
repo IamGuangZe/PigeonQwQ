@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-version = project.mod_version
+version = "${project.mod_version}+${project.minecraft_version}"
 group = project.maven_group
 
 base {
@@ -56,6 +56,28 @@ processResources {
                 "minecraft_version": project.minecraft_version,
                 "loader_version": project.loader_version
     }
+}
+
+def generateBuildConfig = tasks.register("generateBuildConfig") {
+    def outputDir = layout.buildDirectory.dir("generated/sources/owo/pigeon/buildconfig")
+    outputs.dir outputDir
+    doLast {
+        def dir = new File(outputDir.get().asFile, "owo/pigeon")
+        dir.mkdirs()
+        new File(dir, "BuildConfig.java").text = """package owo.pigeon;
+
+public final class BuildConfig {
+    public static final String MOD_VERSION = "${project.mod_version}";
+    public static final String MC_VERSION = "${project.minecraft_version}";
+    public static final String FULL_VERSION = "${project.version}";
+}
+"""
+    }
+}
+
+tasks.named("compileJava") {
+    dependsOn generateBuildConfig
+    source generateBuildConfig.map { it.outputs.files }
 }
 
 def targetJavaVersion = 25
