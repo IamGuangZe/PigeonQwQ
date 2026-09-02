@@ -9,12 +9,12 @@ import static owo.pigeon.Pigeon.mc;
 
 public class KeybindUtil {
     public static void onPressed(KeyMapping key) {
-        if (mc.screen != null) return;
+        if (mc.gui.screen() != null) return;
         KeyMapping.click(((IAccessorKeyMapping) key).pigeon$getKey());
     }
 
     public static void setPressed(KeyMapping key, boolean pressed) {
-        if (mc.screen != null) return;
+        if (mc.gui.screen() != null) return;
         if (key.isUnbound()) return;
         key.setDown(pressed);
     }
@@ -40,7 +40,7 @@ public class KeybindUtil {
     }
 
     public static void resetPressed(KeyMapping key) {
-        if (mc.screen != null) return;
+        if (mc.gui.screen() != null) return;
         setPressed(key, isPressed(key));
     }
 

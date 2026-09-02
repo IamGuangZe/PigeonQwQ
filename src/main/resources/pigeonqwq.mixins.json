@@ -17,7 +17,7 @@
   "client": [
     "accessors.IAccessorAbstractContainerScreen",
     "accessors.IAccessorClientInput",
-    "accessors.IAccessorGui",
+    "accessors.IAccessorHud",
     "accessors.IAccessorKeyMapping",
     "accessors.IAccessorMinecraft",
     "accessors.IAccessorMultiPlayerGameMode",
@@ -34,7 +34,7 @@
     "mixins.MixinDisconnectedScreen",
     "mixins.MixinDyedItemColor",
     "mixins.MixinGameRenderer",
-    "mixins.MixinGui",
+    "mixins.MixinHud",
     "mixins.MixinKeyboardHandler",
     "mixins.MixinKeyboardInput",
     "mixins.MixinLevelRenderer",

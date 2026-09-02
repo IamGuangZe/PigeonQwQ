@@ -1,14 +1,23 @@
 package owo.pigeon.utils.render;
 
+import com.mojang.blaze3d.IndexType;
+import com.mojang.blaze3d.PrimitiveTopology;
+import com.mojang.blaze3d.buffers.GpuBuffer;
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.systems.RenderPass;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.client.renderer.block.BlockQuadOutput;
 import net.minecraft.client.renderer.block.BlockStateModelSet;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.rendertype.PreparedRenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -19,9 +28,12 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 import owo.pigeon.utils.ColorUtil;
 
 import java.awt.*;
+import java.util.Optional;
+import java.util.OptionalDouble;
 
 import static owo.pigeon.Pigeon.mc;
 
@@ -31,6 +43,41 @@ public class RenderUtil {
     }
 
     public static final Matrix4f projection = new Matrix4f();
+
+    private static final ByteBufferBuilder CPU_BUFFER = new ByteBufferBuilder(65536);
+
+    private static BufferBuilder begin(PrimitiveTopology topology, VertexFormat format) {
+        RenderSystem.assertOnRenderThread();
+        CPU_BUFFER.discard();
+        return new BufferBuilder(CPU_BUFFER, topology, format);
+    }
+
+    private static void submitMesh(PoseStack stack, PrimitiveTopology topology, VertexFormat format, RenderPipeline pipeline, BufferBuilder builder) {
+        try (MeshData meshData = builder.buildOrThrow()) {
+            GpuBuffer vertexBuffer = RenderSystem.getDevice().createBuffer(() -> "pigeonqwq_mesh", 32, meshData.vertexBuffer());
+            try {
+                GpuBufferSlice dynamicTransform = RenderSystem.getDynamicUniforms().writeTransform(stack.last().pose());
+                RenderTarget mainRenderTarget = mc.gameRenderer.mainRenderTarget();
+                GpuTextureView colorTexture = mainRenderTarget.getColorTextureView();
+                GpuTextureView depthTexture = mainRenderTarget.getDepthTextureView();
+                int indexCount = meshData.drawState().indexCount();
+                RenderSystem.AutoStorageIndexBuffer indexBuffer = RenderSystem.getSequentialBuffer(topology);
+                GpuBuffer indexGpuBuffer = indexBuffer.getBuffer(indexCount);
+                IndexType indexType = indexBuffer.type();
+                try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(
+                        () -> "pigeonqwq_3d", colorTexture, Optional.empty(), depthTexture, OptionalDouble.empty())) {
+                    renderPass.setPipeline(pipeline);
+                    RenderSystem.bindDefaultUniforms(renderPass);
+                    renderPass.setVertexBuffer(0, vertexBuffer.slice());
+                    renderPass.setIndexBuffer(indexGpuBuffer, indexType);
+                    renderPass.setUniform("DynamicTransforms", dynamicTransform);
+                    renderPass.drawIndexed(indexCount, 1, 0, 0, 0);
+                }
+            } finally {
+                vertexBuffer.close();
+            }
+        }
+    }
 
     public static Vec3 getInterpolatedPos(Entity entity) {
         float delta = mc.getDeltaTracker().getGameTimeDeltaPartialTick(true);
@@ -114,14 +161,14 @@ public class RenderUtil {
         float ny = (float) (dy / len);
         float nz = (float) (dz / len);
 
-        PoseStack.Pose entry = stack.last();
-        BufferBuilder bufferBuilder = Tesselator.getInstance()
-                .begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
+        BufferBuilder bufferBuilder = begin(PrimitiveTopology.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
 
-        bufferBuilder.addVertex(entry, x1, y1, z1).setColor(c.getRGB()).setNormal(entry, nx, ny, nz).setLineWidth((float) pixelWidth);
-        bufferBuilder.addVertex(entry, x2, y2, z2).setColor(c.getRGB()).setNormal(entry, nx, ny, nz).setLineWidth((float) pixelWidth);
+        bufferBuilder.addVertex(x1, y1, z1).setColor(c.getRGB()).setNormal(nx, ny, nz).setLineWidth((float) pixelWidth);
+        bufferBuilder.addVertex(x2, y2, z2).setColor(c.getRGB()).setNormal(nx, ny, nz).setLineWidth((float) pixelWidth);
+        bufferBuilder.addVertex(x1, y1, z1).setColor(c.getRGB()).setNormal(nx, ny, nz).setLineWidth((float) pixelWidth);
+        bufferBuilder.addVertex(x2, y2, z2).setColor(c.getRGB()).setNormal(nx, ny, nz).setLineWidth((float) pixelWidth);
 
-        Layer.getGlobalLines(pixelWidth).draw(bufferBuilder.buildOrThrow());
+        submitMesh(stack, PrimitiveTopology.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH, Layer.getGlobalLines(), bufferBuilder);
     }
 
     protected static void drawHorizontalLine(PoseStack matrices, float x1, float x2, float y, int color) {
@@ -183,14 +230,13 @@ public class RenderUtil {
         float h = (float) (color >> 8 & 255) / 255.0F;
         float j = (float) (color & 255) / 255.0F;
 
-        BufferBuilder bufferBuilder = Tesselator.getInstance()
-                .begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        bufferBuilder.addVertex(matrix.last().pose(), x1, y2, 0.0F).setColor(g, h, j, f);
-        bufferBuilder.addVertex(matrix.last().pose(), x2, y2, 0.0F).setColor(g, h, j, f);
-        bufferBuilder.addVertex(matrix.last().pose(), x2, y1, 0.0F).setColor(g, h, j, f);
-        bufferBuilder.addVertex(matrix.last().pose(), x1, y1, 0.0F).setColor(g, h, j, f);
+        BufferBuilder bufferBuilder = begin(PrimitiveTopology.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        bufferBuilder.addVertex(x1, y2, 0.0F).setColor(g, h, j, f);
+        bufferBuilder.addVertex(x2, y2, 0.0F).setColor(g, h, j, f);
+        bufferBuilder.addVertex(x2, y1, 0.0F).setColor(g, h, j, f);
+        bufferBuilder.addVertex(x1, y1, 0.0F).setColor(g, h, j, f);
 
-        Layer.getGlobalQuads().draw(bufferBuilder.buildOrThrow());
+        submitMesh(matrix, PrimitiveTopology.QUADS, DefaultVertexFormat.POSITION_COLOR, Layer.getGlobalQuads(), bufferBuilder);
     }
 
     public static void drawBox(PoseStack stack, AABB box, Color c, double lineWidth) {
@@ -201,14 +247,26 @@ public class RenderUtil {
         float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.position().y());
         float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.position().z());
 
-        BufferBuilder bufferBuilder = Tesselator.getInstance()
-                .begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
+        BufferBuilder bufferBuilder = begin(PrimitiveTopology.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
 
+        int color = c.getRGB();
+        float w = (float) lineWidth;
         VoxelShape shape = Shapes.box(minX, minY, minZ, maxX, maxY, maxZ);
-        ShapeRenderer.renderShape(stack, bufferBuilder, shape, 0, 0, 0,
-                c.getRGB(), (float) lineWidth);
+        shape.forAllEdges((x1, y1, z1, x2, y2, z2) ->
+                addLine(bufferBuilder, (float) x1, (float) y1, (float) z1, (float) x2, (float) y2, (float) z2, color, w));
 
-        Layer.getGlobalLines(lineWidth).draw(bufferBuilder.buildOrThrow());
+
+        submitMesh(stack, PrimitiveTopology.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH, Layer.getGlobalLines(), bufferBuilder);
+    }
+
+    private static void addLine(BufferBuilder builder, float x1, float y1, float z1, float x2, float y2, float z2, int color, float width) {
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+        float dz = z2 - z1;
+        float len = Mth.sqrt(dx * dx + dy * dy + dz * dz);
+        if (len < 1.0E-6F) len = 1.0F;
+        builder.addVertex(x1, y1, z1).setColor(color).setNormal(dx / len, dy / len, dz / len).setLineWidth(width);
+        builder.addVertex(x2, y2, z2).setColor(color).setNormal(dx / len, dy / len, dz / len).setLineWidth(width);
     }
 
     public static void drawBox(PoseStack stack, Vec3 vec, Color c, double lineWidth) {
@@ -248,39 +306,38 @@ public class RenderUtil {
         float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.position().y());
         float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.position().z());
 
-        BufferBuilder bufferBuilder = Tesselator.getInstance()
-                .begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        bufferBuilder.addVertex(stack.last().pose(), minX, minY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, minY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, minY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), minX, minY, maxZ).setColor(c.getRGB());
+        BufferBuilder bufferBuilder = begin(PrimitiveTopology.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        bufferBuilder.addVertex(minX, minY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, minY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, minY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, minY, maxZ).setColor(c.getRGB());
 
-        bufferBuilder.addVertex(stack.last().pose(), minX, maxY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), minX, maxY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, maxY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, maxY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, maxY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, maxY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, maxY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, maxY, minZ).setColor(c.getRGB());
 
-        bufferBuilder.addVertex(stack.last().pose(), minX, minY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), minX, maxY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, maxY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, minY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, minY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, maxY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, maxY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, minY, minZ).setColor(c.getRGB());
 
-        bufferBuilder.addVertex(stack.last().pose(), maxX, minY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, maxY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, maxY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, minY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, minY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, maxY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, maxY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, minY, maxZ).setColor(c.getRGB());
 
-        bufferBuilder.addVertex(stack.last().pose(), minX, minY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, minY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), maxX, maxY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), minX, maxY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, minY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, minY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(maxX, maxY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, maxY, maxZ).setColor(c.getRGB());
 
-        bufferBuilder.addVertex(stack.last().pose(), minX, minY, minZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), minX, minY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), minX, maxY, maxZ).setColor(c.getRGB());
-        bufferBuilder.addVertex(stack.last().pose(), minX, maxY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, minY, minZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, minY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, maxY, maxZ).setColor(c.getRGB());
+        bufferBuilder.addVertex(minX, maxY, minZ).setColor(c.getRGB());
 
-        Layer.getGlobalQuads().draw(bufferBuilder.buildOrThrow());
+        submitMesh(stack, PrimitiveTopology.QUADS, DefaultVertexFormat.POSITION_COLOR, Layer.getGlobalQuads(), bufferBuilder);
     }
 
     public static void drawBoxFilled(PoseStack stack, Vec3 vec, Color c) {
@@ -328,7 +385,7 @@ public class RenderUtil {
     public static void drawTracer(PoseStack stack, Vec3 target, Color c, double pixelWidth) {
         Vec3 cameraPos = mc.getEntityRenderDispatcher().camera.position();
 
-        Camera cam = mc.gameRenderer.getMainCamera();
+        Camera cam = mc.gameRenderer.mainCamera();
         float pitch = cam.xRot() * (float) (Math.PI / 180);
         float yaw = -cam.yRot() * (float) (Math.PI / 180);
         float cosYaw = Mth.cos(yaw);
@@ -405,38 +462,50 @@ public class RenderUtil {
 
     public static void renderBlockModel(PoseStack stack, BlockState state, BlockPos pos, float alpha) {
         Vec3 camera = mc.getEntityRenderDispatcher().camera.position();
-
-        BlockStateModelSet modelSet = mc.getModelManager().getBlockStateModelSet();
-        BlockStateModel model = modelSet.get(state);
-        MultiBufferSource.BufferSource source = mc.renderBuffers().bufferSource();
+        RenderType renderType = RenderTypes.translucentMovingBlock();
+        VertexFormat format = renderType.format();
+        PrimitiveTopology topology = renderType.primitiveTopology();
+        BufferBuilder bufferBuilder = begin(topology, format);
 
         stack.pushPose();
         stack.translate(pos.getX() - camera.x, pos.getY() - camera.y, pos.getZ() - camera.z);
 
-        VertexConsumer consumer = new AlphaVertexConsumer(source.getBuffer(RenderTypes.translucentMovingBlock()), alpha);
+        VertexConsumer consumer = new AlphaVertexConsumer(bufferBuilder, alpha);
+        BlockStateModelSet modelSet = mc.getModelManager().getBlockStateModelSet();
+        BlockStateModel model = modelSet.get(state);
         ModelBlockRenderer blockRenderer = new ModelBlockRenderer(true, false, mc.getBlockColors());
         long blockSeed = state.getSeed(pos);
-
         BlockQuadOutput output = (x, y, z, quad, instance) -> {
             stack.pushPose();
             stack.translate(x, y, z);
             consumer.putBakedQuad(stack.last(), quad, instance);
             stack.popPose();
         };
-
         blockRenderer.tesselateBlock(output, 0.0F, 0.0F, 0.0F, mc.level, pos, state, model, blockSeed);
-
         stack.popPose();
-        source.endBatch(RenderTypes.translucentMovingBlock());
+
+        try (MeshData meshData = bufferBuilder.buildOrThrow()) {
+            GpuBuffer vertexBuffer = RenderSystem.getDevice().createBuffer(() -> "pigeonqwq_block_model", 32, meshData.vertexBuffer());
+            try {
+                int indexCount = meshData.drawState().indexCount();
+                RenderSystem.AutoStorageIndexBuffer indexBuffer = RenderSystem.getSequentialBuffer(topology);
+                GpuBuffer indexGpuBuffer = indexBuffer.getBuffer(indexCount);
+                IndexType indexType = indexBuffer.type();
+                Matrix4fStack modelView = RenderSystem.getModelViewStack();
+                modelView.pushMatrix();
+                modelView.identity();
+                PreparedRenderType prepared = renderType.prepare();
+                prepared.drawFromBuffer(vertexBuffer, indexGpuBuffer, indexType, 0, 0, indexCount);
+                modelView.popMatrix();
+            } finally {
+                vertexBuffer.close();
+            }
+        }
     }
 
-    private static final class AlphaVertexConsumer implements VertexConsumer {
-        private final VertexConsumer delegate;
-        private final int alpha;
-
+    private record AlphaVertexConsumer(VertexConsumer delegate, int alpha) implements VertexConsumer {
         private AlphaVertexConsumer(VertexConsumer delegate, float alpha) {
-            this.delegate = delegate;
-            this.alpha = ((int) (alpha * 255.0F)) & 0xFF;
+            this(delegate, ((int) (alpha * 255.0F)) & 0xFF);
         }
 
         @Override

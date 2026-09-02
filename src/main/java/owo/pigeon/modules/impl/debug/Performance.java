@@ -17,7 +17,7 @@ public class Performance extends Module {
 
     @Handler
     public void onRender2D(RenderEvent.Render2DEvent event) {
-        if (mc.options.hideGui) return;
+        if (mc.gui.hud.isHidden()) return;
         if (mc.player == null || mc.getConnection() == null) return;
 
         GuiGraphicsExtractor context = event.getContext();

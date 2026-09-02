@@ -49,7 +49,7 @@ public class ChocolateFactory extends Module {
         if (WorldUtil.nullCheck()) return;
 
         if (mc.player.containerMenu instanceof ChestMenu container) {
-            String title = mc.screen.getTitle().getString();
+            String title = mc.gui.screen().getTitle().getString();
             if (!title.contains("Chocolate Factory")) return;
 
             // catch strays
@@ -199,7 +199,7 @@ public class ChocolateFactory extends Module {
     }
 
     private boolean isInvalid(ItemStack stack) {
-        return stack.isEmpty() || stack.is(Items.GRAY_DYE) || stack.is(Items.BARRIER) || stack.is(Items.BLACK_STAINED_GLASS_PANE);
+        return stack.isEmpty() || stack.is(Items.DYE.gray()) || stack.is(Items.BARRIER) || stack.is(Items.STAINED_GLASS_PANE.black());
     }
 
     private int getStraySlot(ChestMenu container) {

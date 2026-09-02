@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.chunk.ChunkSectionsToRender;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import org.joml.Matrix4fc;
 import org.joml.Vector4f;
@@ -19,8 +18,8 @@ import owo.pigeon.event.events.RenderEvent;
 
 @Mixin(LevelRenderer.class)
 public class MixinLevelRenderer {
-    @Inject(method = "renderLevel", at = @At("RETURN"))
-    private void onRenderLevel(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderBlockOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci) {
+    @Inject(method = "render", at = @At("RETURN"))
+    private void onRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderBlockOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci) {
         PoseStack stack = new PoseStack();
         stack.pushPose();
         stack.mulPose(Axis.XP.rotationDegrees(cameraState.xRot));

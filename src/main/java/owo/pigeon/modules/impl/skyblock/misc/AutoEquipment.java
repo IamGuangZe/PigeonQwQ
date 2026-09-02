@@ -45,7 +45,7 @@ public class AutoEquipment extends Module {
 
     @Handler
     public void onKeyInput(KeyInputEvent event) {
-        if (mc.screen != null) return;
+        if (mc.gui.screen() != null) return;
         int keyCode = event.getKeyCode();
         if (event.isPressed()) {
 
@@ -76,7 +76,7 @@ public class AutoEquipment extends Module {
         if (event instanceof ClientTickEvent.Pre) {
             if (targetSlot == null) return;
             if (mc.player.containerMenu instanceof ChestMenu containerScreen) {
-                String title = mc.screen.getTitle().getString();
+                String title = mc.gui.screen().getTitle().getString();
                 if (title.equals("Your Equipment and Stats")) {
 
                     if (ticksOpened < delay.getValue()) {

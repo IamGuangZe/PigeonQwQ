@@ -75,7 +75,7 @@ public class CrystalStructure extends Module {
 
     private static final List<StructureType> CRYSTAL_TYPES = List.of(StructureType.LOST_PRECURSOR_CITY, StructureType.JUNGLE_TEMPLE, StructureType.KHAZAD_DUM, StructureType.GOBLIN_QUEEN, StructureType.MINES_OF_DIVAN);
     private static final List<BoundingBox> FAIRY_ZONES = List.of(SkyblockUtil.MITHRIL_DEPOSITS_BB, SkyblockUtil.JUNGLE_BB, SkyblockUtil.PRECURSOR_REMNANTS_BB, SkyblockUtil.GOBLIN_HOLDOUT_BB);
-    private static final Set<Block> FEATURE_BLOCKS = Set.of(Blocks.BARRIER, Blocks.STONE_BRICKS, Blocks.RED_WOOL, Blocks.SMOOTH_SANDSTONE, Blocks.RED_TERRACOTTA, Blocks.CYAN_TERRACOTTA, Blocks.MAGENTA_STAINED_GLASS_PANE, Blocks.MAGENTA_STAINED_GLASS, Blocks.OAK_PLANKS, Blocks.FIRE, Blocks.COBBLESTONE_WALL);
+    private static final Set<Block> FEATURE_BLOCKS = Set.of(Blocks.BARRIER, Blocks.STONE_BRICKS, Blocks.WOOL.red(), Blocks.SMOOTH_SANDSTONE, Blocks.DYED_TERRACOTTA.red(), Blocks.DYED_TERRACOTTA.cyan(), Blocks.STAINED_GLASS_PANE.magenta(), Blocks.STAINED_GLASS.magenta(), Blocks.OAK_PLANKS, Blocks.FIRE, Blocks.COBBLESTONE_WALL);
     private final Map<BlockPos, BlockState> featureBlockCache = new ConcurrentHashMap<>();
     private final Map<StructureType, Set<BlockPos>> pendingVerifications = new ConcurrentHashMap<>();
     private final Set<StructureType> reportedStructures = ConcurrentHashMap.newKeySet();
@@ -90,9 +90,7 @@ public class CrystalStructure extends Module {
         if (WorldUtil.nullCheck()) return;
         if (SkyblockUtil.isInIsland(SkyblockUtil.Island.CRYSTAL_HOLLOWS)) {
             inCrystalHollows = true;
-            if (mc.levelRenderer != null) {
-                mc.levelRenderer.allChanged();
-            }
+            mc.levelExtractor.allChanged();
         }
     }
 
@@ -157,8 +155,6 @@ public class CrystalStructure extends Module {
             inCrystalHollows = currentlyInCH;
             if (!inCrystalHollows) {
                 resetCache();
-            } else if (mc.levelRenderer != null) {
-                mc.levelRenderer.allChanged();
             }
         }
 
@@ -190,10 +186,10 @@ public class CrystalStructure extends Module {
     }
 
     private static StructureType crystalTypeForBlock(Block block) {
-        if (block == Blocks.STONE_BRICKS || block == Blocks.RED_WOOL) return StructureType.GOBLIN_KING;
-        if (block == Blocks.SMOOTH_SANDSTONE || block == Blocks.RED_TERRACOTTA) return StructureType.DRAGON_LAIR;
-        if (block == Blocks.CYAN_TERRACOTTA) return StructureType.CORLEONE;
-        if (block == Blocks.MAGENTA_STAINED_GLASS_PANE || block == Blocks.MAGENTA_STAINED_GLASS)
+        if (block == Blocks.STONE_BRICKS || block == Blocks.WOOL.red()) return StructureType.GOBLIN_KING;
+        if (block == Blocks.SMOOTH_SANDSTONE || block == Blocks.DYED_TERRACOTTA.red()) return StructureType.DRAGON_LAIR;
+        if (block == Blocks.DYED_TERRACOTTA.cyan()) return StructureType.CORLEONE;
+        if (block == Blocks.STAINED_GLASS_PANE.magenta() || block == Blocks.STAINED_GLASS.magenta())
             return StructureType.FAIRY_GROTTO;
         if (block == Blocks.OAK_PLANKS || block == Blocks.FIRE || block == Blocks.COBBLESTONE_WALL)
             return StructureType.BEAR;
@@ -249,7 +245,7 @@ public class CrystalStructure extends Module {
     }
 
     private Optional<Boolean> verifyGoblinKing(BlockPos pos) {
-        BlockPos origin = adjustOrigin(pos, Blocks.RED_WOOL);
+        BlockPos origin = adjustOrigin(pos, Blocks.WOOL.red());
         if (!isBlockAt(origin, Blocks.STONE_BRICKS)) return Optional.of(false);
         if (!isValidForStructure(origin, StructureType.GOBLIN_KING)) return Optional.of(false);
 
@@ -257,13 +253,13 @@ public class CrystalStructure extends Module {
         if (base.isEmpty()) return Optional.empty();
         if (base.get() != 25) return Optional.of(false);
 
-        Optional<Integer> wool = countBlocks(origin, 2, 1, Blocks.RED_WOOL);
+        Optional<Integer> wool = countBlocks(origin, 2, 1, Blocks.WOOL.red());
         if (wool.isEmpty()) return Optional.empty();
         return Optional.of(wool.get() == 6);
     }
 
     private Optional<Boolean> verifyDragonLair(BlockPos pos) {
-        BlockPos origin = adjustOrigin(pos, Blocks.RED_TERRACOTTA);
+        BlockPos origin = adjustOrigin(pos, Blocks.DYED_TERRACOTTA.red());
         if (!isBlockAt(origin, Blocks.SMOOTH_SANDSTONE)) return Optional.of(false);
         if (!isValidForStructure(origin, StructureType.DRAGON_LAIR)) return Optional.of(false);
 
@@ -271,16 +267,16 @@ public class CrystalStructure extends Module {
         if (sandstone.isEmpty()) return Optional.empty();
         if (sandstone.get() < 8) return Optional.of(false);
 
-        Optional<Integer> clay = countBlocks(origin, 2, 1, Blocks.RED_TERRACOTTA);
+        Optional<Integer> clay = countBlocks(origin, 2, 1, Blocks.DYED_TERRACOTTA.red());
         if (clay.isEmpty()) return Optional.empty();
         return Optional.of(clay.get() >= 8);
     }
 
     private Optional<Boolean> verifyCorleone(BlockPos pos) {
-        if (!isBlockAt(pos, Blocks.CYAN_TERRACOTTA)) return Optional.of(false);
+        if (!isBlockAt(pos, Blocks.DYED_TERRACOTTA.cyan())) return Optional.of(false);
         if (!isValidForStructure(pos, StructureType.CORLEONE)) return Optional.of(false);
 
-        Optional<Integer> cyan = countBlocks(pos, 2, 0, Blocks.CYAN_TERRACOTTA);
+        Optional<Integer> cyan = countBlocks(pos, 2, 0, Blocks.DYED_TERRACOTTA.cyan());
         if (cyan.isEmpty()) return Optional.empty();
         if (cyan.get() < 20) return Optional.of(false);
 
@@ -294,7 +290,7 @@ public class CrystalStructure extends Module {
     }
 
     private Optional<Boolean> verifyFairyGrotto(BlockPos pos) {
-        if (!isBlockAt(pos, Blocks.MAGENTA_STAINED_GLASS_PANE) && !isBlockAt(pos, Blocks.MAGENTA_STAINED_GLASS)) {
+        if (!isBlockAt(pos, Blocks.STAINED_GLASS_PANE.magenta()) && !isBlockAt(pos, Blocks.STAINED_GLASS.magenta())) {
             return Optional.of(false);
         }
 

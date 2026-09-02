@@ -65,8 +65,8 @@ public class SnakingHelper extends Module {
         ChatUtil.sendDebugMessage(this.name, "aim block: " + state);
 
         return state.is(Blocks.LAPIS_BLOCK)
-                || state.is(Blocks.LIGHT_BLUE_STAINED_GLASS)
-                || state.is(Blocks.BLUE_STAINED_GLASS);
+                || state.is(Blocks.STAINED_GLASS.lightBlue())
+                || state.is(Blocks.STAINED_GLASS.blue());
     }
 
     private boolean isHoldingTargetItem() {

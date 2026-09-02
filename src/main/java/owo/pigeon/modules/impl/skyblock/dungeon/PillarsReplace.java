@@ -26,10 +26,10 @@ public class PillarsReplace extends Module {
     };
 
     private static final BlockState[] PILLAR_COLORS = {
-            Blocks.LIME_STAINED_GLASS.defaultBlockState(),
-            Blocks.YELLOW_STAINED_GLASS.defaultBlockState(),
-            Blocks.PURPLE_STAINED_GLASS.defaultBlockState(),
-            Blocks.RED_STAINED_GLASS.defaultBlockState()
+            Blocks.STAINED_GLASS.lime().defaultBlockState(),
+            Blocks.STAINED_GLASS.yellow().defaultBlockState(),
+            Blocks.STAINED_GLASS.purple().defaultBlockState(),
+            Blocks.STAINED_GLASS.red().defaultBlockState()
     };
 
     @Handler

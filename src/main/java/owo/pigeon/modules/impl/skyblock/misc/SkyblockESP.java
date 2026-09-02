@@ -12,10 +12,10 @@ import net.minecraft.world.entity.animal.frog.FrogVariants;
 import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.animal.squid.GlowSquid;
 import net.minecraft.world.entity.animal.turtle.Turtle;
-import net.minecraft.world.entity.monster.MagmaCube;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.entity.monster.Shulker;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.MagmaCube;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -98,8 +98,8 @@ public class SkyblockESP extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.levelRenderer == null) return;
-        mc.levelRenderer.allChanged();
+        if (mc.levelExtractor == null) return;
+        mc.levelExtractor.allChanged();
     }
 
     @Handler
@@ -131,31 +131,31 @@ public class SkyblockESP extends Module {
             }
 
             if (jadeEsp.getValue()) {
-                jades.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.LIME_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.LIME_STAINED_GLASS_PANE));
+                jades.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS.lime()) && !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS_PANE.lime()));
                 renderBlocks(stack, jades, Color.GREEN, gemstoneEspLimit.getValue());
             }
             if (amberEsp.getValue()) {
-                ambers.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.ORANGE_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.ORANGE_STAINED_GLASS_PANE));
+                ambers.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS.orange()) && !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS_PANE.orange()));
                 renderBlocks(stack, ambers, Color.ORANGE, gemstoneEspLimit.getValue());
             }
             if (sapphireEsp.getValue()) {
-                sapphires.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.LIGHT_BLUE_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE));
+                sapphires.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS.lightBlue()) && !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS_PANE.lightBlue()));
                 renderBlocks(stack, sapphires, new Color(0xADD8FF, true), gemstoneEspLimit.getValue());
             }
             if (amethystEsp.getValue()) {
-                amethysts.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.PURPLE_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.PURPLE_STAINED_GLASS_PANE));
+                amethysts.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS.purple()) && !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS_PANE.purple()));
                 renderBlocks(stack, amethysts, new Color(0x9932CC, true), gemstoneEspLimit.getValue());
             }
             if (rubyEsp.getValue()) {
-                rubys.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.RED_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.RED_STAINED_GLASS_PANE));
+                rubys.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS.red()) && !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS_PANE.red()));
                 renderBlocks(stack, rubys, Color.RED, gemstoneEspLimit.getValue());
             }
             if (topazEsp.getValue()) {
-                topazs.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.YELLOW_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.YELLOW_STAINED_GLASS_PANE));
+                topazs.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS.yellow()) && !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS_PANE.yellow()));
                 renderBlocks(stack, topazs, Color.YELLOW, gemstoneEspLimit.getValue());
             }
             if (jasperEsp.getValue()) {
-                jaspers.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.MAGENTA_STAINED_GLASS) && !mc.level.getBlockState(pos).is(Blocks.MAGENTA_STAINED_GLASS_PANE));
+                jaspers.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS.magenta()) && !mc.level.getBlockState(pos).is(Blocks.STAINED_GLASS_PANE.magenta()));
                 renderBlocks(stack, jaspers, Color.MAGENTA, gemstoneEspLimit.getValue());
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.DWARVEN_MINES)) {
@@ -213,7 +213,7 @@ public class SkyblockESP extends Module {
             }
         } else if (SkyblockUtil.isInIsland(SkyblockUtil.Island.THE_END)) {
             if (enderNodeEsp.getValue()) {
-                enderNodes.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.PURPLE_TERRACOTTA));
+                enderNodes.removeIf(pos -> !mc.level.getBlockState(pos).is(Blocks.DYED_TERRACOTTA.purple()));
                 for (BlockPos pos : enderNodes) {
                     RenderUtil.drawESP(event.getMatrix(), pos, Color.WHITE, RenderUtil.ESPMode.BOTH, false);
                 }
@@ -228,25 +228,25 @@ public class SkyblockESP extends Module {
 
         if (state.is(Blocks.LAVA) && SkyblockUtil.PRECURSOR_REMNANTS_BB.isInside(pos)) {
             wormLavas.add(pos.immutable());
-        } else if (state.is(Blocks.LIME_STAINED_GLASS) || state.is(Blocks.LIME_STAINED_GLASS_PANE)) {
+        } else if (state.is(Blocks.STAINED_GLASS.lime()) || state.is(Blocks.STAINED_GLASS_PANE.lime())) {
             jades.add(pos.immutable());
-        } else if (state.is(Blocks.ORANGE_STAINED_GLASS) || state.is(Blocks.ORANGE_STAINED_GLASS_PANE)) {
+        } else if (state.is(Blocks.STAINED_GLASS.orange()) || state.is(Blocks.STAINED_GLASS_PANE.orange())) {
             ambers.add(pos.immutable());
-        } else if (state.is(Blocks.LIGHT_BLUE_STAINED_GLASS) || state.is(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) {
+        } else if (state.is(Blocks.STAINED_GLASS.lightBlue()) || state.is(Blocks.STAINED_GLASS_PANE.lightBlue())) {
             sapphires.add(pos.immutable());
-        } else if (state.is(Blocks.PURPLE_STAINED_GLASS) || state.is(Blocks.PURPLE_STAINED_GLASS_PANE)) {
+        } else if (state.is(Blocks.STAINED_GLASS.purple()) || state.is(Blocks.STAINED_GLASS_PANE.purple())) {
             amethysts.add(pos.immutable());
-        } else if (state.is(Blocks.RED_STAINED_GLASS) || state.is(Blocks.RED_STAINED_GLASS_PANE)) {
+        } else if (state.is(Blocks.STAINED_GLASS.red()) || state.is(Blocks.STAINED_GLASS_PANE.red())) {
             rubys.add(pos.immutable());
-        } else if (state.is(Blocks.MAGENTA_STAINED_GLASS) || state.is(Blocks.MAGENTA_STAINED_GLASS_PANE)) {
+        } else if (state.is(Blocks.STAINED_GLASS.magenta()) || state.is(Blocks.STAINED_GLASS_PANE.magenta())) {
             jaspers.add(pos.immutable());
-        } else if (state.is(Blocks.YELLOW_STAINED_GLASS) || state.is(Blocks.YELLOW_STAINED_GLASS_PANE)) {
+        } else if (state.is(Blocks.STAINED_GLASS.yellow()) || state.is(Blocks.STAINED_GLASS_PANE.yellow())) {
             topazs.add(pos.immutable());
         } else if (state.is(Blocks.POLISHED_DIORITE)) {
             titaniums.add(pos.immutable());
         } else if (state.is(Blocks.DRAGON_EGG)) {
             dragonEggs.add(pos.immutable());
-        } else if (state.is(Blocks.PURPLE_TERRACOTTA) && pos.getX() > -597) {
+        } else if (state.is(Blocks.DYED_TERRACOTTA.purple()) && pos.getX() > -597) {
             enderNodes.add(pos.immutable());
         }
     }

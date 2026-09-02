@@ -35,7 +35,7 @@ public class ChestClose extends Module {
         if (closeMode.getValue() != Mode.TICK || !DungeonUtil.isInDungeon()) return;
 
         if (event instanceof ClientTickEvent.Pre) {
-            if (mc.screen instanceof ContainerScreen screen) {
+            if (mc.gui.screen() instanceof ContainerScreen screen) {
                 String title = screen.getTitle().getString();
 
                 if (title.equals("Chest") || title.equals("Large Chest")) {
@@ -72,7 +72,7 @@ public class ChestClose extends Module {
     @Handler
     public void onKeyInput(KeyInputEvent event) {
         if (closeMode.getValue() != Mode.INPUT || !DungeonUtil.isInDungeon()) return;
-        if (mc.screen instanceof ContainerScreen screen) {
+        if (mc.gui.screen() instanceof ContainerScreen screen) {
             String title = screen.getTitle().getString();
 
             if (title.equals("Chest") || title.equals("Large Chest")) {
@@ -84,7 +84,7 @@ public class ChestClose extends Module {
     @Handler
     public void onClickSlot(ClickSlotEvent event) {
         if (closeMode.getValue() != Mode.INPUT || !DungeonUtil.isInDungeon()) return;
-        if (mc.screen instanceof ContainerScreen screen) {
+        if (mc.gui.screen() instanceof ContainerScreen screen) {
             String title = screen.getTitle().getString();
 
             if (title.equals("Chest") || title.equals("Large Chest")) {

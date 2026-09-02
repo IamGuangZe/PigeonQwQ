@@ -125,9 +125,9 @@ public class TimiteMiner extends Module {
 
         BlockState state = mc.level.getBlockState(((BlockHitResult) mc.hitResult).getBlockPos());
 
-        if (state.is(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) return TimiteStage.YOUNGITE;
-        if (state.is(Blocks.BLUE_STAINED_GLASS_PANE)) return TimiteStage.TIMITE;
-        if (state.is(Blocks.PURPLE_STAINED_GLASS_PANE)) return TimiteStage.OBSOLITE;
+        if (state.is(Blocks.STAINED_GLASS_PANE.lightBlue())) return TimiteStage.YOUNGITE;
+        if (state.is(Blocks.STAINED_GLASS_PANE.blue())) return TimiteStage.TIMITE;
+        if (state.is(Blocks.STAINED_GLASS_PANE.purple())) return TimiteStage.OBSOLITE;
 
         return null;
     }

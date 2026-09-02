@@ -31,8 +31,8 @@ public class ChestESP extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.levelRenderer != null) {
-            mc.levelRenderer.allChanged();
+        if (mc.levelExtractor != null) {
+            mc.levelExtractor.allChanged();
         }
     }
 

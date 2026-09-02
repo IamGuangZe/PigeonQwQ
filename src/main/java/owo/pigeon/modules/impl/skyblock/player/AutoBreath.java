@@ -23,7 +23,7 @@ public class AutoBreath extends Module {
 
     @Handler
     public void onMoveInput(MoveInputEvent event) {
-        if (mc.screen != null) return;
+        if (mc.gui.screen() != null) return;
         if (onlyInGalatea.getValue() && !SkyblockUtil.isInIsland(SkyblockUtil.Island.GALATEA))
             return;
 

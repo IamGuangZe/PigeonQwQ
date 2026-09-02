@@ -146,7 +146,7 @@ public class AutoClicker extends Module {
     }
 
     private boolean canClick() {
-        return mc.screen == null && !mc.player.isBlocking() && !mc.player.isUsingItem();
+        return mc.gui.screen() == null && !mc.player.isBlocking() && !mc.player.isUsingItem();
     }
 
     private boolean breakBlocksCheck() {

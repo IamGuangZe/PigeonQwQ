@@ -155,7 +155,7 @@ public class ModuleManager {
 
     @Handler
     public void onKeyInput(KeyInputEvent event) {
-        if (mc.screen != null) return;
+        if (mc.gui.screen() != null) return;
         int keyCode = event.getKeyCode();
         if (event.isPressed()) {
             modules.stream()

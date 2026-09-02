@@ -113,12 +113,12 @@ public class ChatUtil {
     }
 
     public static void sendIfHudReadyMessage(String message) {
-        if (mc.gui == null || mc.gui.getChat() == null) return;
-        mc.gui.getChat().addClientSystemMessage(getClientPrefix().append(Component.literal(ColorUtil.parseColor(message))));
+        if (mc.gui == null || mc.gui.hud.getChat() == null) return;
+        mc.gui.hud.getChat().addClientSystemMessage(getClientPrefix().append(Component.literal(ColorUtil.parseColor(message))));
     }
 
     public static void sendIfHudReadyMessage(Component text) {
-        if (mc.gui == null || mc.gui.getChat() == null) return;
-        mc.gui.getChat().addClientSystemMessage(getClientPrefix().append(text));
+        if (mc.gui == null || mc.gui.hud.getChat() == null) return;
+        mc.gui.hud.getChat().addClientSystemMessage(getClientPrefix().append(text));
     }
 }

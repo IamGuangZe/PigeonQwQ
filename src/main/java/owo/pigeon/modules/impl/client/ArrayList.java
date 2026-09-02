@@ -49,7 +49,7 @@ public class ArrayList extends Module {
 
     @Handler
     public void onRender2D(RenderEvent.Render2DEvent event) {
-        if (mc.options.hideGui) return;
+        if (mc.gui.hud.isHidden()) return;
 
         ColorMode mode = colorMode.getValue();
         offsetTick += colorSpeed.getValue();

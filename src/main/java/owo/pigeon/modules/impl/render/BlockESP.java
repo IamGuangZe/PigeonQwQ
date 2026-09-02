@@ -38,19 +38,19 @@ public class BlockESP extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.levelRenderer == null) return;
+        if (mc.levelExtractor == null) return;
         lastBlock = block.getValue();
-        mc.levelRenderer.allChanged();
+        mc.levelExtractor.allChanged();
     }
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
         Block targetBlock = block.getValue();
 
-        if (lastBlock != targetBlock && mc.levelRenderer != null) {
+        if (lastBlock != targetBlock && mc.levelExtractor != null) {
             blocks.clear();
             lastBlock = targetBlock;
-            mc.levelRenderer.allChanged();
+            mc.levelExtractor.allChanged();
         }
 
         blocks.removeIf(pos -> !mc.level.getBlockState(pos).is(targetBlock));

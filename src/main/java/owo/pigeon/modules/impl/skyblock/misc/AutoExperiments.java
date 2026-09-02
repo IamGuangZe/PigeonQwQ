@@ -50,7 +50,7 @@ public class AutoExperiments extends Module {
     public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
         if (mc.player.containerMenu instanceof ChestMenu containerScreen) {
-            String title = mc.screen.getTitle().getString();
+            String title = mc.gui.screen().getTitle().getString();
 
             int maxRound = 999;
 

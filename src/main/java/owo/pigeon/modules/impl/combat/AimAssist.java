@@ -51,7 +51,7 @@ public class AimAssist extends Module {
 
     @Handler
     public void onRender3D(RenderEvent.Render3DEvent event) {
-        if (mc.screen != null) return;
+        if (mc.gui.screen() != null) return;
 
         boolean attacking = KeybindUtil.isPressed(mc.options.keyAttack);
         boolean lookingAtBlock = mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.BLOCK;

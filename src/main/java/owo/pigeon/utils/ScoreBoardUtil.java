@@ -58,22 +58,22 @@ public class ScoreBoardUtil {
     }
 
     public static String getTabHeader() {
-        if (mc.gui == null || mc.gui.getTabList() == null) return null;
-        Component header = ((IAccessorPlayerTabOverlay) mc.gui.getTabList()).pigeon$getHeader();
+        if (mc.gui == null || mc.gui.hud.getTabList() == null) return null;
+        Component header = ((IAccessorPlayerTabOverlay) mc.gui.hud.getTabList()).pigeon$getHeader();
         return header == null ? null : header.getString();
     }
 
     public static String getTabFooter() {
-        if (mc.gui == null || mc.gui.getTabList() == null) return null;
-        Component footer = ((IAccessorPlayerTabOverlay) mc.gui.getTabList()).pigeon$getFooter();
+        if (mc.gui == null || mc.gui.hud.getTabList() == null) return null;
+        Component footer = ((IAccessorPlayerTabOverlay) mc.gui.hud.getTabList()).pigeon$getFooter();
         return footer == null ? null : footer.getString();
     }
 
     public static List<String> getTabLines() {
-        if (mc.getConnection() == null || mc.gui == null || mc.gui.getTabList() == null)
+        if (mc.getConnection() == null || mc.gui == null || mc.gui.hud.getTabList() == null)
             return List.of();
 
-        PlayerTabOverlay playerTabOverlay = mc.gui.getTabList();
+        PlayerTabOverlay playerTabOverlay = mc.gui.hud.getTabList();
 
         Collection<PlayerInfo> entries = mc.getConnection().getOnlinePlayers();
         return entries.stream()

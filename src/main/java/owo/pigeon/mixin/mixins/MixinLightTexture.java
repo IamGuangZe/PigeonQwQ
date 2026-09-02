@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTexture;
 import net.minecraft.client.renderer.Lightmap;
 import net.minecraft.client.renderer.state.LightmapRenderState;
-import net.minecraft.util.ARGB;
+import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,7 +23,7 @@ public class MixinLightTexture {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRender(LightmapRenderState renderState, CallbackInfo ci) {
         if (ModuleUtil.isEnable(FullBright.class) && ModuleUtil.getModule(FullBright.class).mode.getValue() == FullBright.Mode.LIGHTMAP) {
-            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(texture, ARGB.color(255, 255, 255, 255));
+            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(texture, new Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
             ci.cancel();
         }
     }

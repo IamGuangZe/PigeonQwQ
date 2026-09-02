@@ -151,7 +151,7 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void onClose() {
-        mc.setScreen(this.parentScreen);
+        mc.gui.setScreen(this.parentScreen);
     }
 
     public void setParentScreen(Screen parent) {

@@ -73,7 +73,7 @@ public class DojoHelper extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.levelRenderer != null) mc.levelRenderer.allChanged();
+        if (mc.levelExtractor != null) mc.levelExtractor.allChanged();
     }
 
     @Handler
@@ -137,7 +137,7 @@ public class DojoHelper extends Module {
         if (!mastery.getValue()) return;
         if (!DojoUtil.isDojoChallenge(DojoUtil.Dojo.Mastery)) return;
 
-        if (event.getState().is(Blocks.LIME_WOOL)) {
+        if (event.getState().is(Blocks.WOOL.lime())) {
             limeWoolBlocks.add(event.getPos().immutable());
         }
     }
@@ -166,15 +166,15 @@ public class DojoHelper extends Module {
 
     private void handleMastery(RenderEvent.Render3DEvent event) {
         limeWoolBlocks.removeIf(pos ->
-                !mc.level.getBlockState(pos).is(Blocks.LIME_WOOL) &&
-                        !mc.level.getBlockState(pos).is(Blocks.YELLOW_WOOL) &&
-                        !mc.level.getBlockState(pos).is(Blocks.RED_WOOL)
+                !mc.level.getBlockState(pos).is(Blocks.WOOL.lime()) &&
+                        !mc.level.getBlockState(pos).is(Blocks.WOOL.yellow()) &&
+                        !mc.level.getBlockState(pos).is(Blocks.WOOL.red())
         );
 
         for (BlockPos pos : limeWoolBlocks) {
             if (!endTimes.containsKey(pos)) {
                 blockOrder.add(pos);
-                long travelTime = (long) (mc.player.position().distanceTo(pos.getCenter()) * 1000.0 / 60.0);
+                long travelTime = (long) (mc.player.position().distanceTo(Vec3.atCenterOf(pos)) * 1000.0 / 60.0);
                 long effectivePing = ServerUtil.getCurrentPing() + pingOffset.getValue();
                 long endTime = System.currentTimeMillis() + BLOCK_LIFE_TIME - effectivePing - travelTime;
                 endTimes.put(pos, endTime);
@@ -227,7 +227,7 @@ public class DojoHelper extends Module {
             }
 
             Vec3 eyes = mc.player.getEyePosition(event.getDelta());
-            Vec3 target = aimTarget.getCenter();
+            Vec3 target = Vec3.atCenterOf(aimTarget);
             double diffX = target.x - eyes.x;
             double diffZ = target.z - eyes.z;
 

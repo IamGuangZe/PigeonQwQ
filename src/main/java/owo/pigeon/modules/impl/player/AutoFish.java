@@ -49,7 +49,7 @@ public class AutoFish extends Module {
     @Handler
     public void onTickPost(ClientTickEvent.Post event) {
         if (WorldUtil.nullCheck()) return;
-        if (stopInGui.getValue() && mc.screen != null) return;
+        if (stopInGui.getValue() && mc.gui.screen() != null) return;
 
         // fishHookAge
         int fishHookAge;

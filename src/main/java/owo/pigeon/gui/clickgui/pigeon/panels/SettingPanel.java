@@ -176,9 +176,9 @@ public class SettingPanel extends AbstractDisplableItem {
             } else if (setting instanceof ModeSetting<?> modeSetting) {
                 switchToNextMode(modeSetting);
             } else if (setting instanceof ListSetting listSetting) {
-                mc.setScreen(new ListSettingEditScreen(listSetting));
+                mc.gui.setScreen(new ListSettingEditScreen(listSetting));
             } else if (setting instanceof BlockSetting || setting instanceof CharSetting || setting instanceof StringSetting) {
-                mc.setScreen(new SettingEditScreen(setting));
+                mc.gui.setScreen(new SettingEditScreen(setting));
             }
         } else if (click.button() == 1) {
             if (setting instanceof ModeSetting<?> modeSetting) {

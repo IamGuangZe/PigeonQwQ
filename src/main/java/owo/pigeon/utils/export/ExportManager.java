@@ -73,7 +73,7 @@ public class ExportManager {
         if (WorldUtil.nullCheck() || currentTask == ExportTask.NONE) return;
 
         if (mc.player.containerMenu instanceof ChestMenu container) {
-            String title = mc.screen.getTitle().getString();
+            String title = mc.gui.screen().getTitle().getString();
 
             switch (currentTask) {
                 case HUNTING_BOX -> {

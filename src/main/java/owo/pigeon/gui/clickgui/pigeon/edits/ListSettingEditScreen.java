@@ -166,6 +166,6 @@ public class ListSettingEditScreen extends Screen {
 
     @Override
     public void onClose() {
-        this.minecraft.setScreen(Pigeon.clickGuiScreen);
+        this.minecraft.gui.setScreen(Pigeon.clickGuiScreen);
     }
 }

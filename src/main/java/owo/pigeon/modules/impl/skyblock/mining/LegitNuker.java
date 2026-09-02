@@ -67,12 +67,12 @@ public class LegitNuker extends Module {
     public EnableSetting prioritizeTitanium = setting("prioritize-titanium", false, v -> titanium.isVisible() && titanium.getValue());
 
     private static final Set<Block> MITHRIL_BLOCKS = Set.of(
-            Blocks.CYAN_TERRACOTTA, Blocks.GRAY_WOOL, Blocks.DARK_PRISMARINE,
-            Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE, Blocks.LIGHT_BLUE_WOOL
+            Blocks.DYED_TERRACOTTA.cyan(), Blocks.WOOL.gray(), Blocks.DARK_PRISMARINE,
+            Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE, Blocks.WOOL.lightBlue()
     );
     private static final List<Block> MITHRIL_BLOCKS_ORDERED = List.of(
-            Blocks.CYAN_TERRACOTTA, Blocks.GRAY_WOOL, Blocks.DARK_PRISMARINE,
-            Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE, Blocks.LIGHT_BLUE_WOOL
+            Blocks.DYED_TERRACOTTA.cyan(), Blocks.WOOL.gray(), Blocks.DARK_PRISMARINE,
+            Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE, Blocks.WOOL.lightBlue()
     );
     private static final Set<Block> TITANIUM_BLOCKS = Set.of(Blocks.POLISHED_DIORITE);
     private static final Set<Block> GENERIC_TARGET_BLOCKS = Set.of(
@@ -100,7 +100,7 @@ public class LegitNuker extends Module {
         if (WorldUtil.nullCheck()) return;
 
         if (event instanceof ClientTickEvent.Pre) {
-            if (stopInGui.getValue() && mc.screen instanceof AbstractContainerScreen) {
+            if (stopInGui.getValue() && mc.gui.screen() instanceof AbstractContainerScreen) {
                 currentTarget = null;
                 aimPoint = null;
                 failedAimPoints.clear();
@@ -372,7 +372,7 @@ public class LegitNuker extends Module {
 
     private float getRotationDiffToBlock(BlockPos pos, BlockState state, Vec3 eyes, float currentYaw, float currentPitch) {
         Vec3 aimPt = getClosestPointToShape(pos, state, eyes);
-        if (aimPt == null) aimPt = pos.getCenter();
+        if (aimPt == null) aimPt = Vec3.atCenterOf(pos);
 
         Vec3 diff = aimPt.subtract(eyes);
         float targetYaw = (float) Math.toDegrees(Math.atan2(-diff.x, diff.z));
